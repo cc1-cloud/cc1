@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load formtags %}
+
+<p>{% trans "Select a disk to assign:" %}</p>
+
+<form method="post" action="">
+	<div class="center">	
+	    {% csrf_token %}
+		{% show_fieldsetform form %}
+		
+		{% trans "Only disks with USB or virtio bus may be attached to and detached from running VMs." %}
+		{% trans "If there are no free disk to assign go to: '" %}
+		<a href="{% url 'res_disks' %}">{% trans "Manage disks" %}</a>'.
+	</div>
+	
+	<div class="clear"></div>
+	<div class="dialog_button_area">
+		<button type="submit" class="ok-button mid_button">{% trans "Attach selected disk" %}</button>
+		<button type="button" class="cancel-button mid_button">{% trans "Cancel" %}</button>
+	</div>
+</form>		

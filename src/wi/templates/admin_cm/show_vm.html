@@ -1,0 +1,260 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Virtual machines" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Show virtual machines" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_cm_show_vm{% endblock %}
+
+{% block box_title %}
+	{% trans "Virtual machines" %}
+{% endblock %}
+
+{% block help_icon %}
+{% endblock %}
+
+{% block help_box %}
+{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox"/>
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/states.js"></script>
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'vm_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_vms_ajax_get_table' 0 %}'.replace('0', $('#filter').val()),
+		detailsUrl : '{% url 'cma_vms_ajax_vm_details' 0 %}',
+		detailsDiv : '#vm_details',
+		contextFun : function(itemData) {
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'details':
+                			cc1.sthTable.openDetails(itemData[localIdKey], itemData[localIdKey] === cc1.sthTable.getOpenedId() );
+                		break;
+                		case 'destroy':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 ) {
+                				cc1.sthTable.destroyVm(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'erase':
+                			cc1.sthTable.eraseVm(itemData[localIdKey]);
+                		break;
+                		case 'saveshut':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 ) {
+                				cc1.sthTable.saveAndShutdownVm(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'vnc':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 ) {
+                				cc1.sthTable.vnc(itemData.vnc_endpoint, itemData.vnc_passwd, itemData.id);
+                			}
+                		break;
+                		case 'monia':
+                			adminMonitoring(itemData[localIdKey]);
+                		break;
+                	}
+                },
+                items: {
+                    'details'	: {name: '<b>{% trans "Show details" %}</b>', icon:'magnify' },
+                    'sep1'		: '---------',
+                    'vnc'		: {name: '{% trans "Graphical console (VNC)" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 )?'vnc':'vnc inactive'},
+                    'saveshut'	: {name: '{% trans "Save and shutdown" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 )?'saveshut':'saveshut inactive'},
+                    'destroy'	: {name: '{% trans "Destroy" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 )?'destroy':'destroy inactive'},
+                    'erase'		: {name: '{% trans "Erase" %}', icon: 'delete'},
+                    'sep4'		: '---------',
+                    'monia'		: {name: '{% trans "Monitoring" %}', icon: 'chart'},
+                }
+            };
+		},
+		autoRefreshTime : 30000,
+		showSearchBox: true,
+		overTable: '#over-table',
+		enableSorting: true,
+		sortingColumnIndex: 2,
+		sortingDescending: true,
+        idKey: localIdKey,
+	});
+
+	$('#filter').change(function(){
+		cc1.sthTable.setUrlGetData(  '{% url 'cma_vms_ajax_get_table' 0 %}'.replace('0', $('#filter').val()) );
+		cc1.sthTable.loadData();
+	});
+
+	// group actions
+	$.contextMenu({
+        selector: '#group_action',
+        trigger: 'left',
+        ignoreRightClick: true,
+        build: function($trigger, e) {
+            return {
+                callback: function(key, options) {
+                    switch (key) {
+                    	case 'destroy':
+                    		if ( cc1.utils.stateTest([cc1.states.vm['running'], cc1.states.vm['running ctx']]) ) {
+                				cc1.sthTable.destroyVm(null);
+                			}
+                		break;
+                		case 'erase':
+                			if (cc1.sthTable.getListOfSelected().length) {
+                				cc1.sthTable.eraseVm(null);
+                			}
+                		break;
+                	}
+                },
+                items: {
+                    'destroy'	: {name: '{% trans "Destroy" %}', icon: (cc1.utils.stateTest([cc1.states.vm['running'], cc1.states.vm['running ctx']]))?'destroy':'destroy inactive'},
+                    'erase'		: {name: '{% trans "Erase" %}', icon: (cc1.sthTable.getListOfSelected().length)?'delete':'delete inactive'},
+                }
+            };
+        }
+    });
+	// zmazanie duzo maszyn/1 maszyny
+	cc1.sthTable.eraseVm = cc1.utils.createAction({
+		url: '{% url 'cma_vms_ajax_erase' %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+        calculateParams: function(id) {
+            return {'desc': cc1.sthTable.getListOfSelectedNames(id),
+                    'length': cc1.sthTable.getListOfSelected(id).length,};
+        },
+		dialogWidth: 600,
+		dialogClass: 'warning'
+	});
+	// zamkniecie duzo maszyn/1 maszyny
+	cc1.sthTable.destroyVm = cc1.utils.createAction({
+		url: '{% url 'cma_vms_ajax_destroy' %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getListOfSelectedNames(id),
+			        'length': cc1.sthTable.getListOfSelected(id).length,};
+		},
+		dialogWidth: 600,
+		dialogClass: 'warning'
+	});
+	// dialog zapisywania maszyny
+	cc1.sthTable.saveAndShutdownVm = cc1.utils.createAction({
+		url: '{% url 'cma_vms_ajax_save_and_shutdown' 0 %}',
+		dialogTitle: '{% trans "Saving virtual machine" %}',
+		dialogWidth: 500,
+	});
+	// odebranie IP
+	cc1.sthTable.revokeIp = cc1.utils.createAction({
+		url: '{% url 'cma_vms_ajax_revoke_ip' 0 %}',
+		dialogTitle: '{% trans "Revoke IP address" %}',
+	});
+});
+/*]]>*/</script>
+
+<div id="over-table">
+	<div id="category-changer">
+		<span>{% trans "Virtual machines owner" %}:</span>
+		<span>
+			<select id="filter">
+				<option value="0">{% trans "All users" %}</option>
+				{% for user in all_users %}
+				<option value="{{ user.user_id }}">{{ user.user_id }} - {{ user.first }} {{ user.last }}</option>
+				{% endfor %}
+			</select>
+		</span>
+	</div>
+</div>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td class="noSort">
+				<input id='select-all' type='checkbox' onclick="cc1.sthTable.toggleChecked(this.checked);" />
+			</td>
+			<td>{% trans "Owner" %}</td>
+			<td>{% trans "ID" %}</td>
+			<td>{% trans "Name" %}</td>
+			<td>{% trans "Info" %}</td>
+			<td>{% trans "Node" %}</td>
+			<td>{% trans "State" %}</td>
+			<td>{% trans "Template" %}</td>
+			<td>{% trans "Image" %}</td>
+			<td>{% trans "Load" %}</td>
+		</tr>
+	</thead>
+
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${vm_id}" class="rclick pointer">
+			<td class="selecting"><input data-id="${vm_id}" type="checkbox"/></td>
+			<td>
+				<a onclick='location.href = "{% url 'clm_user_account' 0 %}".replace("0", ${user_id});'> ${owner} </a>
+			</td>
+			<td> ${vm_id} </td>
+			<td>
+				{{html name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td>
+				{{if pub_ip.length}}<span class="tableIcon icon-ip" title="{% trans "IP addresses: " %} ${stringIP}"></span>{{/if}}
+				{{if storage_images.length }}<span class="tableIcon icon-hdd" title="{% trans "Disks: " %} ${stringDisk}"></span>	{{/if}}
+				{{if iso_images.length }}<span class="tableIcon icon-cd" title="{% trans "ISO images: " %} ${stringISO}"></span>	{{/if}}
+				{{if state === cc1.states.vm['running ctx']}}<span class="tableIcon icon-context" title="{% trans "Machine with management module." %}"></span>{{/if}}
+				{{if vnc_enabled !== 0}}<span class="tableIcon icon-vnc" title="{% trans "VNC enabled." %}"></span>{{/if}}
+			</td>
+			<td> ${node} </td>
+			<td>
+				{{if state === cc1.states.vm['failed'] || state === cc1.states.vm['saving failed']}}
+					<div class="redBackground">${stateName}</div>
+				{{else state === cc1.states.vm['init']}}
+					<div class="yellowBackground">${stateName}</div>
+				{{else}}
+					${stateName}
+				{{/if}}
+			</td>
+			<td> ${template_name} </td>
+			<td>
+				{{html image_name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td> ${cpu_load['60']} </td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="10">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="10" class="table_bottom_actions">
+				<ul>
+					<li id="group_action" class="icon_action">
+						<a id="menu_all">{% trans "Perform for selected"%}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}
+
+{% block box_extra %}
+<div id="vm_details" class="b_greyWhiteStroke"> </div>
+{% endblock %}

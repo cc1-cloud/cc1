@@ -1,0 +1,21 @@
+{% load i18n %}
+{% blocktrans %}
+<p>
+List of farms. Each farm is described by:
+</p>
+<p>
+<ul class="text-ul">
+	<li><b>Name</b>,</li>
+	<li><b>Creation time and uptime</b>,</li>
+	<li><b>Templates</b> (hardware parameters) of head and of worker nodes,</li>
+	<li><b>Head public and private IP</b>,</li>
+	<li><b>VNC access</b> details,</li>
+	<li><b>Disks</b> attached to it.</li>
+</ul>
+</p>
+<p>
+Actions you can perform on farm depend on it's state.
+If farm's state is other than <b>running</b>, some operations are unavailable.
+Farm that is <b>failed</b> needs to be removed by administrator.
+</p>
+{% endblocktrans %}

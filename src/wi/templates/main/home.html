@@ -1,0 +1,60 @@
+{% extends "main/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{{ block.super }}{% endblock %}
+
+{% block men_div_name %}nav_main{% endblock %}
+
+{% block box_content %}
+	{% if request.session.user %}
+		{% include "tutorials/index_logged.html" %}
+	{% else %}
+		{% include "tutorials/index_not_logged.html" %}
+	{% endif %}
+{% endblock %}
+
+{% block box_extra %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'mai_ajax_get_main_news_table' %}'
+	});
+});
+/*]]>*/</script>
+
+	<div class="b_greyWhiteStroke">
+		<div class="TL"></div>
+		<div class="BL"></div>
+		<div class="TR"></div>
+		<div class="BR"></div>
+		<div class="b_innerContainer">
+			<h2>
+				{% trans "News" %}
+			</h2>		
+				<div>
+					
+<div id="item-list">				
+	<script id="rowTemplate" type="text/x-jquery-tmpl">
+	{% verbatim2 %}
+	<div class="news {{if sticky === 1}}sticky{{/if}}">
+		<div class="news-date"> ${date} </div>
+		<div class="topic"> ${topic} </div>
+	   	<div class="news-content"> {{ html content.markdown() }} </div>
+	</div>
+	{% endverbatim2 %}
+	</script>
+</div>
+    
+			    <span class="news_read_more">
+			    	<a href="{% url 'mai_news' %}">{% trans "More news" %}</a>
+			    </span>
+			</div>
+		</div>
+	</div>
+{% endblock %}

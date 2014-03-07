@@ -1,0 +1,126 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Templates" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Templates" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_templates{% endblock %}
+
+{% block box_title %}
+	{% trans "Templates" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'template_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_ajax_get_table_templates' %}',
+		contextFun : function(itemData) {
+		    return {
+		        callback: function(key, options) {
+		        	switch (key) {
+		        		case 'delete':
+							cc1.sthTable.deleteTemplate(itemData[localIdKey]);
+		        		break;
+		        		case 'edit':
+							cc1.sthTable.editTemplate(itemData[localIdKey]);
+		        		break;
+		        	}
+		        },
+		        items: {
+		            'delete' 		: {name: '{% trans "Delete" %}', icon: 'delete'},
+		            'edit'		 	: {name: '{% trans "Edit" %}', icon: 'edit'},
+		        }
+		    };
+		},
+		leftClickMenu : '.action_button',
+		enableSorting: true,
+		showSearchBox: true,
+		overTable: '#over-table',
+        idKey: localIdKey,
+	});
+	// usuniecie templejta
+	cc1.sthTable.deleteTemplate = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_delete_template' 0 %}',
+		dialogTitle: '{% trans "Delete template" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+		dialogClass: 'warning'
+	});
+	// dialog dodawania nowego templejta
+	cc1.sthTable.addTemplate = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_add_template' %}',
+		dialogTitle: '{% trans "Create a new template" %}',
+		dialogWidth: 600,
+	});
+	// edycja templejta
+	cc1.sthTable.editTemplate = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_edit_template' 0 %}',
+		dialogTitle: '{% trans "Edit template" %}',
+		dialogWidth: 600,
+	});
+});
+/*]]>*/</script>
+
+<div id="over-table"></div>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td>{% trans "ID" %}</td>
+			<td>{% trans "Name" %}</td>
+			<td>{% trans "CPU" %}</td>
+			<td>{% trans "Memory" %}</td>
+			<td>{% trans "Description" %}</td>
+			<td>{% trans "EC2 name" %}</td>
+			<td class="noSort">{% trans "Actions" %}</td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${template_id}" class="rclick">
+			<td> ${template_id} </td>
+			<td> ${name} </td>
+			<td> ${cpu} </td>
+			<td> ${memory} </td>
+			<td> {{html description.escapeHTML().wbrAndLb()}} </td>
+			<td> ${ec2name} </td>
+			<td>
+				<div id="action${id}" class="action_button"></div>
+		    </td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="7">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="7" class="table_bottom_actions">
+				<ul>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.addTemplate();">{% trans "Create a new template" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

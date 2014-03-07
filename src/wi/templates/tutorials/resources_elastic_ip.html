@@ -1,0 +1,20 @@
+{% load i18n %}
+{% blocktrans %}
+<p>
+Here you can manage your elastic external IP adressess.
+Attaching public IP to your VM  makes it accessible from any place in the world.
+</p>
+<p>
+By default one user can obtain one public IP address due to limited public IP pool.
+</p>
+<p>
+You can configure your VMs so that you have access to all of them having only one IP address (e.g. using VPN).<br />
+</p>
+<p>
+Available actions: <br />
+<ul class="text-ul">
+	<li><b>Add new IP</b> - available, if you haven't used your limit.</li>
+	<li><b>Release IP</b> - removes corresponding IP address from your pool.</li>
+</ul>
+</p>
+{% endblocktrans %} 

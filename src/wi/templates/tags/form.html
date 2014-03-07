@@ -1,0 +1,38 @@
+{% load i18n %}
+
+<fieldset class="noBorder">	
+	{% for field in form %}
+		{% if field.label == "Recaptcha" %}
+			<div>{{ field|safe }}</div>
+			{% if field.errors %}
+				{{ field.errors }}
+			{% endif %}
+		{% else %}
+			<div>
+				<span class="labels">
+				{{ field.label_tag }}
+				{% if required_fields %}
+					{% if field.field.required %}
+						<strong>*</strong>
+					{% else %}
+						&nbsp;&nbsp;&nbsp;
+					{% endif %}
+				{% endif %}			
+				</span>
+			
+				<span class="inputs">
+					{{ field|safe }}
+					{% if field.help_text %}
+						<span class="tooltip" title="{{ field.help_text }}"></span>
+					{% endif %}
+				</span>		
+		
+				{% if field.errors %}
+					{{ field.errors }}
+				{% endif %}
+			</div>
+		{% endif %}
+	{% endfor %}
+	{{ form.non_field_errors }}
+	<div class="clear"></div>
+</fieldset>

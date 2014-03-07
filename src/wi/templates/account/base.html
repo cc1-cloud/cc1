@@ -1,0 +1,27 @@
+{% extends "base_two_column.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Account" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="{% url 'acc_account' %}">{% trans "My account" %}</a></li>
+{% endblock %}
+
+{% block left_box_title %}{% trans "My account" %}{% endblock %}
+{% block left_box_content %}
+<ul id="{% block men_div_name %}{% endblock %}">
+	{% include "account/menu.html" %} 
+</ul>
+{% endblock %}
+
+{% block left_box_watermark %}account{% endblock %}
+
+{% block box_title %}
+	{% trans "My account" %}
+{% endblock %}
+
+{% block box_content %}
+	{% include "tutorials/account.html" %}
+{% endblock %}

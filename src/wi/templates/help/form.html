@@ -1,0 +1,45 @@
+{% extends "help/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "Contact form" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Contact form" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_help_form{% endblock %}
+
+{% block box_title %}
+	{% trans "Contact form" %}
+{% endblock %}
+
+{% block box_content %}
+
+{% if mailer_active %}
+
+<script type="text/javascript">/*<![CDATA[*/
+$(function() {
+	$("#id_name").focus();
+	{% if request.session.user %}
+		$("#id_firstlast").val('-brak-').parent().parent().css('display', 'none');
+		$("#id_email").val('{{ request.session.user.email }}').parent().parent().css('display', 'none');
+	{% endif %}
+});
+/*]]>*/</script>
+
+<form method="post" action="">
+    {% csrf_token %}
+	{% show_fieldsetform form %}
+	<div class="fieldset align_center">
+		<input class="big_button" type="submit" value="{% trans "Submit" %}" />
+    </div>
+</form>
+
+{% else %}
+	<p> {% trans "Mailer is disabled. Contact email: " %} {{ contact_email }} </p>
+{% endif %}
+
+{% endblock %}

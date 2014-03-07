@@ -1,0 +1,252 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Nodes" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Nodes" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_cm_nodes{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox"/>
+{% endblock %}
+
+{% block box_title %}
+	{% trans "Nodes" %}
+{% endblock %}
+
+{% block help_icon %}
+{% endblock %}
+
+{% block help_box %}
+{% endblock %}
+
+{% block box_content %}
+<fieldset id="nodeResources" class="noBorder"></fieldset>
+
+<script id="nodeResourcesTemplate" type="text/x-jquery-tmpl">
+	<div>
+		<span class="labels">
+			<label>{% trans "Free Cpu:" %}</label>
+		</span>
+		<span class="inputs text">
+			${free_cpu} / ${total_cpu}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Free Memory:" %}</label>
+		</span>
+		<span class="inputs text">
+			${free_mem} / ${total_mem}
+		</span>
+    </div>
+</script>
+
+<script type="text/javascript">/*<![CDATA[*/
+var showNodeResources = function(r) {
+	var url = '{% url 'cma_ajax_get_cm_data' %}',
+		templateElement = $('#nodeResourcesTemplate'),
+		destElement = $('#nodeResources');
+
+	$.get(url, function(response) {
+		if (response.status === 0) {
+			destElement.empty().append(templateElement.tmpl(response.data));
+		}
+	});
+};
+
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'node_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_ajax_get_table_nodes' %}',
+		detailsUrl : '{% url 'cma_ajax_node_details' 0 %}',
+		detailsDiv : '#vm_details',
+		contextFun : function(itemData) {
+			var items = {
+            	'details'	: {name: '<b>{% trans "Show details" %}</b>', icon: 'magnify'},
+            	'sep1'		: '---------',
+            	'createvm'	: {name: '{% trans "Create virtual machine" %}', icon: 'poweron'},
+            	'edit'		: {name: '{% trans "Edit" %}', icon: 'edit'},
+            	/*'mount'		: {name: '{% trans "Mount storage" %}', icon: 'hdd'},*/
+            	'delete'	: {name: '{% trans "Remove" %}', icon: 'delete'},
+            };
+            if (itemData.state === 1) {
+		    	items['lock'] = {name: '{% trans "Lock" %}', icon: 'password'};
+		    	//items['hardlock'] = {name: '{% trans "Hardlock" %}', icon: 'password'};
+		    }
+		    if (itemData.state === 2) {
+		    	items['unlock'] = {name: '{% trans "Unlock" %}', icon: 'password'};
+		    	//items['hardlock'] = {name: '{% trans "Hardlock" %}', icon: 'password'};
+		    }
+		    if (itemData.state === 3) {
+		    	items['unlock'] = {name: '{% trans "Unlock" %}', icon: 'password'};
+		    	items['lock'] = {name: '{% trans "Lock" %}', icon: 'password'};
+		    }
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'details':
+                			cc1.sthTable.openDetails(itemData[localIdKey], itemData[localIdKey] === cc1.sthTable.getOpenedId() );
+                		break;
+                		case 'edit':
+                			cc1.sthTable.editNode(itemData[localIdKey]);
+                		break;
+                		case 'lock':
+                			cc1.sthTable.lockNode(itemData[localIdKey]);
+                		break;
+                		case 'hardlock':
+                			cc1.sthTable.hardlockNode(itemData[localIdKey]);
+                		break;
+                		case 'unlock':
+                			cc1.sthTable.unlockNode(itemData[localIdKey]);
+                		break;
+                		case 'createvm':
+                			cc1.sthTable.createVm(itemData[localIdKey]);
+                		break;
+                		/*case 'mount':
+                			cc1.sthTable.mountStorage(itemData[localIdKey]);
+                		break;*/
+                		case 'delete':
+                			cc1.sthTable.deleteNode(itemData[localIdKey]);
+                		break;
+                	}
+                },
+                items: items
+            };
+		},
+		autoRefreshTime : 60000,
+		leftClickMenu : '.action_button',
+		showSearchBox: true,
+		overTable: '#over-table',
+		enableSorting: true,
+		loadAdditionalAction: showNodeResources,
+        idKey: localIdKey,
+	});
+
+	//  dialog tworzenia vmki na wybranym nodzie
+	cc1.sthTable.createVm = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_create_vm' 0 %}',
+		dialogTitle: '{% trans "Create virtual machine on selected node" %}',
+		dialogWidth: 600,
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).address};
+		},
+	});
+	cc1.sthTable.lockNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_lock_node' 0 %}',
+		dialogTitle: '{% trans "Lock node" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).address};
+		},
+	});
+	cc1.sthTable.hardlockNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_hardlock_node' 0 %}',
+		dialogTitle: '{% trans "Hardlock node" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).address};
+		},
+	});
+	cc1.sthTable.unlockNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_unlock_node' 0 %}',
+		dialogTitle: '{% trans "Unlock node" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).address};
+		},
+	});
+	// usuwanie noda
+	cc1.sthTable.deleteNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_delete_node' 0 %}',
+		dialogTitle: '{% trans "Delete node" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).address};
+		},
+		dialogClass: 'warning'
+	});
+	cc1.sthTable.addNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_add_node' %}',
+		dialogTitle: '{% trans "Create a new node" %}',
+		dialogWidth: 600,
+	});
+	cc1.sthTable.editNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_edit_node' 0 %}',
+		dialogTitle: '{% trans "Edit node" %}',
+		dialogWidth: 600,
+	});
+	cc1.sthTable.mountStorage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_mount_storage' 0 %}',
+		dialogTitle: '{% trans "Mount storage" %}',
+		dialogWidth: 600,
+	});
+});
+/*]]>*/</script>
+
+<div id="over-table"></div>
+
+<table id="item-list" class="tab w100pc">
+	<thead class="thead">
+		<tr>
+			<td>{% trans "ID" %}</td>
+			<td>{% trans "Address" %}</td>
+			<td>{% trans "Free CPU" %}</td>
+			<td>{% trans "Total CPU" %}</td>
+			<td>{% trans "Free memory" %}</td>
+			<td>{% trans "Total memory" %}</td>
+			<td>{% trans "Comment" %}</td>
+			<td>{% trans "State" %}</td>
+			<td class="noSort">{% trans "Actions" %}</td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		<tr data-id="${node_id}" class="rclick pointer">
+			<td> ${node_id} </td>
+			<td> ${address} </td>
+			<td> ${cpu_free} </td>
+			<td> ${cpu_total} </td>
+			<td> ${memory_free} </td>
+			<td> ${memory_total} </td>
+			<td class="text-justify">
+				{% include "snippets/resizable_description.js" %}
+			</td>
+		   	<td> ${stateName} </td>
+			<td>
+				<div id="action{$id}" class="action_button"></div>
+			</td>
+		</tr>
+		</script>
+	    <tr>
+    		<td colspan="9">
+    			<div class="ajax_loader1">&nbsp;</div>
+    		</td>
+    	</tr>
+    </tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="9" class="table_bottom_actions">
+				<ul>
+				<!--
+                    <li class="icon_add">
+						<a onclick="cc1.sthTable.addNode();">{% trans "Create a new node" %}</a>
+					</li>
+				-->
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}
+
+{% block box_extra %}
+<div id="vm_details" class="b_greyWhiteStroke"></div>
+{% endblock %}

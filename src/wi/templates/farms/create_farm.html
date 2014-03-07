@@ -1,0 +1,42 @@
+{% extends "farms/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "New farm" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "New farm" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_create_farm{% endblock %}
+
+{% block box_title %}
+	{% trans "New farm" %}
+{% endblock %}
+
+{% block help_icon %}
+	{% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/create_farm.html" %}
+{% endblock %}
+
+
+{% block box_content %}
+<form method="post" action="">
+    {% csrf_token %}
+            
+	{% show_fieldsetform form %}            
+    {% comment %}
+    {% show_fieldsetform form %}
+	{% endcomment %}	
+		
+	<div class="clear"></div>
+	<div id="submit-div" class="fieldset align_center">
+		<input class="big_button" type="submit" name="create_show" value="{% trans "Create" %}" />
+    </div>
+</form>
+{% endblock %}

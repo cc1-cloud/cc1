@@ -1,0 +1,30 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "CM login page" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}{% trans "Login to CM" %}{% endblock %}
+
+{% block box_width %}w500{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+$(function() {
+	$("#id_password").focus();
+	$("#login-form").validate();
+});
+/*]]>*/</script>
+
+<form method="post" action="" id="login-form">
+	{% csrf_token %}
+	{% show_fieldsetform_nrf form %}
+	<fieldset class="noBorder">
+		<div class="align_center"><span>{% trans "Note! You will be relogged to selected CM." %}</span></div>
+	</fieldset>
+	<div class="fieldset align_center">
+    	<input class="big_button" type="submit" value="{% trans "Sign in" %}" tabindex="3" />
+    	<input type="hidden" name="next" value="{{ next }}" />
+    </div>
+</form>
+{% endblock %}

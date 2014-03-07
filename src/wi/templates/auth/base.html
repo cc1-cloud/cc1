@@ -1,0 +1,10 @@
+{% extends "base_one_column.html" %}
+{% load i18n %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="">{% trans "Account" %}</a></li>
+{% endblock %}
+
+{% block box_width %}w600{% endblock %}

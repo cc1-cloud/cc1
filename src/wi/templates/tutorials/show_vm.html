@@ -1,0 +1,24 @@
+{% load i18n %}
+{% blocktrans %}
+<p>
+Here is list of your virtual machines. You can manage and see details of any VM.
+</p>
+<h3>VM managment actions</h3>
+<ul class="text-ul">
+	<li><b>Destroy</b> - irreversibly destroyes the VM without saving changes to image.</li>
+	<li><b>Save and shutdown</b> - closes the VM and saves the image with changes in user's private images pool.</li>
+	<li><b>Reset</b> - unplugs the VM and connects it to power again. Unsaved changes on the machine will be lost.</li>
+	<li><b>Edit</b> - edits VM's name and description. If VM with contextualization is closed from inside, it will be saved to image taking that name with 'autosave' appended.</li>
+</ul>
+<h3>Resources</h3>
+<h3>VM access actions</h3>
+<ul class="text-ul">
+	<li><b>Assign external IP</b> - allows access to the VM from the internet.</li>
+	<li><b>Graphical console (VNC)</b> - transmits the VM screen to the webbrowser window.</li>
+</ul>
+<h3>VM contextualization actions (available only if VM supports contextualization)</h3>
+<ul class="text-ul">
+	<li><b>Set password</b> - set user and password on the VM.</li>
+	<li><b>Set SSH key</b> - set SSH key on the VM.</li>
+</ul>
+{% endblocktrans %}

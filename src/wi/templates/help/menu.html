@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% if request.session.user %}
+	<li class="nav_help_form"><a href="{% url 'hlp_form' %}">{% trans "Contact form" %}</a></li>
+{% endif %}

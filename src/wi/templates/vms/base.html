@@ -1,0 +1,27 @@
+{% extends "base_two_column.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Virtual machines" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="{% url 'vms_vms' %}">{% trans "Machines" %}</a></li>
+{% endblock %}
+
+{% block left_box_title %}{% trans "Machines" %}{% endblock %}
+{% block left_box_content %}
+<ul id="{% block men_div_name %}{% endblock %}">
+	{% include "vms/menu.html" %} 
+</ul>
+{% endblock %}
+
+{% block left_box_watermark %}vm{% endblock %}
+
+{% block box_title %}
+	{% trans "Machines" %}
+{% endblock %}
+
+{% block box_content %}
+	{% include "tutorials/vms.html" %}
+{% endblock %}

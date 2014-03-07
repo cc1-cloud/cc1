@@ -1,0 +1,215 @@
+{% extends "groups/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Group details" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="{% url 'grp_list' %}">{% trans "Browse groups" %}</a></li>
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{{ group.name }}</a></li>
+{% endblock %}
+
+{% block men_div_name %}{% endblock %}
+
+{% block box_title %}
+	{{ group.name }}
+{% endblock %}
+
+{% block box_content %}
+
+{% if group.member %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'user_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'grp_ajax_grp_details_table' 0 %}'.replace('0', {{ group.group_id }}),
+		contextFun : function(itemData) {
+			var items = {
+            };
+            if (itemData.leader) {
+				if (itemData.request) {
+					items['cancel'] = {name: '{% trans "Cancel" %}', icon: 'cancel'};
+					items['accept'] = {name: '{% trans "Accept" %}', icon: 'accept'};
+				} else{
+					if (itemData.self) {
+						items['leader'] = {name: '{% trans "Make leader" %}', icon: 'private inactive'};
+						items['delete'] = {name: '{% trans "Remove" %}', icon: 'delete inactive'};
+					} else {
+						items['leader'] = {name: '{% trans "Make leader" %}', icon: 'private'};
+						items['delete'] = {name: '{% trans "Remove" %}', icon: 'delete'};
+					}
+				}
+			} else {
+				items['leader'] = {name: '{% trans "Make leader" %}', icon: 'private inactive'};
+				items['delete'] = {name: '{% trans "Remove" %}', icon: 'cancel inactive'};
+			}
+
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'cancel':
+                			if (itemData.leader && itemData.request) {
+                				cc1.sthTable.usr_cancel_request(itemData[localIdKey], itemData.group_id);
+                			}
+                		break;
+                		case 'accept':
+                			if (itemData.leader && itemData.request) {
+                				cc1.sthTable.usr_add(itemData[localIdKey], itemData.group_id);
+                			}
+                		break;
+                		case 'leader':
+                			if (itemData.leader && !itemData.request && !itemData.self) {
+                				cc1.sthTable.usr_leader(itemData[localIdKey], itemData.group_id);
+                			}
+                		break;
+                		case 'delete':
+                			if (itemData.leader && !itemData.request && !itemData.self) {
+                				cc1.sthTable.usr_delete(itemData[localIdKey], itemData.group_id);
+                			}
+                		break;
+                	}
+                },
+                items: items
+            };
+		},
+		autoRefreshTime : 45000,
+		leftClickMenu : '.action_button',
+		itemDataAttr: 'items',
+        idKey: localIdKey,
+	});
+	// dialog usuwania usera ze swojej grupy
+	cc1.sthTable.usr_delete = cc1.utils.createAction({
+		url: '{% url 'grp_ajax_delete_user_my_group' 999999 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').last};
+		},
+		dialogTitle: '{% trans "Remove user from group" %}',
+	});
+	// dialog usuwania requesta swojego
+	cc1.sthTable.usr_cancel_request = cc1.utils.createAction({
+		url: '{% url 'grp_ajax_cancelrequest' 999999 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').last};
+		},
+		dialogTitle: '{% trans "Cancel request" %}',
+	});
+	// dialog dodawania usera do swojej grupy
+	cc1.sthTable.usr_add = cc1.utils.createAction({
+		url: '{% url 'grp_ajax_add_user_my_group' 999999 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').last};
+		},
+		dialogTitle: '{% trans "Add user to group" %}',
+	});
+	// dialog robienia lidera z kogos
+	cc1.sthTable.usr_leader = cc1.utils.createAction({
+		url: '{% url 'grp_ajax_change_user_my_group' 999999 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').last};
+		},
+		action: function(response) {
+			if (response.status === 0) {
+				window.location.replace('{% url 'grp_details' group.group_id %}');
+			}
+		},
+		dialogTitle: '{% trans "Change group leader" %}',
+	});
+});
+/*]]>*/</script>
+
+
+<table id="item-list" class="tab context_menu" style="float: right; width: 45%;">
+	<thead class="thead">
+		<tr>
+			<td>{% trans "Name" %}</td>
+			{% if group.leader_self %}
+				<td>{% trans "Actions" %}</td>
+			{% endif %}
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+			{% templatetag openvariable %}if '{{ group.leader_self }}' === 'True' {% templatetag closevariable %}
+			{% verbatim2 %}
+				<tr class="separator">
+					<td class="tab_separator" colspan="2">
+						${name}
+						<span>
+							{% trans "Hide section" %} <input class="separator_check" data-category="${name}" type="checkbox"/>
+						</span>
+					</td>
+				</tr>
+				{{each items}}
+				<tr data-id="${user_id}" class="rclick">
+					<td> ${first} ${last} </td>
+					<td>
+						<div id="action${user_id}" class="action_button"></div>
+					</td>
+				</tr>
+				{{/each}}
+
+				{{if items.length === 0}}
+					<tr><td colspan="2"> {% trans "No items to display." %} </td></tr>
+				{{/if}}
+			{{else}}
+				<tr class="separator">
+					<td class="tab_separator" colspan="1">
+						${name}
+						<span>
+							{% trans "Hide section" %} <input class="separator_check" data-category="${name}" type="checkbox"/>
+						</span>
+					</td>
+				</tr>
+				{{each items}}
+				<tr data-id="${user_id}">
+					<td> ${first} ${last} </td>
+				</tr>
+				{{/each}}
+
+				{{if items.length === 0}}
+				<tr>
+					<td colspan="1"> {% trans "No items to display." %} </td>
+				</tr>
+				{{/if}}
+			{{/if}}
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			{% if group.leader_self %}
+				<td colspan="2">
+					<div class="ajax_loader1">&nbsp;</div>
+				</td>
+			{% else %}
+				<td colspan="1">
+					<div class="ajax_loader1">&nbsp;</div>
+				</td>
+			{% endif %}
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			{% if group.leader_self %}
+				<td colspan="2" class="table_bottom_actions"></td>
+			{% else %}
+				<td colspan="1" class="table_bottom_actions"></td>
+			{% endif %}
+		</tr>
+	</tfoot>
+</table>
+
+{% endif %}
+
+<div style="width: 53%;">
+	<p>{% trans "Group leader:" %}<b> {{ group.leader }} </b></p>
+	<p>{{ group.description|linebreaks }}</p>
+</div>
+
+{% endblock %}
