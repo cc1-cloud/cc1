@@ -1,0 +1,20 @@
+[
+    {
+        "pk": 1,
+        "model": "clm.user",
+        "fields": {
+            "last": "",
+            "is_active": 2,
+            "first": "CC1 Admin",
+            "is_superuser": 1,
+            "activation_date": null,
+            "last_login_date": null,
+            "act_key": "",
+            "organization": "CC1",
+            "login": "cc1",
+            "password": "4a3a6312c1713eec07ae7bcbbdf68fe525908001",
+            "email": "cc1@localhost",
+            "default_cluster": null
+        }
+    }
+]
