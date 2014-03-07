@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeAddressesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+  <requestId>a13c7c2e-4106-459d-a728-9d38bcbab9bf</requestId>
+  <addressesSet>
+    % for address in addresses:
+    <item>
+      <publicIp>${address['public-ip']}</publicIp>
+      <domain>${address['domain']}</domain>
+      % if address['instance-id']:
+      <instanceId>i-${address['instance-id']}</instanceId>
+      % endif
+    </item>
+    % endfor
+  </addressesSet>
+</DescribeAddressesResponse>

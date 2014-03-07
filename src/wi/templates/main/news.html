@@ -1,0 +1,83 @@
+{% extends "main/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "News" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "News" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_news{% endblock %} 
+
+{% block box_title %}
+	{% trans "News" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list', 
+		template : '#rowTemplate', 
+		urlGetData : '{% url 'mai_ajax_get_news_table' %}',
+		idKey: 'news_id',
+	});
+	
+	// dodawanie newsa
+	cc1.sthTable.addNews = cc1.utils.createAction({
+		url: '{% url 'mai_ajax_add_news' %}', 
+		dialogTitle: '{% trans "Create news entry" %}',
+		dialogWidth: 500,
+	});
+	// usuniecie news
+	cc1.sthTable.deleteNews = cc1.utils.createAction({
+		url: '{% url 'mai_ajax_delete_news' 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).topic};
+		},
+		dialogClass: 'warning'
+	});
+	// edycja newsa
+	cc1.sthTable.editNews = cc1.utils.createAction({
+		url: '{% url 'mai_ajax_edit_news' 0 %}', 
+		dialogTitle: '{% trans "Edit news entry" %}',
+		dialogWidth: 500,
+	});
+});
+/*]]>*/</script>
+
+{% if request.session.user.is_admin_clm %}
+<ul class="table_bottom_actions">
+	<li class="icon_add">
+    	<a href="#" onclick="cc1.sthTable.addNews();" id="main_create_news">{% trans "Create a news entry" %}</a>
+    </li>
+</ul>
+<div class="clear"></div>
+<br/>
+{% endif %}
+
+<div id="item-list">
+	<script id="rowTemplate" type="text/x-jquery-tmpl">
+	{% verbatim2 %}
+	<div class="news {{if sticky === 1}}sticky{{/if}}">
+		<div class="news-date"> ${date} </div>
+		<div class="topic"> ${topic} </div>
+	   	<div class="news-content"> {{ html content.markdown() }} </div>
+	    {% if request.session.user.is_admin_clm %}
+		<form method="post" action="">
+			{% csrf_token %}
+			<a onclick="cc1.sthTable.editNews( ${news_id} );" id="main_edit_news"> {% trans "Edit" %}</a>
+			<a onclick="cc1.sthTable.deleteNews( ${news_id} );" id="main_remove_news"> {% trans "Remove" %}</a>
+		</form>
+	    {% endif %}
+	</div>
+	{% endverbatim2 %}
+	</script>
+</div>
+{% endblock %}

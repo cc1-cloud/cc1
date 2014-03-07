@@ -1,0 +1,21 @@
+{% load i18n %}
+{% url 'acc_account_data' as url_account_data %}
+{% url 'acc_password_change' as url_password_change %}
+{% url 'acc_account_data_edit' as url_account_data_edit %}
+
+{% blocktrans %}
+<p>
+This section allows you to change your personal data and password.
+</p>
+<p>
+<b><a href="{{ url_account_data }}">Account data</a></b>
+<ul class="text-ul">
+<li><b>Account data</b>: Shows you your account data, which can be modified under <a href="{{ url_account_data_edit }}">Edit account data</a></li>
+<li><b>Account quotas</b>: Shows you your resources limits and the usage.</li>
+<li><b>EC2 credentialse</b>: Additionally you will find there the key necessary to connect to the system using EC2 interface.</li>
+</ul>
+</p>
+<p>
+<b><a href="{{ url_password_change }}">Change password</a></b>: You may change your password.</li>
+</p>
+{% endblocktrans %}

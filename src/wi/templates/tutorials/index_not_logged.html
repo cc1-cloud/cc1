@@ -1,0 +1,9 @@
+{% load i18n %}
+{% url 'login' as url_login %}
+{% url 'reg_register' as url_registration_register %}
+
+{% blocktrans %}	
+<p>	
+	Please <a href="{{ url_login }}">sign in</a> to an existing account or <a href="{{ url_registration_register }}">sign up</a> for a new one.
+</p>		
+{% endblocktrans %}

@@ -1,0 +1,16 @@
+<!--
+This pool is used to keep copies of VM images. By default, this is local
+directory (/images), but could be changed to network filesystem. Be carefull
+when changing this. This could make vm fails.
+-->
+<pool type="dir">
+  <name>images</name>
+  <target>
+    <path>/images</path>
+    <permissions>
+        <mode>0770</mode>
+        <owner>331</owner>
+        <group>0</group>
+    </permissions>
+  </target>
+</pool>

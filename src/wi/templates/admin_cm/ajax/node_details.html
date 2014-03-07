@@ -1,0 +1,217 @@
+{% load i18n %}
+{% load templatetags %}
+
+<div class="TL"></div>
+<div class="BL"></div>
+<div class="TR"></div>
+<div class="BR"></div>
+<div class="b_innerContainer">
+    {% if node %}
+	<h2>
+        {% trans "Node id:" %} {{ node_id }} - {% trans "state" %}: {{ node_states|getitem:node.state }}
+	</h2>
+    {% endif %}
+    <div>
+		<table class="tab_details w100pc">
+			<tbody>
+            {% if node %}
+                <tr>
+					<td colspan="4" class="table_bottom_actions vm_details_actions">
+					<div>
+						<span>{% trans "Management" %}</span>
+						<ul>
+							<li class="icon_poweron">
+							    <a onclick="cc1.sthTable.createVm( {{ node_id }} );">
+								    {% trans "Create virtual machine" %}
+							    </a>
+						    </li>
+						    <li class="icon_edit">
+								<a onclick="cc1.sthTable.editNode( {{ node_id }} );">
+									{% trans "Edit" %}
+								</a>
+							</li>
+							<!--
+							<li class="icon_hdd">
+							        <a onclick="cc1.sthTable.mountStorage( {{ node_id }} );">
+								    {% trans "Mount storage" %}
+	    						</a>
+		    				</li>
+		    				-->
+		    				<li class="icon_delete">
+							    <a onclick="cc1.sthTable.deleteNode( {{ node_id }} );">
+								    {% trans "Delete" %}
+							    </a>
+						    </li>
+                            {% if node.state == 1 %}
+							    <li class="icon_cancel ">
+								    <a onclick="cc1.sthTable.lockNode( {{ node_id }} );">
+									    {% trans "Lock" %}
+								    </a>
+							    </li>
+                            {% endif %}
+                            {% if node.state == 2 %}
+							    <li class="icon_accept">
+								    <a onclick="cc1.sthTable.unlockNode( {{ node_id }} );">
+									    {% trans "Unlock" %}
+								    </a>
+							    </li>
+                            {% endif %}
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    </td>
+                </tr>
+				<tr>
+					<td class="label">{% trans "Username" %}:</td>
+					<td>{{ node.username }}</td>
+
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "Address" %}:</td>
+					<td>{{ node.address }}</td>
+
+                    <td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "Transport" %}:</td>
+					<td>{{ node.transport }}</td>
+
+					<td class="label">{% trans "Suffix" %}:</td>
+					<td>{{ node.suffix }}</td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "Driver" %}:</td>
+					<td>{{ node.driver }}</td>
+
+					<td></td>
+					<td></td>
+				</tr>
+
+ 				<tr>
+					<td class="label">{% trans "Comment" %}:</td>
+					<td colspan="3">{{ node.comment }}</td>
+
+				</tr>
+
+                <tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+
+                <tr>
+					<td colspan="4" class="table_bottom_actions vm_details_actions">
+					<div>
+						<span>{% trans "Memory" %}</span>
+                        <div class="clear"></div>
+                    </div>
+                    </td>
+                </tr>
+
+				<tr>
+					<td class="label">{% trans "Memory free" %}:</td>
+					<td>{{ node.memory_free|filesizeformatmb }}</td>
+
+					<td class="label">{% trans "Memory total" %}:</td>
+					<td>{{ node.memory_total|filesizeformatmb }}</td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "Real memory free" %}:</td>
+					<td>{{ node.real_memory_free|filesizeformatmb }}</td>
+
+					<td class="label">{% trans "Real memory total" %}:</td>
+					<td>{{ node.real_memory_total|filesizeformatmb }}</td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "Libvirt memory free" %}:</td>
+					<td>{{ node.lv_memory_free|filesizeformatmb }}</td>
+
+					<td class="label">{% trans "Libvirt memory total" %}:</td>
+					<td>{{ node.lv_memory_total|filesizeformatmb }}</td>
+				</tr>
+
+                <tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+
+                <tr>
+					<td colspan="4" class="table_bottom_actions vm_details_actions">
+					<div>
+						<span>{% trans "CPU" %}</span>
+                        <div class="clear"></div>
+                    </div>
+                    </td>
+                </tr>
+
+                <tr>
+					<td class="label">{% trans "Cpu free" %}:</td>
+					<td>{{ node.cpu_free }}</td>
+
+					<td class="label">{% trans "Cpu total" %}:</td>
+					<td>{{ node.cpu_total }}</td>
+				</tr>
+                <tr>
+					<td class="label">{% trans "Libvirt cpu free" %}:</td>
+					<td>{{ node.lv_cpu_free }}</td>
+
+					<td class="label">{% trans "Libvirt cpu total" %}:</td>
+					<td>{{ node.lv_cpu_total }}</td>
+				</tr>
+
+                <tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+
+                <tr>
+					<td colspan="4" class="table_bottom_actions vm_details_actions">
+					<div>
+						<span>{% trans "HDD" %}</span>
+                        <div class="clear"></div>
+                    </div>
+                    </td>
+                </tr>
+
+                <tr>
+					<td class="label">{% trans "HDD free" %}:</td>
+					<td>{{ node.hdd_free|filesizeformatmb }}</td>
+
+					<td class="label">{% trans "HDD total" %}:</td>
+					<td>{{ node.hdd_total|filesizeformatmb }}</td>
+				</tr>
+                <tr>
+					<td class="label">{% trans "Real HDD free" %}:</td>
+					<td>{{ node.real_hdd_free|filesizeformatmb }}</td>
+
+					<td class="label">{% trans "Real HDD total" %}:</td>
+					<td>{{ node.real_hdd_total|filesizeformatmb }}</td>
+				</tr>
+
+                <tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>

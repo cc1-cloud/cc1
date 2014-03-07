@@ -1,0 +1,27 @@
+{% extends "base_two_column.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Groups" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="{% url 'grp_groups' %}">{% trans "Groups" %}</a></li>
+{% endblock %}
+
+{% block left_box_title %}{% trans "Groups" %}{% endblock %}
+{% block left_box_content %}
+<ul id="{% block men_div_name %}{% endblock %}">
+	{% include "groups/menu.html" %} 
+</ul>
+{% endblock %}
+
+{% block left_box_watermark %}group{% endblock %}
+
+{% block box_title %}
+	{% trans "Groups" %}
+{% endblock %}
+
+{% block box_content %}
+	{% include "tutorials/groups.html" %}
+{% endblock %}

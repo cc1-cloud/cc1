@@ -1,0 +1,60 @@
+"""
+@date May 8, 2013
+@author gaet
+"""
+
+# logging
+import logging
+
+# Logging directory. Inside CM will create directory per user for user's logs.
+LOG_DIR = '/var/log/cc1/clm/'
+
+# Log level - DEBUG, INFO or ERROR
+LOG_LEVEL = logging.DEBUG
+
+# Log format for each entry
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'clm',  # Or path to database file if using sqlite3.
+#        'USER': 'cc1',  # Not used with sqlite3.
+#        'PASSWORD': 'DATABASE_PASSWORD',  # Not used with sqlite3.
+#        'HOST': '127.0.0.1',  # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '5432',  # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+# Which local address and port shoud CLM listen for
+CLM_ADDRESS = ('127.0.0.1', 8000)
+
+# Should new accounts be activated after email confirmation (True) or manual activation by clmadmin (False)
+AUTOACTIVATION = False
+
+# Is mailer in use?
+MAILER_ACTIVE = False
+
+# Default 'from' adress for mailer
+FROM_EMAIL = 'cc1@cloud'
+
+# Mailer server information. Can be used to reporting bugs and issues
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '25'
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'cc1'
+EMAIL_HOST_PASSWORD = ''
+
+
+# Email address to send help-form messages to
+ISSUE_EMAIL = 'issue@email'
+
+# Email address to be provided as contact email
+CONTACT_EMAIL = 'contact@email'
+
+# EC2 server configuration
+EC2_URL = 'ec2.address.com:80'
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'CLM_SECRET_KEY'
+

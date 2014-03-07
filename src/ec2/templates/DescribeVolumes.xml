@@ -1,0 +1,26 @@
+<DescribeVolumesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+   <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+   <volumeSet>
+    % for volume in volumes:
+      <item>
+         <volumeId>vol-${volume['volume-id']}</volumeId>
+         <size>${volume['size']}</size>
+         <snapshotId/>
+         <availabilityZone>us-east-1a</availabilityZone>
+         <status>${volume['status']}</status>
+         <createTime>${volume['createTime']}</createTime>
+##         <attachmentSet>
+##            <item>
+##               <volumeId>vol-1a2b3c4d</volumeId>
+##               <instanceId>i-1a2b3c4d</instanceId>
+##               <device>/dev/sdh</device>
+##               <status>attached</status>
+##               <attachTime>YYYY-MM-DDTHH:MM:SS.SSSZ</attachTime>
+##               <deleteOnTermination>false</deleteOnTermination>
+##            </item>
+##         </attachmentSet>
+         <volumeType>standard</volumeType>
+      </item>
+    % endfor
+   </volumeSet>
+</DescribeVolumesResponse>

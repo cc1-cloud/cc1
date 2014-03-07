@@ -1,0 +1,169 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "Storages" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Storages" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_cm_storages{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox"/>
+{% endblock %}
+
+{% block box_title %}
+	{% trans "Storages" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'storage_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_ajax_get_table_storages' %}',
+		contextFun : function(itemData) {
+			var items = {
+			   	/*'mount' 		: {name: '{% trans "Mount" %}', icon: 'hdd'},
+	            'mount_rm'		: {name: '{% trans "Mount Resource Manager" %}', icon: 'hdd'},*/
+	            'delete'		: {name: '{% trans "Delete" %}', icon: 'delete'},
+	        };
+		    if (itemData.state === 0) {
+		    	items['lock'] = {name: '{% trans "Lock" %}', icon: 'password'};
+		    }
+		    if (itemData.state === 1) {
+		    	items['unlock'] = {name: '{% trans "Unlock" %}', icon: 'password'};
+		    }
+		    return {
+		        callback: function(key, options) {
+		        	switch (key) {
+		        		/*case 'mount':
+							cc1.sthTable.mountNode(itemData[localIdKey]);
+		        		break;
+		        		case 'mount_rm':
+							cc1.sthTable.mountRm(itemData[localIdKey]);
+		        		break;*/
+		        		case 'lock':
+							cc1.sthTable.lockStorage(itemData[localIdKey]);
+		        		break;
+		        		case 'delete':
+							cc1.sthTable.deleteStorage(itemData[localIdKey]);
+		        		break;
+		        		case 'unlock':
+							cc1.sthTable.unlockStorage(itemData[localIdKey]);
+		        		break;
+		        	}
+		        },
+		        items: items
+		    };
+		},
+		autoRefreshTime : 60000,
+		leftClickMenu : '.action_button',
+		enableSorting: true,
+		showSearchBox: true,
+		overTable: '#over-table',
+        idKey: localIdKey,
+	});
+
+	// dialog blokowania storagea
+	cc1.sthTable.lockStorage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_lock_storage' 0 %}',
+		dialogTitle: '{% trans "Lock storage" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+	});
+	// dialog odblokowywania storagea
+	cc1.sthTable.unlockStorage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_unlock_storage' 0 %}',
+		dialogTitle: '{% trans "Unlock storage" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+	});
+	// dialog dodawania storagea
+	cc1.sthTable.createStorage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_add_storage' %}',
+		dialogTitle: '{% trans "Create a new storage" %}',
+		dialogWidth: 500,
+	});
+	// dialog montowania macierzy do nodow
+	cc1.sthTable.mountNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_mount_node' 0 %}',
+		dialogTitle: '{% trans "Mount storage to node" %}',
+		dialogWidth: 500,
+	});
+	// dialog montowania RM
+	cc1.sthTable.mountRm = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_mount_rm' 0 %}',
+		dialogTitle: '{% trans "Resource Manager" %}',
+	});
+	// dialog usuwania storagea
+	cc1.sthTable.deleteStorage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_delete_storage' 0 %}',
+		dialogTitle: '{% trans "Delete storage" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+		dialogClass: 'warning'
+	});
+});
+/*]]>*/</script>
+
+<div id="over-table"></div>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td>{% trans "ID" %}</td>
+			<td>{% trans "Name" %}</td>
+			<td>{% trans "Address" %}</td>
+			<td>{% trans "Mountpoint" %}</td>
+			<td>{% trans "Dir" %}</td>
+			<td>{% trans "Capacity" %}</td>
+			<td>{% trans "State" %}</td>
+			<td class="noSort">{% trans "Actions" %}</td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		<tr data-id="${storage_id}" class="rclick">
+			<td> ${storage_id} </td>
+		   	<td> ${name} </td>
+			<td> ${address} </td>
+			<td> ${mountpoint} </td>
+			<td> ${dir} </td>
+		   	<td> ${capacity} </td>
+		   	<td> ${stateName} </td>
+			<td>
+				<div id="action${id}" class="action_button"></div>
+			</td>
+		</tr>
+		</script>
+		<tr>
+			<td colspan="8">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="8" class="table_bottom_actions">
+				<ul>
+                    <li class="icon_add">
+						<a onclick="cc1.sthTable.createStorage();">{% trans "Create a new storage" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

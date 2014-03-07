@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""@package src.wi.config
+
+@author Piotr Wójcik
+@author Krzysztof Danielowski
+@author Maciej Nabożny
+@date 08.11.2013
+"""
+
+CLOUD_MANAGER_ADDRESS = 'http://127.0.0.1:8000'
+
+import logging
+LOG_LEVEL = logging.DEBUG
+LOG_DIR = '/var/log/cc1/wi/'
+
+WI_DATA = {
+    'site_domain': 'localhost',  # Web interface address for activation link
+    'site_name': 'cc1'  # System name in emails
+}
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'WI_SECRET_KEY'

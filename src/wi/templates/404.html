@@ -1,0 +1,14 @@
+{% extends "base_one_column.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Page does not exist" %} - {{ block.super }}{% endblock %}
+
+{% block box_width %}w400{% endblock %}
+
+{% block box_title %}
+	{% trans "Error 404" %}
+{% endblock %}
+
+{% block box_content %}
+ 	<p>{% trans "Page does not exist." %}</p>
+{% endblock %}

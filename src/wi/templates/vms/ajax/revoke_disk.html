@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load formtags %}
+
+<p>{% trans "Select a disk to detach:" %}</p>
+
+<form method="post" action="">
+    <div class="center">
+        {% csrf_token %}
+        {% show_fieldsetform form %}
+
+        {% trans "Only disks with USB or virtio bus may be attached to and detached from running VMs." %}
+    </div>
+
+    <div class="clear"></div>
+    <div class="dialog_button_area">
+        <button type="submit" class="ok-button mid_button">{% trans "Detach selected disk" %}</button>
+        <button type="button" class="cancel-button mid_button">{% trans "Cancel" %}</button>
+    </div>
+</form>

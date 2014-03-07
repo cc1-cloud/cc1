@@ -1,0 +1,204 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Images" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Images" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_cm_images{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox"/>
+{% endblock %}
+
+{% block box_title %}
+	{% trans "Images" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'system_image_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_ajax_get_table_images' %}',
+		contextFun : function(itemData) {
+			var items = {
+	            'edit' 			: {name: '{% trans "Edit" %}', icon: 'edit'},
+	            'copy'		 	: {name: '{% trans "Copy" %}', icon: 'copy'},
+	            'changePerm' 	: {name: (itemData.type === 'public')? '{% trans "Move to private images" %}': '{% trans "Move to public images" %}', icon: (itemData.type === 'public')?'private':'group'},
+	            'delete' 		: {name: '{% trans "Remove" %}', icon: 'delete'},
+	        };
+		    return {
+		        callback: function(key, options) {
+		        	switch (key) {
+		        		case 'edit':
+							cc1.sthTable.editImage(itemData[localIdKey]);
+		        		break;
+		        		case 'copy':
+							cc1.sthTable.copyImage(itemData[localIdKey]);
+		        		break;
+		        		case 'delete':
+							cc1.sthTable.deleteImage(itemData[localIdKey]);
+		        		break;
+		        		case 'changePerm':
+		        			if (itemData.type === 'public') {
+		        				cc1.sthTable.privateImage(itemData[localIdKey]);
+		        			} else {
+								cc1.sthTable.publicImage(itemData[localIdKey]);
+							}
+		        		break;
+		        	}
+		        },
+		        items: items
+		    };
+		},
+		autoRefreshTime : 60000,
+		leftClickMenu : '.action_button',
+		enableSorting: true,
+		sortingColumnIndex: 7,
+		sortingDescending: true,
+		showSearchBox: true,
+		overTable: '#over-table',
+		itemDataAttr: 'items',
+        idKey: localIdKey,
+	});
+	// dialog dodawania nowego obrazu
+	cc1.sthTable.addImage =  cc1.utils.createAction({
+		url: '{% url 'cma_ajax_add_image' %}',
+		dialogTitle: '{% trans "Register new image" %}',
+		dialogWidth: 500,
+	});
+	// dialog edycji obrazu
+	cc1.sthTable.editImage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_edit_image' 0 %}',
+		dialogTitle: '{% trans "Edit image" %}',
+		dialogWidth: 500,
+	});
+	// dialog zmiany wlasciciela obrazu
+	cc1.sthTable.copyImage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_copy_image' 0 %}',
+		dialogTitle: '{% trans "Choose new owner" %}',
+		calculatePostParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+		dialogWidth: 500,
+	});
+	// dialog usuwania obrazu
+	cc1.sthTable.deleteImage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_delete_image' 0 %}',
+		dialogTitle: '{% trans "Delete image" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+		dialogClass: 'warning'
+	});
+	// dialog robienia obrazu publicznym
+	cc1.sthTable.publicImage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_public_image' 0 %}',
+		dialogTitle: '{% trans "Public image" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+	});
+	// dialog robienia obrazu prywatnym
+	cc1.sthTable.privateImage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_private_image' 0 %}',
+		dialogTitle: '{% trans "My image" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+	});
+});
+/*]]>*/
+</script>
+
+<div id="over-table"></div>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td> {% trans "Owner" %}</td>
+			<td> {% trans "ID" %} </td>
+			<td> {% trans "Name" %} </td>
+			<td> {% trans "State" %} </td>
+			<td> {% trans "Platform" %} </td>
+			<td> {% trans "Size" %} </td>
+			<td> {% trans "Description" %} </td>
+			<td> {% trans "Creation date" %} </td>
+			<td class="noSort"> {% trans "Actions" %} </td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr class="separator">
+			<td class="tab_separator" colspan="9">
+				${name}
+				<span>
+					{% trans "Hide section" %} <input class="separator_check" data-category="${name}" type="checkbox"/>
+				</span>
+			</td>
+		</tr>
+
+		{{each items}}
+		<tr data-id="${system_image_id}" class="rclick">
+			<td>
+				<a onclick='location.href = "{% url 'clm_user_account' 0 %}".replace("0", ${user_id});'> ${owner} </a>
+			</td>
+			<td> ${image_id} </td>
+			<td>
+				{{html name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td> ${stateName} </td>
+			<td> ${platform} </td>
+			<td>
+				{{if state === 2}}
+			   		<div class="ajax_loader3" title="{% trans "Adding" %}"></div>
+			   	{{else}}
+			   		${size}
+			   	{{/if}}
+		   	</td>
+			<td class="text-justify">
+				{{html description.escapeHTML().wbrAndLb()}}
+			</td>
+			<td> ${creation_date} </td>
+			<td>
+				<div id="action${system_image_id}" class="action_button"></div>
+			</td>
+		</tr>
+		{{/each}}
+
+		{{if items.length === 0}}
+			<tr> <td colspan="9"> {% trans "No items to display." %} </td> </tr>
+		{{/if}}
+		{% endverbatim2 %}
+		</script>
+        <tr>
+    		<td colspan="9">
+    			<div class="ajax_loader1">&nbsp;</div>
+    		</td>
+    	</tr>
+    </tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="9" class="table_bottom_actions">
+				<ul>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.addImage();">{% trans "Register image" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

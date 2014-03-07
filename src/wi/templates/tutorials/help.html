@@ -1,0 +1,11 @@
+{% load i18n %}
+{% url 'hlp_form' as url_help_form %}
+
+{% blocktrans %}
+<p>
+Welcome to the help section.
+</p>
+<p>
+Should you encounter any problems while using the system, do not hesitate to contact us through the <a href="{{ url_help_form }}">Contact form</a>. <br/>
+</p>
+{% endblocktrans %}

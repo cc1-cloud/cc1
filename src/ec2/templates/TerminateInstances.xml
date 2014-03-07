@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TerminateInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+  <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+  <instancesSet>
+    % for instance in instances:
+    <item>
+      <instanceId>i-${instance['id']}</instanceId>
+      <currentState>
+        <code>32</code>
+        <name>shutting-down</name>
+      </currentState>
+      <previousState>
+        <code>16</code>
+        <name>running</name>
+      </previousState>
+    </item>
+    % endfor
+  </instancesSet>
+</TerminateInstancesResponse>

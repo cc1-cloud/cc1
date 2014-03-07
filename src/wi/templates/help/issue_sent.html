@@ -1,0 +1,12 @@
+{% extends "help/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Contact form" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}
+	{% trans "Contact form" %}
+{% endblock %}
+
+{% block box_content %}
+    <p class="success">{% trans "Issue has been reported." %}</p>
+{% endblock %}

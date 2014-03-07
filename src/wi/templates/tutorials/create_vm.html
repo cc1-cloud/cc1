@@ -1,0 +1,30 @@
+{% load i18n %}
+{% blocktrans %}
+<p>
+Virtual machine creation form.
+</p>
+<h3>
+VM consists of base components: 
+</h3>
+<ul class="text-ul">
+	<li><strong>image</strong> - image file containing VM's operating system, installed software and all configuration. There are default public images available as well as ones created by users (private or group). Images can be managed via <strong>Images</strong> section.</li>
+	<li><strong>hardware template</strong> - VM's hardware parameters like CPU and RAM,</li>
+</ul>
+<h3>You can improve usability of the created VM, attaching some of the available resources to it:</h3>
+<ul class="text-ul">
+	<li><strong>IP address</strong>,</li>
+	<li><strong>disk volume</strong>.</li>
+</ul>
+<p>
+	These resources are managed via <strong>VM Resources</strong> section.
+</p>
+<p>
+	Machines created using this form are accessible via <strong>Machines->Show virtual machines</strong>.
+</p>
+<p>
+	If VM isn't started from image configured so that access to it is enabled, you need either to enable VNC on that machine (only when starting), or attach public IP address to it (whenever).
+</p>
+<p>
+	Machine started from images with contextualisation can have its system user and password set via web interface. Its owner can also inject public key into it to enable login via SSH.
+</p>
+{% endblocktrans %}

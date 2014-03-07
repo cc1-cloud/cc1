@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+  <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+  <keySet>
+  % for key_pair in key_pairs:
+    <item>
+      <keyName>${key_pair['key-name']}</keyName>
+      <keyFingerprint>${key_pair['fingerprint']}</keyFingerprint>
+    </item>
+  % endfor
+  </keySet>
+</DescribeKeyPairsResponse>

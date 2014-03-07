@@ -1,0 +1,68 @@
+{% load i18n %}
+
+{% if required_fields %}
+	<div class="requiredField"><strong>*</strong>{% trans "Field required" %}</div>
+{% endif %}
+
+{% if form.fieldsets %}
+	{% for fieldset in form.fieldsets %}	
+	<fieldset {% if fieldset.description %} id="fs_{{ fieldset.description }}" {% endif %}>
+		{% if fieldset.legend %}
+			<legend>{{ fieldset.legend }}</legend>
+		{% endif %}
+		{% for field in fieldset %}
+			<div>
+				<span class="labels">
+				{{ field.label_tag }}
+				{% if required_fields %}
+					{% if field.field.required %}
+						<strong>*</strong>
+					{% else %}
+						&nbsp;&nbsp;&nbsp;
+					{% endif %}
+				{% endif %}
+				</span>
+			
+				<span class="inputs">
+					{{ field|safe }}
+				{% if field.help_text %}
+					<span class="tooltip" title="{{ field.help_text }}"></span>
+				{% endif %}
+				</span>		
+		
+				{% if field.errors %}
+					{{ field.errors }}
+				{% endif %}
+			</div>
+		{% endfor %}
+		{{ form.non_field_errors }}
+		<div class="clear"></div>
+	</fieldset>
+	{% if fieldset.description %}
+	<script type="text/javascript">/*<![CDATA[*/
+	$(function(){
+		var {{ fieldset.description }}Div = $('#fs_{{ fieldset.description }}'),
+			{{ fieldset.description }}Button = $('<div/>', {
+				'class': 'center',
+				text: '{% trans "Show advanced options" %}',
+				css: {
+					'text-decoration': 'underline',
+					'cursor': 'pointer',
+					'color': '#284800',
+				},
+				click: function() {
+					$(this).text( ({{ fieldset.description }}Div.is(':hidden'))? '{% trans "Hide advanced options" %}' : '{% trans "Show advanced options" %}' );
+					{{ fieldset.description }}Div.slideToggle('fast');
+				},
+			});
+		
+		{{ fieldset.description }}Div.before( advancedButton ).hide();
+	});
+	/*]]>*/</script>
+	{% endif %}	
+	{% endfor %}
+{% else %}
+
+	{% include 'tags/form.html' %}
+	
+{% endif %}

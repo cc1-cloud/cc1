@@ -1,0 +1,46 @@
+<RunInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/"> 
+  <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
+  <reservationId>r-${reservationId}</reservationId> 
+##  <ownerId>111122223333</ownerId>
+##  <groupSet>
+##    <item>
+##      <groupId>sg-245f6a01</groupId>
+##      <groupName>default</groupName>
+##    </item>
+##  </groupSet>
+  <instancesSet>
+  	% for instance in instances:
+    <item>
+      <instanceId>i-${instance['instanceId']}</instanceId>
+      <imageId>ami-${instance['imageId']}</imageId>
+##      <instanceState>
+##        <code>0</code>
+##        <name>pending</name>
+##      </instanceState>
+##      <privateDnsName></privateDnsName>
+##      <dnsName></dnsName>
+##      <keyName>example-key-name</keyName>
+##      <amiLaunchIndex>0</amiLaunchIndex>
+      <instanceType>${instance['instance_type']}</instanceType>
+##      <launchTime>2007-08-07T11:51:50.000Z</launchTime>
+##      <placement>
+##        <availabilityZone>us-east-1b</availabilityZone>
+##      </placement>
+##      <monitoring>
+##        <enabled>true</enabled>
+##      </monitoring>
+##      <sourceDestCheck>true</sourceDestCheck>
+##      <groupSet>
+##         <item>
+##            <groupId>sg-245f6a01</groupId>
+##            <groupName>default</groupName>
+##         </item>
+##      </groupSet>
+##      <virtualizationType>paravirtual</virtualizationType>
+##      <clientToken/>
+##      <tagSet/>
+##      <hypervisor>xen</hypervisor>
+    </item>
+  	% endfor
+  </instancesSet>
+</RunInstancesResponse>

@@ -1,0 +1,16 @@
+{% load i18n %}
+{% url 'hlp' as url_help %}
+{% blocktrans %}
+<p>
+Here you can access and manage your virtual resources:
+<ul class="text-ul">
+<li><b>Elastic IP addresses</b> - your external IP address pool.</li>
+<!--
+<li><b>Networks</b></li>
+-->
+<li><b>Storage disks</b> - disk resources you can use with your virtual machines.</li>
+<li><b>ISO images</b> - bootable images with OS, installed software and all configuration.</li>
+<li><b>Authorization keys</b> - keys allowing you to log on your virtual machines.</li>
+</ul>
+</p>
+{% endblocktrans %}
