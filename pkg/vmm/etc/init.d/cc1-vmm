@@ -1,0 +1,64 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:             cc1-node
+# Required-Start:       $remote_fs $syslog
+# Required-Stop:        $remote_fs $syslog
+# Default-Start:        2 3 4 5
+# Default-Stop:
+# Short-Description:    CC1 Node configuration
+### END INIT INFO
+
+set -e
+
+function start() {
+    echo "Starting CC1 node..."
+    if ! [ -d /var/lib/cc1/storages ] ; then
+        mkdir /var/lib/cc1/storages
+        chown cc1:libvirt /var/lib/cc1/storages
+    fi
+    /usr/sbin/cc1_node_public_ip start
+    /usr/sbin/cc1_node_storage mount_images_pool
+    /usr/sbin/cc1_node_storage mount
+
+    #/usr/sbin/cc1_node_vm start
+
+    /usr/sbin/cc1_node_check
+}
+
+function stop() {
+    echo "Stopping CC1 node..."
+    /usr/sbin/cc1_node_storage umount
+    /usr/sbin/cc1_node_public_ip stop
+}
+
+function restore_vms() {
+    /usr/sbin/cc1_node_vm start
+}
+
+function dump_vms() {
+    /usr/sbin/cc1_node_vm stop
+}
+
+case "$1" in
+    start)
+        start
+        restore_vms
+        ;;
+
+    stop)
+        dump_vms
+        stop
+        ;;
+
+    restart)
+        stop
+        start
+        ;;
+
+    *)
+        echo "Usage: $0 [start|stop|restart]"
+        exit 1
+esac
+
+exit 0
