@@ -1,0 +1,65 @@
+<domain type='kvm'>
+  <name>vm-{{ vm.id }}-{{ vm.user.id }}</name>
+  <uuid>{{ uuid }}</uuid>
+  <memory>{{ memory }}</memory>
+  <vcpu>{{ cpu }}</vcpu>
+  <cpu>
+   <topology sockets='2' cores='6' threads='2'/>
+ </cpu>
+  <os>
+    <type arch="x86_64" machine="pc">hvm</type>
+    <boot dev='cdrom'/>
+    <boot dev='hd'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+	  <emulator>/usr/bin/qemu-system-x86_64</emulator>
+      
+      {% for lease in vm.lease_set.all %}
+	  <interface type='network'>
+	  	<source network='net-{{ vm.id }}-{{lease.id}}'/>
+	  	<mac address="{{ lease.mac }}"/>
+	  	<model type='{{ vm.system_image.network_device_name }}'/>
+	  </interface>
+      {% endfor %}
+
+	  <disk type='file' device='disk'>
+	    <driver name="qemu" type="raw" cache="writeback" io="threads" />
+	    <source file='{{ image_path }}'/>
+	    <target dev='{{ vm.system_image.dict.disk_dev }}' bus='{{ vm.system_image.disk_controller_name }}'/>
+	  </disk>
+      
+	  {% for img in vm.storage_images %}
+	  <disk type='file' device='disk'>
+	    <driver name="qemu" type="raw" cache="writeback" io="threads" />
+	    <source file='{{ img.path }}'/>
+	    <target dev= '{{ img.dict.disk_dev}}' bus='{{ img.disk_controller_name }}'/>
+	  </disk>
+	  {% endfor %}
+
+	  <disk type='file' device='cdrom'>
+	    <driver name="qemu" type="raw" cache="writeback" io="threads" />
+        <target dev='sdz' bus='sata' tray='closed'/>
+        <source file='{{ vm.iso_image.path }}'/>
+        <readonly/>
+      </disk>
+
+	  <console type='pty' tty='/dev/pts/6'>
+	    <source path='/dev/pts/6'/>
+	    <target port='0'/>
+	  </console>
+	  <graphics type='vnc' port='{{ vm.vnc_port }}' listen="0.0.0.0" passwd="{{ vm.vnc_passwd }}" />
+	  <video>
+	    <model type='{{ vm.system_image.video_device_name }}' vram='9216' heads='1'/>
+	  </video>
+	  <input type='tablet' bus='usb'/>
+  </devices>
+</domain>

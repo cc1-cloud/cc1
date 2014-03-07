@@ -1,0 +1,14 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Registration success" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}
+	{% trans "Registration success" %}
+{% endblock %}
+
+{% block box_content %}
+    <p>
+	{% trans "Please wait for system operator to activate your account." %}
+	</p>
+{% endblock %}

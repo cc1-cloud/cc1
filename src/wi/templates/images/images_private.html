@@ -1,0 +1,216 @@
+{% extends "images/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "My images" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "My images" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_images_private{% endblock %}
+
+{% block box_title %}
+	{% trans "My images" %}
+{% endblock %}
+
+{% block help_icon %}
+    {% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/images_private.html" %}
+{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox" checked="checked"/>
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/states.js"></script>
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'system_image_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'img_ajax_get_private_table' %}',
+		contextFun : function(itemData) {
+			var items = {
+		            'create' 			: {name: '{% trans "Create virtual machine" %}', icon: ($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0)?'poweron':'poweron inactive'},
+		            'changeType'		: {name: (itemData.type === "group")?'{% trans "Move to my images" %}': '{% trans "Assign to group" %}', icon: ($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0)?'group':'group inactive'},
+		            'edit'		 		: {name: '{% trans "Edit" %}', icon: ($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0)?'edit':'edit inactive'},
+		            'delete' 			: {name: '{% trans "Remove" %}', icon: 'delete'},
+		    };
+		    if (itemData.type === "private") {
+	        	items['changeToStorage'] = {name: '{% trans "Change to storage disk" %}', icon: ($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0)?'hdd':'hdd inactive'};
+	        }
+		    return {
+		        callback: function(key, options) {
+		        	switch (key) {
+		        		case 'create':
+			        		if($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0){
+								location.href = "{% url 'vms_create_vm' %}?selected_image="+itemData[localIdKey];
+							}
+		        		break;
+		        		case 'delete':
+							cc1.sthTable.deleteVm(itemData[localIdKey]);
+		        		break;
+		        		case 'changeType':
+			        		if($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0){
+			        			if (itemData.type === "group") {
+									cc1.sthTable.revokeGroup(itemData[localIdKey]);
+								} else {
+									cc1.sthTable.assignGroup(itemData[localIdKey]);
+								}
+							}
+		        		break;
+		        		case 'edit':
+			        		if($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0){
+								cc1.sthTable.editImage(itemData[localIdKey]);
+							}
+		        		break;
+		        		case 'changeToStorage':
+			        		if($.inArray(itemData.state, [cc1.states.image['ok']]) >= 0){
+								cc1.sthTable.changeToStorage(itemData[localIdKey]);
+							}
+		        		break;
+		        	}
+		        },
+		        items: items
+		    };
+		},
+		autoRefreshTime : 30000,
+		leftClickMenu : '.action_button',
+		enableSorting: true,
+		showSearchBox: true,
+		overTable: '#over-table',
+		sortingColumnIndex: 3,
+		sortingDescending: true,
+		itemDataAttr: 'items',
+		idKey: localIdKey,
+	});
+	// usuniecie obrazu
+	cc1.sthTable.deleteVm = cc1.utils.createAction({
+		url: '{% url 'img_ajax_delete' 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+		dialogClass: 'warning'
+	});
+	// zrobienie grupowego
+	cc1.sthTable.assignGroup = cc1.utils.createAction({
+		url: '{% url 'img_ajax_assign_group' 0 %}',
+		dialogTitle: '{% trans "Assign group" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+	});
+	// uprywatnienie obrazu
+	cc1.sthTable.revokeGroup = cc1.utils.createAction({
+		url: '{% url 'img_ajax_revoke_group' 0 %}',
+		dialogTitle: '{% trans "Revoke group" %}',
+		calculateGetParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+	});
+	// zmiana w dysk
+	cc1.sthTable.changeToStorage = cc1.utils.createAction({
+		url: '{% url 'img_ajax_change_to_storage' 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
+		},
+	});
+	// dialog edycji obrazu
+	cc1.sthTable.editImage = cc1.utils.createAction({
+		url: '{% url 'img_ajax_edit_image' 0 %}',
+		dialogTitle: '{% trans "Edit image" %}',
+		dialogWidth: 500,
+	});
+	// dodanie obraza z linka
+	cc1.sthTable.addImageHttp = cc1.utils.createAction({
+		url: '{% url 'img_ajax_add_image_http' %}',
+		dialogTitle: '{% trans "Add image" %}',
+		dialogWidth: 500,
+	});
+});
+
+/*]]>*/</script>
+
+<div id="over-table"></div>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td> {% trans "Name" %} </td>
+			<td> {% trans "State" %} </td>
+			<td> {% trans "Description" %} </td>
+			<td> {% trans "Creation date" %} </td>
+			<td> {% trans "Size" %} </td>
+			<td class="noSort"> {% trans "Actions" %} </td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr class="separator">
+			<td class='tab_separator' colspan='6'>
+				${name}
+				<span>
+					{% trans "Hide section" %} <input class="separator_check" data-category="${group_id}" type="checkbox"/>
+				</span>
+			</td>
+		</tr>
+		{{each items}}
+			<tr data-id="${system_image_id}" class='rclick' title="{% trans "Right click table row to open context menu." %}">
+			<td>
+				{{html name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td> ${stateName} </td>
+			<td class="text-justify">
+				{% include "snippets/resizable_description.js" %}
+			</td>
+			<td> ${creation_date} </td>
+			<td>
+			{{if state === 2}}
+		   		<div class="ajax_loader3" title="{% trans "Adding" %}"></div> ${progress}%
+		   	{{else}}
+		   		${size}
+		   	{{/if}}
+			</td>
+			<td>
+				<div id="action${system_image_id}" class="action_button"></div>
+			</td>
+		</tr>
+		{{/each}}
+
+		{{if items.length === 0}}
+			<tr> <td colspan="8"> {% trans "No items to display." %} </td> </tr>
+		{{/if}}
+		{% endverbatim2 %}
+		</script>
+	    <tr>
+    		<td colspan="6">
+    			<div class="ajax_loader1">&nbsp;</div>
+    		</td>
+    	</tr>
+    </tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="6" class="table_bottom_actions">
+				<ul>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.addImageHttp();">{% trans "Upload image" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

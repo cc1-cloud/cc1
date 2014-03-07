@@ -1,0 +1,153 @@
+{% extends "resources/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "ISO images" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Manage ISO images" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_iso{% endblock %}
+
+{% block box_title %}
+	{% trans "ISO images" %}
+{% endblock %}
+
+{% block help_icon %}
+    {% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/resources_iso.html" %}
+{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox" checked="checked"/>
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'iso_image_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'res_ajax_get_iso_table' %}',
+		contextFun : function(itemData) {
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'edit':
+							cc1.sthTable.editISO(itemData[localIdKey]);
+                		break;
+                		case 'delete':
+                			cc1.sthTable.deleteISO(itemData[localIdKey]);
+                		break;
+                	}
+                },
+                items: {
+                	'edit'			: {name: '{% trans "Edit" %}', icon: 'edit'},
+                    'delete' 		: {name: '{% trans "Remove" %}', icon: 'delete'},
+                }
+            };
+		},
+		autoRefreshTime : 30000,
+		leftClickMenu : '.action_button',
+		enableSorting: true,
+		sortingColumnIndex: 2,
+		sortingDescending: true,
+        idKey: localIdKey,
+	});
+
+	// edycja obrazu ISO
+	cc1.sthTable.editISO = cc1.utils.createAction({
+		url: '{% url 'res_ajax_edit_iso' 0 %}',
+		dialogTitle: '{% trans "Edit ISO image" %}',
+		dialogWidth: 500,
+	});
+	// usuniecie obrazu ISO
+	cc1.sthTable.deleteISO = cc1.utils.createAction({
+		url: '{% url 'res_ajax_delete_iso' 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+		dialogClass: 'warning'
+	});
+	// wgranie obrazu ISO
+	cc1.sthTable.uploadISO = cc1.utils.createAction({
+		url: '{% url 'res_ajax_upload_iso_http' %}',
+		dialogTitle: '{% trans "Upload ISO image" %}',
+		dialogWidth: 500,
+	});
+});
+/*]]>*/</script>
+
+<table id="item-list" class="tab w100pc">
+	<thead class="thead">
+		<tr>
+			<td> {% trans "Name" %} </td>
+			<td> {% trans "Description" %} </td>
+			<td> {% trans "Creation date" %} </td>
+			<td> {% trans "Size" %} </td>
+			<td class="noSort">  {% trans "Attached to machine" %} </td>
+            <td class="noSort"> {% trans "Actions" %} </td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${iso_image_id}" class="rclick" title="{% trans "Right click table row to open context menu." %}">
+			<td>
+				{{html name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td class="text-justify">
+				{% include "snippets/resizable_description.js" %}
+			</td>
+			<td> ${creation_date} </td>
+			<td>
+			{{if state === 0}}
+				${size}
+		   	{{else state === 3}}
+		   		{% trans "failed" %}
+		   	{{else}}
+		   		<div class="ajax_loader3" title="{% trans "Creating" %}"></div> ${progress}%
+		   	{{/if}}
+			</td>
+			<td>
+				{{if vm_ids|length == 1}}
+					{{html vm_names[0].escapeHTML().wbrAndLb()}}
+				{{else}}
+					{% trans "not assigned" %}
+				{{/if}}
+			</td>
+		   	<td>
+				<div id="action${iso_image_id}" class="action_button"></div>
+			</td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="6">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="6" class="table_bottom_actions">
+				<ul>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.uploadISO();">{% trans "Upload ISO image" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+    </tfoot>
+</table>
+{% endblock %}

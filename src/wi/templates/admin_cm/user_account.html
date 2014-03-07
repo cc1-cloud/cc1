@@ -1,0 +1,140 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "User's account data" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "User's account data" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_users{% endblock %}
+
+{% block box_title %}
+	{% trans "User's account data" %}
+{% endblock %}
+
+{% block box_content %}
+<script id="rowTemplate" type="text/x-jquery-tmpl">
+<fieldset class="noBorder">
+	<div>
+		<span class="labels">
+			<label>{% trans "Username:" %}</label>
+		</span>
+		<span class="inputs text">
+			${login}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Name and surname:" %}</label>
+		</span>
+		<span class="inputs text">
+			${first} ${last}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Email:" %}</label>
+		</span>
+		<span class="inputs text">
+			${email}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Organization:" %}</label>
+		</span>
+		<span class="inputs text">
+			${organization}
+		</span>
+	</div>
+</fieldset>
+
+{% templatetag openvariable %}if user_id === {{ request.session.user.user_id }} {% templatetag closevariable %}
+<div class="fieldset align_center">
+	<a class="big_button" onclick="cc1.sthTable.changeCmPassword();">{% trans "Change CM password" %}</a>
+</div>
+{% templatetag openvariable %}/if{% templatetag closevariable %}
+
+<div class="box_separator">
+	{% trans "Account quotas" %}
+</div>
+
+<fieldset class="noBorder">
+	<div>
+		<span class="labels">
+			<label>{% trans "Cpu:" %}</label>
+		</span>
+		<span class="inputs text">
+			${quota.used_cpu} / ${quota.cpu}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Memory:" %}</label>
+		</span>
+		<span class="inputs text">
+			${quota.used_memory} / ${quota.memory}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Storage:" %}</label>
+		</span>
+		<span class="inputs text">
+			${quota.used_storage} / ${quota.storage}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Public IPs:" %}</label>
+		</span>
+		<span class="inputs text">
+			${quota.used_public_ip} / ${quota.public_ip}
+		</span>
+	</div>
+	<div>
+		<span class="labels">
+			<label>{% trans "Points:" %}</label>
+		</span>
+		<span class="inputs text">
+			${quota.used_points} / ${quota.points}
+		</span>
+	</div>
+</fieldset>
+<fieldset class="noBorder align_center">
+	<a class="big_button" onclick="cc1.sthTable.editAccountQuota( ${user_id} );">{% trans "Edit account quota" %}</a>
+</fieldset>
+
+<div class="clear"></div>
+</script>
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#user-data',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_ajax_get_user_data' 0 %}'.replace('0',{{ user_id }}),
+	});
+	// dialog zmiany hasla CM admina
+	cc1.sthTable.changeCmPassword = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_change_cm_password' %}',
+		dialogTitle: '{% trans "Change CM password" %}',
+	});
+	// edycja quoty
+	cc1.sthTable.editAccountQuota = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_edit_quota' 0 %}',
+		dialogTitle: '{% trans "Edit quota" %}',
+	});
+});
+/*]]>*/</script>
+
+<div id="user-data">
+	<div class="ajax_loader1">&nbsp;</div>
+</div>
+{% endblock %}

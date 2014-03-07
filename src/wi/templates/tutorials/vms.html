@@ -1,0 +1,16 @@
+{% load i18n %}
+{% url 'hlp_form' as url_help_form %}
+{% blocktrans %}
+<p>
+Here you will find all virtual machines creation and management related functions.
+Current resources limits for one user are:
+</p>
+<ul class="text-ul">
+	<li>24 CPU</li>
+	<li>24 GB RAM</li>
+	<li>1 public IP address</li>
+</ul>
+<p>
+We are willing to consider increasing the limits in individual cases. Should you need more resources for your virtual machines, contact the system administrator through the <a href="{{ url_help_form }}">Help form</a>.
+</p>
+{% endblocktrans %}

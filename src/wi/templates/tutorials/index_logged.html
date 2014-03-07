@@ -1,0 +1,17 @@
+{% load i18n %}
+{% url 'vms_vms' as url_vms %}
+{% url 'acc_account_data' as url_account_data %}
+{% url 'hlp_help' as url_help %}
+{% blocktrans %}
+<p>
+System documentation can be found at <a href="http://cc1.ifj.edu.pl/">project's site</a>.
+</p>
+<p>
+In case you encounter any troubles while using the system, please visit the <a href="{{ url_help }}">Help</a> section.
+</p>
+<!--
+<p>		
+You can access the system using EC2 interface. You will find all the information necessary to get you started in <a href="{{ url_account_data }}">My account</a> section.
+</p>
+-->		
+{% endblocktrans %}

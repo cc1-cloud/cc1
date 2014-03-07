@@ -1,0 +1,125 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "Public IPs" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Public IPs" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_cm_publicips{% endblock %}
+
+{% block box_title %}
+	{% trans "Public IPs" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'public_ip_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_ajax_get_publicips_table' %}',
+		overTable: '#over-table',
+		enableSorting: true,
+		showSearchBox: true,
+		overTable: '#over-table',
+        idKey: localIdKey,
+	});
+
+	// group actions
+	$.contextMenu({
+        selector: '#group_action',
+        trigger: 'left',
+        ignoreRightClick: true,
+        build: function($trigger, e) {
+            return {
+                callback: function(key, options) {
+                    switch (key) {
+                    	case 'destroy':
+                    		if (cc1.sthTable.getListOfSelected().length) {
+                				cc1.sthTable.destroy(null);
+                			}
+                		break;
+                	}
+                },
+                items: {
+                    'destroy'	: {name: '{% trans "Delete" %}', icon: (cc1.sthTable.getListOfSelected().length)?'delete':'delete inactive'},
+                }
+            };
+        }
+    });
+	// usuwanie publicznego IP / wielu
+	cc1.sthTable.destroy = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_delete_publicips' %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getListOfSelectedAdresses(id),
+			        'length': cc1.sthTable.getListOfSelected(id).length};
+		},
+		dialogClass: 'warning'
+    });
+    // dodanie publiczneog IP
+	cc1.sthTable.addPublicIP = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_add_publicip' %}',
+		dialogTitle: '{% trans "Add public IP" %}',
+		dialogWidth: 500,
+	});
+});
+
+/*]]>*/</script>
+
+<div id="over-table"></div>
+
+<table id="item-list" class="tab w100pc">
+	<thead class="thead">
+		<tr>
+			<td class="noSort">
+				<input id='select-all' type='checkbox' onclick="cc1.sthTable.toggleChecked(this.checked);" />
+			</td>
+			<td>{% trans "ID" %}</td>
+			<td>{% trans "Address" %}</td>
+			<td>{% trans "VM" %}</td>
+			<td>{% trans "Name and surname" %}</td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		<tr data-id="${public_ip_id}" class="rclick">
+			<td class="selecting"><input data-id="${public_ip_id}" type="checkbox" /></td>
+			<td> ${public_ip_id} </td>
+		   	<td> ${address} </td>
+		   	<td> ${vm_name}</td>
+		   	<td> ${owner}</td>
+		</tr>
+		</script>
+		<tr>
+			<td colspan="5">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="5" class="table_bottom_actions">
+				<ul>
+					<li id="group_action" class="icon_action">
+						<a id="menu_all">{% trans "Perform for selected"%}</a>
+					</li>
+                    <li class="icon_add">
+						<a onclick="cc1.sthTable.addPublicIP();">{% trans "Add public IP" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

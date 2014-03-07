@@ -1,0 +1,13 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Registration success" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}
+	{% trans "Registration complete" %}
+{% endblock %}
+
+
+{% block box_content %}
+    <p class="success">{% trans "You have been registered, <b>but your account still needs to be activated</b>.  An e-mail has been sent to the address that you entered, so please check your e-mail and activate your account at this time." %}</p>
+{% endblock %}

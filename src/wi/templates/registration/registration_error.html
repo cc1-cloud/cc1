@@ -1,0 +1,14 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Registration error" %}{% endblock %}
+
+{% block box_title %}
+	{% trans "Registration" %}
+{% endblock %}
+
+{% block box_content %}
+    <p>
+    	{% trans "Registration error." %}
+    </p>
+{% endblock %}

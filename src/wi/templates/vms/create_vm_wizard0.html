@@ -1,0 +1,29 @@
+{% extends "vms/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "New virtual machine" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "New virtual machine" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_create_vm{% endblock %}
+
+{% block box_title %}
+	{% trans "New virtual machine" %}
+{% endblock %}
+
+{% block help_icon %}
+	{% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/create_vm.html" %}
+{% endblock %}
+
+{% block box_content %}
+	{% include "wizard/image_select.html" %}
+{% endblock %}

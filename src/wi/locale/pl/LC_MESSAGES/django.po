@@ -1,0 +1,6302 @@
+# ngo-admin.py compilemessages This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-21 12:34+0100\n"
+"PO-Revision-Date: 2013-05-27 12:33+0100\n"
+"Last-Translator: zosia <sobocinska.zosia@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#: .\settings.py:163
+msgid "Polski"
+msgstr ""
+
+#: .\settings.py:164
+msgid "English"
+msgstr ""
+
+#: .\commontags\templatetags\templatetags.py:53
+#, python-format
+msgid "%d MB"
+msgstr ""
+
+#: .\commontags\templatetags\templatetags.py:55
+#, python-format
+msgid "%.1f GB"
+msgstr ""
+
+#: .\commontags\templatetags\templatetags.py:57
+#, python-format
+msgid "%.1f TB"
+msgstr ""
+
+#: .\commontags\templatetags\templatetags.py:58
+#, python-format
+msgid "%.1f PB"
+msgstr ""
+
+#: .\forms\cm.py:40 .\forms\group.py:38 .\forms\iso_image.py:50
+#: .\forms\key.py:37 .\forms\key.py:45 .\forms\storage.py:38
+#: .\forms\storage_image.py:101 .\forms\system_image.py:69
+#: .\forms\template.py:38 .\forms\vm.py:78 .\templates\admin_clm\cms.html:117
+#: .\templates\admin_cm\disks.html:99 .\templates\admin_cm\images.html:132
+#: .\templates\admin_cm\iso.html:100 .\templates\admin_cm\networks.html:104
+#: .\templates\admin_cm\show_farms.html:185
+#: .\templates\admin_cm\show_vm.html:190
+#: .\templates\admin_cm\storages.html:127
+#: .\templates\admin_cm\templates.html:84
+#: .\templates\admin_cm\ajax\farm_details.html:68
+#: .\templates\admin_cm\ajax\vm_details.html:90
+#: .\templates\farms\show_farm.html:196
+#: .\templates\groups\group_details.html:132
+#: .\templates\groups\my_groups.html:96 .\templates\groups\show_groups.html:80
+#: .\templates\images\images_group.html:129
+#: .\templates\images\images_private.html:151
+#: .\templates\images\images_public.html:78
+#: .\templates\resources\disks.html:111 .\templates\resources\iso.html:94
+#: .\templates\resources\keys.html:87 .\templates\resources\networks.html:59
+#: .\templates\vms\create_vm_wizard1.html:78 .\templates\vms\show_vm.html:326
+#: .\templates\vms\ajax\vm_details.html:52
+#: .\templates\wizard\image_select.html:74
+msgid "Name"
+msgstr "Nazwa"
+
+#: .\forms\cm.py:44 .\forms\storage.py:43 .\templates\admin_clm\cms.html:118
+#: .\templates\admin_cm\networks.html:105 .\templates\admin_cm\nodes.html:200
+#: .\templates\admin_cm\pools.html:103 .\templates\admin_cm\publicips.html:89
+#: .\templates\admin_cm\storages.html:128
+#: .\templates\admin_cm\ajax\network_details.html:33
+#: .\templates\admin_cm\ajax\node_details.html:72
+#: .\templates\resources\networks.html:60
+msgid "Address"
+msgstr "Adres"
+
+#: .\forms\cm.py:45 .\templates\admin_clm\cms.html:119
+msgid "Port"
+msgstr ""
+
+#: .\forms\farm.py:51 .\forms\vm.py:245 .\forms\vm.py:414
+msgid "Please select an image."
+msgstr "Wybierz obraz."
+
+#: .\forms\farm.py:68 .\templates\admin_cm\ajax\farm_details.html:82
+#: .\templates\farms\create_farm_wizard3.html:61
+#: .\templates\farms\show_farm.html:210
+msgid "Head template"
+msgstr "Szablon heada"
+
+#: .\forms\farm.py:73 .\templates\admin_cm\ajax\farm_details.html:85
+#: .\templates\farms\create_farm_wizard3.html:71
+#: .\templates\farms\show_farm.html:213
+msgid "Worker node template"
+msgstr "Szablon worker node'a"
+
+#: .\forms\farm.py:74
+msgid "Template of worker nodes - worker nodes parameters"
+msgstr "Szablon worker node'ów - parametry maszyn"
+
+#: .\forms\farm.py:79 .\templates\farms\create_farm_wizard3.html:66
+msgid "Number of worker nodes"
+msgstr "Liczba worker node'ów"
+
+#: .\forms\farm.py:80
+msgid "Number of worker nodes - (other than head)"
+msgstr "Liczba worker node'ów - (inne niż head)"
+
+#: .\forms\farm.py:87 .\forms\farm.py:96 .\forms\vm.py:265 .\forms\vm.py:423
+msgid "Please select a template."
+msgstr "Wybierz szablon."
+
+#: .\forms\farm.py:120
+msgid "Not enough resources. Choose smaller farm or try again later."
+msgstr "Za mało zasobów. Wybierz mniejszą farmę lub spróbuj później."
+
+#: .\forms\farm.py:136 .\forms\vm.py:282
+msgid "Assign IP address"
+msgstr "Adres IP"
+
+#: .\forms\farm.py:137
+msgid ""
+"Public IP address - To request new IP address go to: VM Resources -&gt; "
+"Elastic IP addresses"
+msgstr ""
+"Publiczny adres IP - Żeby poprosić o nowy adres IP przejdź do: Zasoby maszyn "
+"-&gt; Elastyczne adresy IP"
+
+#: .\forms\farm.py:142 .\forms\vm.py:288
+msgid "Attach disk volume"
+msgstr "Dołącz dysk"
+
+#: .\forms\farm.py:143 .\forms\vm.py:289
+msgid "Virtual disk - "
+msgstr "Dysk wirtualny - "
+
+#: .\forms\farm.py:148 .\forms\vm.py:294
+msgid "Attach ISO image"
+msgstr "Dołącz obraz ISO"
+
+#: .\forms\farm.py:151 .\forms\vm.py:297
+#: .\templates\admin_cm\ajax\farm_details.html:160
+#: .\templates\admin_cm\ajax\vm_details.html:214
+#: .\templates\farms\create_farm_wizard3.html:103
+#: .\templates\farms\show_farm.html:250
+#: .\templates\vms\create_vm_wizard3.html:98
+#: .\templates\vms\ajax\vm_details.html:214
+msgid "VNC"
+msgstr ""
+
+#: .\forms\farm.py:153 .\forms\vm.py:299
+msgid "VNC - Enable/Disable VNC redirection"
+msgstr "VNC - Możliwość przekierowania VNC"
+
+#: .\forms\group.py:41 .\forms\iso_image.py:53 .\forms\storage_image.py:104
+#: .\forms\system_image.py:72 .\forms\template.py:52 .\forms\vm.py:81
+#: .\templates\admin_cm\disks.html:100 .\templates\admin_cm\images.html:136
+#: .\templates\admin_cm\iso.html:101 .\templates\admin_cm\templates.html:87
+#: .\templates\admin_cm\ajax\vm_details.html:104
+#: .\templates\groups\my_groups.html:97 .\templates\groups\show_groups.html:81
+#: .\templates\images\images_group.html:131
+#: .\templates\images\images_private.html:153
+#: .\templates\images\images_public.html:80
+#: .\templates\resources\disks.html:112 .\templates\resources\iso.html:95
+#: .\templates\vms\ajax\vm_details.html:67
+#: .\templates\wizard\image_select.html:75
+msgid "Description"
+msgstr "Opis"
+
+#: .\forms\iso_image.py:43 .\forms\storage_image.py:44
+#: .\forms\storage_image.py:94
+msgid "Disk description"
+msgstr "Opis dysku"
+
+#: .\forms\iso_image.py:44 .\forms\storage_image.py:95
+#: .\forms\system_image.py:62 .\forms\system_image.py:132
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: .\forms\iso_image.py:55
+msgid "Link to ISO image (http:// or ftp://)"
+msgstr "Link do obrazu ISO (http:// lub ftp://)"
+
+#: .\forms\iso_image.py:63 .\forms\iso_image.py:91 .\forms\storage_image.py:52
+#: .\forms\storage_image.py:114 .\forms\storage_image.py:139
+#: .\forms\system_image.py:83 .\templates\resources\disks.html:115
+msgid "Bus"
+msgstr ""
+
+#: .\forms\iso_image.py:79
+msgid "ISO image name"
+msgstr "Nazwa obrazu ISO"
+
+#: .\forms\iso_image.py:83
+msgid "ISO image description"
+msgstr "Opis obrazu ISO"
+
+#: .\forms\key.py:47
+msgid "Public key (UNIX format)"
+msgstr "Klucz publiczny"
+
+#: .\forms\network.py:37
+msgid "Network name"
+msgstr "Nazwa sieci"
+
+#: .\forms\network.py:41
+msgid "Network mask"
+msgstr "Maska sieci"
+
+#: .\forms\network.py:49
+msgid "Pool address"
+msgstr "Adres puli"
+
+#: .\forms\network.py:51
+msgid "Pool mask (e.g. 16, 24)"
+msgstr "Maska puli (np. 16, 24)"
+
+#: .\forms\news.py:38 .\forms\user.py:280
+msgid "Topic"
+msgstr "Temat"
+
+#: .\forms\news.py:40
+msgid "Content"
+msgstr "Treść"
+
+#: .\forms\news.py:41
+msgid ""
+"News content - may include Markdown markup language, e.g., *text* for "
+"italics, **text** for bold text, * item for unordered list, 1. item for "
+"ordered list, [link name](http://address) for anchor, `code` for preformated "
+"code."
+msgstr ""
+"Treść wiadomości - korzysta z języka znaczników Markdown, np.: *tekst* -"
+"kursywa, **tekst** - pogrubienie, * punkt - lista nienumerowana, 1. punkt - "
+"lista numerowana, [nazwa linku](http://adres) - link ,`kod` - sformatowany "
+"kod."
+
+#: .\forms\news.py:43
+msgid "Important"
+msgstr "Ważne"
+
+#: .\forms\news.py:45
+msgid "Important news - will appear on the main page"
+msgstr "Ważne wiadomości - pojawią się na stronie głównej"
+
+#: .\forms\node.py:42 .\templates\admin_cm\show_vm.html:192
+#: .\templates\admin_cm\ajax\vm_details.html:108
+msgid "Node"
+msgstr "Węzeł"
+
+#: .\forms\node.py:54
+msgid "Libvirt configuration"
+msgstr "Konfiguracja Libvirta"
+
+#: .\forms\node.py:55
+msgid "Node capacity"
+msgstr "Maksymalna pojemność"
+
+#: .\forms\node.py:63 .\forms\user.py:46 .\forms\user.py:158 .\forms\vm.py:93
+#: .\forms\vm.py:117 .\templates\account\account_data.html:43
+#: .\templates\admin_clm\users.html:169 .\templates\admin_cm\users.html:127
+#: .\templates\admin_cm\ajax\node_details.html:65
+#: .\templates\admin_cm\ajax\vm_details.html:31
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: .\forms\node.py:64
+msgid ""
+"Username - Unix user responsible for libvirt administration (created during "
+"Node configuration) DEFAULT: cc1"
+msgstr ""
+"Nazwa użytkownika - konto linuxa odpowiedzialne za administracje (tworzone "
+"podczas konfiguracji węzła) DOMYŚLNIE: cc1"
+
+#: .\forms\node.py:70 .\templates\admin_cm\nodes.html:205
+#: .\templates\admin_cm\ajax\node_details.html:94
+msgid "Comment"
+msgstr "Komentarz"
+
+#: .\forms\node.py:73
+msgid "Node address"
+msgstr "Adres węzła"
+
+#: .\forms\node.py:74
+msgid "Node address - IP or DNS name"
+msgstr "Adres węzła - IP lub nazwa DNS"
+
+#: .\forms\node.py:76
+msgid "Network transport"
+msgstr ""
+
+#: .\forms\node.py:77
+msgid "Libvirt transport protocol - for example: ssh, tcp"
+msgstr "Protokół transportowy Libvirta - na przykład: ssh, tcp"
+
+#: .\forms\node.py:79
+msgid "Libvirt driver"
+msgstr "Driver Libvirta"
+
+#: .\forms\node.py:80
+msgid "Virtualizator - for example: qemu(kvm), xen"
+msgstr "Wirtualizator - na przykład: qemu(kvm), xen"
+
+#: .\forms\node.py:82
+msgid "HDD Total [MB]"
+msgstr "Całkowite miejsce na dysku [MB]"
+
+#: .\forms\node.py:83
+msgid " - total amount of storage for virtual machine images"
+msgstr " - ilość miejsca na obrazy wirtualnych maszyn"
+
+#: .\forms\node.py:85 .\forms\user.py:370 .\forms\user.py:381
+msgid "Cpu Total"
+msgstr "Wszystkie rdzenie"
+
+#: .\forms\node.py:86
+msgid " - total amount of CPU's for libvirt"
+msgstr " - liczba rdzeni dla libvirta"
+
+#: .\forms\node.py:88 .\forms\user.py:371 .\forms\user.py:382
+msgid "Memory Total [MB]"
+msgstr "Całkowita pamięć [MB]"
+
+#: .\forms\node.py:89
+msgid " - total amount of RAM"
+msgstr " - ilość pamięci RAM"
+
+#: .\forms\node.py:91
+msgid "Libvirt path (suffix)"
+msgstr "Ścieżka Libvirta (suffix)"
+
+#: .\forms\node.py:93
+msgid " - <pre>/system</pre> for kvm driver or empty for xen"
+msgstr " - <pre>/system</pre> (kvm) lub puste (xen)"
+
+#: .\forms\public_ip.py:37
+msgid "First IP address"
+msgstr "Pierwszy adres IP"
+
+#: .\forms\public_ip.py:39
+msgid "Number of IP"
+msgstr "Liczba adresów IP"
+
+#: .\forms\storage.py:40
+msgid "Maximum capacity [MB]"
+msgstr "Maksymalna pojemność [MB]"
+
+#: .\forms\storage.py:41
+msgid "Maximum capacity - amount of usable space"
+msgstr "Maksymalna pojemność - rozmiar miejsca do użycia"
+
+#: .\forms\storage.py:44
+msgid "Storage address - IP or DNS name"
+msgstr "Adres macierzy - IP lub nazwa DNS"
+
+#: .\forms\storage.py:46
+msgid "Directory"
+msgstr "Katalog"
+
+#: .\forms\storage.py:47
+msgid "Directory - nfs export directory"
+msgstr "Katalog - katalog eksportowy nfs"
+
+#: .\forms\storage.py:59
+msgid "Storage"
+msgstr "Macierz"
+
+#: .\forms\storage_image.py:40
+msgid "Disk name"
+msgstr "Nazwa dysku"
+
+#: .\forms\storage_image.py:68
+msgid "Disk size [MB]"
+msgstr "Rozmiar dysku [MB]"
+
+#: .\forms\storage_image.py:76
+msgid "File system"
+msgstr "System plików"
+
+#: .\forms\storage_image.py:106
+msgid "Link to disk (http:// or ftp://)"
+msgstr "Link do dysku (http:// lub ftp://)"
+
+#: .\forms\storage_image.py:130 .\forms\system_image.py:78
+#: .\templates\admin_cm\images.html:134
+msgid "Platform"
+msgstr "Platforma"
+
+#: .\forms\storage_image.py:144 .\forms\system_image.py:88
+msgid "Video"
+msgstr ""
+
+#: .\forms\storage_image.py:149 .\forms\system_image.py:93
+msgid "Net"
+msgstr ""
+
+#: .\forms\system_image.py:43
+msgid "Group name"
+msgstr "Nazwa grupy"
+
+#: .\forms\system_image.py:61 .\forms\system_image.py:131
+msgid "Images description"
+msgstr "Opis obrazu"
+
+#: .\forms\system_image.py:63 .\forms\system_image.py:133
+msgid "Advanced settings"
+msgstr "Zaawansowane"
+
+#: .\forms\system_image.py:141
+msgid "Link to image (http:// or ftp://)"
+msgstr "Link do obrazu (http:// lub ftp://)"
+
+#: .\forms\template.py:42
+msgid "Cpu"
+msgstr "Rdzenie"
+
+#: .\forms\template.py:46
+msgid "Memory [MB]"
+msgstr "Pamięć [MB]"
+
+#: .\forms\template.py:49
+msgid "Points per hour"
+msgstr "Punkty na godzinę"
+
+#: .\forms\template.py:57
+msgid "Ec2 name"
+msgstr "Nazwa ec2"
+
+#: .\forms\user.py:50 .\forms\user.py:330 .\utils\forms.py:75
+msgid "Password"
+msgstr "Hasło"
+
+#: .\forms\user.py:82
+msgid ""
+"Please enter a correct username and password. Note that both fields are case-"
+"sensitive."
+msgstr ""
+"Proszę podać poprawną nazwę użytkownika oraz hasło. Wielkość znaków ma "
+"znaczenie."
+
+#: .\forms\user.py:84
+msgid ""
+"Account has not been activated yet. Please, click on the activation link in "
+"the email sent to you after the registration step."
+msgstr ""
+"Konto jeszcze nie zostało aktywowane. Proszę wejść w link aktywacyjny  w e-"
+"mailu wysłanym podczas rejestracji konta."
+
+#: .\forms\user.py:86
+msgid ""
+"This account is inactive. Please wait for system operator to activate your "
+"account."
+msgstr ""
+"Konto nie jest aktywne. Proszę poczekać na aktywację twojego konta przez "
+"operatora systemu."
+
+#: .\forms\user.py:90
+msgid ""
+"Your Web browser doesn't appear to have cookies enabled. Cookies are "
+"required for logging in."
+msgstr ""
+"Twoja przeglądarka nie ma włączonej opcji ciasteczek. Ciasteczka są wymagane "
+"do poprawnego działania strony."
+
+#: .\forms\user.py:105
+msgid "E-mail"
+msgstr "E-mail"
+
+#: .\forms\user.py:115
+msgid "Incorrect email address."
+msgstr "Niepoprawny adres e-mail."
+
+#: .\forms\user.py:127
+msgid "New password"
+msgstr "Nowe hasło"
+
+#: .\forms\user.py:133
+msgid "New password confirmation"
+msgstr "Potwierdzenie nowego hasła"
+
+#: .\forms\user.py:141 .\utils\forms.py:90
+msgid "The two password fields didn't match."
+msgstr "Podane hasła sa rożne."
+
+#: .\forms\user.py:162 .\forms\user.py:302
+#: .\templates\admin_cm\ajax\vm_details.html:35
+msgid "First name"
+msgstr "Imię"
+
+#: .\forms\user.py:165 .\forms\user.py:306
+#: .\templates\admin_cm\ajax\vm_details.html:38
+msgid "Last name"
+msgstr "Nazwisko"
+
+#: .\forms\user.py:168 .\forms\user.py:312
+#: .\templates\account\account_data.html:55
+#: .\templates\admin_cm\ajax\vm_details.html:42
+msgid "Organization"
+msgstr "Organizacja"
+
+#: .\forms\user.py:170 .\forms\user.py:208 .\forms\user.py:309
+msgid "Email address"
+msgstr "Adres e-mail"
+
+#: .\forms\user.py:189
+msgid "A user with that login already exists."
+msgstr "Nazwa użytkownika jest już zajęta."
+
+#: .\forms\user.py:200 .\forms\user.py:234
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Podany adres e-mail jest juz wykorzystany. Proszę podać inny adres e-mail"
+
+#: .\forms\user.py:220
+msgid "Default CM"
+msgstr ""
+
+#: .\forms\user.py:253
+msgid "Old password"
+msgstr "Stare hasło"
+
+#: .\forms\user.py:271
+msgid "Your old password was entered incorrectly. Please enter it again."
+msgstr ""
+"Twoje stare hasło nie jest wpisane poprawnie. Proszę podać je jeszcze raz."
+
+#: .\forms\user.py:284
+msgid "First and last name"
+msgstr "Imię i nazwisko"
+
+#: .\forms\user.py:287
+msgid "Your email address"
+msgstr "Adres e-mail"
+
+#: .\forms\user.py:290
+msgid "Describe your issue"
+msgstr "Opisz problem"
+
+#: .\forms\user.py:342
+msgid "Cluster Manager"
+msgstr ""
+
+#: .\forms\user.py:361
+msgid ""
+"Please enter a correct password. Note that password field is case-sensitive."
+msgstr "Proszę podać poprawne hasło. Wielkość znaków ma znaczenie."
+
+#: .\forms\user.py:372 .\forms\user.py:383
+msgid "Storage Total [MB]"
+msgstr "Całkowite miejsce na dysku [MB]"
+
+#: .\forms\user.py:373 .\forms\user.py:384
+msgid "Public IPs Total"
+msgstr "Liczba adresów IP"
+
+#: .\forms\user.py:374 .\forms\user.py:385
+msgid "Points"
+msgstr "Punkty"
+
+#: .\forms\user.py:397
+msgid "User"
+msgstr "Użytkownik"
+
+#: .\forms\vm.py:98
+msgid "Key"
+msgstr "Klucz"
+
+#: .\forms\vm.py:130 .\forms\vm.py:150 .\forms\vm.py:180
+#: .\templates\farms\create_farm_wizard3.html:76
+#: .\templates\resources\elastic_ip.html:60
+#: .\templates\vms\create_vm_wizard3.html:71
+msgid "IP address"
+msgstr "Adres IP"
+
+#: .\forms\vm.py:154
+msgid "Lease"
+msgstr "Lease"
+
+#: .\forms\vm.py:200 .\forms\vm.py:220
+msgid "Disk"
+msgstr "Dysk"
+
+#: .\forms\vm.py:283
+msgid ""
+"Public IP address - To get a new IP address go to: VM Resources -&gt; "
+"Elastic IP addresses"
+msgstr ""
+"Publiczny adres IP - Żeby otrzymać nowy adres IP przejdź do: Zasoby maszyn -"
+"&gt; Elastyczne adresy IP"
+
+#: .\forms\vm.py:350
+msgid "Statistic"
+msgstr "Statystyka"
+
+#: .\forms\vm.py:353
+msgid "Time range"
+msgstr "Rozdzielczość"
+
+#: .\forms\vm.py:357
+msgid "Period"
+msgstr "Zakres"
+
+#: .\forms\vm.py:397 .\templates\admin_cm\show_farms.html:189
+#: .\templates\admin_cm\show_vm.html:195
+#: .\templates\admin_cm\ajax\farm_details.html:71
+#: .\templates\admin_cm\ajax\vm_details.html:93
+#: .\templates\farms\create_farm_wizard3.html:56
+#: .\templates\farms\show_farm.html:199
+#: .\templates\vms\create_vm_wizard3.html:56 .\templates\vms\show_vm.html:330
+#: .\templates\vms\ajax\vm_details.html:55 .\views\user\farm.py:89
+#: .\views\user\vm.py:92
+msgid "Image"
+msgstr "Obraz"
+
+#: .\forms\vm.py:398
+msgid "Image file - From your public, private or group image pool"
+msgstr "Plik obrazu - Z publicznej, prywatnej lub grupowej puli obrazów"
+
+#: .\forms\vm.py:402 .\templates\admin_cm\show_vm.html:194
+#: .\templates\vms\create_vm_wizard3.html:66 .\templates\vms\show_vm.html:329
+msgid "Template"
+msgstr "Szablon"
+
+#: .\forms\vm.py:403
+msgid "Template of machine - Virtual machine parameters"
+msgstr "Szablon maszyny - parametry maszyny wirtualnej"
+
+#: .\recaptcha_django\__init__.py:36 .\recaptcha_django\__init__.py:112
+msgid "Unknown error."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:37 .\recaptcha_django\__init__.py:38
+msgid "ReCAPTCHA is wrongly configured."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:39
+msgid "Bad reCAPTCHA challenge parameter."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:40
+msgid "The CAPTCHA solution was incorrect."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:41
+msgid "Bad reCAPTCHA verification parameters."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:42
+msgid "Provided reCAPTCHA API keys are not valid for this domain."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:43
+msgid "ReCAPTCHA could not be reached."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:74
+msgid "Type the two words:"
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:75
+msgid "Type what you hear:"
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:76
+msgid "Play sound again"
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:77
+msgid "Download sound as MP3"
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:78
+msgid "Get a visual challenge"
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:79
+msgid "Get an audio challenge"
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:80
+msgid "Get a new challenge"
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:81 .\templates\base_two_column.html:33
+#: .\templates\over_menu.html:11 .\templates\admin_clm\clm_base.html:26
+#: .\templates\admin_cm\cm_base.html:26 .\templates\help\base.html:4
+#: .\templates\help\base.html.py:9 .\templates\help\base.html:12
+#: .\templates\help\base.html.py:22
+msgid "Help"
+msgstr "Pomoc"
+
+#: .\recaptcha_django\__init__.py:82
+msgid "Incorrect. Try again."
+msgstr ""
+
+#: .\recaptcha_django\__init__.py:105
+msgid "Invalid request"
+msgstr ""
+
+#: .\templates\404.html:4
+msgid "Page does not exist"
+msgstr "Strona nie istnieje."
+
+#: .\templates\404.html:9
+msgid "Error 404"
+msgstr "Błąd 404"
+
+#: .\templates\404.html:13
+msgid "Page does not exist."
+msgstr "Strona nie istnieje."
+
+#: .\templates\base.html:52
+msgid "Home page"
+msgstr "Strona główna"
+
+#: .\templates\base.html:105
+msgid "Home"
+msgstr "Strona główna"
+
+#: .\templates\base.html:122
+msgid "version"
+msgstr ""
+
+#: .\templates\base.html:196 .\templates\base.html.py:204
+msgid "Virtual machine resource usage"
+msgstr "Wykorzystanie zasobów maszyny wirtualnej"
+
+#: .\templates\error_sending_email.html:4
+#: .\templates\account\password_reset_error_email.html:4
+#: .\templates\account\password_reset_error_token.html:4
+#: .\templates\help\issue_error.html:4 .\templates\help\issue_error.html:15
+msgid "Error"
+msgstr "Błąd"
+
+#: .\templates\error_sending_email.html:9
+msgid "Error sending email"
+msgstr "Błąd wysyłania e-maila"
+
+#: .\templates\error_sending_email.html:15
+#: .\templates\account\password_reset_error_email.html:15
+msgid "Bad email address"
+msgstr "Błędny adres e-mail"
+
+#: .\templates\error_sending_email.html:20
+msgid "Error occured. Cannot send email."
+msgstr "Błąd rejestracji. Nie można wysłać e-maila aktywacyjnego."
+
+#: .\templates\error_sending_email.html:21
+msgid "Go back"
+msgstr "Wróć"
+
+#: .\templates\menu.html:4 .\templates\main\base.html:4
+msgid "CC1"
+msgstr "CC1"
+
+#: .\templates\menu.html:11 .\templates\admin_cm\cm_menu.html:8
+#: .\templates\vms\base.html:9 .\templates\vms\base.html.py:12
+#: .\templates\vms\base.html:22
+msgid "Machines"
+msgstr "Maszyny wirtualne"
+
+#: .\templates\menu.html:17 .\templates\admin_cm\cm_menu.html:11
+#: .\templates\admin_cm\show_farms.html:6
+#: .\templates\admin_cm\show_farms.html:17 .\templates\farms\base.html:4
+#: .\templates\farms\base.html.py:9 .\templates\farms\base.html:12
+#: .\templates\farms\base.html.py:22 .\templates\farms\show_farm.html:6
+msgid "Farms"
+msgstr "Farmy"
+
+#: .\templates\menu.html:23 .\templates\admin_cm\cm_menu.html:21
+#: .\templates\admin_cm\images.html:6 .\templates\admin_cm\images.html:11
+#: .\templates\admin_cm\images.html:21 .\templates\images\base.html:4
+#: .\templates\images\base.html.py:9 .\templates\images\base.html:12
+#: .\templates\images\base.html.py:22
+msgid "Images"
+msgstr "Obrazy"
+
+#: .\templates\menu.html:29 .\templates\resources\base.html:9
+#: .\templates\resources\base.html.py:12 .\templates\resources\base.html:22
+msgid "VM Resources"
+msgstr "Zasoby maszyn"
+
+#: .\templates\menu.html:35 .\templates\groups\base.html:4
+#: .\templates\groups\base.html.py:9 .\templates\groups\base.html:12
+#: .\templates\groups\base.html.py:22
+msgid "Groups"
+msgstr "Grupy"
+
+#: .\templates\menu.html:42 .\templates\registration\base.html:4
+#: .\templates\registration\base.html:9
+#: .\templates\registration\registration_error.html:7
+#: .\templates\registration\registration_form.html:8
+msgid "Registration"
+msgstr "Rejestracja"
+
+#: .\templates\over_menu.html:4 .\templates\admin_clm\clm_over_menu.html:4
+#: .\templates\admin_cm\cm_over_menu.html:6
+#: .\templates\admin_cm\cm_over_menu.html:11
+msgid "Logged as"
+msgstr "Zalogowany jako"
+
+#: .\templates\over_menu.html:5 .\templates\admin_clm\clm_over_menu.html:5
+#: .\templates\admin_cm\cm_over_menu.html:12
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: .\templates\over_menu.html:6 .\templates\account\base.html:9
+#: .\templates\account\base.html.py:12 .\templates\account\base.html:22
+msgid "My account"
+msgstr "Moje konto"
+
+#: .\templates\over_menu.html:8 .\templates\admin_clm\clm_over_menu.html:8
+#: .\templates\auth\login.html:7
+msgid "Login"
+msgstr "Zaloguj"
+
+#: .\templates\over_menu.html:9 .\templates\admin_clm\clm_over_menu.html:9
+#: .\templates\registration\registration_form.html:29
+msgid "Register"
+msgstr "Zarejestruj"
+
+#: .\templates\account\account_data.html:6
+#: .\templates\account\account_data.html:11
+#: .\templates\account\account_data.html:17 .\templates\account\menu.html:3
+msgid "Account data"
+msgstr "Dane konta"
+
+#: .\templates\account\account_data.html:34
+#: .\templates\account\account_data.html:64
+#: .\templates\admin_clm\user_account.html:78
+msgid "Edit account data"
+msgstr "Zmień dane konta"
+
+#: .\templates\account\account_data.html:47
+#: .\templates\admin_clm\users.html:171 .\templates\admin_cm\publicips.html:91
+#: .\templates\admin_cm\users.html:129
+msgid "Name and surname"
+msgstr "Imię i nazwisko"
+
+#: .\templates\account\account_data.html:51
+#: .\templates\admin_clm\users.html:170 .\templates\admin_cm\users.html:128
+#: .\templates\admin_cm\ajax\vm_details.html:45
+msgid "Email"
+msgstr "E-mail"
+
+#: .\templates\account\account_data.html:59
+msgid "Default cluster"
+msgstr ""
+
+#: .\templates\account\account_data.html:67
+msgid "EC2 data"
+msgstr "Dane EC2"
+
+#: .\templates\account\account_data.html:71
+msgid "AWS Access Key ID"
+msgstr ""
+
+#: .\templates\account\account_data.html:75
+msgid "AWS Secret Access Key"
+msgstr ""
+
+#: .\templates\account\account_data.html:77
+#: .\templates\admin_cm\ajax\farm_details.html:165
+#: .\templates\admin_cm\ajax\vm_details.html:219
+#: .\templates\farms\show_farm.html:255
+#: .\templates\vms\ajax\vm_details.html:226
+msgid "Show"
+msgstr "Wyświetl"
+
+#: .\templates\account\account_data.html:81
+msgid "EC2 endpoints"
+msgstr ""
+
+#: .\templates\account\account_quotas.html:6
+#: .\templates\account\account_quotas.html:11
+#: .\templates\account\account_quotas.html:17 .\templates\account\menu.html:4
+#: .\templates\admin_cm\user_account.html:63
+msgid "Account quotas"
+msgstr "Ograniczenia konta"
+
+#: .\templates\account\account_quotas.html:34
+msgid "Point usage"
+msgstr "Wykorzystanie punktów"
+
+#: .\templates\account\account_quotas.html:45
+#: .\templates\admin_cm\user_account.html:69
+msgid "Cpu:"
+msgstr "Rdzenie:"
+
+#: .\templates\account\account_quotas.html:49
+#: .\templates\admin_cm\user_account.html:77
+msgid "Memory:"
+msgstr "Pamięć:"
+
+#: .\templates\account\account_quotas.html:53
+#: .\templates\admin_cm\user_account.html:85
+msgid "Storage:"
+msgstr "Zasoby dyskowe:"
+
+#: .\templates\account\account_quotas.html:57
+#: .\templates\admin_cm\user_account.html:93
+msgid "Public IPs:"
+msgstr "Publiczne adresy IP:"
+
+#: .\templates\account\account_quotas.html:61
+#: .\templates\admin_cm\user_account.html:101
+msgid "Points:"
+msgstr "Punkty:"
+
+#: .\templates\account\account_quotas.html:64
+msgid ""
+"Point count / point limit - Point count is set to 0 at the beginning of each "
+"month. Should you exceed the point limit a warning box will be generated and "
+"you will not be able to create new virtual machine instaces."
+msgstr ""
+"Liczba punktów / limit punktów - Liczba punktów jest ustawiana na 0 na "
+"początku każdego miesiąca. Kiedy przekroczysz limit zostanie wysłane "
+"ostrzeżenie i nie będziesz w stanie uruchamiać nowych maszyn wirtualnych."
+
+#: .\templates\account\account_quotas.html:70
+msgid "Point usage chart"
+msgstr "Wykresy wykorzystania punktów"
+
+#: .\templates\account\base.html:4 .\templates\auth\base.html:7
+msgid "Account"
+msgstr "Konto"
+
+#: .\templates\account\menu.html:5
+#: .\templates\account\password_change_form.html:5
+#: .\templates\account\password_change_form.html:10
+#: .\templates\account\password_change_form.html:15
+msgid "Change password"
+msgstr "Zmień hasło"
+
+#: .\templates\account\password_change_done.html:4
+msgid "Password Change Successful"
+msgstr "Hasło zostało zmienione"
+
+#: .\templates\account\password_change_done.html:9
+msgid "Password change"
+msgstr "Zmiana hasła"
+
+#: .\templates\account\password_change_done.html:14
+msgid "Password changed"
+msgstr "Hasło zostało zmienione"
+
+#: .\templates\account\password_change_done.html:17
+#: .\templates\account\password_reset_complete.html:9
+msgid "Your password has been changed."
+msgstr "Hasło zostało zmienione"
+
+#: .\templates\account\password_change_form.html:29
+msgid ""
+"Please enter your old password, for security&rsquo;s sake, and then enter "
+"your new password twice so we can verify you typed it in correctly."
+msgstr ""
+"Proszę podać stare hasło dla celów bezpieczeństwa i następnie nowe hasło "
+"dwukrotnie w celu potwierdzenia poprawności."
+
+#: .\templates\account\password_change_form.html:35
+#: .\templates\account\password_reset_confirm.html:25
+msgid "Change my password"
+msgstr "Zmień hasło"
+
+#: .\templates\account\password_reset_complete.html:4
+msgid "Password Reset Completed"
+msgstr "Hasło zostało zresetowane"
+
+#: .\templates\account\password_reset_complete.html:6
+#: .\templates\account\password_reset_confirm.html:7
+#: .\templates\account\password_reset_done.html:7
+#: .\templates\account\password_reset_error_email.html:9
+#: .\templates\account\password_reset_error_token.html:9
+#: .\templates\account\password_reset_form.html:7
+msgid "Password reset"
+msgstr "Reset hasła"
+
+#: .\templates\account\password_reset_confirm.html:5
+#: .\templates\account\password_reset_form.html:5
+msgid "Password Reset"
+msgstr "Reset hasła"
+
+#: .\templates\account\password_reset_done.html:4
+msgid "Password Reset Successful"
+msgstr "Hasło zostało zresetowane"
+
+#: .\templates\account\password_reset_done.html:10
+msgid "An email with further instruction has been sent."
+msgstr "Wysłano e-mail z dalszymi instrukcjami."
+
+#: .\templates\account\password_reset_error_email.html:20
+msgid "Error occured. Cannot send email with new password."
+msgstr "Wystąpił błąd. Nie możemy wysłać e-maila z nowym hasłem."
+
+#: .\templates\account\password_reset_error_token.html:15
+msgid "Bad token"
+msgstr ""
+
+#: .\templates\account\password_reset_error_token.html:20
+msgid "Token is not valid. (It's either broken or used)"
+msgstr "Token jest niepoprawny. (Jest uszkodzony lub zużyty)"
+
+#: .\templates\account\password_reset_error_token.html:22
+msgid "Create new token"
+msgstr "Utwórz nowy token"
+
+#: .\templates\account\password_reset_form.html:14
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we&rsquo;ll "
+"reset your password and e-mail the new one to you."
+msgstr ""
+"Zapomniałeś swojego hasła? Podaj swój adres e-mail a dostaniesz e-mail z "
+"nowym hasłem."
+
+#: .\templates\account\password_reset_form.html:20
+msgid "Reset my password"
+msgstr "Zresetuj hasło"
+
+#: .\templates\account\password_reset_form.html:25
+#: .\templates\help\form.html:42
+msgid "Mailer is disabled. Contact email: "
+msgstr "Mailer jest wyłączony. E-mail kontaktowy:"
+
+#: .\templates\account\ajax\charts.html:11
+msgid "Close"
+msgstr "Zamknij"
+
+#: .\templates\account\ajax\charts.html:28
+msgid "monthly point limit"
+msgstr "miesięczny limit punktów"
+
+#: .\templates\admin_clm\base.html:4
+msgid "CLM admin panel"
+msgstr "Panel administratora CLM"
+
+#: .\templates\admin_clm\base.html:9 .\templates\admin_clm\base.html.py:13
+#: .\templates\admin_clm\clm_menu.html:4
+msgid "CLM administrator panel"
+msgstr "Panel administratora CLM"
+
+#: .\templates\admin_clm\base.html:18
+msgid "Cloud Manager administration panel"
+msgstr "Cloud Manager - Panel administratora"
+
+#: .\templates\admin_clm\clm_menu.html:8
+#: .\templates\admin_clm\user_account.html:10
+#: .\templates\admin_clm\users.html:6 .\templates\admin_clm\users.html:11
+#: .\templates\admin_clm\users.html:21 .\templates\admin_cm\cm_menu.html:18
+#: .\templates\admin_cm\users.html:6 .\templates\admin_cm\users.html.py:11
+#: .\templates\admin_cm\users.html:21
+msgid "Users"
+msgstr "Użytkownicy"
+
+#: .\templates\admin_clm\clm_menu.html:11 .\templates\admin_clm\cms.html:5
+#: .\templates\admin_clm\cms.html.py:10 .\templates\admin_clm\cms.html:20
+msgid "Cluster Managers"
+msgstr ""
+
+#: .\templates\admin_clm\clm_menu.html:15 .\templates\admin_cm\cm_menu.html:49
+msgid "CC1 home page"
+msgstr "Strona główna CC1"
+
+#: .\templates\admin_clm\clm_over_menu.html:6
+msgid "Cloud Manager"
+msgstr ""
+
+#: .\templates\admin_clm\cms.html:16 .\templates\admin_clm\users.html:17
+#: .\templates\admin_cm\disks.html:17 .\templates\admin_cm\images.html:17
+#: .\templates\admin_cm\iso.html:17 .\templates\admin_cm\networks.html:26
+#: .\templates\admin_cm\nodes.html:17 .\templates\admin_cm\show_farms.html:27
+#: .\templates\admin_cm\show_vm.html:27 .\templates\admin_cm\storages.html:16
+#: .\templates\admin_cm\users.html:17 .\templates\farms\show_farm.html:29
+#: .\templates\images\images_group.html:29
+#: .\templates\images\images_private.html:29
+#: .\templates\images\images_public.html:29
+#: .\templates\resources\disks.html:29 .\templates\resources\iso.html:29
+#: .\templates\vms\show_vm.html:29
+msgid "Auto refresh"
+msgstr "Odświeżanie"
+
+#: .\templates\admin_clm\cms.html:35 .\templates\admin_cm\disks.html:50
+#: .\templates\admin_cm\images.html:36 .\templates\admin_cm\iso.html:50
+#: .\templates\admin_cm\nodes.html:80 .\templates\admin_cm\templates.html:44
+#: .\templates\admin_cm\ajax\node_details.html:30
+#: .\templates\groups\my_groups.html:44
+#: .\templates\images\images_group.html:48
+#: .\templates\images\images_private.html:48 .\templates\main\news.html:75
+#: .\templates\resources\disks.html:58 .\templates\resources\iso.html:55
+#: .\templates\vms\show_vm.html:139 .\templates\vms\ajax\vm_details.html:38
+msgid "Edit"
+msgstr "Edytuj"
+
+#: .\templates\admin_clm\cms.html:36 .\templates\admin_cm\disks.html:52
+#: .\templates\admin_cm\images.html:39 .\templates\admin_cm\iso.html:52
+#: .\templates\admin_cm\nodes.html:82 .\templates\groups\group_details.html:44
+#: .\templates\groups\group_details.html:47
+#: .\templates\groups\group_details.html:52
+#: .\templates\groups\my_groups.html:45
+#: .\templates\images\images_group.html:49
+#: .\templates\images\images_private.html:49 .\templates\main\news.html:76
+#: .\templates\resources\disks.html:60 .\templates\resources\iso.html:56
+#: .\templates\resources\keys.html:48 .\urls\user\group.py:47
+msgid "Remove"
+msgstr "Usuń"
+
+#: .\templates\admin_clm\cms.html:39 .\templates\admin_cm\nodes.html:85
+#: .\templates\admin_cm\nodes.html.py:94 .\templates\admin_cm\pools.html:34
+#: .\templates\admin_cm\storages.html:40
+#: .\templates\admin_cm\ajax\node_details.html:48
+msgid "Lock"
+msgstr "Zablokuj"
+
+#: .\templates\admin_clm\cms.html:42 .\templates\admin_cm\nodes.html:89
+#: .\templates\admin_cm\nodes.html.py:93 .\templates\admin_cm\pools.html:37
+#: .\templates\admin_cm\storages.html:43
+#: .\templates\admin_cm\ajax\node_details.html:55
+msgid "Unlock"
+msgstr "Odblokuj"
+
+#: .\templates\admin_clm\cms.html:74
+msgid "Delete CM"
+msgstr "Usuń CM"
+
+#: .\templates\admin_clm\cms.html:83
+msgid "Lock CM"
+msgstr "Zablokuj CM"
+
+#: .\templates\admin_clm\cms.html:91
+msgid "Unlock CM"
+msgstr "Odblokuj CM"
+
+#: .\templates\admin_clm\cms.html:99 .\templates\admin_clm\cms.html.py:148
+msgid "Create a new CM"
+msgstr "Dodaj nowy CM"
+
+#: .\templates\admin_clm\cms.html:105
+msgid "Edit CM"
+msgstr "Edytuj CM"
+
+#: .\templates\admin_clm\cms.html:116 .\templates\admin_clm\users.html:168
+#: .\templates\admin_cm\disks.html:98 .\templates\admin_cm\images.html:131
+#: .\templates\admin_cm\iso.html:99 .\templates\admin_cm\networks.html:103
+#: .\templates\admin_cm\nodes.html:199 .\templates\admin_cm\pools.html:102
+#: .\templates\admin_cm\publicips.html:88
+#: .\templates\admin_cm\show_farms.html:184
+#: .\templates\admin_cm\show_vm.html:189
+#: .\templates\admin_cm\storages.html:126
+#: .\templates\admin_cm\templates.html:83 .\templates\admin_cm\users.html:126
+#: .\templates\admin_cm\ajax\network_details.html:30
+#: .\templates\admin_cm\ajax\vm_details.html:28
+msgid "ID"
+msgstr ""
+
+#: .\templates\admin_clm\cms.html:120 .\templates\admin_clm\users.html:172
+#: .\templates\admin_cm\images.html:133 .\templates\admin_cm\nodes.html:206
+#: .\templates\admin_cm\pools.html:105
+#: .\templates\admin_cm\show_farms.html:187
+#: .\templates\admin_cm\show_vm.html:193
+#: .\templates\admin_cm\storages.html:132
+#: .\templates\admin_cm\ajax\farm_details.html:182
+#: .\templates\admin_cm\ajax\farm_details.html:185
+#: .\templates\farms\show_farm.html:284
+#: .\templates\images\images_group.html:130
+#: .\templates\images\images_private.html:152
+#: .\templates\images\images_public.html:79 .\templates\vms\show_vm.html:328
+msgid "State"
+msgstr "Status"
+
+#: .\templates\admin_clm\cms.html:121 .\templates\admin_clm\users.html:173
+#: .\templates\admin_cm\disks.html:104 .\templates\admin_cm\images.html:138
+#: .\templates\admin_cm\iso.html:105 .\templates\admin_cm\networks.html:107
+#: .\templates\admin_cm\nodes.html:207 .\templates\admin_cm\pools.html:106
+#: .\templates\admin_cm\storages.html:133
+#: .\templates\admin_cm\templates.html:89 .\templates\admin_cm\users.html:133
+#: .\templates\groups\group_details.html:134
+#: .\templates\groups\my_groups.html:99 .\templates\groups\show_groups.html:84
+#: .\templates\images\images_group.html:135
+#: .\templates\images\images_private.html:156
+#: .\templates\images\images_public.html:83
+#: .\templates\resources\disks.html:117
+#: .\templates\resources\elastic_ip.html:62 .\templates\resources\iso.html:99
+#: .\templates\resources\keys.html:90 .\templates\resources\networks.html:62
+#: .\templates\vms\create_vm_wizard1.html:87
+#: .\templates\wizard\image_select.html:77
+msgid "Actions"
+msgstr "Akcje"
+
+#: .\templates\admin_clm\user_account.html:5
+#: .\templates\admin_clm\user_account.html:13
+#: .\templates\admin_clm\user_account.html:19
+#: .\templates\admin_cm\user_account.html:5
+#: .\templates\admin_cm\user_account.html:10
+#: .\templates\admin_cm\user_account.html:16
+msgid "User's account data"
+msgstr "Konto użytkownika"
+
+#: .\templates\admin_clm\user_account.html:35
+msgid "Edit data"
+msgstr "Zmień dane konta"
+
+#: .\templates\admin_clm\user_account.html:45
+#: .\templates\admin_cm\user_account.html:24
+msgid "Username:"
+msgstr "Nazwa użytkownika:"
+
+#: .\templates\admin_clm\user_account.html:53
+#: .\templates\admin_cm\user_account.html:32
+msgid "Name and surname:"
+msgstr "Imię i nazwisko:"
+
+#: .\templates\admin_clm\user_account.html:61
+#: .\templates\admin_cm\user_account.html:40
+msgid "Email:"
+msgstr "E-mail:"
+
+#: .\templates\admin_clm\user_account.html:69
+#: .\templates\admin_cm\user_account.html:48
+msgid "Organization:"
+msgstr "Organizacja:"
+
+#: .\templates\admin_clm\users.html:38 .\templates\admin_cm\users.html:36
+msgid "User account"
+msgstr "Dane konta"
+
+#: .\templates\admin_clm\users.html:40 .\templates\admin_clm\users.html:147
+#: .\templates\admin_cm\users.html:37 .\templates\admin_cm\users.html:102
+msgid "Set admin"
+msgstr "Nadaj prawa administratorskie"
+
+#: .\templates\admin_clm\users.html:40 .\templates\admin_clm\users.html:155
+#: .\templates\admin_cm\users.html:37 .\templates\admin_cm\users.html:110
+msgid "Unset admin"
+msgstr "Odbierz prawa administratorskie"
+
+#: .\templates\admin_clm\users.html:41 .\templates\admin_clm\users.html:115
+msgid "Set password"
+msgstr "Ustaw hasło"
+
+#: .\templates\admin_clm\users.html:44
+msgid "Activate"
+msgstr "Aktywacja"
+
+#: .\templates\admin_clm\users.html:47
+msgid "Block"
+msgstr "Zablokuj"
+
+#: .\templates\admin_clm\users.html:50
+msgid "Unblock"
+msgstr "Odblokuj"
+
+#: .\templates\admin_clm\users.html:52 .\templates\admin_cm\pools.html:31
+#: .\templates\admin_cm\publicips.html:53
+#: .\templates\admin_cm\storages.html:37
+#: .\templates\admin_cm\templates.html:43
+#: .\templates\admin_cm\ajax\node_details.html:42
+msgid "Delete"
+msgstr "Usuń"
+
+#: .\templates\admin_clm\users.html:98 .\templates\admin_clm\users.html:131
+msgid "Block user"
+msgstr "Zablokuj"
+
+#: .\templates\admin_clm\users.html:106
+msgid "Delete user"
+msgstr "Usuń"
+
+#: .\templates\admin_clm\users.html:123
+msgid "Activate user"
+msgstr "Aktywuj"
+
+#: .\templates\admin_clm\users.html:139
+msgid "Unblock user"
+msgstr "Odblokuj"
+
+#: .\templates\admin_clm\ajax\set_password.html:14
+msgid "Set"
+msgstr "Ustaw"
+
+#: .\templates\admin_clm\ajax\set_password.html:15
+#: .\templates\admin_cm\ajax\change_password.html:15
+msgid "Abort"
+msgstr "Przerwij"
+
+#: .\templates\admin_cm\base.html:4
+msgid "CM admin panel"
+msgstr "Panel administratora CM"
+
+#: .\templates\admin_cm\base.html:9 .\templates\admin_cm\base.html.py:13
+msgid "CM-Admin panel"
+msgstr "Panel administratora CM"
+
+#: .\templates\admin_cm\base.html:29
+msgid "Move data to archival database."
+msgstr "Przenieś do bazy archiwalnej."
+
+#: .\templates\admin_cm\base.html:38
+msgid "Name:"
+msgstr "Nazwa:"
+
+#: .\templates\admin_cm\base.html:42
+msgid "Address:"
+msgstr "Adres:"
+
+#: .\templates\admin_cm\base.html:46
+msgid "Free CPU:"
+msgstr "Wolne rdzenie:"
+
+#: .\templates\admin_cm\base.html:50
+msgid "Free memory:"
+msgstr "Wolna pamięć:"
+
+#: .\templates\admin_cm\base.html:54
+msgid "State:"
+msgstr "Status:"
+
+#: .\templates\admin_cm\base.html:59
+msgid "Move to archive"
+msgstr "Przenieś do archiwum"
+
+#: .\templates\admin_cm\cm_menu.html:4
+msgid "CM-Admin"
+msgstr "Panel CM"
+
+#: .\templates\admin_cm\cm_menu.html:10
+msgid "Virtual Machines"
+msgstr "Maszyny wirtualne"
+
+#: .\templates\admin_cm\cm_menu.html:23
+msgid "VM images"
+msgstr "Obrazy maszyn"
+
+#: .\templates\admin_cm\cm_menu.html:24 .\templates\admin_cm\disks.html:6
+#: .\templates\admin_cm\disks.html.py:11 .\templates\admin_cm\disks.html:21
+#: .\templates\resources\disks.html:17 .\templates\resources\menu.html:7
+msgid "Storage disks"
+msgstr "Dyski danych"
+
+#: .\templates\admin_cm\cm_menu.html:25 .\templates\admin_cm\iso.html:6
+#: .\templates\admin_cm\iso.html.py:11 .\templates\admin_cm\iso.html:21
+#: .\templates\admin_cm\ajax\vm_details.html:158
+#: .\templates\farms\create_farm_wizard3.html:92
+#: .\templates\farms\show_farm.html:270 .\templates\resources\iso.html:6
+#: .\templates\resources\iso.html.py:17 .\templates\resources\menu.html:8
+#: .\templates\vms\create_vm_wizard3.html:87
+#: .\templates\vms\ajax\vm_details.html:113
+msgid "ISO images"
+msgstr "Obrazy ISO"
+
+#: .\templates\admin_cm\cm_menu.html:29 .\templates\resources\menu.html:5
+#: .\templates\resources\networks.html:5
+#: .\templates\resources\networks.html:16
+msgid "Networks"
+msgstr "Sieci"
+
+#: .\templates\admin_cm\cm_menu.html:31 .\templates\admin_cm\networks.html:5
+#: .\templates\admin_cm\networks.html:16
+msgid "Users networks"
+msgstr "Sieci użytkowników"
+
+#: .\templates\admin_cm\cm_menu.html:32 .\templates\admin_cm\pools.html:5
+#: .\templates\admin_cm\pools.html.py:10 .\templates\admin_cm\pools.html:16
+msgid "Available pools"
+msgstr "Dostępne pule"
+
+#: .\templates\admin_cm\cm_menu.html:33 .\templates\admin_cm\publicips.html:5
+#: .\templates\admin_cm\publicips.html:10
+#: .\templates\admin_cm\publicips.html:16
+msgid "Public IPs"
+msgstr "Publiczne adresy IP"
+
+#: .\templates\admin_cm\cm_menu.html:37 .\views\user\farm.py:89
+#: .\views\user\vm.py:92
+msgid "Hardware"
+msgstr "Sprzęt"
+
+#: .\templates\admin_cm\cm_menu.html:39 .\templates\admin_cm\nodes.html:6
+#: .\templates\admin_cm\nodes.html.py:11 .\templates\admin_cm\nodes.html:21
+msgid "Nodes"
+msgstr "Węzły"
+
+#: .\templates\admin_cm\cm_menu.html:40 .\templates\admin_cm\storages.html:5
+#: .\templates\admin_cm\storages.html:10 .\templates\admin_cm\storages.html:20
+msgid "Storages"
+msgstr "Macierze"
+
+#: .\templates\admin_cm\cm_menu.html:44 .\templates\admin_cm\templates.html:6
+#: .\templates\admin_cm\templates.html:11
+#: .\templates\admin_cm\templates.html:17
+msgid "Templates"
+msgstr "Szablony"
+
+#: .\templates\admin_cm\cm_over_menu.html:5
+msgid "On CM"
+msgstr "Na CMie"
+
+#: .\templates\admin_cm\cm_over_menu.html:7
+msgid "Logout from CM"
+msgstr "Wyloguj z CM"
+
+#: .\templates\admin_cm\cm_over_menu.html:8
+msgid "My CM account"
+msgstr "Moje konto CM"
+
+#: .\templates\admin_cm\cm_over_menu.html:14 .\templates\admin_cm\login.html:7
+msgid "Login to CM"
+msgstr "Zaloguj do CM"
+
+#: .\templates\admin_cm\disks.html:51 .\templates\admin_cm\images.html:37
+#: .\templates\admin_cm\iso.html:51 .\views\admin_cm\iso_image.py:80
+#: .\views\admin_cm\storage_image.py:80 .\views\admin_cm\system_image.py:134
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: .\templates\admin_cm\disks.html:68 .\templates\resources\disks.html:75
+msgid "Edit disk"
+msgstr "Zmień dane dysku"
+
+#: .\templates\admin_cm\disks.html:74
+msgid "Delete disk"
+msgstr "Usuń dysk"
+
+#: .\templates\admin_cm\disks.html:83 .\templates\admin_cm\images.html:90
+#: .\templates\admin_cm\iso.html:83
+msgid "Choose new owner"
+msgstr "Wybierz nowego właściciela"
+
+#: .\templates\admin_cm\disks.html:97 .\templates\admin_cm\images.html:130
+#: .\templates\admin_cm\iso.html:98 .\templates\admin_cm\networks.html:102
+#: .\templates\admin_cm\show_farms.html:183
+#: .\templates\admin_cm\show_vm.html:188
+#: .\templates\images\images_group.html:132
+msgid "Owner"
+msgstr "Właściciel"
+
+#: .\templates\admin_cm\disks.html:101 .\templates\admin_cm\images.html:137
+#: .\templates\admin_cm\iso.html:102 .\templates\images\images_group.html:133
+#: .\templates\images\images_private.html:154
+#: .\templates\images\images_public.html:81
+#: .\templates\resources\disks.html:113 .\templates\resources\iso.html:96
+msgid "Creation date"
+msgstr "Utworzono"
+
+#: .\templates\admin_cm\disks.html:102 .\templates\admin_cm\images.html:135
+#: .\templates\admin_cm\iso.html:103 .\templates\images\images_group.html:134
+#: .\templates\images\images_private.html:155
+#: .\templates\images\images_public.html:82
+#: .\templates\resources\disks.html:114 .\templates\resources\iso.html:97
+msgid "Size"
+msgstr "Rozmiar"
+
+#: .\templates\admin_cm\disks.html:103 .\templates\admin_cm\iso.html:104
+#: .\templates\resources\elastic_ip.html:61 .\templates\resources\iso.html:98
+msgid "Attached to machine"
+msgstr "Przypięty do maszyny"
+
+#: .\templates\admin_cm\disks.html:126 .\templates\admin_cm\iso.html:127
+#: .\templates\resources\disks.html:135 .\templates\resources\iso.html:117
+#, fuzzy
+msgid "failed"
+msgstr "Wystąpił błąd"
+
+#: .\templates\admin_cm\disks.html:128 .\templates\admin_cm\iso.html:129
+#: .\templates\resources\disks.html:137 .\templates\resources\iso.html:119
+msgid "Creating"
+msgstr "Tworzenie"
+
+#: .\templates\admin_cm\disks.html:135 .\templates\admin_cm\iso.html:136
+#: .\templates\resources\disks.html:147
+#: .\templates\resources\elastic_ip.html:74 .\templates\resources\iso.html:126
+msgid "not assigned"
+msgstr "nieprzypisany"
+
+#: .\templates\admin_cm\images.html:38
+msgid "Move to private images"
+msgstr "Przenieś do obrazów prywatnych użytkownika"
+
+#: .\templates\admin_cm\images.html:38
+msgid "Move to public images"
+msgstr "Przenieś do obrazów publicznych"
+
+#: .\templates\admin_cm\images.html:78
+msgid "Register new image"
+msgstr "Dodaj obraz z macierzy"
+
+#: .\templates\admin_cm\images.html:84
+#: .\templates\images\images_group.html:118
+#: .\templates\images\images_private.html:133
+msgid "Edit image"
+msgstr "Edytuj obraz"
+
+#: .\templates\admin_cm\images.html:99
+msgid "Delete image"
+msgstr "Usuń obraz"
+
+#: .\templates\admin_cm\images.html:108
+msgid "Public image"
+msgstr "Zmień na publiczny"
+
+#: .\templates\admin_cm\images.html:116
+msgid "My image"
+msgstr "Zmień na prywatny"
+
+#: .\templates\admin_cm\images.html:148
+#: .\templates\groups\group_details.html:146
+#: .\templates\groups\group_details.html:167
+#: .\templates\images\images_group.html:145
+#: .\templates\images\images_private.html:166
+msgid "Hide section"
+msgstr "Ukryj sekcję"
+
+#: .\templates\admin_cm\images.html:166
+#: .\templates\images\images_group.html:162
+#: .\templates\images\images_private.html:182
+#: .\templates\images\images_public.html:100
+#: .\templates\wizard\image_select.html:100
+msgid "Adding"
+msgstr "Dodawanie"
+
+#: .\templates\admin_cm\images.html:182
+#: .\templates\groups\group_details.html:160
+#: .\templates\groups\group_details.html:179
+#: .\templates\images\images_group.html:175
+#: .\templates\images\images_private.html:194
+msgid "No items to display."
+msgstr "Brak elementów do wyświetlenia."
+
+#: .\templates\admin_cm\images.html:197
+msgid "Register image"
+msgstr "Zarejestruj obraz"
+
+#: .\templates\admin_cm\iso.html:68 .\templates\resources\iso.html:71
+msgid "Edit ISO image"
+msgstr "Edytuj obraz ISO"
+
+#: .\templates\admin_cm\iso.html:74
+msgid "Delete ISO image"
+msgstr "Usuń obraz ISO"
+
+#: .\templates\admin_cm\logged_out.html:4 .\templates\auth\logged_out.html:4
+msgid "Logged Out"
+msgstr "Nie zalogowany"
+
+#: .\templates\admin_cm\logged_out.html:6 .\templates\auth\logged_out.html:6
+#: .\views\guest\user.py:111 .\views\user\admin.py:103
+msgid "Logged out"
+msgstr "Wylogowano"
+
+#: .\templates\admin_cm\logged_out.html:11
+msgid "You have been logged out from CM."
+msgstr "Wylogowano z CM"
+
+#: .\templates\admin_cm\login.html:5
+msgid "CM login page"
+msgstr "Strona logowania do CM"
+
+#: .\templates\admin_cm\login.html:23
+msgid "Note! You will be relogged to selected CM."
+msgstr "Uwaga! Zostaniesz przelogowany do wybranego CM."
+
+#: .\templates\admin_cm\login.html:26 .\templates\auth\login.html:25
+msgid "Sign in"
+msgstr "Zaloguj się"
+
+#: .\templates\admin_cm\networks.html:10
+msgid "Show networks"
+msgstr "Pokaż sieci"
+
+#: .\templates\admin_cm\networks.html:54 .\templates\admin_cm\nodes.html:77
+#: .\templates\admin_cm\show_farms.html:72
+#: .\templates\admin_cm\show_vm.html:75 .\templates\groups\my_groups.html:40
+#: .\templates\groups\show_groups.html:53 .\templates\vms\show_vm.html:134
+msgid "Show details"
+msgstr "Pokaż szczegóły"
+
+#: .\templates\admin_cm\networks.html:55 .\templates\admin_cm\networks.html:71
+msgid "Remove network"
+msgstr "Usuń sieć"
+
+#: .\templates\admin_cm\networks.html:87
+msgid "Network owner"
+msgstr "Właściciel sieci"
+
+#: .\templates\admin_cm\networks.html:90
+#: .\templates\admin_cm\show_farms.html:168
+#: .\templates\admin_cm\show_vm.html:173
+msgid "All users"
+msgstr "Wszyscy użytkownicy"
+
+#: .\templates\admin_cm\networks.html:106
+#: .\templates\resources\networks.html:61
+msgid "Usage"
+msgstr "Wykorzystanie"
+
+#: .\templates\admin_cm\nodes.html:36
+msgid "Free Cpu:"
+msgstr "Wolne rdzenie:"
+
+#: .\templates\admin_cm\nodes.html:44
+msgid "Free Memory:"
+msgstr "Wolna pamięć:"
+
+#: .\templates\admin_cm\nodes.html:79
+#: .\templates\admin_cm\ajax\node_details.html:25
+#: .\templates\images\images_group.html:46
+#: .\templates\images\images_private.html:46
+#: .\templates\images\images_public.html:56
+msgid "Create virtual machine"
+msgstr "Nowa maszyna"
+
+#: .\templates\admin_cm\nodes.html:81 .\templates\admin_cm\nodes.html:188
+#: .\templates\admin_cm\ajax\node_details.html:36
+msgid "Mount storage"
+msgstr "Podepnij macierz"
+
+#: .\templates\admin_cm\nodes.html:86 .\templates\admin_cm\nodes.html.py:90
+#, fuzzy
+msgid "Hardlock"
+msgstr "Zablokuj"
+
+#: .\templates\admin_cm\nodes.html:140
+msgid "Create virtual machine on selected node"
+msgstr "Utwórz maszynę wirtualną na wybranym węźle."
+
+#: .\templates\admin_cm\nodes.html:148
+msgid "Lock node"
+msgstr "Zablokuj węzeł"
+
+#: .\templates\admin_cm\nodes.html:155
+#, fuzzy
+msgid "Hardlock node"
+msgstr "Odblokuj węzeł"
+
+#: .\templates\admin_cm\nodes.html:162
+msgid "Unlock node"
+msgstr "Odblokuj węzeł"
+
+#: .\templates\admin_cm\nodes.html:170
+msgid "Delete node"
+msgstr "Usuń węzeł"
+
+#: .\templates\admin_cm\nodes.html:178 .\templates\admin_cm\nodes.html:240
+msgid "Create a new node"
+msgstr "Dodaj węzeł"
+
+#: .\templates\admin_cm\nodes.html:183
+msgid "Edit node"
+msgstr "Edytuj"
+
+#: .\templates\admin_cm\nodes.html:201
+msgid "Free CPU"
+msgstr "Wolne rdzenie"
+
+#: .\templates\admin_cm\nodes.html:202
+msgid "Total CPU"
+msgstr "Całkowita liczba rdzeni"
+
+#: .\templates\admin_cm\nodes.html:203
+msgid "Free memory"
+msgstr "Wolna pamięć"
+
+#: .\templates\admin_cm\nodes.html:204
+msgid "Total memory"
+msgstr "Całkowita pamięć"
+
+#: .\templates\admin_cm\pools.html:65 .\templates\admin_cm\pools.html:132
+msgid "Add pool"
+msgstr "Dodaj pulę"
+
+#: .\templates\admin_cm\pools.html:71
+msgid "Delete pool"
+msgstr "Usuń pulę"
+
+#: .\templates\admin_cm\pools.html:80
+msgid "Lock pool"
+msgstr "Zablokuj pulę"
+
+#: .\templates\admin_cm\pools.html:88
+msgid "Unlock pool"
+msgstr "Odblokuj węzeł"
+
+#: .\templates\admin_cm\pools.html:104
+msgid "Mask"
+msgstr "Maska"
+
+#: .\templates\admin_cm\publicips.html:73
+#: .\templates\admin_cm\publicips.html:118
+msgid "Add public IP"
+msgstr "Dodaj publiczny adres IP"
+
+#: .\templates\admin_cm\publicips.html:90
+msgid "VM"
+msgstr ""
+
+#: .\templates\admin_cm\publicips.html:115
+#: .\templates\admin_cm\show_farms.html:235
+#: .\templates\admin_cm\show_vm.html:249 .\templates\admin_cm\users.html:182
+#: .\templates\vms\show_vm.html:372
+msgid "Perform for selected"
+msgstr "Wykonaj dla wybranych"
+
+#: .\templates\admin_cm\show_farms.html:11 .\templates\farms\menu.html:4
+#: .\templates\farms\show_farm.html:11
+msgid "Show farms"
+msgstr "Pokaż farmy"
+
+#: .\templates\admin_cm\show_farms.html:74
+#: .\templates\admin_cm\show_vm.html:77
+#: .\templates\admin_cm\ajax\farm_details.html:130
+#: .\templates\admin_cm\ajax\vm_details.html:184
+#: .\templates\farms\show_farm.html:174 .\templates\vms\show_vm.html:148
+#: .\templates\vms\ajax\vm_details.html:152
+msgid "Graphical console (VNC)"
+msgstr "Konsola graficzna (VNC)"
+
+#: .\templates\admin_cm\show_farms.html:75
+#: .\templates\admin_cm\show_farms.html:152
+#: .\templates\admin_cm\show_vm.html:78
+#: .\templates\admin_cm\ajax\farm_details.html:31
+#: .\templates\admin_cm\ajax\vm_details.html:64
+#: .\templates\farms\show_farm.html:144 .\templates\vms\show_vm.html:137
+#: .\templates\vms\ajax\vm_details.html:28 .\urls\admin_cm\farm.py:56
+#: .\urls\admin_cm\vm.py:65 .\urls\user\farm.py:60 .\urls\user\vm.py:132
+msgid "Save and shutdown"
+msgstr "Zapisz i Zamknij"
+
+#: .\templates\admin_cm\show_farms.html:76
+#: .\templates\admin_cm\show_farms.html:117
+#: .\templates\admin_cm\show_vm.html:79 .\templates\admin_cm\show_vm.html:122
+#: .\templates\admin_cm\ajax\vm_details.html:69
+#: .\templates\farms\show_farm.html:138 .\templates\vms\show_vm.html:136
+#: .\templates\vms\show_vm.html.py:189 .\templates\vms\ajax\vm_details.html:23
+msgid "Destroy"
+msgstr "Zniszcz"
+
+#: .\templates\admin_cm\show_farms.html:77
+#: .\templates\admin_cm\show_farms.html:118
+#: .\templates\admin_cm\show_vm.html:80 .\templates\admin_cm\show_vm.html:123
+#: .\templates\admin_cm\ajax\farm_details.html:26
+#: .\templates\admin_cm\ajax\vm_details.html:74
+msgid "Erase"
+msgstr "Dobij!"
+
+#: .\templates\admin_cm\show_farms.html:126
+#: .\templates\farms\show_farm.html:49
+msgid "Destroy farm"
+msgstr "Zniszcz farmę"
+
+#: .\templates\admin_cm\show_farms.html:139
+msgid "Erase farm"
+msgstr "Dobij! farmę"
+
+#: .\templates\admin_cm\show_farms.html:158
+#: .\templates\admin_cm\show_vm.html:163 .\templates\farms\show_farm.html:84
+#: .\templates\farms\show_farm.html:107 .\templates\vms\show_vm.html:250
+#: .\templates\vms\show_vm.html.py:274
+msgid "Revoke IP address"
+msgstr "Zwolnij adres IP"
+
+#: .\templates\admin_cm\show_farms.html:165
+msgid "Farm owner"
+msgstr "Właściciel farmy"
+
+#: .\templates\admin_cm\show_farms.html:186
+#: .\templates\admin_cm\show_vm.html:191 .\templates\vms\show_vm.html:327
+msgid "Info"
+msgstr "Informacje"
+
+#: .\templates\admin_cm\show_farms.html:188
+msgid "CPUs"
+msgstr "Rdzenie"
+
+#: .\templates\admin_cm\show_farms.html:204
+#: .\templates\admin_cm\show_vm.html:213 .\templates\vms\show_vm.html:343
+msgid "IP addresses: "
+msgstr "Adresy IP: "
+
+#: .\templates\admin_cm\show_farms.html:205
+#: .\templates\admin_cm\show_vm.html:214 .\templates\vms\show_vm.html:344
+msgid "Disks: "
+msgstr "Dyski: "
+
+#: .\templates\admin_cm\show_vm.html:6 .\templates\admin_cm\show_vm.html:17
+#: .\templates\vms\base.html:4 .\templates\vms\show_vm.html:6
+msgid "Virtual machines"
+msgstr "Maszyny wirtualne"
+
+#: .\templates\admin_cm\show_vm.html:11 .\templates\vms\menu.html:4
+#: .\templates\vms\show_vm.html:11
+msgid "Show virtual machines"
+msgstr "Pokaż maszyny"
+
+#: .\templates\admin_cm\show_vm.html:82
+#: .\templates\admin_cm\ajax\farm_details.html:217
+#: .\templates\admin_cm\ajax\vm_details.html:235
+#: .\templates\admin_cm\ajax\vm_details.html:239
+#: .\templates\farms\show_farm.html:314 .\templates\vms\show_vm.html:153
+#: .\templates\vms\ajax\vm_details.html:43
+msgid "Monitoring"
+msgstr ""
+
+#: .\templates\admin_cm\show_vm.html:157 .\templates\vms\show_vm.html:235
+msgid "Saving virtual machine"
+msgstr "Zapisywanie maszyny wirtualnej"
+
+#: .\templates\admin_cm\show_vm.html:170
+msgid "Virtual machines owner"
+msgstr "Właściciel maszyny"
+
+#: .\templates\admin_cm\show_vm.html:196 .\templates\vms\show_vm.html:331
+msgid "Load"
+msgstr ""
+
+#: .\templates\admin_cm\show_vm.html:215 .\templates\vms\show_vm.html:345
+msgid "ISO images: "
+msgstr "Obrazy ISO: "
+
+#: .\templates\admin_cm\show_vm.html:216 .\templates\vms\show_vm.html:346
+msgid "Machine with management module."
+msgstr "Maszyna z modułem zarządzającym."
+
+#: .\templates\admin_cm\show_vm.html:217 .\templates\vms\show_vm.html:347
+msgid "VNC enabled."
+msgstr "Aktywowano VNC."
+
+#: .\templates\admin_cm\storages.html:35 .\views\admin_cm\node.py:114
+#: .\views\admin_cm\storage.py:97
+msgid "Mount"
+msgstr "Podepnij"
+
+#: .\templates\admin_cm\storages.html:36
+msgid "Mount Resource Manager"
+msgstr "Podepnij RM"
+
+#: .\templates\admin_cm\storages.html:79
+msgid "Lock storage"
+msgstr "Zablokuj macierz"
+
+#: .\templates\admin_cm\storages.html:87
+msgid "Unlock storage"
+msgstr "Odblokuj macierz"
+
+#: .\templates\admin_cm\storages.html:95
+#: .\templates\admin_cm\storages.html:162
+msgid "Create a new storage"
+msgstr "Dodaj macierz"
+
+#: .\templates\admin_cm\storages.html:101
+msgid "Mount storage to node"
+msgstr "Podepnij macierz do węzła"
+
+#: .\templates\admin_cm\storages.html:107
+msgid "Resource Manager"
+msgstr "Zasoby"
+
+#: .\templates\admin_cm\storages.html:112
+msgid "Delete storage"
+msgstr "Usuń macierz"
+
+#: .\templates\admin_cm\storages.html:129
+msgid "Mountpoint"
+msgstr "Punkt montowania"
+
+#: .\templates\admin_cm\storages.html:130
+msgid "Dir"
+msgstr ""
+
+#: .\templates\admin_cm\storages.html:131
+msgid "Capacity"
+msgstr "Maksymalna pojemność"
+
+#: .\templates\admin_cm\templates.html:57
+msgid "Delete template"
+msgstr "Usuń szablon"
+
+#: .\templates\admin_cm\templates.html:66
+#: .\templates\admin_cm\templates.html:119
+msgid "Create a new template"
+msgstr "Utwórz szablon"
+
+#: .\templates\admin_cm\templates.html:72
+msgid "Edit template"
+msgstr "Edytuj szablon"
+
+#: .\templates\admin_cm\templates.html:85
+#: .\templates\admin_cm\ajax\node_details.html:151
+#: .\templates\vms\create_vm_wizard1.html:85
+msgid "CPU"
+msgstr ""
+
+#: .\templates\admin_cm\templates.html:86
+#: .\templates\admin_cm\ajax\node_details.html:111
+#: .\templates\vms\create_vm_wizard1.html:86
+msgid "Memory"
+msgstr "Pamięć"
+
+#: .\templates\admin_cm\templates.html:88
+msgid "EC2 name"
+msgstr "Nazwa ec2"
+
+#: .\templates\admin_cm\user_account.html:58
+#: .\templates\admin_cm\user_account.html:127
+msgid "Change CM password"
+msgstr "Zmień hasło do CM"
+
+#: .\templates\admin_cm\user_account.html:109
+msgid "Edit account quota"
+msgstr "Zmień ograniczenia konta"
+
+#: .\templates\admin_cm\user_account.html:132
+msgid "Edit quota"
+msgstr "Edytuj quotę"
+
+#: .\templates\admin_cm\users.html:86 .\templates\admin_cm\users.html.py:94
+msgid "Change quota"
+msgstr "Zmień quotę"
+
+#: .\templates\admin_cm\users.html:130
+msgid "Last login"
+msgstr "Ostatnie logowanie"
+
+#: .\templates\admin_cm\users.html:131
+msgid "Activation date"
+msgstr "Data aktywacji"
+
+#: .\templates\admin_cm\users.html:132
+msgid "Points used"
+msgstr "Wykorzystanie punktów"
+
+#: .\templates\admin_cm\ajax\change_password.html:14
+#: .\urls\user\storage_image.py:66 .\views\admin_cm\user.py:137
+msgid "Change"
+msgstr "Zmień"
+
+#: .\templates\admin_cm\ajax\farm_details.html:11
+msgid "Farm id:"
+msgstr "ID farmy"
+
+#: .\templates\admin_cm\ajax\farm_details.html:11
+#: .\templates\admin_cm\ajax\node_details.html:11
+#: .\templates\admin_cm\ajax\vm_details.html:11
+#: .\templates\vms\ajax\vm_details.html:8
+msgid "state"
+msgstr "status"
+
+#: .\templates\admin_cm\ajax\farm_details.html:12
+msgid "Close farm details"
+msgstr "Zamknij szczegóły farmy"
+
+#: .\templates\admin_cm\ajax\farm_details.html:22
+#: .\templates\admin_cm\ajax\node_details.html:21
+#: .\templates\admin_cm\ajax\vm_details.html:60
+#: .\templates\vms\ajax\vm_details.html:19
+msgid "Management"
+msgstr "Zarządzanie"
+
+#: .\templates\admin_cm\ajax\farm_details.html:40
+msgid "Owner's id"
+msgstr "Id właściciela"
+
+#: .\templates\admin_cm\ajax\farm_details.html:43
+msgid "Owner's username"
+msgstr "Login właściciela:"
+
+#: .\templates\admin_cm\ajax\farm_details.html:47
+msgid "Owner's name"
+msgstr "Imię właściciela"
+
+#: .\templates\admin_cm\ajax\farm_details.html:50
+msgid "Owner's surname"
+msgstr "Nazwisko właściciela"
+
+#: .\templates\admin_cm\ajax\farm_details.html:54
+msgid "Owner's organization"
+msgstr "Organizacja właściciela"
+
+#: .\templates\admin_cm\ajax\farm_details.html:57
+msgid "Owner's email"
+msgstr "E-mail właściciela"
+
+#: .\templates\admin_cm\ajax\farm_details.html:75
+#: .\templates\admin_cm\ajax\vm_details.html:97
+#: .\templates\farms\show_farm.html:203 .\templates\resources\keys.html:89
+#: .\templates\vms\ajax\vm_details.html:59
+#: .\templates\wizard\image_select.html:76
+msgid "Created"
+msgstr "Utworzono"
+
+#: .\templates\admin_cm\ajax\farm_details.html:78
+#: .\templates\admin_cm\ajax\vm_details.html:100
+#: .\templates\farms\show_farm.html:206
+#: .\templates\vms\ajax\vm_details.html:62
+msgid "Uptime"
+msgstr "Czas działania"
+
+#: .\templates\admin_cm\ajax\farm_details.html:89
+msgid "Hard disks"
+msgstr "Dyski twarde"
+
+#: .\templates\admin_cm\ajax\farm_details.html:94
+#: .\templates\admin_cm\ajax\farm_details.html:102
+#: .\templates\admin_cm\ajax\vm_details.html:153
+#: .\templates\admin_cm\ajax\vm_details.html:163
+#: .\templates\farms\show_farm.html:266 .\templates\farms\show_farm.html:276
+#: .\templates\vms\ajax\vm_details.html:108
+#: .\templates\vms\ajax\vm_details.html:118
+msgid "none"
+msgstr "brak"
+
+#: .\templates\admin_cm\ajax\farm_details.html:97
+msgid "Iso images"
+msgstr "Obrazy ISO"
+
+#: .\templates\admin_cm\ajax\farm_details.html:107
+msgid "Head node"
+msgstr "Węzeł heada"
+
+#: .\templates\admin_cm\ajax\farm_details.html:126
+#: .\templates\admin_cm\ajax\vm_details.html:180
+#: .\templates\vms\ajax\vm_details.html:135
+msgid "Access"
+msgstr "Dostęp"
+
+#: .\templates\admin_cm\ajax\farm_details.html:141
+#: .\templates\admin_cm\ajax\vm_details.html:195
+#: .\templates\vms\ajax\vm_details.html:191
+msgid "Private IP"
+msgstr "Prywatny adres IP"
+
+#: .\templates\admin_cm\ajax\farm_details.html:144
+#: .\templates\admin_cm\ajax\vm_details.html:198
+#: .\templates\vms\ajax\vm_details.html:194
+msgid "Public IP"
+msgstr "Publiczny adres IP"
+
+#: .\templates\admin_cm\ajax\farm_details.html:152
+#: .\templates\admin_cm\ajax\vm_details.html:206
+#: .\templates\farms\show_farm.html:232 .\templates\farms\show_farm.html:242
+#: .\templates\farms\show_farm.html:245
+#: .\templates\vms\ajax\vm_details.html:205
+msgid "empty"
+msgstr ""
+
+#: .\templates\admin_cm\ajax\farm_details.html:163
+#: .\templates\admin_cm\ajax\vm_details.html:217
+#: .\templates\farms\show_farm.html:253
+#: .\templates\vms\ajax\vm_details.html:223
+msgid "VNC password"
+msgstr "Hasło VNC"
+
+#: .\templates\admin_cm\ajax\farm_details.html:235
+#: .\templates\admin_cm\ajax\vm_details.html:266
+#: .\templates\vms\ajax\vm_details.html:270
+msgid "No info"
+msgstr "Brak informacji"
+
+#: .\templates\admin_cm\ajax\network_details.html:11
+msgid "Network id:"
+msgstr "ID Sieci"
+
+#: .\templates\admin_cm\ajax\network_details.html:21
+msgid "Leases"
+msgstr "Lease'y"
+
+#: .\templates\admin_cm\ajax\node_details.html:11
+msgid "Node id:"
+msgstr "ID Węzła:"
+
+#: .\templates\admin_cm\ajax\node_details.html:79
+msgid "Transport"
+msgstr "Transport"
+
+#: .\templates\admin_cm\ajax\node_details.html:82
+msgid "Suffix"
+msgstr "Suffix"
+
+#: .\templates\admin_cm\ajax\node_details.html:86
+msgid "Driver"
+msgstr "Driver"
+
+#: .\templates\admin_cm\ajax\node_details.html:118
+msgid "Memory free"
+msgstr "Wolna pamięć"
+
+#: .\templates\admin_cm\ajax\node_details.html:121
+msgid "Memory total"
+msgstr "Całkowita pamięć"
+
+#: .\templates\admin_cm\ajax\node_details.html:125
+msgid "Real memory free"
+msgstr "Wolna pamięć (Real)"
+
+#: .\templates\admin_cm\ajax\node_details.html:128
+msgid "Real memory total"
+msgstr "Całkowita pamięć (Real)"
+
+#: .\templates\admin_cm\ajax\node_details.html:132
+msgid "Libvirt memory free"
+msgstr "Wolna pamięć (Libvirt)"
+
+#: .\templates\admin_cm\ajax\node_details.html:135
+msgid "Libvirt memory total"
+msgstr "Całkowita pamięć (Libvirt)"
+
+#: .\templates\admin_cm\ajax\node_details.html:158
+msgid "Cpu free"
+msgstr "Wolne rdzenie"
+
+#: .\templates\admin_cm\ajax\node_details.html:161
+msgid "Cpu total"
+msgstr "Wszystkie rdzenie"
+
+#: .\templates\admin_cm\ajax\node_details.html:165
+msgid "Libvirt cpu free"
+msgstr "Wolne rdzenie (Libvirt)"
+
+#: .\templates\admin_cm\ajax\node_details.html:168
+msgid "Libvirt cpu total"
+msgstr "Wszystkie rdzenie (Libvirt)"
+
+#: .\templates\admin_cm\ajax\node_details.html:184
+msgid "HDD"
+msgstr "Miejsce na dysku"
+
+#: .\templates\admin_cm\ajax\node_details.html:191
+msgid "HDD free"
+msgstr "Wolne miejsce na dysku"
+
+#: .\templates\admin_cm\ajax\node_details.html:194
+msgid "HDD total"
+msgstr "Całkowite miejsce na dysku"
+
+#: .\templates\admin_cm\ajax\node_details.html:198
+msgid "Real HDD free"
+msgstr "Wolne miejsce na dysku (Real)"
+
+#: .\templates\admin_cm\ajax\node_details.html:201
+msgid "Real HDD total"
+msgstr "Całkowite miejsce na dysku (Real)"
+
+#: .\templates\admin_cm\ajax\vm_details.html:11
+msgid "Machine id:"
+msgstr "Id maszyny:"
+
+#: .\templates\admin_cm\ajax\vm_details.html:12
+#: .\templates\vms\ajax\vm_details.html:9
+msgid "Close machine details"
+msgstr "Zamknij szczegóły maszyny"
+
+#: .\templates\admin_cm\ajax\vm_details.html:22
+msgid "Owner data"
+msgstr "Dane właściciela"
+
+#: .\templates\admin_cm\ajax\vm_details.html:127
+#: .\templates\resources\base.html:4 .\templates\vms\ajax\vm_details.html:84
+msgid "Resources"
+msgstr "Zasoby maszyn"
+
+#: .\templates\admin_cm\ajax\vm_details.html:132
+#: .\templates\farms\show_farm.html:64 .\templates\farms\show_farm.html:150
+#: .\templates\vms\show_vm.html:145 .\templates\vms\show_vm.html.py:262
+#: .\templates\vms\ajax\vm_details.html:88
+msgid "Assign disk"
+msgstr "Podepnij dysk"
+
+#: .\templates\admin_cm\ajax\vm_details.html:137
+#: .\templates\farms\show_farm.html:70 .\templates\farms\show_farm.html:155
+#: .\templates\vms\show_vm.html:146 .\templates\vms\show_vm.html.py:268
+#: .\templates\vms\ajax\vm_details.html:93 .\views\user\vm.py:310
+msgid "Revoke disk"
+msgstr "Odłącz dysk"
+
+#: .\templates\admin_cm\ajax\vm_details.html:148
+#: .\templates\farms\show_farm.html:260 .\templates\resources\disks.html:6
+#: .\templates\vms\ajax\vm_details.html:103
+msgid "Disks"
+msgstr "Dyski"
+
+#: .\templates\admin_cm\ajax\vm_details.html:249
+msgid "CPU load 1/5/15 min"
+msgstr ""
+
+#: .\templates\auth\logged_out.html:11
+msgid "You have been logged out!"
+msgstr "Wylogowano"
+
+#: .\templates\auth\login.html:5
+msgid "Login page"
+msgstr "Strona logowania"
+
+#: .\templates\auth\login.html:19
+msgid "Your browser does not support JavaScript!"
+msgstr "Twoja przeglądarka nie wspiera JavaScript!"
+
+#: .\templates\auth\login.html:31
+msgid "Don't have an account?"
+msgstr "Nie masz konta?"
+
+#: .\templates\auth\login.html:31
+msgid "Sign up"
+msgstr "Zarejestruj się"
+
+#: .\templates\auth\login.html:33
+msgid "Forgot your password?"
+msgstr "Zapomniałeś hasła?"
+
+#: .\templates\farms\create_farm.html:5 .\templates\farms\create_farm.html:10
+#: .\templates\farms\create_farm.html:16
+#: .\templates\farms\create_farm_wizard0.html:5
+#: .\templates\farms\create_farm_wizard0.html:10
+#: .\templates\farms\create_farm_wizard0.html:16
+#: .\templates\farms\create_farm_wizard1.html:5
+#: .\templates\farms\create_farm_wizard1.html:10
+#: .\templates\farms\create_farm_wizard1.html:16
+#: .\templates\farms\create_farm_wizard2.html:5
+#: .\templates\farms\create_farm_wizard2.html:10
+#: .\templates\farms\create_farm_wizard2.html:16
+#: .\templates\farms\create_farm_wizard3.html:6
+#: .\templates\farms\create_farm_wizard3.html:11
+#: .\templates\farms\create_farm_wizard3.html:17 .\templates\farms\menu.html:3
+#: .\templates\farms\potato.html:5 .\templates\farms\potato.html.py:16
+msgid "New farm"
+msgstr "Nowa farma"
+
+#: .\templates\farms\create_farm.html:40
+#: .\templates\farms\create_farm_wizard3.html:114
+#: .\templates\vms\create_vm.html:70
+#: .\templates\vms\create_vm_wizard3.html:109
+#: .\templates\wizard\generic.html:29 .\urls\admin_clm\cm.py:61
+#: .\urls\admin_clm\news.py:38 .\urls\admin_cm\node.py:72
+#: .\urls\admin_cm\node.py:88 .\urls\admin_cm\storage.py:40
+#: .\urls\admin_cm\template.py:48 .\urls\user\group.py:103
+#: .\urls\user\network.py:40 .\views\admin_cm\system_image.py:104
+msgid "Create"
+msgstr "Utwórz"
+
+#: .\templates\farms\create_farm_wizard3.html:53
+msgid "Farm settings summary"
+msgstr "Podsumowanie ustawień farmy"
+
+#: .\templates\farms\create_farm_wizard3.html:77
+#: .\templates\farms\create_farm_wizard3.html:86
+#: .\templates\farms\create_farm_wizard3.html:97
+#: .\templates\farms\create_farm_wizard3.html:105
+#: .\templates\vms\create_vm_wizard3.html:72
+#: .\templates\vms\create_vm_wizard3.html:81
+#: .\templates\vms\create_vm_wizard3.html:92
+#: .\templates\vms\create_vm_wizard3.html:100
+msgid "not attached"
+msgstr "nie wybrano"
+
+#: .\templates\farms\create_farm_wizard3.html:81
+#: .\templates\vms\create_vm_wizard3.html:76
+msgid "Disk volumes"
+msgstr "Dyski"
+
+#: .\templates\farms\create_farm_wizard3.html:105
+#: .\templates\vms\create_vm_wizard3.html:100
+msgid "attached"
+msgstr "włączone"
+
+#: .\templates\farms\potato.html:10
+msgid "Potatoes:)"
+msgstr "Dziemniaki:)"
+
+#: .\templates\farms\show_farm.html:17
+msgid "List of farms"
+msgstr "Lista farm"
+
+#: .\templates\farms\show_farm.html:58
+msgid "Save and shutdown farm"
+msgstr "Zapisz i Zamknij farmę"
+
+#: .\templates\farms\show_farm.html:76 .\templates\farms\show_farm.html:102
+#: .\templates\vms\show_vm.html:244 .\templates\vms\show_vm.html.py:256
+msgid "Public IP assign"
+msgstr "Publiczny adres IP"
+
+#: .\templates\farms\show_farm.html:89
+msgid "Head password"
+msgstr "Hasło heada"
+
+#: .\templates\farms\show_farm.html:112
+msgid "Head SSH key"
+msgstr "Klucz SSH heada"
+
+#: .\templates\farms\show_farm.html:162 .\templates\vms\show_vm.html:142
+#: .\templates\vms\show_vm.html.py:144
+msgid "Assign external IP"
+msgstr "Dołącz zewnętrzny adres IP"
+
+#: .\templates\farms\show_farm.html:168 .\templates\vms\show_vm.html:142
+#: .\templates\vms\show_vm.html.py:143
+msgid "Revoke external IP"
+msgstr "Odłącz zewnętrzny adres IP"
+
+#: .\templates\farms\show_farm.html:180 .\templates\vms\show_vm.html:150
+#: .\templates\vms\ajax\vm_details.html:248 .\urls\user\vm.py:66
+msgid "Reset password"
+msgstr "Zresetuj hasło"
+
+#: .\templates\farms\show_farm.html:185 .\templates\vms\show_vm.html:151
+#: .\templates\vms\show_vm.html.py:191
+#: .\templates\vms\ajax\vm_details.html:253
+msgid "Set SSH key"
+msgstr "Ustaw klucz SSH"
+
+#: .\templates\farms\show_farm.html:219 .\templates\farms\show_farm.html:241
+msgid "Head private IP"
+msgstr "Prywatny adres IP heada"
+
+#: .\templates\farms\show_farm.html:222 .\templates\farms\show_farm.html:244
+msgid "Head public IP"
+msgstr "Publiczny adres IP heada"
+
+#: .\templates\farms\show_farm.html:230
+#: .\templates\vms\ajax\vm_details.html:203 .\views\user\vm.py:281
+#: .\views\user\vm.py:351
+msgid "Assign"
+msgstr "Podepnij"
+
+#: .\templates\generic\form.html:15 .\templates\generic\simple.html:14
+#: .\templates\groups\group_details.html:39
+#: .\templates\resources\ajax\add_disk.html:18
+#: .\templates\vms\ajax\assign_disk.html:19
+#: .\templates\vms\ajax\assign_ip.html:18
+#: .\templates\vms\ajax\revoke_disk.html:17
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: .\templates\groups\group_details.html:6
+msgid "Group details"
+msgstr "Szczegóły grupy"
+
+#: .\templates\groups\group_details.html:11
+msgid "Browse groups"
+msgstr "Przeglądaj grupy"
+
+#: .\templates\groups\group_details.html:40
+msgid "Accept"
+msgstr "Akceptuj"
+
+#: .\templates\groups\group_details.html:43
+#: .\templates\groups\group_details.html:46
+#: .\templates\groups\group_details.html:51
+msgid "Make leader"
+msgstr "Zmień zarządce"
+
+#: .\templates\groups\group_details.html:94
+msgid "Remove user from group"
+msgstr "Usuń osobę z grupy"
+
+#: .\templates\groups\group_details.html:102
+msgid "Cancel request"
+msgstr "Odrzuć wniosek"
+
+#: .\templates\groups\group_details.html:110
+msgid "Add user to group"
+msgstr "Dodaj użytkownika do grupy"
+
+#: .\templates\groups\group_details.html:123
+msgid "Change group leader"
+msgstr "Zmień zarządce"
+
+#: .\templates\groups\group_details.html:211
+msgid "Group leader:"
+msgstr "Zarządca grupy:"
+
+#: .\templates\groups\menu.html:3 .\templates\groups\show_groups.html:6
+#: .\templates\groups\show_groups.html:11
+msgid "Show groups"
+msgstr "Pokaż grupy"
+
+#: .\templates\groups\menu.html:4 .\templates\groups\my_groups.html:6
+#: .\templates\groups\my_groups.html:11 .\templates\groups\my_groups.html:17
+msgid "My groups"
+msgstr "Moje grupy"
+
+#: .\templates\groups\my_groups.html:75
+msgid "Delete group"
+msgstr "Usuń grupę"
+
+#: .\templates\groups\my_groups.html:81 .\templates\groups\my_groups.html:132
+msgid "Create a new group"
+msgstr "Utwórz grupę"
+
+#: .\templates\groups\my_groups.html:87
+msgid "Edit group"
+msgstr "Edytuj grupę"
+
+#: .\templates\groups\my_groups.html:98 .\templates\groups\show_groups.html:82
+msgid "Leader"
+msgstr "Zarządca"
+
+#: .\templates\groups\my_groups.html:105
+#: .\templates\groups\show_groups.html:90
+#: .\templates\images\images_group.html:150
+#: .\templates\images\images_private.html:171
+#: .\templates\images\images_public.html:89
+#: .\templates\resources\disks.html:123 .\templates\resources\iso.html:105
+#: .\templates\resources\keys.html:96
+msgid "Right click table row to open context menu."
+msgstr "Kliknij prawym przyciskiem żeby otworzyć menu."
+
+#: .\templates\groups\show_groups.html:17
+msgid "List of groups"
+msgstr "Lista grup"
+
+#: .\templates\groups\show_groups.html:55
+#: .\templates\groups\show_groups.html:70
+msgid "Send request"
+msgstr "Wyślij wniosek"
+
+#: .\templates\groups\show_groups.html:83
+msgid "Status"
+msgstr "Status"
+
+#: .\templates\help\base.html:30
+msgid "Contact email: "
+msgstr "Email kontaktowy: "
+
+#: .\templates\help\form.html:5 .\templates\help\form.html.py:10
+#: .\templates\help\form.html:16 .\templates\help\issue_sent.html:4
+#: .\templates\help\issue_sent.html.py:7 .\templates\help\menu.html:4
+msgid "Contact form"
+msgstr "Formularz kontaktowy"
+
+#: .\templates\help\form.html:37
+msgid "Submit"
+msgstr "Wyślij"
+
+#: .\templates\help\issue_error.html:9
+msgid "Help form"
+msgstr "Formularz pomocy"
+
+#: .\templates\help\issue_error.html:20
+msgid "Error occured. Cannot send email with issue to system administrator."
+msgstr "Nastąpił błąd. Nie możemy wysłać e-maila do administratora systemu."
+
+#: .\templates\help\issue_sent.html:11
+msgid "Issue has been reported."
+msgstr "Opis problemu został wysłany."
+
+#: .\templates\images\images_group.html:6
+#: .\templates\images\images_group.html:11
+#: .\templates\images\images_group.html:17 .\templates\images\menu.html:4
+msgid "Group images"
+msgstr "Obrazy grupowe"
+
+#: .\templates\images\images_group.html:47
+#: .\templates\images\images_private.html:47
+msgid "Move to my images"
+msgstr "Przenieś do prywatnych"
+
+#: .\templates\images\images_group.html:53
+msgid "Move to user's private images"
+msgstr "Przenieś do obrazów prywatnych użytkownika"
+
+#: .\templates\images\images_group.html:102
+#: .\templates\images\images_private.html:118
+msgid "Revoke group"
+msgstr "Odłącz od grupy"
+
+#: .\templates\images\images_private.html:6
+#: .\templates\images\images_private.html:11
+#: .\templates\images\images_private.html:17 .\templates\images\menu.html:2
+#: .\views\user\farm.py:96 .\views\user\vm.py:98
+msgid "My images"
+msgstr "Moje obrazy"
+
+#: .\templates\images\images_private.html:47 .\urls\user\system_image.py:58
+msgid "Assign to group"
+msgstr "Dołącz do grupy"
+
+#: .\templates\images\images_private.html:52
+msgid "Change to storage disk"
+msgstr "Przekształć w dysk z danymi"
+
+#: .\templates\images\images_private.html:110
+msgid "Assign group"
+msgstr "Dołącz grupę"
+
+#: .\templates\images\images_private.html:139 .\views\user\system_image.py:145
+msgid "Add image"
+msgstr "Dodaj obraz"
+
+#: .\templates\images\images_private.html:209
+msgid "Upload image"
+msgstr "Wgraj obraz"
+
+#: .\templates\images\images_public.html:6
+#: .\templates\images\images_public.html:11
+#: .\templates\images\images_public.html:17 .\templates\images\menu.html:3
+#: .\utils\parsing.py:56 .\views\user\farm.py:97 .\views\user\vm.py:99
+msgid "Public images"
+msgstr "Obrazy publiczne"
+
+#: .\templates\main\base.html:14
+msgid "Wellcome to CC1!"
+msgstr "Witaj w CC1!"
+
+#: .\templates\main\home.html:38 .\templates\main\menu.html:3
+#: .\templates\main\news.html:6 .\templates\main\news.html.py:11
+#: .\templates\main\news.html:17
+msgid "News"
+msgstr "Wiadomości"
+
+#: .\templates\main\home.html:55
+msgid "More news"
+msgstr "Więcej wiadomości"
+
+#: .\templates\main\news.html:35
+msgid "Create news entry"
+msgstr "Dodaj wiadomość"
+
+#: .\templates\main\news.html:49
+msgid "Edit news entry"
+msgstr "Edytuj wiadomość"
+
+#: .\templates\main\news.html:58
+msgid "Create a news entry"
+msgstr "Dodaj wiadomość"
+
+#: .\templates\registration\activation_admin_confirmation.html:4
+#: .\templates\registration\activation_admin_confirmation.html:7
+msgid "Email address confirmed"
+msgstr "Adres e-mail został potwierdzony"
+
+#: .\templates\registration\activation_admin_confirmation.html:12
+msgid ""
+"Your email address has been confirmed. Please wait for system operator to "
+"activate your account."
+msgstr ""
+"Twój adres e-mail został potwierdzony. Proszę poczekać na aktywację twojego "
+"konta przez operatora systemu."
+
+#: .\templates\registration\activation_completed.html:4
+msgid "Activation success!"
+msgstr "Aktywacja zakończona sukcesem."
+
+#: .\templates\registration\activation_completed.html:7
+msgid "Activation complete"
+msgstr "Aktywacja zakończona"
+
+#: .\templates\registration\activation_completed.html:12
+msgid "Your email have been confirmed. You may now sign in!"
+msgstr "Twój adres e-mail został potwierdzony. Teraz możesz się zalogować."
+
+#: .\templates\registration\activation_error.html:4
+msgid "Activation Error"
+msgstr "Błąd aktywacji"
+
+#: .\templates\registration\activation_error.html:7
+msgid "Activation"
+msgstr "Aktywacja"
+
+#: .\templates\registration\activation_error.html:12
+msgid ""
+"Email address confirmation error occured. Please make sure that you have "
+"clicked the correct link in your e-mail or typed in the correct address. If "
+"you get this message repeatedly, contact us so that we can set your account "
+"up correctly."
+msgstr ""
+"Nie możemy aktywować twojego konta. Prosze spróbować ponownie wejść w link "
+"aktywacyjny podany na adres e-mail. W razie problemów skontaktuj sie z nami "
+"w celu poprawnego stworzenia konta."
+
+#: .\templates\registration\registration_admin_confirmation.html:4
+#: .\templates\registration\registration_admin_confirmation.html:7
+#: .\templates\registration\registration_completed.html:4
+#: .\templates\registration\registration_mail_confirmation.html:4
+msgid "Registration success"
+msgstr "Rejestracja zakończona sukcesem"
+
+#: .\templates\registration\registration_admin_confirmation.html:12
+msgid "Please wait for system operator to activate your account."
+msgstr ""
+"Konto nie jest aktywne. Proszę poczekać na aktywację twojego konta przez "
+"operatora systemu."
+
+#: .\templates\registration\registration_completed.html:7
+#: .\templates\registration\registration_mail_confirmation.html:7
+msgid "Registration complete"
+msgstr "Rejestracja zakończona"
+
+#: .\templates\registration\registration_completed.html:12
+msgid "You have been registered. You may now sign in!"
+msgstr "Zostałeś zarejstrowany. Teraz możesz się zalogować."
+
+#: .\templates\registration\registration_error.html:4
+msgid "Registration error"
+msgstr "Błąd rejestracji."
+
+#: .\templates\registration\registration_error.html:12
+msgid "Registration error."
+msgstr "Błąd rejestracji."
+
+#: .\templates\registration\registration_form.html:5
+msgid "Register for an Account"
+msgstr "Zarejestruj konto"
+
+#: .\templates\registration\registration_mail_confirmation.html:12
+msgid ""
+"You have been registered, <b>but your account still needs to be activated</"
+"b>.  An e-mail has been sent to the address that you entered, so please "
+"check your e-mail and activate your account at this time."
+msgstr ""
+"Zostałeś zarejestrowany <b>ale twoje konto musi zostać aktywowane</b>. E-"
+"mail został wysłany na podany adres. Wejdź w podany tam link aktywacyjny."
+
+#: .\templates\resources\disks.html:11
+#: .\templates\vms\ajax\assign_disk.html:13
+msgid "Manage disks"
+msgstr "Dyski"
+
+#: .\templates\resources\disks.html:59
+msgid "Change to VM image"
+msgstr "Przekształć w obraz maszyny"
+
+#: .\templates\resources\disks.html:96
+msgid "Add new disk"
+msgstr "Dodaj nowy dysk"
+
+#: .\templates\resources\disks.html:102 .\templates\resources\disks.html:170
+#: .\views\user\storage_image.py:105
+msgid "Upload disk"
+msgstr "Wgraj dysk"
+
+#: .\templates\resources\disks.html:116
+msgid "Machine"
+msgstr "Maszyna"
+
+#: .\templates\resources\disks.html:167
+msgid "Create new disk"
+msgstr "Utwórz nowy dysk"
+
+#: .\templates\resources\elastic_ip.html:6
+#: .\templates\resources\elastic_ip.html:17 .\templates\resources\menu.html:3
+msgid "Elastic IPs"
+msgstr "Elastyczne adresy IP"
+
+#: .\templates\resources\elastic_ip.html:11
+msgid "Manage elastic IPs"
+msgstr "Zarządzaj elastycznymi adresami IP"
+
+#: .\templates\resources\elastic_ip.html:44
+msgid "Add IP"
+msgstr "Dodaj nowy adres IP"
+
+#: .\templates\resources\elastic_ip.html:52
+#: .\templates\resources\elastic_ip.html:78
+msgid "Release IP"
+msgstr "Zwolnij adres IP"
+
+#: .\templates\resources\elastic_ip.html:94
+msgid "Add a new IP"
+msgstr "Dodaj nowy adres IP"
+
+#: .\templates\resources\iso.html:11
+msgid "Manage ISO images"
+msgstr "Zarządzaj obrazami ISO"
+
+#: .\templates\resources\iso.html:85 .\templates\resources\iso.html.py:146
+#: .\views\user\iso_image.py:74
+msgid "Upload ISO image"
+msgstr "Wgraj obraz ISO"
+
+#: .\templates\resources\keys.html:6 .\templates\resources\keys.html.py:11
+#: .\templates\resources\keys.html:17
+msgid "Authorization Keys"
+msgstr "Klucze autoryzacji"
+
+#: .\templates\resources\keys.html:59
+msgid "Generate new key"
+msgstr "Wygeneruj nowy klucz"
+
+#: .\templates\resources\keys.html:69 .\templates\resources\keys.html:123
+msgid "Add my key"
+msgstr "Dodaj mój klucz"
+
+#: .\templates\resources\keys.html:75
+msgid "Delete key"
+msgstr "Usuń klucz"
+
+#: .\templates\resources\keys.html:88
+msgid "Finegerprint"
+msgstr ""
+
+#: .\templates\resources\keys.html:120
+msgid "Generate a new key"
+msgstr "Wygeneruj nowy klucz"
+
+#: .\templates\resources\menu.html:9
+msgid "Authorization keys"
+msgstr "Klucze autoryzacji"
+
+#: .\templates\resources\networks.html:10
+msgid "Manage networks"
+msgstr "Zarządzaj sieciami"
+
+#: .\templates\resources\networks.html:42
+msgid "Request new network"
+msgstr "Poproś o nową sieć"
+
+#: .\templates\resources\networks.html:47
+#: .\templates\resources\networks.html:72
+msgid "Release network"
+msgstr "Zwolnij sieć"
+
+#: .\templates\resources\networks.html:87
+msgid "Add a new network"
+msgstr "Dodaj nową sieć"
+
+#: .\templates\resources\ajax\add_disk.html:4
+msgid "Specify disk properties:"
+msgstr "Podaj właściwości dysku:"
+
+#: .\templates\resources\ajax\add_disk.html:13
+msgid "Free storage space:"
+msgstr "Dostępne miejsce na dyski:"
+
+#: .\templates\resources\ajax\add_disk.html:17
+msgid "Add disk"
+msgstr "Dodaj nowy dysk"
+
+#: .\templates\tags\fieldsetForm.html:4
+msgid "Field required"
+msgstr "Pole wymagane"
+
+#: .\templates\tags\fieldsetForm.html:47 .\templates\tags\fieldsetForm.html:54
+msgid "Show advanced options"
+msgstr "Pokaż opcje zaawansowane"
+
+#: .\templates\tags\fieldsetForm.html:54
+msgid "Hide advanced options"
+msgstr "Ukryj opcje zaawansowane"
+
+#: .\templates\tutorials\account.html:6
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"This section allows you to change your personal data and password.\n"
+"</p>\n"
+"<p>\n"
+"<b><a href=\"%(url_account_data)s\">Account data</a></b>\n"
+"<ul class=\"text-ul\">\n"
+"<li><b>Account data</b>: Shows you your account data, which can be modified "
+"under <a href=\"%(url_account_data_edit)s\">Edit account data</a></li>\n"
+"<li><b>Account quotas</b>: Shows you your resources limits and the usage.</"
+"li>\n"
+"<li><b>EC2 credentialse</b>: Additionally you will find there the key "
+"necessary to connect to the system using EC2 interface.</li>\n"
+"</ul>\n"
+"</p>\n"
+"<p>\n"
+"<b><a href=\"%(url_password_change)s\">Change password</a></b>: You may "
+"change your password.</li>\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Ten dział pozwala na zmianę danych personalnych oraz zmianę hasła.\n"
+"</p>\n"
+"<p>\n"
+"<b><a href=\"%(url_account_data)s\">Dane konta</a></b>\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"<li><b>Dane konta</b>: Wyświetla dane twojego konta, które mogą zostać "
+"zmienione w <a href=\"%(url_account_data_edit)s\">Edycja konta</a></li>\n"
+"<li><b>Ograniczenia konta</b>: Wyświetla ograniczenia zasobów nałożone na "
+"konto.</li>\n"
+"<li><b>Dane uwierzytelniające EC2</b>: Tutaj znajdziesz klucz konieczny do "
+"połączenia z systemem za pomocą interfejsu EC2.</li>\n"
+"</ul>\n"
+"<p>\n"
+"<b><a href=\"%(url_password_change)s\">Zmiana hasła</a></b>: Tu możesz "
+"zmienić swoje hasło.</li>\n"
+"<p>\n"
+"</p>\n"
+
+#: .\templates\tutorials\create_farm.html:2
+msgid ""
+"\n"
+"<p>\n"
+"\tFarm creation form is divided into four steps analogous to VM creation:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li>\n"
+"\t\t<strong>Image choice</strong>:\n"
+"\t\tYou select one common image for all nodes and for head.\n"
+"\t\tThat makes them start with the same configuration.\n"
+"\t</li>\n"
+"\t<li>\n"
+"\t\t<strong>Hardware choice</strong>: \n"
+"\t\tHowever, you can select diffrent template for head and for nodes,\n"
+"\t\tgiving them diffrent computational power.\n"
+"\t\t\t<ul class=\"text-ul\">\n"
+"\t\t\t\t<li>Head template</li>\n"
+"\t\t\t\t<li>Worker node template</li>\n"
+"\t\t\t\t<li>Number of worker nodes</li>\n"
+"\t\t\t</ul>\n"
+"\t</li>\n"
+"\t<li>\n"
+"\t\t<strong>Optional resources</strong>:\n"
+"\t\tIt is recommended to attach disk volume to store data on it.\n"
+"\t\tThis is only possible on stage of farm creation.\n"
+"\t\tYou are not able to attach disk to already created farms.\n"
+"\t</li>\n"
+"\t<li>\n"
+"\t\t<strong>Confirmation</strong>\n"
+"\t</li>\n"
+"</ul>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Formularz tworzenia farmy składa się z czterech kroków, analogicznie do "
+"tworzenia maszyny:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li>\n"
+"\t\t<strong>Wybór obrazu</strong>:\n"
+"\t\tJeden wspólny obraz jest wybrany dla wszyskich nodów oraz heada.\n"
+"\t\tDzięki temu wszystkie startują z taką samą konfiguracją.\n"
+"\t</li>\n"
+"\t<li>\n"
+"\t\t<strong>Ustawienia sprzętu</strong>: \n"
+"\t\tMożesz natomiast wybrać inny szablon dla heada i inny dla node'ów,\n"
+"\t\tdając im różną moc obliczeniową.\n"
+"\t\t\t<ul class=\"text-ul\">\n"
+"\t\t\t\t<li>Szablon head'a</li>\n"
+"\t\t\t\t<li>Szablon worker node'ów</li>\n"
+"\t\t\t\t<li>Liczba worker node'ów</li>\n"
+"\t\t\t</ul>\n"
+"\t</li>\n"
+"\t<li>\n"
+"\t\t<strong>Opcjonalne zasoby</strong>:\n"
+"\t\tZaleca się dopiąć do farmy dysk, by móc gromadzić na nim dane. Jest to \t"
+"\tmożliwe jedynie na etapie tworzenia farmy.\n"
+"\t</li>\n"
+"\t<li>\n"
+"\t\t<strong>Potwierdzenie</strong>\n"
+"\t</li>\n"
+"</ul>\n"
+
+#: .\templates\tutorials\create_vm.html:2
+msgid ""
+"\n"
+"<p>\n"
+"Virtual machine creation form.\n"
+"</p>\n"
+"<h3>\n"
+"VM consists of base components: \n"
+"</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><strong>image</strong> - image file containing VM's operating system, "
+"installed software and all configuration. There are default public images "
+"available as well as ones created by users (private or group). Images can be "
+"managed via <strong>Images</strong> section.</li>\n"
+"\t<li><strong>hardware template</strong> - VM's hardware parameters like CPU "
+"and RAM,</li>\n"
+"</ul>\n"
+"<h3>You can improve usability of the created VM, attaching some of the "
+"available resources to it:</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><strong>IP address</strong>,</li>\n"
+"\t<li><strong>disk volume</strong>.</li>\n"
+"</ul>\n"
+"<p>\n"
+"\tThese resources are managed via <strong>VM Resources</strong> section.\n"
+"</p>\n"
+"<p>\n"
+"\tMachines created using this form are accessible via <strong>Machines->Show "
+"virtual machines</strong>.\n"
+"</p>\n"
+"<p>\n"
+"\tIf VM isn't started from image configured so that access to it is enabled, "
+"you need either to enable VNC on that machine (only when starting), or "
+"attach public IP address to it (whenever).\n"
+"</p>\n"
+"<p>\n"
+"\tMachine started from images with contextualisation can have its system "
+"user and password set via web interface. Its owner can also inject public "
+"key into it to enable login via SSH.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Formularz tworzenia maszyny wirtualnej.\n"
+"</p>\n"
+"<h3>\n"
+"VM składa się z dwóch podstawowych komponentów: \n"
+"</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><strong>obraz</strong> - plik obrazu zawierający system operacyjny "
+"maszyny, zainstalowane oprogramowanie i konfigurację. Dostępne są domyślne "
+"obrazy publiczne, jak również przygotowane przez użytkowników (prywatne lub "
+"grupowe). Obrazami zarządzać można poprzez sekcję <strong>Obrazy</strong>.</"
+"li>\n"
+"\t<li><strong>szablon</strong> - parametry hardwarowe VM's (CPU i RAM),</"
+"li>\n"
+"</ul>\n"
+"<h3>Można zwiększyć użyteczność tworzonej maszyny poprzez dołączenie do niej "
+"części spośród dostępnych zasobów:</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><strong>publiczny adres IP</strong>,</li>\n"
+"\t<li><strong>wolumin dyskowy</strong>.</li>\n"
+"\t<li><strong>sieć</strong>.</li>\n"
+"</ul>\n"
+"</p>\n"
+"<p>\n"
+"Zasobami zarządzać można poprzez sekcję <strong>Zasoby maszyn</strong>.</p>\n"
+"<p>\n"
+"Maszyny stworzone z pomocą tego formularza dostępne są poprzez web "
+"interface: <strong>Maszyny wirtualne->Pokaż maszyny</strong>.\n"
+"</p>\n"
+"<p>\n"
+"Jeżeli maszyna nie jest startowana z obrazu skonfigurowanego tak, by "
+"umożliwić dostęp do niej, trzeba albo włączyć jej VNC (wyłącznie podczas "
+"startowania), albo dopiąć do niej publiczny adres IP (kiedykolwiek).\n"
+"</p>\n"
+"<p>\n"
+"Na maszynach wystartowanych z obrazów z kontekstualizacją można ustawić "
+"użytkownika systemu i jego hasło poprzez web interface. Właściciel może "
+"również ustawić publiczny klucz w celu zalogowania się przez SSH.\n"
+"</p>\n"
+
+#: .\templates\tutorials\farms.html:2
+msgid ""
+"\n"
+"<p>\n"
+"\tFarms are automaticaly created clusters of virtual machines with "
+"preconfigured batch system.\n"
+"</p>\n"
+"<p>\n"
+"\tThe functionality to create the preconfigured farm of VMs is provided to "
+"perform large scale processing.\n"
+"\tThe farm can be created with any VM image with contextualization "
+"installed. \n"
+"</p>\n"
+"<p>Every farm consists of:</p>\n"
+"<ul>\n"
+"\t<li>a single head node (HN)</li>\n"
+"\t<li>a specified number of worker nodes (WNs)</li>\n"
+"</ul>\n"
+"<p>All are created with the same VM image.</p>\n"
+"<p>\n"
+"\tThe HN plays the role of NFS server and the batch system controller (if "
+"the batch system is installed). \n"
+"\tNo central authentication is required. \n"
+"\tAll users present on a base VM image appears as local users on HN and "
+"every WNs \n"
+"\tsince they are created from the same VM image. \n"
+"\tThey share the same /home directory exported from HN to all WNs.\n"
+"</p>\n"
+"<p>The farm is created in two main steps:</p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li>In the first automatic step paswordless access from the HN to WNs is "
+"enabled.</li>\n"
+"\t<li>In the second step configuration script is executed on HN to mount /"
+"home directory on all WNs.</li>\n"
+"</ul>\n"
+"<p>\n"
+"More about farms you can read in the <a href=\"http://cc1.ifj.edu.pl/en/"
+"UserGuide/html/index.html\">CC1 User Guide</a>.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"\tFarmy to automatycznie tworzone klastry maszyn wirtualnych zawierające "
+"system kolejkowy.\n"
+"</p>\n"
+"<p>\n"
+"\tFunkcjonalność tworzenia prekonfigurowanych farm maszyn została "
+"zapewniona, by umożliwić obliczenia na wielką skalę.\n"
+"\tFarma może być utworzona z dowolnym obrazem z zainstalowaną "
+"kontekstualizacją.\n"
+"</p>\n"
+"<p>Farma składa się z:</p>\n"
+"<ul>\n"
+"\t<li>węzła głównego (head node, HN)</li>\n"
+"\t<li>określonej liczby węzłów roboczych (worker node'y, WN)</li>\n"
+"</ul>\n"
+"<p>Wszystkie utworzone są z jednego obrazu.</p>\n"
+"<p>\n"
+"\tHN stanowi serwer NFS i kontroler systemu kolejkowego (jeżeli system "
+"kolejkowy jest zainstalowany). \n"
+"\tNie jest wymagana centralna autentykacja. \n"
+"\tWszyscy użytkownicy lokalni z obrazu bazowego pojawiają się jako "
+"użytkownicy lokalni na HN i wszystkich WN.\n"
+"\tDzielą wspólny katalog /home wyeksportowany z HN do wszystkich WN.\n"
+"</p>\n"
+"<p>Farma jest tworzona w dwóch krokach:</p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li>W pierwszym automatycznym kroku umożliwiony jest bezhasłowy dostęp z "
+"HN do wszystkich WN.</li>\n"
+"\t<li>W drugim kroku należy wykonać skrypt konfiguracyjny na HN, by "
+"zamontować katalog /home na wszystkich WN.</li>\n"
+"</ul>\n"
+"<p>\n"
+"Więcej na temat farm przeczytasz w dokumentacji <a href=\"http://cc1.ifj.edu."
+"pl/pl/UserGuide/html/index.html\">CC1 User Guide</a>.\n"
+"</p>\n"
+
+#: .\templates\tutorials\groups.html:4
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"\tGroup is a users unit that allowes sharing images between its members.\n"
+"</p>\n"
+"<p>\n"
+"\tIn <a href=\"%(url_list)s\">Show groups</a> section you'll find the list "
+"of all active groups. To join an existing group you must click <strong>send "
+"request</strong> at chosen group, which will notify the group leader. Once "
+"request is accepted, you will gain access to the group resources.\n"
+"\tIn <a href=\"%(url_my_groups)s\">My groups</a> section you can create new "
+"groups and manage ones that belong to you.\n"
+"</p>\n"
+"<p>\n"
+"\tBe aware that any private keys and other data you left on the image you "
+"share become available for all group members. \n"
+"</p>\n"
+"<p>\n"
+"\tIt's strongly recommended to remove all unnecessary private keys and "
+"ensure security.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"\tGrupy służą do dzielenia się obrazami pomiędzy jej członkami.\n"
+"</p>\n"
+"<p>\n"
+"\tW zakładce <a href=\"%(url_list)s\">Pokaż grupy</a> znajdziesz listę "
+"aktywnych grup. W celu dołączenia do grupy należy wysłać kliknąć opcję "
+"<strong>wyślij wniosek</strong> przy wybranej grupie, co powiadomi zarządcę "
+"danej grupy. Kiedy wniosek zostanie zaakceptowany będziesz mieć dostęp do "
+"obrazów danej grupy.\n"
+"\tW zakładce <a href=\"%(url_my_groups)s\">Moje groupy</a> możesz stworzyć "
+"własną grupę oraz zarządzać już istniejącymi.\n"
+"</p>\n"
+"<p>\n"
+"\tPamiętaj, że wszystkie prywatne klucze (lub inne dane), które umieszczasz "
+"w obrazie grupowym, będą widoczne dla wszystkich członków grupy. \n"
+"</p>\n"
+"<p>\n"
+"\tZaleca się usunięcie wszystkich niepotrzebnych prywatnych danych. \n"
+"</p>\n"
+
+#: .\templates\tutorials\help.html:4
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"Welcome to the help section.\n"
+"</p>\n"
+"<p>\n"
+"Should you encounter any problems while using the system, do not hesitate to "
+"contact us through the <a href=\"%(url_help_form)s\">Contact form</a>. <br/"
+">\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Witaj w dziale pomocy. <br/>\n"
+"</p>\n"
+"<p>\n"
+"W razie wystąpienia jakichkolwiek błędów podczas używania naszego systemu "
+"prosimy o kontakt przez <a href=\"%(url_help_form)s\">Formularz Kontaktowy</"
+"a>. <br/>\n"
+"</p>\n"
+
+#: .\templates\tutorials\images.html:3
+msgid ""
+"\n"
+"<p>\n"
+"\tHere you can browse, upload and manage virtual machine images. \n"
+"</p>\n"
+"<p>\n"
+"\tImages are dedicated to keep virtual machine's configuration, such as "
+"operating system, software and configs. Thats what new virtual machines are "
+"created from and existing ones are saved to. \n"
+"</p>\n"
+"<p>\n"
+"\tAll images are divided into 3 groups:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><strong>Public images</strong> - images available for everyone.</li>\n"
+"\t<li><strong>My images</strong> - your images, nobody else can see or use "
+"them.</li>\n"
+"\t<li><strong>Group images</strong> - your groups' images, available to your "
+"groups' members.</li>\n"
+"</ul>\n"
+"<p>\n"
+"\tDisks on the other hand are intended to store your data.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"\tTutaj możesz przegladać, wgrywać, oraz zarządzać obrazami maszyn "
+"wirtualnych. \n"
+"</p>\n"
+"<p>\n"
+"\tObrazy są przeznaczone do przechowywania konfiguracji maszyny wirtualnej, "
+"zawierającej system operacyjny, oprogramowanie i pliki konfiguracyjne. Z "
+"nich są tworzone maszyny wirtualne i do nich są zapisywane istniejące "
+"maszyny.\n"
+"</p>\n"
+"<p>\n"
+"\tWszystkie obrazy są podzielone na 3 grupy:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"<li><strong>Obrazy publiczne</strong> - obrazy dostępne dla wszystkich.</"
+"li>\n"
+"<li><strong>Obrazy prywatne</strong> - Twoje obrazy, nikt inny ich nie widzi "
+"i nie może użyć.</li>\n"
+"<li><strong>Obrazy grupowe</strong> - obrazy Twoich grup, dostępne dla "
+"członków grup.</li>\n"
+"</ul>\n"
+"<p>\n"
+"\tW przeciwieństwie do obrazów dyski są przeznaczone do przechowywania "
+"danych.\n"
+"</p>\n"
+
+#: .\templates\tutorials\images_group.html:2
+msgid ""
+"\n"
+"<p>\n"
+"Images are dedicated to keep virtual machine's configuration, such as "
+"operating system, software and configs. Thats what new virtual machines are "
+"created from and existing ones are saved to. \n"
+"</p>\n"
+"<p>\n"
+"List all your group images. You can create virtual machine of one of them.\n"
+"</p>\n"
+"<p>\n"
+"Be aware that any private keys and other data you left on the image you "
+"share becomes available for all group members. <br />\n"
+"It's strongly recommended to remove all unnecessary private keys before "
+"sharing images so that you ensure security.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Obrazy są przeznaczone do przechowywania konfiguracji maszyny wirtualnej, "
+"zawierającej system operacyjny, oprogramowanie i pliki konfiguracyjne. Z "
+"nich są tworzone maszyny wirtualne i do nich są zapisywane istniejące "
+"maszyny.\n"
+"</p>\n"
+"<p>\n"
+"Wyświetla wszystkie twoje obrazy grupowe. Można z nich tworzyć maszyny.\n"
+"</p>\n"
+"<p>\n"
+"Pamiętaj, że wszystkie prywatne klucze(lub inne dane), które umieszczasz w "
+"obrazie grupowym będą widoczne dla wszystkich członków grupy. <br/>\n"
+"Zaleca się usunięcie wszystkich niepotrzebnych prywatnych danych. \n"
+"</p>\n"
+
+#: .\templates\tutorials\images_private.html:2
+msgid ""
+"\n"
+"<p>\n"
+"Images are dedicated to keep virtual machine's configuration, such as "
+"operating system, software and configs. Thats what new virtual machines are "
+"created from and existing ones are saved to. \n"
+"</p>\n"
+"<p>\n"
+"List of all your private images. You can:\n"
+"</p>\n"
+"\n"
+"<ul class=\"text-ul\">\n"
+"<li>create virtual machine,</li>\n"
+"<li>assign to group</li>\n"
+"<li>edit</li>\n"
+"<li>remove</li>\n"
+"</ul>\n"
+"\n"
+"<p>\n"
+"any of them.\n"
+"</p>\n"
+"<p>\n"
+"\tYou can also upload your own private image, providing:\n"
+"</p>\n"
+"\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Image name</b> (required),</li>\n"
+"\t<li><b>Link to image</b> - http:// or ftp:// (required),</li>\n"
+"\t<li><b>Image description</b> (required),</li>\n"
+"\t<li><b>Platform</b> (required).</li>\n"
+"</ul>\n"
+"\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Obrazy są przeznaczone do przechowywania konfiguracji maszyny wirtualnej, "
+"zawierającej system operacyjny, oprogramowanie i pliki konfiguracyjne. Z "
+"nich są tworzone maszyny wirtualne i do nich są zapisywane istniejące "
+"maszyny.\n"
+"</p>\n"
+"<p>\n"
+"Wyświetla wszystkie prywatne obrazy. Możesz:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"<li>stworzyć maszynę wirtualną,</li>\n"
+"<li>przypisać do grupy</li>\n"
+"<li>edytować</li>\n"
+"<li>usunąć</li>\n"
+"</ul>\n"
+"\n"
+"<p>\n"
+"każdy z nich.\n"
+"</p>\n"
+"<p>\n"
+"\tMożesz również wgrać własny obraz, podając:\n"
+"</p>\n"
+"\t<ul class=\"text-ul\">\n"
+"\t\t<li><b>Nazwę</b> (wymagane)</li>\n"
+"\t\t<li><b>Link do obrazu</b> - http:// lub ftp:// (wymagane)</li>\n"
+"\t\t<li><b>Opis obrazu</b> (wymagane)</li>\n"
+"\t\t<li><b>Platformę</b> (wymagane)</li>\n"
+"\t</ul>\n"
+"</p>\n"
+
+#: .\templates\tutorials\images_public.html:2
+msgid ""
+"\n"
+"<p>\n"
+"Images are dedicated to keep virtual machine's configuration, such as "
+"operating system, software and configs. Thats what new virtual machines are "
+"created from and existing ones are saved to. \n"
+"</p>\n"
+"<p>\n"
+"List all public images. You can create image of one of them.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Obrazy są przeznaczone do przechowywania konfiguracji maszyny wirtualnej, "
+"zawierającej system operacyjny, oprogramowanie i pliki konfiguracyjne. Z "
+"nich są tworzone maszyny wirtualne i do nich są zapisywane istniejące "
+"maszyny.\n"
+"</p>\n"
+"<p>\n"
+"Wyświetla obrazy publiczne. Możesz stworzyć maszynę z dowolnego spośród "
+"nich.\n"
+"</p>\n"
+
+#: .\templates\tutorials\index_logged.html:5
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"System documentation can be found at <a href=\"http://cc1.ifj.edu.pl/"
+"\">project's site</a>.\n"
+"</p>\n"
+"<p>\n"
+"In case you encounter any troubles while using the system, please visit the "
+"<a href=\"%(url_help)s\">Help</a> section.\n"
+"</p>\n"
+"<!--\n"
+"<p>\t\t\n"
+"You can access the system using EC2 interface. You will find all the "
+"information necessary to get you started in <a href=\"%(url_account_data)s"
+"\">My account</a> section.\n"
+"</p>\n"
+"-->\t\t\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Dokumentacja systemu znajduje się na <a href=\"http://cc1.ifj.edu.pl/"
+"\">stronie projektu</a>.\n"
+"</p>\n"
+"<p>\n"
+"W przypadku problemów z systemem skieruj się do działu <a href=\"%(url_help)s"
+"\">Pomoc</a>.\n"
+"</p>\n"
+"<!--\n"
+"<p>\t\t\n"
+"System udostępnia również interfejs EC2. Wszelkie dane niezbędne do "
+"ustanowienia połączenie znajdziesz w dziale <a href=\"%(url_account_data)s"
+"\">Moje konto</a>.\n"
+"</p>\n"
+"-->\t\t\n"
+
+#: .\templates\tutorials\index_not_logged.html:5
+#, python-format
+msgid ""
+"\t\n"
+"<p>\t\n"
+"\tPlease <a href=\"%(url_login)s\">sign in</a> to an existing account or <a "
+"href=\"%(url_registration_register)s\">sign up</a> for a new one.\n"
+"</p>\t\t\n"
+msgstr ""
+"\t\n"
+"<p>\t\n"
+"\tAby kontynuować <a href=\"%(url_login)s\">zaloguj się</a> do istniejącego "
+"konta, lub <a href=\"%(url_registration_register)s\">zarejestruj</a> nowe.\n"
+"</p>\t\t\n"
+
+#: .\templates\tutorials\my_groups.html:2
+msgid ""
+"\n"
+"<p>\n"
+"\tYou may create a group to share images.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"\tTu możesz utworzyć grupę w celu dzielenia się obrazami.\n"
+"</p>\n"
+
+#: .\templates\tutorials\resources.html:3
+msgid ""
+"\n"
+"<p>\n"
+"Here you can access and manage your virtual resources:\n"
+"<ul class=\"text-ul\">\n"
+"<li><b>Elastic IP addresses</b> - your external IP address pool.</li>\n"
+"<!--\n"
+"<li><b>Networks</b></li>\n"
+"-->\n"
+"<li><b>Storage disks</b> - disk resources you can use with your virtual "
+"machines.</li>\n"
+"<li><b>ISO images</b> - bootable images with OS, installed software and all "
+"configuration.</li>\n"
+"<li><b>Authorization keys</b> - keys allowing you to log on your virtual "
+"machines.</li>\n"
+"</ul>\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Tutaj mozesz zarzadzac i przegladac swoje wirtualne zasoby:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"<li><b>Elastyczne adresy IP</b> - pula Twoich zewnetrznych adresow</li>\n"
+"<!--\n"
+"<li><b>Sieci</b></li>\n"
+"-->\n"
+"<li><b>Dyski danych</b> - zasoby dyskowe ktore mozesz dolaczac do swoich "
+"wirtualnych maszyn</li>\n"
+"<li><b>Obrazy ISO</b> - obrazy startowe z systemem operacyjnym, "
+"zainstalowanym oprogramowaniem i pełną konfiguracją.</li>\n"
+"<li><b>Klucze autoryzacji</b> - klucze umozliwiajace logowanie sie do "
+"maszyn</li>\n"
+"</ul>\n"
+
+#: .\templates\tutorials\resources_disks.html:3
+msgid ""
+"\n"
+"<p>\n"
+"Here you can manage your virtual disks.\n"
+"</p>\n"
+"<p>\n"
+"Disks are intended for storage. You need one if you are going to collect a "
+"lot of data.\n"
+"</p>\n"
+"<p>\n"
+"You can create one that takes size according to your needs. \n"
+"Such a disk may be further attached to a virtual machine.\n"
+"</p>\n"
+"<p>\n"
+"Note, that <b>only disks with USB or virtio bus may be attached to and "
+"detached from running VMs</b>. \n"
+"Other disks need to be attached the moment VM is being created.\n"
+"</p>\n"
+"<p>\n"
+"Available operations:\n"
+"<ul class=\"text-ul\">\n"
+"<li><b>Add new disk,</b></li>\n"
+"<li><b>Edit existing disk,</b></li>\n"
+"<li><b>Remove existing disk.</b></li>\n"
+"</ul>\n"
+"</p>\n"
+"<br />\n"
+"<p>\n"
+"Disks are not images. Images are dedicated to keep virtual machine's "
+"configuration.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Tutaj możesz zarządzać swoimi dyskami wirtualnymi.\n"
+"</p>\n"
+"<p>\n"
+"Dyski służą składowaniu. Potrzebujesz dysku, jeżeli zamierzasz gromadzić "
+"duże ilości danych.\n"
+"</p>\n"
+"<p>\n"
+"Możesz stworzyć dysk o rozmiarze zależnym od Twoich potrzeb. Następnie dysk "
+"może zostać dopięty do istniejącej lub nowo tworzonej maszyny.\n"
+"</p>\n"
+"<p>\n"
+"<b>Tylko dyski USB i virtio mogą być przypinane do i odpinane od działającej "
+"maszyny</b>. \n"
+"Inne dyski muszą zostać podpięte podczas tworzenia maszyny wirtualnej.\n"
+"</p>\n"
+"<p>\n"
+"Dostępne operacje:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"<li><b>Dodaj nowy dysk,</b></li>\n"
+"<li><b>Edytuj istniejący dysk,</b></li>\n"
+"<li><b>Usuń istniejący dysk.</b></li>\n"
+"</ul>\n"
+"<p>\n"
+"Dyski to nie obrazy. Obrazy przeznaczone są do trzymania konfiguracji "
+"maszyny wirtualnej.\n"
+"</p>\n"
+
+#: .\templates\tutorials\resources_elastic_ip.html:2
+msgid ""
+"\n"
+"<p>\n"
+"Here you can manage your elastic external IP adressess.\n"
+"Attaching public IP to your VM  makes it accessible from any place in the "
+"world.\n"
+"</p>\n"
+"<p>\n"
+"By default one user can obtain one public IP address due to limited public "
+"IP pool.\n"
+"</p>\n"
+"<p>\n"
+"You can configure your VMs so that you have access to all of them having "
+"only one IP address (e.g. using VPN).<br />\n"
+"</p>\n"
+"<p>\n"
+"Available actions: <br />\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Add new IP</b> - available, if you haven't used your limit.</li>\n"
+"\t<li><b>Release IP</b> - removes corresponding IP address from your pool.</"
+"li>\n"
+"</ul>\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Tutaj możesz zarządzac swoimi elastycznymi zewnętrznymi adresami IP.\n"
+"Dopięcie publicznego IP do maszyny wirtualnej czyni ją dostępną z dowolnego "
+"miejsca na świecie.\n"
+"</p>\n"
+"<p>\n"
+"Domyślnie jeden użytkownik może otrzymać jeden publiczny adres IP w związku "
+"z ograniczoną pulą publicznych adresów.\n"
+"Możesz tak skonfigurować maszyny, bo mieć dostęp do każdej z nich mając "
+"przydzielone tylko jedno publiczne IP (np. wykorzystując VPN).\n"
+"</p>\n"
+"<p>\n"
+"Dostępne akcje: <br />\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Poproś o nowe IP</b> - dostępne, jeśli nie wykorzystałeś limitu.</"
+"li>\n"
+"\t<li><b>Zwolnij adres IP</b> - usuwa związany adres IP z Twojej puli.</li>\n"
+"</ul>\n"
+"</p>\n"
+
+#: .\templates\tutorials\resources_iso.html:3
+msgid ""
+"\n"
+"<p>\n"
+"ISO images have a lot in commont with standard Images. Those can store "
+"operating system and may be bootable. One can upload them and subsequently "
+"run VM with ISO attached. Such machine may boot from that ISO image provided "
+"it is bootable.\n"
+"</p>\n"
+"<p>\n"
+"On the other hand those are immutable, therefore can't be modified and saved "
+"back to user's pool.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Obrazy ISO mają wiele wspólnego ze standardowymi obrazam. Mogą przechowywać "
+"system operacyjny i mogą być bootowalne. Możliwe jest uploadowanie obrazu, a "
+"następnie wystartowanie VM z przypiętym obrazem ISO. Taka maszyna może "
+"później startować z tego obrazu, jeżeli jest on bootowalny.\n"
+"</p>\n"
+"<p>\n"
+"Z drugiej strony nie są one modyfikowalne, więc nie mogą zostać zmienione i "
+"zapisane z powrotem w puli użytkownika.\n"
+"</p>\n"
+
+#: .\templates\tutorials\resources_keys.html:2
+msgid ""
+"\n"
+"<p>\n"
+"Here you can manage your RSA authorization keys. \n"
+"</p>\n"
+"<p>\n"
+"Authorization keys are intended to allow passwordless authentication when "
+"loging via SSH.\n"
+"</p>\n"
+"<p>\n"
+"You can generate SSH keys pair or add your own key.\n"
+"Then you can inject key into the VM.\n"
+"</p>\n"
+"<p>\n"
+"Available operations: <br />\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Generate new key</b></li>\n"
+"\t<li><b>Add my key</b></li>\n"
+"\t<li><b>Remove</b></li>\n"
+"</ul>\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Tu możesz zarządzać swoimi kluczami autoryzacyjnymi RSA.\n"
+"</p>\n"
+"<p>\n"
+"Klucze te umożliwiają bezhasłową autentykację podczas logowania się przez "
+"SSH.\n"
+"</p>\n"
+"<p>\n"
+"Możesz wygenerować parę kluczy bądź dodać własny klucz.\n"
+"Następnie możesz wstrzyknąć klucz na maszynę .\n"
+"</p>\n"
+"<p>\n"
+"Dostępne operacje: <br />\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Wygeneruj nowy klucz</b></li>\n"
+"\t<li><b>Dodaj mój klucz</b></li>\n"
+"\t<li><b>Usuń</b></li>\n"
+"</ul>\n"
+"</p>\n"
+
+#: .\templates\tutorials\resources_networks.html:2
+msgid ""
+"\n"
+"<p>\n"
+"\tHere you can manage your networks.\n"
+"</p>\n"
+"<p>\n"
+"Available actions: <br />\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Request new network</b></li>\n"
+"\t<li><b>Release network</b> - removes corresponding network from your pool."
+"</li>\n"
+"</ul>\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"\tTutaj można zarządzać swoimi sieciami.\n"
+"</p>\n"
+"<p>\n"
+"Dostępne akcje: <br />\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Poproś o nową sieć</b></li>\n"
+"\t<li><b>Zwolnij sieć</b> - usuwa odpowiadającą sieć z Twojej puli.</li>\n"
+"</ul>\n"
+"</p>\n"
+
+#: .\templates\tutorials\show_farm.html:2
+msgid ""
+"\n"
+"<p>\n"
+"List of farms. Each farm is described by:\n"
+"</p>\n"
+"<p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Name</b>,</li>\n"
+"\t<li><b>Creation time and uptime</b>,</li>\n"
+"\t<li><b>Templates</b> (hardware parameters) of head and of worker nodes,</"
+"li>\n"
+"\t<li><b>Head public and private IP</b>,</li>\n"
+"\t<li><b>VNC access</b> details,</li>\n"
+"\t<li><b>Disks</b> attached to it.</li>\n"
+"</ul>\n"
+"</p>\n"
+"<p>\n"
+"Actions you can perform on farm depend on it's state.\n"
+"If farm's state is other than <b>running</b>, some operations are "
+"unavailable.\n"
+"Farm that is <b>failed</b> needs to be removed by administrator.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Lista farm. Każdą farmę charakteryzują:\n"
+"</p>\n"
+"<p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Nazwa</b>,</li>\n"
+"\t<li><b>Czas utworzenia i działania</b>,</li>\n"
+"\t<li><b>Szablony</b> (parametry hardware'owe) heada  i worker nodów,</li>\n"
+"\t<li><b>Publiczny i prywatny adres IP heada</b>,</li>\n"
+"\t<li><b>Konsola graficzna VNC</b> - szczegóły dostępu,</li>\n"
+"\t<li><b>Dyski</b> podpięte do farmy.</li>\n"
+"</ul>\n"
+"</p>\n"
+"<p>\n"
+"Akcje, jakie możesz wykonać na farmie, zależą od jej statusu.\n"
+"Jeśli status jest inny niż <b>running</b>, część operacji jest niedostęþna.\n"
+"Farma mająca stan <b>failed</b> musi zostać usunięta przez administratora\n"
+"</p>\n"
+
+#: .\templates\tutorials\show_groups.html:2
+msgid ""
+"\n"
+"<p>\n"
+"\tYou may browse groups created by other users.\n"
+"</p>\n"
+"<p>\n"
+"\tIt is possible to request membership in any of them.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"\tTu możesz przeglądać grupy stworzone przez użytkowników systemu.\n"
+"</p>\n"
+"<p>\n"
+"\tMożesz złożyć wniosek o członkowstwo do dowolnej z nich.\n"
+"</p>\n"
+
+#: .\templates\tutorials\show_vm.html:2
+msgid ""
+"\n"
+"<p>\n"
+"Here is list of your virtual machines. You can manage and see details of any "
+"VM.\n"
+"</p>\n"
+"<h3>VM managment actions</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Destroy</b> - irreversibly destroyes the VM without saving changes "
+"to image.</li>\n"
+"\t<li><b>Save and shutdown</b> - closes the VM and saves the image with "
+"changes in user's private images pool.</li>\n"
+"\t<li><b>Reset</b> - unplugs the VM and connects it to power again. Unsaved "
+"changes on the machine will be lost.</li>\n"
+"\t<li><b>Edit</b> - edits VM's name and description. If VM with "
+"contextualization is closed from inside, it will be saved to image taking "
+"that name with 'autosave' appended.</li>\n"
+"</ul>\n"
+"<h3>Resources</h3>\n"
+"<h3>VM access actions</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Assign external IP</b> - allows access to the VM from the internet."
+"</li>\n"
+"\t<li><b>Graphical console (VNC)</b> - transmits the VM screen to the "
+"webbrowser window.</li>\n"
+"</ul>\n"
+"<h3>VM contextualization actions (available only if VM supports "
+"contextualization)</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Set password</b> - set user and password on the VM.</li>\n"
+"\t<li><b>Set SSH key</b> - set SSH key on the VM.</li>\n"
+"</ul>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Oto lista Twoich maszyn wirtualnych. Możesz nimi zarządzać oraz zobaczyć "
+"szczegóły każdej z nich.\n"
+"</p>\n"
+"<h3>Akcje zarządzania</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Zniszcz</b> - bezpowrotnie niszczy maszynę bez zapisywania zmian na "
+"niej do obrazu.</li>\n"
+"\t<li><b>Zapisz i zamknij</b> - zamyka maszynę, zapisując zmiany na niej do "
+"obrazu w prywatnej puli obrazów użytkownika.</li>\n"
+"\t<li><b>Zresetuj</b> - odłącza maszynę od prądu i podłącza ją z powrotem. "
+"Wszystkie niezapisane zmiany zostaną utracone.</li>\n"
+"\t<li><b>Edytuj</b> - pozwala zedytować nazwę i opis maszyny. Jeżeli maszyna "
+"ma wgraną kontekstualizację, pod tą nazwą z dopiskiem 'autosave' zostałaby "
+"zapisana w wypadku zamknięcia jej od wewnątrz.</li>\n"
+"</ul>\n"
+"<h3>Zasoby</h3>\n"
+"<h3>Akcje dostępu</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Dołącz zewnętrzny adres IP</b> - umożliwia dostęp do maszyny "
+"poprzez internet.</li>\n"
+"\t<li><b>Konsola graficzna (VNC)</b> - transmituje ekran maszyny wirtualnej "
+"do okna przeglądarki.</li>\n"
+"</ul>\n"
+"<h3>Akcje kontekstualizacji (dostępne jedynie jeżeli VM obsługuje "
+"kontekstualizację)</h3>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li><b>Ustaw hasło</b> - set user and password on the VM.</li>\n"
+"\t<li><b>Ustaw klucz SSH</b> - set SSH key on the VM.</li>\n"
+"</ul>\n"
+
+#: .\templates\tutorials\vms.html:3
+#, python-format
+msgid ""
+"\n"
+"<p>\n"
+"Here you will find all virtual machines creation and management related "
+"functions.\n"
+"Current resources limits for one user are:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li>24 CPU</li>\n"
+"\t<li>24 GB RAM</li>\n"
+"\t<li>1 public IP address</li>\n"
+"</ul>\n"
+"<p>\n"
+"We are willing to consider increasing the limits in individual cases. Should "
+"you need more resources for your virtual machines, contact the system "
+"administrator through the <a href=\"%(url_help_form)s\">Help form</a>.\n"
+"</p>\n"
+msgstr ""
+"\n"
+"<p>\n"
+"Tutaj znajdziesz wszelką funkcjonalność dotyczącą tworzenia i zarządzania "
+"maszynami wirtualnymi. \n"
+"Obecne ograniczenia zasobów dla jednego użytkownika:\n"
+"</p>\n"
+"<ul class=\"text-ul\">\n"
+"\t<li>24 rdzeni</li>\n"
+"\t<li>24 GB pamięci</li>\n"
+"\t<li>1 publiczny adres IP</li>\n"
+"</ul>\n"
+"<p>\n"
+"Jesteśmy skłonni rozpatrzyć indywidualną prośbę o zwiększenie limitu "
+"zasobów. W takich przypadkach należy kontaktować się z administratorem "
+"poprzez formularz kontaktowy dostępny w dziale <a href=\"%(url_help_form)s"
+"\">Pomoc</a>.\n"
+"</p>\n"
+
+#: .\templates\vms\create_vm.html:5 .\templates\vms\create_vm.html.py:10
+#: .\templates\vms\create_vm.html:16 .\templates\vms\create_vm_wizard0.html:5
+#: .\templates\vms\create_vm_wizard0.html:10
+#: .\templates\vms\create_vm_wizard0.html:16
+#: .\templates\vms\create_vm_wizard1.html:5
+#: .\templates\vms\create_vm_wizard1.html:10
+#: .\templates\vms\create_vm_wizard1.html:16
+#: .\templates\vms\create_vm_wizard2.html:5
+#: .\templates\vms\create_vm_wizard2.html:10
+#: .\templates\vms\create_vm_wizard2.html:16
+#: .\templates\vms\create_vm_wizard3.html:6
+#: .\templates\vms\create_vm_wizard3.html:11
+#: .\templates\vms\create_vm_wizard3.html:17 .\templates\vms\menu.html:3
+msgid "New virtual machine"
+msgstr "Nowa maszyna"
+
+#: .\templates\vms\create_vm_wizard1.html:79
+msgid "Name - Additionally ec2name if assigned"
+msgstr "Nazwa - Dodatkowo ec2name jeśli określono"
+
+#: .\templates\vms\create_vm_wizard1.html:82
+msgid "Points' usage"
+msgstr "Koszt punktowy"
+
+#: .\templates\vms\create_vm_wizard1.html:83
+msgid "Points' usage - Amount of points used by virtual machine per hour"
+msgstr "Koszt punktowy - Liczba punktów zużywana przez maszynę w ciągu godziny"
+
+#: .\templates\vms\create_vm_wizard1.html:114
+#: .\templates\wizard\image_select.html:110
+msgid "Select"
+msgstr "Wybierz"
+
+#: .\templates\vms\create_vm_wizard3.html:53
+msgid "Virtual machine settings summary"
+msgstr "Podsumowanie ustawień maszyny wirtualnej"
+
+#: .\templates\vms\create_vm_wizard3.html:61
+msgid "Image description"
+msgstr "Opis obrazu"
+
+#: .\templates\vms\create_vm_wizard3.html:109
+msgid "Submit data"
+msgstr "Wyślij"
+
+#: .\templates\vms\show_vm.html:17
+msgid "List of virtual machines"
+msgstr "Lista maszyn wirtualnych"
+
+#: .\templates\vms\show_vm.html:138 .\templates\vms\show_vm.html.py:190
+#: .\templates\vms\ajax\vm_details.html:33
+msgid "Reset"
+msgstr "Zresetuj"
+
+#: .\templates\vms\show_vm.html:147 .\templates\vms\show_vm.html.py:288
+#: .\templates\vms\ajax\vm_details.html:140
+msgid "Disable VNC"
+msgstr "Deaktywuj VNC"
+
+#: .\templates\vms\show_vm.html:147 .\templates\vms\show_vm.html.py:280
+#: .\templates\vms\ajax\vm_details.html:146
+msgid "Enable VNC"
+msgstr "Aktywuj VNC"
+
+#: .\templates\vms\show_vm.html:200
+msgid "Edit virtual machine"
+msgstr "Edytuj maszynę wirtualną"
+
+#: .\templates\vms\show_vm.html:296
+msgid "Reset machine password"
+msgstr "Zresetuj hasło maszyny"
+
+#: .\templates\vms\show_vm.html:305
+msgid "Machine SSH key"
+msgstr "Klucz SSH maszyny"
+
+#: .\templates\vms\show_vm.html:337
+msgid ""
+"Left click table row to open virtual machine details box below. Right click "
+"table row to show context menu."
+msgstr ""
+"Naciśnij lewy przycisk myszy aby otworzyć szczegóły maszyny wirtualnej. "
+"Prawy przycisk myszy otwiera menu kontekstowe."
+
+#: .\templates\vms\vnc.html:24
+msgid "Error loading VNC applet."
+msgstr "Błąd ładowania VNC."
+
+#: .\templates\vms\ajax\assign_disk.html:4
+msgid "Select a disk to assign:"
+msgstr "Wybierz dysk do podpięcia:"
+
+#: .\templates\vms\ajax\assign_disk.html:11
+#: .\templates\vms\ajax\revoke_disk.html:11
+msgid ""
+"Only disks with USB or virtio bus may be attached to and detached from "
+"running VMs."
+msgstr ""
+"Tylko dyski USB i virtio mogą zostać podpięte do i odpięte od działającej "
+"maszyny."
+
+#: .\templates\vms\ajax\assign_disk.html:12
+msgid "If there are no free disk to assign go to: '"
+msgstr "W przypadku braku wolnych dysków idź do: '"
+
+#: .\templates\vms\ajax\assign_disk.html:18
+msgid "Attach selected disk"
+msgstr "Podepnij wybrany dysk"
+
+#: .\templates\vms\ajax\assign_ip.html:11
+msgid "If there are no free IP addresses to assign go to: "
+msgstr "W przypadku braku wolnych IP idź do: "
+
+#: .\templates\vms\ajax\assign_ip.html:12
+msgid "Manage public IP"
+msgstr "Adresy IP"
+
+#: .\templates\vms\ajax\monitoring.html:65
+msgid "Refresh"
+msgstr "Odśwież"
+
+#: .\templates\vms\ajax\monitoring.html:71
+msgid "Previous data"
+msgstr "Poprzednie dane"
+
+#: .\templates\vms\ajax\monitoring.html:74
+msgid "Next data"
+msgstr "Następne dane"
+
+#: .\templates\vms\ajax\monitoring.html:176
+msgid "Select data."
+msgstr "Wybierz dane."
+
+#: .\templates\vms\ajax\monitoring.html:269
+msgid "Error fetching plot data."
+msgstr "Błąd pobierania danych."
+
+#: .\templates\vms\ajax\revoke_disk.html:4
+msgid "Select a disk to detach:"
+msgstr "Wybierz dysk do odpięcia:"
+
+#: .\templates\vms\ajax\revoke_disk.html:16
+msgid "Detach selected disk"
+msgstr "Odepnij wybrany dysk"
+
+#: .\templates\vms\ajax\vm_details.html:8
+msgid "Machine:"
+msgstr "Maszyna:"
+
+#: .\templates\vms\ajax\vm_details.html:159
+#: .\templates\vms\ajax\vm_details.html:173
+msgid "Revoke IP"
+msgstr "Odłącz IP"
+
+#: .\templates\vms\ajax\vm_details.html:165
+#: .\templates\vms\ajax\vm_details.html:179
+msgid "Assign IP"
+msgstr "Podepnij IP"
+
+#: .\templates\vms\ajax\vm_details.html:219
+#: .\templates\vms\ajax\vm_details.html:228
+msgid "disabled"
+msgstr "deaktywowane"
+
+#: .\templates\vms\ajax\vm_details.html:244
+msgid "Contextualization"
+msgstr "Kontekstualizacja"
+
+#: .\templates\wizard\generic.html:29
+msgid "Next"
+msgstr "Dalej"
+
+#: .\templates\wizard\image_select.html:58
+msgid "Image category"
+msgstr "Typ obrazu"
+
+#: .\templates\wizard\steps.html:21
+msgid "Click to go to this step."
+msgstr "Kliknij, żeby przejść do tego kroku."
+
+#: .\urls\admin_clm\cm.py:38
+#, python-format
+msgid "You have successfully deleted CM <b>%(desc)s</b>."
+msgstr "CM <b>%(desc)s</b> został usunięty."
+
+#: .\urls\admin_clm\cm.py:39
+#, python-format
+msgid "Do you want to delete CM <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć CM <b>%(desc)s</b>?"
+
+#: .\urls\admin_clm\cm.py:45
+#, python-format
+msgid "You have successfully locked CM <b>%(desc)s</b>."
+msgstr "CM <b>%(desc)s</b> został zablokowany."
+
+#: .\urls\admin_clm\cm.py:46
+#, python-format
+msgid "Do you want to lock CM <b>%(desc)s</b>?"
+msgstr "Czy chcesz zablokować CM <b>%(desc)s</b>?"
+
+#: .\urls\admin_clm\cm.py:52
+#, python-format
+msgid "You have successfully unlocked CM <b>%(desc)s</b>."
+msgstr "CM <b>%(desc)s</b> został odblokowany."
+
+#: .\urls\admin_clm\cm.py:53
+#, python-format
+msgid "Do you want to unlock CM <b>%(desc)s</b>?"
+msgstr "Czy chcesz odblokować CM <b>%(desc)s</b>?"
+
+#: .\urls\admin_clm\cm.py:59
+msgid "You have successfully created a CM."
+msgstr "CM został dodany."
+
+#: .\urls\admin_clm\cm.py:60
+msgid "Note: currently logged user becomes CM administrator."
+msgstr "Uwaga: obecnie zalogowany użytkownik zostanie administratorem CM."
+
+#: .\urls\admin_clm\cm.py:67
+msgid "You have successfully edited selected CM."
+msgstr "Dane wybranego CM zostały zmeinione."
+
+#: .\urls\admin_clm\cm.py:68 .\urls\admin_clm\user.py:69
+#: .\urls\admin_cm\iso_image.py:41 .\urls\admin_cm\node.py:79
+#: .\urls\admin_cm\storage_image.py:41 .\urls\admin_cm\system_image.py:42
+#: .\urls\admin_cm\template.py:55 .\urls\admin_cm\user.py:44
+#: .\urls\user\group.py:93 .\urls\user\iso_image.py:42
+#: .\urls\user\storage_image.py:42 .\urls\user\system_image.py:77
+#: .\urls\user\vm.py:121 .\views\admin_clm\news.py:62 .\views\user\user.py:121
+msgid "Save"
+msgstr "Zapisz"
+
+#: .\urls\admin_clm\news.py:37
+msgid "News entry added."
+msgstr "Wiadomość została dodana."
+
+#: .\urls\admin_clm\news.py:44
+#, python-format
+msgid "You have successfully removed news entry <b>%(desc)s</b>."
+msgstr "Wiadomość <b>%(desc)s</b> została usunięta."
+
+#: .\urls\admin_clm\news.py:45
+#, python-format
+msgid "Do you want to delete news entry <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć wiadomość <b>%(desc)s</b>?"
+
+#: .\urls\admin_clm\user.py:42
+#, python-format
+msgid "You have successfully activated user <b>%(desc)s</b>."
+msgstr "Aktywawano użytkownika <b>%(desc)s</b> ."
+
+#: .\urls\admin_clm\user.py:43
+#, python-format
+msgid "Do you want to activate user <b>%(desc)s</b>?"
+msgstr "Czy chcesz aktywować użytkownika <b>%(desc)s</b>?"
+
+#: .\urls\admin_clm\user.py:51
+#, python-format
+msgid "You have successfully blocked user <b>%(desc)s</b>."
+msgstr "Użytkownik <b>%(desc)s</b> został zablokowany."
+
+#: .\urls\admin_clm\user.py:52
+#, python-format
+msgid "Do you want to block user <b>%(desc)s</b>?"
+msgstr "Czy chcesz zablokować użytkownika <b>%(desc)s</b>?"
+
+#: .\urls\admin_clm\user.py:59
+#, python-format
+msgid "You have successfully unblocked user <b>%(desc)s</b>."
+msgstr "Użytkownik <b>%(desc)s</b> został odblokowany."
+
+#: .\urls\admin_clm\user.py:60
+#, python-format
+msgid "Do you want to unblock user <b>%(desc)s</b>?"
+msgstr "Czy chcesz odblokować użytkownika <b>%(desc)s</b>?"
+
+#: .\urls\admin_clm\user.py:68
+msgid "You have successfully changed account data."
+msgstr "Dane konta zostały zmienione."
+
+#: .\urls\admin_clm\user.py:81
+#, python-format
+msgid ""
+"You have successfully changed user <b>%(desc)s</b> to CLM administrator."
+msgstr "Użytkownik <b>%(desc)s</b> został zmieniony w admina CLM."
+
+#: .\urls\admin_clm\user.py:82
+#, python-format
+msgid "Do you want to promote user <b>%(desc)s</b> to administrator?"
+msgstr "Czy chcesz awansować użytkownika <b>%(desc)s</b> na administratora?"
+
+#: .\urls\admin_clm\user.py:89
+#, python-format
+msgid "You have successfully changed <b>%(desc)s</b> to regular user."
+msgstr "Administrator <b>%(desc)s</b> został zmieniony w zwykłego użytkownika."
+
+#: .\urls\admin_clm\user.py:90
+#, python-format
+msgid "Do you want to demote administrator <b>%(desc)s</b> to regular user?"
+msgstr ""
+"Czy chcesz zdegradować administratora <b>%(desc)s</b> do zwykłego "
+"użytkownika?"
+
+#: .\urls\admin_clm\user.py:97
+#, python-format
+msgid "You have successfully deleted user <b>%(desc)s</b>."
+msgstr "Użytkownik <b>%(desc)s</b> został usunięty."
+
+#: .\urls\admin_clm\user.py:98
+#, python-format
+msgid "Do you want to delete user <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć użytkownika <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\__init__.py:36
+msgid "You have successfully moved data to archival database."
+msgstr "Przeniesiono dane do bazy archiwalnej."
+
+#: .\urls\admin_cm\__init__.py:37
+msgid "Do you want to move data to archival database?"
+msgstr "Czy chcesz przenieść dane do bazy archiwalnej?"
+
+#: .\urls\admin_cm\farm.py:40 .\urls\user\farm.py:50
+#, python-format
+msgid "You have successfully destroyed farm <b>%(desc)s</b>."
+msgid_plural ""
+"You have successfully destroyed %(count)d farms (<b>%(desc)s</b>)."
+msgstr[0] "Farma <b>%(desc)s</b> została zniszczona."
+msgstr[1] "%(count)d farmy (<b>%(desc)s</b>) zostały zniszczone."
+msgstr[2] "%(count)d farm (<b>%(desc)s</b>) zostało zniszczonych."
+
+#: .\urls\admin_cm\farm.py:41
+#, python-format
+msgid "Do you want to destroy farm <b>%(desc)s</b>?"
+msgid_plural "Do you want to destroy %(count)d farms <b>%(desc)s</b>?"
+msgstr[0] "Czy chcesz zniszczyć farmę <b>%(desc)s</b>?"
+msgstr[1] "Czy chcesz zniszczyć %(count)d farmy <b>%(desc)s</b>?"
+msgstr[2] "Czy chcesz zniszczyć %(count)d farm <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\farm.py:47
+#, python-format
+msgid "You have successfully erased farm <b>%(desc)s</b>."
+msgid_plural "You have successfully erased %(count)d farms (<b>%(desc)s</b>)."
+msgstr[0] "Farma <b>%(desc)s</b> została usunięta."
+msgstr[1] "%(count)d farmy (<b>%(desc)s</b>) zostały usunięte."
+msgstr[2] "%(count)d farm (<b>%(desc)s</b>) zostało usuniętych."
+
+#: .\urls\admin_cm\farm.py:48
+#, python-format
+msgid "Do you want to erase farm <b>%(desc)s</b>?"
+msgid_plural "Do you want to erase %(count)d farms <b>%(desc)s</b>?"
+msgstr[0] "Czy chcesz dobić farmę <b>%(desc)s</b>?"
+msgstr[1] "Czy chcesz dobić %(count)d farmy <b>%(desc)s</b>?"
+msgstr[2] "Czy chcesz dobić %(count)d farm <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\farm.py:54 .\urls\user\farm.py:58
+msgid "Farm head will be saved."
+msgstr "Head farmy zostanie zapisany."
+
+#: .\urls\admin_cm\farm.py:55 .\urls\user\farm.py:59
+msgid "The farm will be closed. Enter a name to save head of this farm."
+msgstr ""
+"Farma zostanie zamknięta. Podaj nazwę w celu zapisania heada tej farmy."
+
+#: .\urls\admin_cm\iso_image.py:40
+msgid "You have successfully edited selected ISO image."
+msgstr "Obraz ISO został zmieniony."
+
+#: .\urls\admin_cm\iso_image.py:51
+#, python-format
+msgid "You have successfully deleted ISO image <b>%(desc)s</b>."
+msgstr "Obraz ISO <b>%(desc)s</b> został usunięty."
+
+#: .\urls\admin_cm\iso_image.py:52
+#, python-format
+msgid "Do you want to delete ISO image <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć obraz ISO <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\network.py:43 .\urls\user\network.py:46
+#, python-format
+msgid "You have successfully released network <b>%(desc)s</b>."
+msgstr "Sieć <b>%(desc)s</b> została zwolniona."
+
+#: .\urls\admin_cm\network.py:44 .\urls\user\network.py:47
+#, python-format
+msgid "Do you want to release network <b>%(desc)s</b>?"
+msgstr "Czy chcesz zwolnić sieć <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\network.py:54
+msgid "You have successfully added a pool."
+msgstr "Pula została dodana."
+
+#: .\urls\admin_cm\network.py:55 .\urls\admin_cm\network.py:89
+#: .\urls\user\group.py:56 .\urls\user\key.py:44
+msgid "Add"
+msgstr "Dodaj"
+
+#: .\urls\admin_cm\network.py:62
+#, python-format
+msgid "You have successfully deleted pool <b>%(desc)s</b>."
+msgstr "Pula <b>%(desc)s</b> została usunięta."
+
+#: .\urls\admin_cm\network.py:63
+#, python-format
+msgid "Do you want to delete pool <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć pulę <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\network.py:70
+#, python-format
+msgid "You have successfully locked pool <b>%(desc)s</b>."
+msgstr "Pula <b>%(desc)s</b> została zablokowana."
+
+#: .\urls\admin_cm\network.py:71
+#, python-format
+msgid "Do you want to lock pool <b>%(desc)s</b>?"
+msgstr "Czy chcesz zablokować pulę <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\network.py:77
+#, python-format
+msgid "You have successfully unlocked pool <b>%(desc)s</b>."
+msgstr "Pula <b>%(desc)s</b> została odblokowana."
+
+#: .\urls\admin_cm\network.py:78
+#, python-format
+msgid "Do you want to unlock pool <b>%(desc)s</b>?"
+msgstr "Czy chcesz odblokować pulę <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\network.py:88
+msgid "You have successfully added public IPs."
+msgstr "Publiczne adresy zostały dodane."
+
+#: .\urls\admin_cm\network.py:95
+#, python-format
+msgid "You have successfully deleted Public IP <b>%(desc)s</b>."
+msgid_plural ""
+"You have successfully deleted %(count)d pulic IPs (<b>%(desc)s</b>)."
+msgstr[0] "Publiczny adres IP <b>%(desc)s</b> została usunięty."
+msgstr[1] "%(count)d publiczne adresy IP (<b>%(desc)s</b>) zostały usunięte."
+msgstr[2] ""
+"%(count)d publicznych adresy IP (<b>%(desc)s</b>) zostało usuniętych."
+
+#: .\urls\admin_cm\network.py:96
+#, python-format
+msgid "Do you want to delete public IP <b>%(desc)s</b>?"
+msgid_plural "Do you want to delete %(count)d public IPs <b>%(desc)s</b>?"
+msgstr[0] "Czy chcesz usunąć publiczny adres IP <b>%(desc)s</b>?"
+msgstr[1] "Czy chcesz usunąć %(count)d publiczne adresy IP <b>%(desc)s</b>?"
+msgstr[2] "Czy chcesz usunąć %(count)d publicznych adresów IP <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\node.py:43
+#, python-format
+msgid "You have successfully deleted node <b>%(desc)s</b>."
+msgstr "Węzeł <b>%(desc)s</b> został zablokowany."
+
+#: .\urls\admin_cm\node.py:44
+#, python-format
+msgid "Do you want to delete node <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć węzeł <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\node.py:50
+#, python-format
+msgid "You have successfully locked node <b>%(desc)s</b>."
+msgstr "Węzeł <b>%(desc)s</b> został zablokowany."
+
+#: .\urls\admin_cm\node.py:51
+#, python-format
+msgid "Do you want to lock node <b>%(desc)s</b>?"
+msgstr "Czy chcesz zablokować węzeł <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\node.py:57
+#, fuzzy, python-format
+msgid "You have successfully hardlocked node <b>%(desc)s</b>."
+msgstr "Węzeł <b>%(desc)s</b> został zablokowany."
+
+#: .\urls\admin_cm\node.py:58
+#, fuzzy, python-format
+msgid "Do you want to hardlock node <b>%(desc)s</b>?"
+msgstr "Czy chcesz zablokować węzeł <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\node.py:64
+#, python-format
+msgid "You have successfully unlocked node <b>%(desc)s</b>."
+msgstr "Węzeł <b>%(desc)s</b> został odblokowany."
+
+#: .\urls\admin_cm\node.py:65
+#, python-format
+msgid "Do you want to unlock node <b>%(desc)s</b>?"
+msgstr "Czy chcesz odblokować węzeł <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\node.py:71
+msgid "You have successfully created a node."
+msgstr "Węzeł został dodany."
+
+#: .\urls\admin_cm\node.py:78
+msgid "You have successfully edited selected node."
+msgstr "Dane węzła zostały zmienione."
+
+#: .\urls\admin_cm\node.py:87
+#, python-format
+msgid ""
+"You have successfully created a virtual machine on selected node (address: %"
+"(desc)s)."
+msgstr "Utworzono maszynę wirtualną na wybranym węźle. (adres: %(desc)s)."
+
+#: .\urls\admin_cm\storage.py:39
+msgid "You have successfully created a storage."
+msgstr "Macierz została dodana."
+
+#: .\urls\admin_cm\storage.py:46
+#, python-format
+msgid "You have successfully locked storage <b>%(desc)s</b>."
+msgstr "Macierz <b>%(desc)s</b> została zablokowana."
+
+#: .\urls\admin_cm\storage.py:47
+#, python-format
+msgid "Do you want to lock storage <b>%(desc)s</b>?"
+msgstr "Czy chcesz zablokować macierz <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\storage.py:53
+#, python-format
+msgid "You have successfully deleted storage <b>%(desc)s</b>."
+msgstr "Macierz <b>%(desc)s</b> została usunięta."
+
+#: .\urls\admin_cm\storage.py:54
+#, python-format
+msgid "Do you want to delete storage <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć macierz <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\storage.py:60
+#, python-format
+msgid "You have successfully unlocked storage <b>%(desc)s</b>."
+msgstr "Macierz <b>%(desc)s</b> została odblokowana."
+
+#: .\urls\admin_cm\storage.py:61
+#, python-format
+msgid "Do you want to unlock storage <b>%(desc)s</b>?"
+msgstr "Czy chcesz odblokować macierz <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\storage.py:69
+msgid "You have successfully mounted strorage to RM."
+msgstr "Macierz(e) została(y) podpięte do RM."
+
+#: .\urls\admin_cm\storage.py:70
+msgid "Do you want to mount storage to RM?"
+msgstr "Czy chcesz podpiąć tę macierz do RM?"
+
+#: .\urls\admin_cm\storage_image.py:40 .\urls\user\storage_image.py:40
+msgid "You have successfully edited selected disk."
+msgstr "Dane dysku został zmieniony."
+
+#: .\urls\admin_cm\storage_image.py:51 .\urls\user\storage_image.py:51
+#, python-format
+msgid "You have successfully removed disk volume <b>%(desc)s</b>."
+msgstr "Dysk <b>%(desc)s</b> został usunięty."
+
+#: .\urls\admin_cm\storage_image.py:52
+#, python-format
+msgid "Do you want to delete disk volume <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć dysk <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\system_image.py:41
+msgid "You have successfully edited selected image."
+msgstr "Obraz został zmieniony."
+
+#: .\urls\admin_cm\system_image.py:54
+#, python-format
+msgid "You have successfully deleted image <b>%(desc)s</b>."
+msgstr "Obraz <b>%(desc)s</b> został usunięty."
+
+#: .\urls\admin_cm\system_image.py:55
+#, python-format
+msgid "Do you want to delete image <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć obraz <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\system_image.py:61 .\urls\admin_cm\system_image.py:68
+#, python-format
+msgid "You have successfully changed type of image <b>%(desc)s</b>."
+msgstr "Typ obrazu <b>%(desc)s</b> został zmieniony"
+
+#: .\urls\admin_cm\system_image.py:62 .\urls\user\system_image.py:67
+#, python-format
+msgid "Do you want to make image <b>%(desc)s</b> private?"
+msgstr "Czy chcesz zmienić typ obrazu <b>%(desc)s</b> na prywatny?"
+
+#: .\urls\admin_cm\system_image.py:69
+#, python-format
+msgid "Do you want to make image <b>%(desc)s</b> public?"
+msgstr "Czy chcesz zmienić typ obrazu <b>%(desc)s</b> na publiczny?"
+
+#: .\urls\admin_cm\template.py:40
+#, python-format
+msgid "You have successfully deleted template <b>%(desc)s</b>."
+msgstr "Węzeł <b>%(desc)s</b> został usunięty."
+
+#: .\urls\admin_cm\template.py:41
+#, python-format
+msgid "Do you want to delete template <b>%(desc)s</b>?"
+msgstr "Czy chcesz usunąć szablon <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\template.py:47
+msgid "You have successfully created a template."
+msgstr "Szablon został utworzony."
+
+#: .\urls\admin_cm\template.py:54
+msgid "You have successfully edited selected template."
+msgstr "Szablon został zmieniony."
+
+#: .\urls\admin_cm\user.py:43
+msgid "You have successfully changed the user's quota."
+msgstr "Quota została zmieniona."
+
+#: .\urls\admin_cm\user.py:52
+#, python-format
+msgid ""
+"You have successfully promoted user <b>%(desc)s</b> to CM administrator."
+msgstr "Użytkownik <b>%(desc)s</b> został awansowany na administratora CM."
+
+#: .\urls\admin_cm\user.py:53
+#, python-format
+msgid "Do you want to promote user <b>%(desc)s</b> to CM administrator?"
+msgstr "Czy chcesz awansować użytkownika <b>%(desc)s</b> na administratora CM?"
+
+#: .\urls\admin_cm\user.py:61
+#, python-format
+msgid ""
+"You have successfully demoted administrator <b>%(desc)s</b> to regular user."
+msgstr "Administrator <b>%(desc)s</b> został zmieniony w zwykłego użytkownika."
+
+#: .\urls\admin_cm\user.py:62
+#, python-format
+msgid "Do you want to demote administrator <b>%(desc)s</b> to simple user?"
+msgstr ""
+"Czy chcesz zdegradować administratora <b>%(desc)s</b> do zwykłego "
+"użytkownika?"
+
+#: .\urls\admin_cm\vm.py:41 .\urls\user\vm.py:75
+#, python-format
+msgid "You have successfully destroyed virtual machine <b>%(desc)s</b>."
+msgid_plural ""
+"You have successfully destroyed %(count)d virtual machines (<b>%(desc)s</b>)."
+msgstr[0] "Maszyna wirtualna <b>%(desc)s</b> została zniszczona."
+msgstr[1] "%(count)d maszyny wirtualne (<b>%(desc)s</b>) zostały zniszczone."
+msgstr[2] ""
+"%(count)d maszyn wirtualnych (<b>%(desc)s</b>) zostało zniszczonych."
+
+#: .\urls\admin_cm\vm.py:42
+#, python-format
+msgid "Do you want to destroy virtual machine <b>%(desc)s</b>?"
+msgid_plural ""
+"Do you want to destroy %(count)d virtual machines <b>%(desc)s</b>?"
+msgstr[0] "Czy chcesz zniszczyć maszynę wirtualną <b>%(desc)s</b>?"
+msgstr[1] "Czy chcesz zniszczyć %(count)d maszyny wirtualne <b>%(desc)s</b>?"
+msgstr[2] "Czy chcesz zniszczyć %(count)d maszyn wirtualnych <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\vm.py:49
+#, python-format
+msgid "You have successfully erased virtual machine <b>%(desc)s</b>."
+msgid_plural ""
+"You have successfully erased %(count)d virtuals machines (<b>%(desc)s</b>)."
+msgstr[0] "Maszyna wirtualna <b>%(desc)s</b> została usunięta."
+msgstr[1] "%(count)d maszyny wirtualne (<b>%(desc)s</b>) zostały usunięte."
+msgstr[2] "%(count)d maszyn wirtualnych (<b>%(desc)s</b>) zostało usuniętych."
+
+#: .\urls\admin_cm\vm.py:50
+#, python-format
+msgid "Do you want to erase virtual machine <b>%(desc)s</b>?"
+msgid_plural "Do you want to erase %(count)d virtual machines <b>%(desc)s</b>?"
+msgstr[0] "Czy chcesz dobić maszynę wirtualną <b>%(desc)s</b>?"
+msgstr[1] "Czy chcesz dobić %(count)d maszyny wirtualne <b>%(desc)s</b>?"
+msgstr[2] "Czy chcesz dobić %(count)d maszyn wirtualnych <b>%(desc)s</b>?"
+
+#: .\urls\admin_cm\vm.py:57 .\urls\user\vm.py:107 .\views\user\vm.py:247
+msgid "You have successfully revoked IP address."
+msgstr "Adres IP został odłączony"
+
+#: .\urls\admin_cm\vm.py:58 .\urls\user\vm.py:108
+msgid "Do you want to revoke IP address?"
+msgstr "Czy chcesz odłączyć ten adres IP?"
+
+#: .\urls\admin_cm\vm.py:64 .\urls\user\vm.py:130
+msgid "Virtual machine will be saved."
+msgstr "Maszyna wirtualna zostanie zapisana."
+
+#: .\urls\user\farm.py:51
+#, python-format
+msgid "Do you really want to destroy farm <b>%(desc)s</b>?"
+msgstr "Czy na pewno chcesz zniszczyć farmę <b>%(desc)s</b>?"
+
+#: .\urls\user\group.py:45
+#, python-format
+msgid "You have successfully removed user <b>%(desc)s</b> from this group."
+msgstr "Usunięto użytkownika <b>%(desc)s</b> z grupy."
+
+#: .\urls\user\group.py:46
+#, python-format
+msgid "Do you want to remove user <b>%(desc)s</b> from this group?"
+msgstr "Czy chcesz usunąć użytkownika <b>%(desc)s</b> z grupy?"
+
+#: .\urls\user\group.py:54
+#, python-format
+msgid "You have successfully added user <b>%(desc)s</b> to this group."
+msgstr "Użytkownik <b>%(desc)s</b> został dodany do grupy."
+
+#: .\urls\user\group.py:55
+#, python-format
+msgid "Do you want to add user <b>%(desc)s</b> to this group?"
+msgstr "Czy chcesz dodać użytkownika <b>%(desc)s</b> do grupy?"
+
+#: .\urls\user\group.py:64
+#, python-format
+msgid "You have successfully changed group leader to user <b>%(desc)s</b>."
+msgstr "Użytkownik <b>%(desc)s</b> został nowym zarządcą grupy."
+
+#: .\urls\user\group.py:65
+#, python-format
+msgid "Do you want to change group leader to user <b>%(desc)s</b>?"
+msgstr "Czy chcesz uczynić zarządcą grupy użytkownika <b>%(desc)s</b>?"
+
+#: .\urls\user\group.py:74
+#, python-format
+msgid "You have successfully canceled request from user <b>%(desc)s</b>."
+msgstr "Wniosek użytkownika <b>%(desc)s</b> został odrzucony."
+
+#: .\urls\user\group.py:75
+#, python-format
+msgid "Do you want to cancel request from user <b>%(desc)s</b>?"
+msgstr "Czy chcesz anulować wniosek użytkownika <b>%(desc)s</b>?"
+
+#: .\urls\user\group.py:85
+msgid "You have successfully deleted this group."
+msgstr "Grupa została usunięta."
+
+#: .\urls\user\group.py:86
+msgid ""
+"Do you want to delete this group? <br/><b>Note!</b> All images from this "
+"group will be set private to their owners."
+msgstr ""
+"Czy chcesz usunąć tę grupę? <br /><b>Uwaga!</b> Wszystkie obrazy zostaną "
+"ustawione jako prywatne dla ich włascicieli."
+
+#: .\urls\user\group.py:92
+msgid "You have successfully edited selected group."
+msgstr "Dane obraz został zmieniony."
+
+#: .\urls\user\group.py:102
+msgid "You have successfully created a group."
+msgstr "Grupa została utworzona."
+
+#: .\urls\user\iso_image.py:40
+msgid "ISO image data edited."
+msgstr "Dane zostały zmienione."
+
+#: .\urls\user\iso_image.py:41
+msgid "Edit ISO image data:"
+msgstr "Zmień dane obrazu ISO:"
+
+#: .\urls\user\iso_image.py:51
+#, python-format
+msgid "You have successfully removed ISO image <b>%(desc)s</b>."
+msgstr "Obraz ISO <b>%(desc)s</b> został zniszczony."
+
+#: .\urls\user\iso_image.py:52
+#, python-format
+msgid "Do you really want to delete ISO image <b>%(desc)s</b>?"
+msgstr "Czy na pewno chcesz usunąć obraz ISO <b>%(desc)s</b>?"
+
+#: .\urls\user\key.py:43
+msgid "You have successfully added a key"
+msgstr "Klucz został dodany."
+
+#: .\urls\user\key.py:50
+#, python-format
+msgid "You have successfully deleted key <b>%(desc)s</b>."
+msgstr "Klucz <b>%(desc)s</b> został usunięty."
+
+#: .\urls\user\key.py:51
+#, python-format
+msgid "Do you really want to delete key <b>%(desc)s</b>?"
+msgstr "Czy na pewno chcesz usunąć klucz <b>%(desc)s</b>?"
+
+#: .\urls\user\network.py:39
+msgid "You have successfully added a network"
+msgstr "Sieć została dodana."
+
+#: .\urls\user\public_ip.py:40
+msgid "New IP address has been added."
+msgstr "Dodano nowy adres IP."
+
+#: .\urls\user\public_ip.py:41
+msgid "Do you want to add an IP address?"
+msgstr "Czy chcesz dodać adres IP?"
+
+#: .\urls\user\public_ip.py:47
+#, python-format
+msgid "IP address <b>%(desc)s</b> has been released."
+msgstr "Adres IP <b>%(desc)s</b> została odłączony."
+
+#: .\urls\user\public_ip.py:48
+#, python-format
+msgid "Do you want to release IP address <b>%(desc)s</b>?"
+msgstr "Czy chcesz odłączyć adres IP <b>%(desc)s</b>?"
+
+#: .\urls\user\storage_image.py:41
+msgid "Edit disk data:"
+msgstr "Zmień dane dysku:"
+
+#: .\urls\user\storage_image.py:52
+#, python-format
+msgid "Do you really want to delete disk volume <b>%(desc)s</b>?"
+msgstr "Czy na pewno chcesz usunąć dysk <b>%(desc)s</b>?"
+
+#: .\urls\user\storage_image.py:60
+#, python-format
+msgid "You have successfully changed disk <b>%(desc)s</b> to a VM image."
+msgstr "Przekształcono dysk <b>%(desc)s</b> w obraz maszyny."
+
+#: .\urls\user\storage_image.py:61
+#, python-format
+msgid "Do you want to change disk <b>%(desc)s</b> to a VM image?"
+msgstr "Czy chcesz przekształcić dysk <b>%(desc)s</b> w obraz maszyny?"
+
+#: .\urls\user\system_image.py:43
+#, python-format
+msgid "You have successfully removed image <b>%(desc)s</b>."
+msgstr "Obraz <b>%(desc)s</b> został zniszczony."
+
+#: .\urls\user\system_image.py:44
+#, python-format
+msgid "Do you really want to delete image <b>%(desc)s</b>?"
+msgstr "Czy na pewno chcesz usunąć obraz <b>%(desc)s</b>?"
+
+#: .\urls\user\system_image.py:56
+#, python-format
+msgid "You have successfully assigned image <b>%(desc)s</b> to group."
+msgstr "Obraz <b>%(desc)s</b> został dołączony do grupy"
+
+#: .\urls\user\system_image.py:57
+#, python-format
+msgid "Enter a name of group for image <b>%(desc)s</b>."
+msgstr "Podaj nazwę grupy do której chcesz dodać obraz <b>%(desc)s</b>."
+
+#: .\urls\user\system_image.py:66
+msgid "You have successfully revoked group's assigment."
+msgstr "Obraz został odpięty od grupy."
+
+#: .\urls\user\system_image.py:75
+msgid "You have successfully edited this image."
+msgstr "Obraz został zmieniony."
+
+#: .\urls\user\system_image.py:76
+msgid "Edit image data:"
+msgstr "Zmień dane obrazu:"
+
+#: .\urls\user\system_image.py:90
+#, python-format
+msgid "You have successfully changed image <b>%(desc)s</b> to a storage disk."
+msgstr "Przekształcono obraz <b>%(desc)s</b> w dysk z danymi."
+
+#: .\urls\user\system_image.py:91
+#, python-format
+msgid "Do you want to change image <b>%(desc)s</b> to a storage disk?"
+msgstr "Czy chcesz przekształcić obraz <b>%(desc)s</b> w dysk z danymi?"
+
+#: .\urls\user\user.py:59
+msgid "Message removed."
+msgstr "Wiadomość usunięta."
+
+#: .\urls\user\vm.py:53
+#, python-format
+msgid "SSH key has been copied successfully to <b>%(desc)s</b>."
+msgid_plural ""
+"SSH key has been copied successfully to %(count)d virtual machines (<b>%"
+"(desc)s</b>)."
+msgstr[0] "Wgrano klucz SSH na maszynę wirtualną <b>%(desc)s</b>."
+msgstr[1] "Wgrano klucz SSH na %(count)d maszyny wirtualne (<b>%(desc)s</b>)."
+msgstr[2] "Wgrano klucz SSH na %(count)d maszyn wirtualnych (<b>%(desc)s</b>)."
+
+#: .\urls\user\vm.py:54
+#, python-format
+msgid "Enter a public key to set for machine <b>%(desc)s</b>."
+msgid_plural ""
+"Enter a public key to set for %(count)d machines <b>%(desc)s</b>."
+msgstr[0] ""
+"Podaj klucz publiczny który chcesz ustawić na maszynie <b>%(desc)s</b>."
+msgstr[1] ""
+"Podaj klucz publiczny który chcesz ustawić na %(count)d maszynach <b>%(desc)"
+"s</b>."
+msgstr[2] ""
+"Podaj klucz publiczny który chcesz ustawić na %(count)d maszynach <b>%(desc)"
+"s</b>."
+
+#: .\urls\user\vm.py:55
+msgid "Set key"
+msgstr "Ustaw klucz"
+
+#: .\urls\user\vm.py:64
+#, python-format
+msgid ""
+"Password has been set to: (<b>%(password)s</b>) on machine: <b>%(desc)s</b>."
+msgstr ""
+"Nowe hasło (<b>%(password)s</b>) zostało ustawione na maszynie <b>%(desc)s</"
+"b>."
+
+#: .\urls\user\vm.py:65
+#, python-format
+msgid "Reset machine <b>%(desc)s</b> password for selected user."
+msgstr "Zresetuj hasło maszyny wirtualnej <b>%(desc)s</b>."
+
+#: .\urls\user\vm.py:76
+#, python-format
+msgid ""
+"Do you want to destroy virtual machine <b>%(desc)s</b>?<br /><b>Note!</b> If "
+"you would like to use this machine later make sure to use the <b>Save and "
+"shutdown</b> option instead!<br /> We recommend to manually unmount any "
+"attached storage disks."
+msgid_plural ""
+"Do you want to destroy %(count)d virtual machines <b>%(desc)s</b>?<br /"
+"><b>Note!</b> If you would like to use this machine later make sure to use "
+"the <b>Save and shutdown</b> option instead!<br /> We recommend to manually "
+"unmount any attached storage disks."
+msgstr[0] ""
+"Czy chcesz zniszczyć maszynę wirtualną <b>%(desc)s</b>? <br /><b>Uwaga!</b> "
+"Jeżeli chcesz użyć tej maszyny później upewnij się, że użyjesz opcji "
+"<b>Zapisz i zamknij</b>!<br /> Zalecamy odmontowanie wszystkich podpiętych "
+"dysków danych."
+msgstr[1] ""
+"Czy chcesz zniszczyć %(count)d maszyny wirtualne <b>%(desc)s</b>? <br /"
+"><b>Uwaga!</b> Jeżeli chcesz użyć tej maszyny później upewnij się, że "
+"użyjesz opcji <b>Zapisz i zamknij</b>!<br /> Zalecamy odmontowanie "
+"wszystkich podpiętych dysków danych."
+msgstr[2] ""
+"Czy chcesz zniszczyć %(count)d maszyn wirtualnych <b>%(desc)s</b>? <br /"
+"><b>Uwaga!</b> Jeżeli chcesz użyć tej maszyny później upewnij się, że "
+"użyjesz opcji <b>Zapisz i zamknij</b>!<br /> Zalecamy odmontowanie "
+"wszystkich podpiętych dysków danych."
+
+#: .\urls\user\vm.py:84
+#, python-format
+msgid "You have successfully rebooted virtual machine <b>%(desc)s</b>."
+msgid_plural ""
+"You have successfully rebooted %(count)d virtual machines (<b>%(desc)s</b>)."
+msgstr[0] "Maszyna wirtualna <b>%(desc)s</b> została zresetowana."
+msgstr[1] "%(count)d maszyny wirtualne (<b>%(desc)s</b>) zostały zresetowane."
+msgstr[2] ""
+"%(count)d maszyn wirtualnych (<b>%(desc)s</b>) zostało zresetowanych."
+
+#: .\urls\user\vm.py:85
+#, python-format
+msgid ""
+"Do you want to reset virtual machine <b>%(desc)s</b>?.<br /><b>Note!</b> Any "
+"unsaved data will be lost!"
+msgid_plural ""
+"Do you want to reset %(count)d virtual machines <b>%(desc)s</b>?.<br /"
+"><b>Note!</b> Any unsaved data will be lost!"
+msgstr[0] ""
+"Czy chcesz zresetować maszynę wirtualną <b>%(desc)s</b>? <br /><b>Uwaga!</b> "
+"Wszystkie niezapisane zmiany zostaną utracone!"
+msgstr[1] ""
+"Czy chcesz zresetować %(count)d maszyny wirtualne <b>%(desc)s</b>? <br /"
+"><b>Uwaga!</b> Wszystkie niezapisane zmiany zostaną utracone!"
+msgstr[2] ""
+"Czy chcesz zresetować %(count)d maszyn wirtualnych <b>%(desc)s</b>? <br /"
+"><b>Uwaga!</b> Wszystkie niezapisane zmiany zostaną utracone!"
+
+#: .\urls\user\vm.py:93 .\views\user\vm.py:274
+msgid "You have successfully assigned selected IP address."
+msgstr "Podpięto wybrany adres IP."
+
+#: .\urls\user\vm.py:94
+msgid "Select an IP address to assign:"
+msgstr "Wybierz IP do podpięcia:"
+
+#: .\urls\user\vm.py:95
+msgid "Assign selected IP"
+msgstr "Podepnij wybrany adres IP"
+
+#: .\urls\user\vm.py:120
+msgid "You have successfully edited virtual machine data."
+msgstr "Dane maszyny wirtualnej zostały zmienione."
+
+#: .\urls\user\vm.py:131
+#, python-format
+msgid "Enter a name to save virtual machine <b>%(desc)s</b>:"
+msgstr ""
+"Podaj nazwę pod jaką zostanie zapisana maszyna wirtualna <b>%(desc)s</b>:"
+
+#: .\urls\user\vm.py:141
+msgid "You have successfully enabled VNC."
+msgstr "VNC zostało odblokowane."
+
+#: .\urls\user\vm.py:142
+msgid "Do you want to enable VNC?"
+msgstr "Czy chcesz odblokować VNC?"
+
+#: .\urls\user\vm.py:149
+msgid "You have successfully disabled VNC."
+msgstr "VNC zostało zablokowane."
+
+#: .\urls\user\vm.py:150
+msgid "Do you want to disable VNC?"
+msgstr "Czy chcesz zablokować VNC?"
+
+#: .\utils\context_processors.py:61
+msgid "No CM available."
+msgstr "Nie ma dostępnych CMów"
+
+#: .\utils\errors.py:29
+msgid "Authorization error. Re-login required."
+msgstr "Błąd autoryzacji. Proszę się przelogować."
+
+#: .\utils\errors.py:42
+msgid "No error"
+msgstr "Brak błędu"
+
+#: .\utils\errors.py:46 .\utils\errors.py:98
+msgid "Server error."
+msgstr "Błąd serwera."
+
+#: .\utils\errors.py:48
+msgid "Error: adding cluster failed."
+msgstr "Błąd: dodawanie klastra."
+
+#: .\utils\errors.py:49
+msgid "Error: adding admin to cluster failed."
+msgstr "Błąd: dodawanie administratora do klastra."
+
+#: .\utils\errors.py:50
+msgid "Error: adding users to cluster failed."
+msgstr "Błąd: dodawanie użytkowników do klastra."
+
+#: .\utils\errors.py:51
+msgid "Error: editing cluster failed."
+msgstr "Błąd: edycja klastra."
+
+#: .\utils\errors.py:52
+msgid "Error: invalid Cluster Manager - please login again."
+msgstr "Błąd: nieprawidłowy Cluster Manager - zaloguj się ponownie."
+
+#: .\utils\errors.py:53
+msgid "Error: locking cluster failed."
+msgstr "Błąd: blokowanie klastra."
+
+#: .\utils\errors.py:54
+msgid "Error: unlocking cluster failed."
+msgstr "Błąd: odblokowanie klastra."
+
+#: .\utils\errors.py:56
+msgid "Error: changing leader failed."
+msgstr "Błąd: zmiana zarządcy."
+
+#: .\utils\errors.py:57
+msgid "Error: creating group failed."
+msgstr "Błąd: tworzenie grupy."
+
+#: .\utils\errors.py:58
+msgid "Error: group not found."
+msgstr "Błąd: nie znaleziono grupy."
+
+#: .\utils\errors.py:59
+msgid "Error: deleting group failed."
+msgstr "Błąd: usuwanie grupy."
+
+#: .\utils\errors.py:60
+msgid "Error: deleting user from group failed."
+msgstr "Błąd: usuwanie użytkownika z grupy."
+
+#: .\utils\errors.py:61
+msgid "Error: editing group failed."
+msgstr "Błąd: edycja grupy."
+
+#: .\utils\errors.py:63
+msgid "Error: creating news failed."
+msgstr "Błąd: tworzenie wiadomości."
+
+#: .\utils\errors.py:64
+msgid "Error: deleting news failed."
+msgstr "Błąd: usuwanie wiadomości"
+
+#: .\utils\errors.py:65
+msgid "Error: editing news failed."
+msgstr "Błąd: edycja wiadomości."
+
+#: .\utils\errors.py:66
+msgid "Error: news not found."
+msgstr "Błąd: nie znaleziono wiadomości."
+
+#: .\utils\errors.py:68
+msgid "Error: mailing server is not active."
+msgstr "Błąd: serwer pocztowy nie jest aktywny."
+
+#: .\utils\errors.py:69
+msgid "Error: sending email."
+msgstr "Błąd: wysyłania e-maila"
+
+#: .\utils\errors.py:70
+msgid "Error: sending email to administrator."
+msgstr "Błąd: wysyłania e-maila do administratora."
+
+#: .\utils\errors.py:72
+msgid "Error: ssh key already exist."
+msgstr "Błąd: klucz ssh już istnieje."
+
+#: .\utils\errors.py:73
+msgid "Error: invalid format."
+msgstr "Błąd: zły format."
+
+#: .\utils\errors.py:74
+msgid "Error: generating key failed."
+msgstr "Błąd: generowanie klucza."
+
+#: .\utils\errors.py:75
+msgid "Error: key not found."
+msgstr "Błąd: nie znaleziono klucza."
+
+#: .\utils\errors.py:76
+msgid "Error: key limit."
+msgstr "Błąd: osiągnięto limit kluczy."
+
+#: .\utils\errors.py:78
+msgid "Error: activating user failed."
+msgstr "Błąd: aktywacja użytkownika."
+
+#: .\utils\errors.py:79
+msgid "Error: deleting user account."
+msgstr "Błąd: usuwanie użytkownika."
+
+#: .\utils\errors.py:80
+msgid "Error: blocking user failed."
+msgstr "Błąd: blokowanie użytkownika."
+
+#: .\utils\errors.py:81
+msgid "Error: deleting user failed."
+msgstr "Błąd: usuwanie użytkownika."
+
+#: .\utils\errors.py:82
+msgid "Error: editing user data failed."
+msgstr "Błąd: edycja danych użytkownika."
+
+#: .\utils\errors.py:83
+msgid "Error: user not found."
+msgstr "Błąd: nie znaleziono użytkownika."
+
+#: .\utils\errors.py:84
+msgid "Error: user account isn't activated."
+msgstr "Błąd: konto nie jest aktywne."
+
+#: .\utils\errors.py:85
+msgid "Error: user doesn't belong to this group."
+msgstr "Błąd: użytkownik nie należy do grupy."
+
+#: .\utils\errors.py:86 .\utils\errors.py:118
+msgid "Error: you have no permissions."
+msgstr "Błąd: użytkownik nie ma uprawnień."
+
+#: .\utils\errors.py:87
+msgid "Error: registering user failed."
+msgstr "Błąd: rejestracja użytkownika."
+
+#: .\utils\errors.py:88 .\utils\errors.py:100
+msgid "Error: setting admin failed."
+msgstr "Błąd: ustawianie praw administratora."
+
+#: .\utils\errors.py:89
+msgid "Error: setting password failed."
+msgstr "Błąd: ustawianie hasła."
+
+#: .\utils\errors.py:90
+msgid "Error: request for this group not found."
+msgstr "Błąd: nie znaleziono wniosku dla grupy."
+
+#: .\utils\errors.py:91
+msgid "Error: user is in wrong state"
+msgstr "Błąd: zły stan konta użytkownika."
+
+#: .\utils\errors.py:92
+msgid "Error: unlocking user failed."
+msgstr "Błąd: odblokowanie użytkownika."
+
+#: .\utils\errors.py:93
+msgid "Error: unsetting admin failed."
+msgstr "Błąd: usuwanie praw administratora."
+
+#: .\utils\errors.py:102
+msgid "Error in contextualization module."
+msgstr "Błąd w module kontekstualizacji."
+
+#: .\utils\errors.py:103 .\utils\errors.py:159
+msgid "Error: connecting to contextualization failed."
+msgstr "Błąd: połączenie z kontekstualizacją."
+
+#: .\utils\errors.py:104
+msgid "Error: executing command failed."
+msgstr "Błąd: wykonanie komendy."
+
+#: .\utils\errors.py:106
+msgid "Error: creating farm failed."
+msgstr "Błąd: tworzenie farmy."
+
+#: .\utils\errors.py:107
+msgid "Error: destroying farm failed."
+msgstr "Błąd: niszczenie farmy."
+
+#: .\utils\errors.py:108
+msgid "Error: wrong farm state."
+msgstr "Błąd: zły stan farmy."
+
+#: .\utils\errors.py:110
+msgid "Error: image already attached."
+msgstr "Błąd: dysk jest już podpięty."
+
+#: .\utils\errors.py:111
+msgid "Error: calculating size of image failed."
+msgstr "Błąd: obliczanie rozmiaru obrazu."
+
+#: .\utils\errors.py:112
+msgid "Error: changing type failed."
+msgstr "Błąd: zmiana typu obrazu."
+
+#: .\utils\errors.py:113
+msgid "Error: creating image failed."
+msgstr "Błąd: tworzenie obrazu."
+
+#: .\utils\errors.py:114
+msgid "Error: deleting image failed."
+msgstr "Błąd: usuwanie obrazu."
+
+#: .\utils\errors.py:115
+msgid "Error: editing image failed."
+msgstr "Błąd: edycja obrazu."
+
+#: .\utils\errors.py:116 .\utils\errors.py:117
+msgid "Error: image not found."
+msgstr "Błąd: nie znaleziono obrazu."
+
+#: .\utils\errors.py:119
+msgid "Error: attaching image to group failed."
+msgstr "Błąd: dołączanie obrazu do grupy."
+
+#: .\utils\errors.py:120
+msgid "Error: setting image to private failed."
+msgstr "Błąd: ustawianie obrazu jako prywatny."
+
+#: .\utils\errors.py:121
+msgid "Error: setting image to public failed."
+msgstr "Błąd: ustawianie obrazu jako publiczny."
+
+#: .\utils\errors.py:122
+msgid "Error: image is not available."
+msgstr "Nie masz wolnych dysków."
+
+#: .\utils\errors.py:124 .\utils\errors.py:127
+msgid "Error: creating node failed."
+msgstr "Błąd: tworzenie węzła."
+
+#: .\utils\errors.py:125
+msgid "Error: Lease is attached to vm."
+msgstr "Błąd: Lease jest podpięty do maszyny wirtualnej."
+
+#: .\utils\errors.py:128
+msgid "Error: deleting node failed."
+msgstr "Błąd: usuwanie węzła."
+
+#: .\utils\errors.py:129
+msgid "Error: editing node failed."
+msgstr "Błąd: edycja węzła."
+
+#: .\utils\errors.py:130
+msgid ""
+"Error: not enough resources. Choose smaller template or try again later."
+msgstr "Błąd: za mało zasobów. Wybierz mniejszy szablon lub spróbuj później."
+
+#: .\utils\errors.py:131
+msgid "Error: node has running virtual machines."
+msgstr "Błąd: węzeł zawiera uruchomione maszyny."
+
+#: .\utils\errors.py:132
+msgid "Error: locking node failed."
+msgstr "Błąd: blokowanie węzła."
+
+#: .\utils\errors.py:133
+msgid "Error: unlocking node failed."
+msgstr "Błąd: odblokowanie węzła."
+
+#: .\utils\errors.py:135
+msgid "Error: assigning public IP address failed."
+msgstr "Błąd: dołączenie publicznego adresu IP."
+
+#: .\utils\errors.py:136
+msgid "Error: IP limit reached."
+msgstr "Błąd: osiągnięto limit adresów IP."
+
+#: .\utils\errors.py:137
+msgid "Error: requesting IP address failed."
+msgstr "Błąd: prośba o publiczny adres IP."
+
+#: .\utils\errors.py:138
+msgid "Error: revoking IP address failed."
+msgstr "Błąd: zwolnienie publicznego adresu IP."
+
+#: .\utils\errors.py:140
+msgid "Error: storage with this name and mountpoint already exist."
+msgstr "Błąd: Macierz o tej nazwie i mountpoincie już istnieje."
+
+#: .\utils\errors.py:141
+msgid "Error: attaching disk failed."
+msgstr "Błąd: dołączenie dysku."
+
+#: .\utils\errors.py:142
+msgid "Error: detaching disk failed."
+msgstr "Błąd: odłączenie dysku."
+
+#: .\utils\errors.py:144
+msgid "Error: creating template failed."
+msgstr "Błąd: tworzenie szablonu."
+
+#: .\utils\errors.py:145
+msgid "Error: deleting template failed."
+msgstr "Błąd: usuwanie szablonu."
+
+#: .\utils\errors.py:146
+msgid "Error: editing template failed."
+msgstr "Błąd: edycja szablonu."
+
+#: .\utils\errors.py:147
+msgid "Error: template not found."
+msgstr "Błąd: nie znaleziono szablonu."
+
+#: .\utils\errors.py:149
+msgid "Error: changing quota failed."
+msgstr "Błąd: zmiana quoty."
+
+#: .\utils\errors.py:150
+msgid "Error: CPU limit reached."
+msgstr "Błąd: osiągnięto limit rdzeni."
+
+#: .\utils\errors.py:151
+msgid "Error: creating user failed."
+msgstr "Błąd: tworzenie użytkownika."
+
+#: .\utils\errors.py:152
+msgid "Error: memory limit reached."
+msgstr "Błąd: osiągnięto limit pamięci."
+
+#: .\utils\errors.py:153
+msgid "Error: points limit reached."
+msgstr "Błąd: osiągnięto limit punktów."
+
+#: .\utils\errors.py:154
+msgid "Error: user quota exceeded."
+msgstr "Błąd: przekroczono quotę użytkownika."
+
+#: .\utils\errors.py:156
+msgid "Error: virtual machine is already closing."
+msgstr "Błąd: maszyna wirtualna już jest zamykana."
+
+#: .\utils\errors.py:157
+msgid ""
+"Error: shutting down virtual machine failed. Please shutdown your machine "
+"from the machine's operating system."
+msgstr ""
+"Bład: zamykanie maszyny wirtualnej. Proszę zamknąć maszynę używając systemu "
+"operacyjnego maszyny."
+
+#: .\utils\errors.py:158
+msgid "Error: creating virtual machine failed."
+msgstr "Błąd: Zapisywanie maszyny wirtualnej."
+
+#: .\utils\errors.py:160
+msgid "Error: destroying virtual machine failed."
+msgstr "Błąd: niszczenie maszyny wirtualnej."
+
+#: .\utils\errors.py:161
+msgid "Error: virtual machine not found."
+msgstr "Błąd: nie znaleziono maszyny wirtualnej."
+
+#: .\utils\errors.py:162
+msgid "System error."
+msgstr "Błąd systemu."
+
+#: .\utils\errors.py:163
+msgid "Error: virtual machine does not have an IP address assigned."
+msgstr "Błąd: maszyna nie ma przypisanego publicznego adresu IP."
+
+#: .\utils\errors.py:164
+msgid "Error: virtual machine already has an IP address assigned."
+msgstr "Błąd: maszyna ma przypisany publiczny adres IP."
+
+#: .\utils\errors.py:165
+msgid "Error: resetting virtual machine failed."
+msgstr "Błąd: resetowanie maszyny wirtualnej."
+
+#: .\utils\errors.py:166
+msgid "Error: saving virtual machine failed."
+msgstr "Błąd: zapisywanie maszyny wirtualnej."
+
+#: .\utils\errors.py:167
+msgid "Error: wrong virtual machine state."
+msgstr "Błąd: zły stan maszyny wirtualnej."
+
+#: .\utils\errors.py:168
+msgid "Error: VNC already attached."
+msgstr "Błąd: VNC jest już podpięte."
+
+#: .\utils\errors.py:170
+msgid "Error: VNC failed."
+msgstr "Błąd: tworzenie VNC."
+
+#: .\utils\errors.py:172
+msgid "Error: Cannot delete network."
+msgstr "Błąd: Nie można usunąć sieci."
+
+#: .\utils\errors.py:173
+msgid "Error: Network is still in use."
+msgstr "Błąd: Sieć jest używana."
+
+#: .\utils\errors.py:174
+msgid "Error: No network is available at this moment."
+msgstr "Błąd: Nie ma dostępnych sieci."
+
+#: .\utils\errors.py:175
+msgid "Error: Unsupported network type. Contact Administrator."
+msgstr "Błąd: Nieobsługiwany typ sieci. Skontaktuj się z Administratorem."
+
+#: .\utils\errors.py:189
+#, python-format
+msgid "Error: starting farm: <em>%(name)s</em> (ID: %(id)s) failed."
+msgstr "Błąd: uruchomienie farmy: <em>%(name)s</em> (ID:  %(id)s)."
+
+#: .\utils\errors.py:190
+#, python-format
+msgid "Error: starting virtual machine: <em>%(name)s</em> (ID: %(id)s) failed."
+msgstr "Błąd: uruchomienie maszyny wirtualnej: <em>%(name)s</em> (ID: %(id)s)."
+
+#: .\utils\errors.py:191
+#, python-format
+msgid "Error: saving virtual machine: <em>%(name)s</em> (ID: %(id)s) failed."
+msgstr "Błąd: zapisanie maszyny wirtualnej: <em>%(name)s</em> (ID: %(id)s)."
+
+#: .\utils\errors.py:192
+#, python-format
+msgid ""
+"Error: destroying virtual machine: <em>%(name)s</em> (ID: %(id)s) failed."
+msgstr "Błąd: zniszczenie maszyny wirtualnej: <em>%(name)s</em> (ID: %(id)s)."
+
+#: .\utils\errors.py:193
+#, python-format
+msgid "Error: creating image: <em>%(name)s</em> (ID: %(id)d) failed."
+msgstr "Błąd: utworzenie obrazu: <em>%(name)s</em> (ID: %(id)d)."
+
+#: .\utils\errors.py:194
+#, python-format
+msgid ""
+"Error: creating image: <em>%(name)s</em> (ID: %(id)d, size: %(size)d MB) "
+"failed."
+msgstr ""
+"Błąd: tworzenie obrazu: <em>%(name)s</em> (ID: %(id)d), rozmiar: %(size)d "
+"MB)."
+
+#: .\utils\errors.py:195
+#, python-format
+msgid ""
+"Error: downloading image: <em>%(name)s</em> (ID: %(id)d) from %(path)s "
+"failed."
+msgstr "Błąd: ściąganie obrazu: <em>%(name)s</em> (ID: %(id)d) z %(path)s."
+
+#: .\utils\errors.py:196
+#, python-format
+msgid ""
+"Error: formating image: <em>%(name)s</em> (ID: %(id)d) with filesystem %"
+"(filesystem)s failed."
+msgstr ""
+"Błąd: formatowanie obrazu: <em>%(name)s</em> (ID: %(id)d) z systemem %"
+"(filesystem)s."
+
+#: .\utils\errors.py:197
+#, python-format
+msgid ""
+"<em>%(first_name)s %(last_name)s</em> wants to join to group <a href=\"%"
+"(grp_details_url)s\"> <b>%(group_name)s</b></a>."
+msgstr ""
+"<em>%(first_name)s %(last_name)s</em> chce dołączyć do grupy <a href=\"%"
+"(grp_details_url)s\"> <b>%(group_name)s</b></a>."
+
+#: .\utils\errors.py:198
+#, python-format
+msgid "Image <em>%(name)s</em> created."
+msgstr "Obraz <em>%(name)s</em> został utworzony."
+
+#: .\utils\errors.py:199
+#, python-format
+msgid "Image <em>%(name)s</em> downloaded (md5sum: <em>%(md5sum)s</em>)."
+msgstr ""
+"Obraz <em>%(name)s</em> został ściągnięty (md5sum: <em>%(md5sum)s</em>)."
+
+#: .\utils\errors.py:200
+#, python-format
+msgid "Point limit reached: %(used_points)d / %(point_limit)d."
+msgstr "Osiągnięto limit punktów: %(used_points)d / %(point_limit)d."
+
+#: .\utils\errors.py:201
+#, python-format
+msgid ""
+"VM %(vm_name)s saved successfuly. You can find it on the list of private "
+"images."
+msgstr ""
+"Maszyna wirtualna %(vm_name)s została zapisana. Znajduje się ona na liście "
+"obrazów prywatnych."
+
+#: .\utils\errors.py:202
+#, python-format
+msgid ""
+"Farm %(farm_name)s saved successfuly. You can find it on the list of private "
+"images."
+msgstr ""
+
+#: .\utils\errors.py:206
+msgid "Bad message code."
+msgstr "Zły kod wiadomości."
+
+#: .\utils\formatters.py:35
+msgid " day"
+msgid_plural " days"
+msgstr[0] " dzień"
+msgstr[1] " dni"
+msgstr[2] " dni"
+
+#: .\utils\formatters.py:36
+msgid " h"
+msgstr " godz."
+
+#: .\utils\formatters.py:37
+msgid " min"
+msgstr " min"
+
+#: .\utils\formatters.py:38
+msgid " s"
+msgstr " s"
+
+#: .\utils\forms.py:49
+msgid "Please fill in all required form fields."
+msgstr "Proszę wypełnić wszystkie wymagane pola."
+
+#: .\utils\forms.py:81
+msgid "Password confirmation"
+msgstr "Potwierdzenie hasła"
+
+#: .\utils\messages_ajax.py:64
+msgid "Not AJAX request!"
+msgstr ""
+
+#: .\utils\parsing.py:45
+msgid " "
+msgstr " "
+
+#: .\utils\parsing.py:45
+msgid "< Select >"
+msgstr "< Wybierz >"
+
+#: .\utils\parsing.py:54 .\utils\parsing.py:65 .\utils\parsing.py:77
+msgid "No images"
+msgstr "Brak obrazów"
+
+#: .\utils\parsing.py:67
+msgid "Private images"
+msgstr "Obrazy prywatne"
+
+#: .\utils\parsing.py:79
+msgid "Group"
+msgstr "Grupa"
+
+#: .\utils\parsing.py:101 .\utils\parsing.py:123 .\utils\parsing.py:143
+#: .\utils\parsing.py:160 .\utils\parsing.py:185 .\utils\parsing.py:187
+#: .\utils\parsing.py:190 .\utils\parsing.py:216 .\utils\parsing.py:234
+#: .\utils\parsing.py:293 .\utils\parsing.py:314 .\utils\parsing.py:415
+#: .\utils\parsing.py:431 .\utils\parsing.py:447
+msgid "None available"
+msgstr "Brak dostępnych"
+
+#: .\utils\parsing.py:126 .\utils\parsing.py:236
+msgid "None"
+msgstr ""
+
+#: .\utils\parsing.py:288
+msgid "All storages"
+msgstr "Wszystkie macierze"
+
+#: .\utils\parsing.py:308
+msgid "All nodes"
+msgstr "Wszystkie węzły"
+
+#: .\utils\parsing.py:349
+msgid "No group available"
+msgstr "Nie ma dostępnych grup"
+
+#: .\utils\regexp.py:44
+msgid "This value must contain only letters, numbers and underscores."
+msgstr "To pole musi zawierać jedynie litery, cyfry i podkreśliniki."
+
+#: .\utils\regexp.py:45
+msgid "This value must not contain any diacritic marks."
+msgstr "To pole nie może zawierać znaków diakrytycznych."
+
+#: .\utils\regexp.py:46
+msgid "This value must contain only small letters, numbers and dashes."
+msgstr "To pole musi zawierać jedynie małe litery, cyfry i myślniki."
+
+#: .\utils\states.py:38
+msgid "Copying farm's head"
+msgstr "Kopiowanie heada"
+
+#: .\utils\states.py:39
+msgid "Waiting for head's contextualization"
+msgstr "Oczekiwanie na kontekstualizację heada"
+
+#: .\utils\states.py:40
+msgid "Copying Worker Nodes"
+msgstr "Kopiowanie Worker Node'ów"
+
+#: .\utils\states.py:41
+msgid "Running"
+msgstr ""
+
+#: .\utils\states.py:42 .\utils\states.py:55
+msgid "Closing"
+msgstr "Zamykanie"
+
+#: .\utils\states.py:43 .\utils\states.py:56
+msgid "Closed"
+msgstr "Zamknięta"
+
+#: .\utils\states.py:44
+msgid "Failed"
+msgstr "Wystąpił błąd"
+
+#: .\utils\states.py:45
+msgid "Unconfigured"
+msgstr ""
+
+#: .\utils\states.py:46
+msgid "Configuring"
+msgstr ""
+
+#: .\utils\states.py:47
+msgid "Saving head"
+msgstr "Zapisywanie heada"
+
+#: .\utils\states.py:51
+msgid ""
+"Farm's head is beeing copied, this could take a while depending on the image "
+"size"
+msgstr ""
+"Head jest kopiowany, co może zająć chwilę czasu (w zależności od rozmiaru "
+"obrazu)"
+
+#: .\utils\states.py:52
+msgid ""
+"Waiting for head's contextualization. If the head's OS is running, but the "
+"farm remains in this state, this could indicate problem with "
+"contextualization. Image without contextualization can not be used to create "
+"farm. If this is a case please destroy the farm."
+msgstr ""
+"Oczekiwanie na kontekstualizację heada. Jeżeli System operacyjny heada "
+"działa, ale farma pozostaje w tym stanie, może to oznaczać problem z "
+"kontekstualizacją. Obraz bez kontekstualizacji nie może być wykorzystany do "
+"stworzenia farmy. Jeśli został wykorzystany, należy zniszczyć farmę."
+
+#: .\utils\states.py:53
+msgid ""
+"Worker Nodes are beeing copied, this could take a while depending on the "
+"image size"
+msgstr "Kopiowanie worker node'ów, czas operacji zależny od wielkości obrazu."
+
+#: .\utils\states.py:54
+msgid "Farm is running"
+msgstr "Farma działa"
+
+#: .\utils\states.py:57
+msgid "Farm failed"
+msgstr ""
+
+#: .\utils\states.py:58
+msgid ""
+"Farm could not be configured, passwordless communication between Head and WN "
+"is not guaranteed, the configuration script probably will not work "
+"correctly, you can still configure farm manually"
+msgstr ""
+"Farma nie może zostać skonfigurowana. Nie ma zapewnionej bezhasłowej "
+"komunikacji pomiędzy Headem a worker node'ami. Wciąż możesz skonfigurować "
+"farmę ręcznie."
+
+#: .\utils\states.py:59
+msgid "Configuring worker nodes and waiting for contextualization"
+msgstr "Konfigurowanie worker node'ów i oczekiwanie na kontekstualizacje"
+
+#: .\utils\states.py:60
+msgid "Saving farm's head"
+msgstr "Kopiowanie heada farmy"
+
+#: .\utils\states.py:64 .\views\user\system_image.py:174
+msgid "private"
+msgstr "prywatny"
+
+#: .\utils\states.py:65 .\views\user\system_image.py:183
+msgid "public"
+msgstr "publiczny"
+
+#: .\utils\states.py:69
+msgid "inactive"
+msgstr "nieaktywny"
+
+#: .\utils\states.py:70
+msgid "email confirmed"
+msgstr "potwierdzony email"
+
+#: .\utils\states.py:71
+msgid "active"
+msgstr "aktywny"
+
+#: .\utils\states.py:72
+msgid "blocked"
+msgstr "zablokowany"
+
+#: .\utils\states.py:76
+msgid "pending"
+msgstr "oczekuje"
+
+#: .\utils\states.py:77
+msgid "member"
+msgstr "należy"
+
+#: .\utils\states.py:78
+msgid "not a member"
+msgstr "nie należy"
+
+#: .\utils\states.py:104
+msgid "CPU time"
+msgstr ""
+
+#: .\utils\states.py:105
+msgid "HDD read IO"
+msgstr ""
+
+#: .\utils\states.py:106
+msgid "HDD read bytes"
+msgstr ""
+
+#: .\utils\states.py:107
+msgid "HDD write IO"
+msgstr ""
+
+#: .\utils\states.py:108
+msgid "HDD write bytes"
+msgstr ""
+
+#: .\utils\states.py:109
+msgid "Network received bytes"
+msgstr ""
+
+#: .\utils\states.py:110
+msgid "Network received packets"
+msgstr ""
+
+#: .\utils\states.py:111
+msgid "Network sent bytes"
+msgstr ""
+
+#: .\utils\states.py:112
+msgid "Network sent packets"
+msgstr ""
+
+#: .\utils\states.py:128
+msgid "10 s"
+msgstr ""
+
+#: .\utils\states.py:129
+msgid "60 s"
+msgstr ""
+
+#: .\utils\states.py:130
+msgid "5 m"
+msgstr ""
+
+#: .\utils\states.py:131
+msgid "15 m"
+msgstr ""
+
+#: .\utils\states.py:132
+msgid "1 h"
+msgstr ""
+
+#: .\utils\states.py:133 .\utils\states.py:141
+msgid "1 day"
+msgstr ""
+
+#: .\utils\states.py:134 .\utils\states.py:142
+msgid "1 week"
+msgstr ""
+
+#: .\utils\states.py:138
+msgid "1 hour"
+msgstr ""
+
+#: .\utils\states.py:139
+msgid "6 hours"
+msgstr ""
+
+#: .\utils\states.py:140
+msgid "12 hours"
+msgstr ""
+
+#: .\utils\states.py:143
+msgid "1 month"
+msgstr ""
+
+#: .\utils\states.py:144
+msgid "1 year"
+msgstr ""
+
+#: .\utils\views.py:94 .\utils\views.py:102 .\utils\views.py:114
+#: .\utils\views.py:175 .\utils\views.py:189 .\utils\views.py:240
+#: .\utils\views.py:271 .\views\user\group.py:54
+msgid "Yes"
+msgstr "Tak"
+
+#: .\utils\views.py:113 .\utils\views.py:189 .\utils\views.py:239
+#: .\utils\views.py:269
+msgid "Success"
+msgstr "Sukces"
+
+#: .\utils\views.py:240 .\utils\views.py:270
+msgid "Do you want to?"
+msgstr "Czy chcesz?"
+
+#: .\utils\views.py:259
+msgid "Bad argument list"
+msgstr ""
+
+#: .\utils\widgets.py:74
+msgid "none available"
+msgstr "brak elementów do wyświetlenia"
+
+#: .\views\admin_clm\news.py:52
+msgid "News entry edited."
+msgstr "Wiadomość została zmieniona."
+
+#: .\views\admin_clm\news.py:61
+msgid "Edit news data:"
+msgstr "Zmień wiadomość:"
+
+#: .\views\admin_clm\user.py:84
+#, python-format
+msgid "You have successfully set password for user <b>%(desc)s</b>."
+msgstr "Ustawiono hasło dla użytkownika <b>%(desc)s</b>."
+
+#: .\views\admin_clm\user.py:89
+#, python-format
+msgid "Setting password for user <b>%(desc)s</b>:"
+msgstr "Ustawianie hasła dla użytkownika <b>%(desc)s</b>:"
+
+#: .\views\admin_cm\iso_image.py:76 .\views\admin_cm\storage_image.py:76
+#: .\views\admin_cm\system_image.py:130
+#, python-format
+msgid "<b>%(desc)s</b> copied."
+msgstr "<b>%(desc)s</b> został skopiowany."
+
+#: .\views\admin_cm\iso_image.py:81 .\views\admin_cm\storage_image.py:81
+#: .\views\admin_cm\system_image.py:135
+msgid "Select user:"
+msgstr "Wybierz użytkownika:"
+
+#: .\views\admin_cm\node.py:98 .\views\admin_cm\storage.py:82
+msgid "You have successfully mounted storage(s) to selected node."
+msgstr "Macierz(e) została(y) podpięte do węzła."
+
+#: .\views\admin_cm\system_image.py:61
+msgid "Public:"
+msgstr "Publiczne:"
+
+#: .\views\admin_cm\system_image.py:68
+msgid "Private:"
+msgstr "Prywatne:"
+
+#: .\views\admin_cm\system_image.py:76
+msgid "Group:"
+msgstr "Grupowe:"
+
+#: .\views\admin_cm\system_image.py:100
+msgid "You have successfully added an image."
+msgstr "Obraz został dodany"
+
+#: .\views\admin_cm\user.py:107
+msgid "You have successfully changed your CM password."
+msgstr "Twoje hasło cm zostało zmienione."
+
+#: .\views\admin_cm\user.py:133
+msgid "You have successfully changed quota."
+msgstr "Quota została zmieniona."
+
+#: .\views\user\farm.py:65
+msgid "Farm is being created."
+msgstr "Farma jest tworzona."
+
+#: .\views\user\farm.py:89 .\views\user\vm.py:92
+msgid "Optional resources"
+msgstr "Zasoby"
+
+#: .\views\user\farm.py:89 .\views\user\vm.py:92
+msgid "Summary"
+msgstr "Podsumowanie"
+
+#: .\views\user\farm.py:95 .\views\user\vm.py:97
+msgid "All images"
+msgstr "Wszystkie obrazy"
+
+#: .\views\user\farm.py:100 .\views\user\vm.py:102
+msgid "Group images: "
+msgstr "Obrazy grupowe: "
+
+#: .\views\user\group.py:51
+msgid "You have successfully sent a request."
+msgstr "Wniosek została wysłana"
+
+#: .\views\user\group.py:55
+msgid "Do you want to send a request?"
+msgstr "Czy chcesz wysłać wniosek?"
+
+#: .\views\user\group.py:146
+msgid "Members:"
+msgstr "Członkowie:"
+
+#: .\views\user\group.py:147
+msgid "Requests:"
+msgstr "Wnioski:"
+
+#: .\views\user\iso_image.py:70
+msgid "ISO image upload started."
+msgstr "Wgrywanie obrazu ISO rozpoczęte."
+
+#: .\views\user\iso_image.py:75
+msgid "Please specify ISO image parameters:"
+msgstr "Proszę podać parametry obrazu ISO:"
+
+#: .\views\user\key.py:66
+msgid "You have successfully generated a key"
+msgstr "Nowy klucz został wygenerowany."
+
+#: .\views\user\key.py:72
+msgid "Generate"
+msgstr "Generuj klucz"
+
+#: .\views\user\key.py:73
+msgid ""
+"2048-bit RSA key<br /><b>Note!</b> We don't keep a copy of your private key. "
+"We can't recreate it if your key is lost."
+msgstr ""
+"2048-bitowy klucz RSA <br /><b>Uwaga!</b> Nie przchowujemy kopii Twojego "
+"klucza prywatnego. Nie ma możliwości odtworzenia w przypadku utraty klucza."
+
+#: .\views\user\storage_image.py:75
+msgid "Disk is being created."
+msgstr "Dysk jest tworzony."
+
+#: .\views\user\storage_image.py:101
+msgid "Disk upload started."
+msgstr "Wgrywanie dysku rozpoczęte."
+
+#: .\views\user\storage_image.py:106
+msgid "Please specify disk parameters:"
+msgstr "Proszę podać parametry dysku:"
+
+#: .\views\user\system_image.py:58
+msgid "Private"
+msgstr "Prywatny"
+
+#: .\views\user\system_image.py:69
+msgid "Shared to group"
+msgstr "Udostępnione grupie"
+
+#: .\views\user\system_image.py:140
+msgid "Image upload started."
+msgstr "Wgrywanie obrazu rozpoczęte."
+
+#: .\views\user\system_image.py:146
+msgid "Please specify image parameters:"
+msgstr "Proszę podać parametry obrazu:"
+
+#: .\views\user\system_image.py:194 .\views\user\system_image.py:205
+#: .\views\user\system_image.py:216
+msgid "group "
+msgstr "grupa "
+
+#: .\views\user\user.py:53
+msgid "Cluster Manager changed."
+msgstr "Zmieniono CM."
+
+#: .\views\user\user.py:114
+msgid "Account data edited."
+msgstr "Dane konta zostały zmienione"
+
+#: .\views\user\user.py:180
+msgid " from user:"
+msgstr " od użytkownika:"
+
+#: .\views\user\vm.py:71
+msgid "Virtual machine is being created."
+msgstr "Maszyna wirtualna jest tworzona."
+
+#: .\views\user\vm.py:212
+msgid ""
+"VNC Viewer applet is not configured. Please contact system administrator. "
+"Meantime you may use a standalone VNC client."
+msgstr ""
+
+#: .\views\user\vm.py:253
+msgid "Select an IP address to revoke:"
+msgstr "Wybierz adres IP do odpięcia"
+
+#: .\views\user\vm.py:254
+msgid "Revoke"
+msgstr "Odłącz"
+
+#: .\views\user\vm.py:280
+msgid "Select an IP address and lease to assign:"
+msgstr "Wybierz adres IP do przydzielenia lease'a:"
+
+#: .\views\user\vm.py:303
+msgid "Disk has been revoked."
+msgstr "Odpięto dysk."
+
+#: .\views\user\vm.py:345
+msgid "Disk has been assigned."
+msgstr "Przypięto dysk."
+
+#~ msgid "Error: cluster is currently locked - please choose another one."
+#~ msgstr "Błąd: klaster jest zablokowany - proszę wybrać inny."
+
+#~ msgid "Login error."
+#~ msgstr "Błąd logowania."
+
+#~ msgid "Error: attaching iso failed."
+#~ msgstr "Błąd: dołączenie obrazu ISO."
+
+#~ msgid "Error: setting ssh key failed."
+#~ msgstr "Błąd: ustawianie klucza ssh."
+
+#~ msgid "Error: choose existing user."
+#~ msgstr "Błąd: wybierz istniejącego użytkownika."
+
+#~ msgid "Error: checking command failed."
+#~ msgstr "Błąd: sprawdzanie komendy."
+
+#~ msgid "Error: generating ssh key failed."
+#~ msgstr "Błąd: generowanie klucza ssh."
+
+#~ msgid "Error: reseting password failed."
+#~ msgstr "Błąd: resetowanie hasła."
+
+#~ msgid "Error: rebooting virtual machine failed."
+#~ msgstr "Błąd: rebootowanie maszyny wirtualnej."
+
+#~ msgid "Error: setting hostname failed."
+#~ msgstr "Błąd: ustawianie hostname."
+
+#~ msgid "Error: shutting down virtual machine failed."
+#~ msgstr "Błąd: zamknięcie maszyny wirtualnej."
+
+#~ msgid "Error: updateing hosts file failed."
+#~ msgstr "Błąd: update'owanie pliku hostów."
+
+#~ msgid "Error: uploading file failed."
+#~ msgstr "Błąd: przesłanie pliku."
+
+#~ msgid "Error: worker nodes are beeing copied."
+#~ msgstr "Błąd: worker node'y są kopiowane."
+
+#~ msgid "Error: image download failed."
+#~ msgstr "Błąd: ściąganie obrazu."
+
+#~ msgid "Error: node not found."
+#~ msgstr "Błąd: nie znaleziono węzła."
+
+#~ msgid "Error: network not found."
+#~ msgstr "Błąd: nie znaleziono sieci."
+
+#~ msgid "Error: creating public IP address failed."
+#~ msgstr "Błąd: tworzenie publicznego adresu IP."
+
+#~ msgid "Error: IP address not found."
+#~ msgstr "Błąd: nie znaleziono adresu IP."
+
+#~ msgid "Error: releasing IP address failed."
+#~ msgstr "Błąd: odłączenie publicznego adresu IP."
+
+#~ msgid "Error: editing virtual maching failed."
+#~ msgstr "Błąd: edycja maszyny wirtualnej."
+
+#~ msgid "Error: VNC not found."
+#~ msgstr "Błąd: nie znaleziono VNC."
+
+#~ msgid "Farm settings"
+#~ msgstr "Ustawienia farmy"
+
+#~ msgid "Worker nodes"
+#~ msgstr "Worker node'y"
+
+#~ msgid ""
+#~ "Template of worker nodes - worker nodes parameters, [ec2name if assigned]"
+#~ msgstr ""
+#~ "Szablon worker node'ów - parametry maszyn, [ec2name jeśli określono]"
+
+#~ msgid "Template of head - [ec2name if assigned]"
+#~ msgstr "Szablon head'a - [ec2name jeśli określono]"
+
+#~ msgid "Head IP address"
+#~ msgstr "Adres IP heada"
+
+#~ msgid "Interface"
+#~ msgstr "Interface"
+
+#~ msgid "You have successfully revoked IP address <b>%(desc)s</b>."
+#~ msgstr "IP <b>%(desc)s</b> został odłączony."
+
+#~ msgid "Do you want to revoke IP address <b>%(desc)s</b>?"
+#~ msgstr "Czy chcesz odłączyć adres IP <b>%(desc)s</b>?"
+
+#~ msgid "Network interface - used for bridging virtual machines"
+#~ msgstr "Interfejs sieciowy - używany do mostkowania maszyn wirtualnych"
+
+#~ msgid "Network size"
+#~ msgstr "Rozmiar sieci"
+
+#~ msgid "Hide group"
+#~ msgstr "Ukryj grupę"
+
+#~ msgid "Error: %s."
+#~ msgstr "Błąd: %s."
+
+#~ msgid "Previous"
+#~ msgstr "Wstecz"
+
+#~ msgid ""
+#~ "That e-mail address doesn't have an associated user account. Are you sure "
+#~ "you've registered?"
+#~ msgstr ""
+#~ "Podany adres e-mail nie jest powiązany z żadnym kontem. Jesteś pewien,że "
+#~ "rejestracja przebiegła poprawnie?"
+
+#~ msgid "Disks other than <b>USB</b> will be available <b>after reboot</b>."
+#~ msgstr ""
+#~ "Dyski inne niż <b>USB</b> będą dostępne dopiero <b>po restarcie</b>."
+
+#~ msgid "News:"
+#~ msgstr "Wiadomości:"
+
+#~ msgid "Pasword change"
+#~ msgstr "Zmiana hasła"
+
+#~ msgid "Farm"
+#~ msgstr "Farma"
+
+#~ msgid "Main page"
+#~ msgstr "Strona główna"
+
+#~ msgid "Do you want to request IP address?"
+#~ msgstr "Czy chcesz poprosić o nowy adres IP?"
+
+#~ msgid "Request new IP"
+#~ msgstr "Poproś o nowe IP"
+
+#~ msgid "Id"
+#~ msgstr "Id"
+
+#~ msgid "Action"
+#~ msgstr "Akcja"
+
+#~ msgid "address"
+#~ msgstr "adres"
+
+#~ msgid "total cpu"
+#~ msgstr "liczba rdzeni"
+
+#~ msgid "free cpu"
+#~ msgstr "wolne rdzenie"
+
+#~ msgid "free memory"
+#~ msgstr "wolna pamięć"
+
+#~ msgid "actions"
+#~ msgstr "akcje"
+
+#~ msgid "name"
+#~ msgstr "nazwa"
+
+#~ msgid "year"
+#~ msgid_plural "years"
+#~ msgstr[0] "rok"
+#~ msgstr[1] "lata"
+#~ msgstr[2] "lat"
+
+#~ msgid "Mailer is disabled. Contact mail: "
+#~ msgstr "Mailer jest wyłączony. E-mail kontaktowy:"
+
+#~ msgid "%s - Unknown error."
+#~ msgstr "%s - Nieznana błąd."
+
+#~ msgid "%s - Unknown message."
+#~ msgstr "%s - Nieznana wiadomość."
+
+#~ msgid "Do you want to add this user to the group?"
+#~ msgstr "Czy chcesz dodać osobę do grupy?"
+
+#~ msgid "Cancel request?"
+#~ msgstr "Odrzucić prośbę?"
+
+#~ msgid "Do you want to change the group leader to this user?"
+#~ msgstr "Czy chcesz zmienić zarządce na tego użytkownika?"
+
+#~ msgid "Do you want to remove this user from the group?"
+#~ msgstr "Czy chcesz usunąć tę osobę z grupy?"
+
+#~ msgid "Request sent."
+#~ msgstr "Prośba wysłana."
+
+#~ msgid "Send request?"
+#~ msgstr "Wysłać prośbę"
+
+#~ msgid "No IP available"
+#~ msgstr "Nie ma dostępnych adresów IP"
+
+#~ msgid "No lease available"
+#~ msgstr "Nie ma odpowiednich leasów"
+
+#~ msgid "No disk available"
+#~ msgstr "Nie ma dostępnych dysków"
+
+#~ msgid "No storage available"
+#~ msgstr "Nie masz dostępnych obrazów"
+
+#~ msgid "No node available"
+#~ msgstr "Brak dostępnych węzłów"
+
+#~ msgid "No key available"
+#~ msgstr "Nie masz kluczy"
+
+#~ msgid "No cm available"
+#~ msgstr "Nie ma dostępnych cmów"
+
+#~ msgid "No user available"
+#~ msgstr "Nie ma odpowiednich użytkowników"
+
+#~ msgid "Assign selected IP and lease"
+#~ msgstr "Podepnij wybrany adres IP do lease'a"
+
+#~ msgid "action"
+#~ msgstr "akcje"
+
+#~ msgid "Edit vm"
+#~ msgstr "Zmień dane maszyny"
+
+#~ msgid "Disk revoked."
+#~ msgstr "Odpięto dysk."
+
+#~ msgid "Farm <b>%(desc)s</b> successfully destroyed."
+#~ msgstr "Farma <b>%(desc)s</b> została zniszczona."
+
+#~ msgid "Virtual machine <b>%(desc)s</b> successfully destroyed."
+#~ msgid_plural ""
+#~ "%(count)d virtual machines (<b>%(desc)s</b>) successfully destroyed."
+#~ msgstr[0] "Maszyna wirtualna <b>%(desc)s</b> została zniszczona."
+#~ msgstr[1] ""
+#~ "%(count)d maszyny wirtualne (<b>%(desc)s</b>) zostały zniszczone."
+#~ msgstr[2] ""
+#~ "%(count)d maszyn wirtualnych (<b>%(desc)s</b>) zostało zniszczonych."
+
+#~ msgid "Virtual machine <b>%(desc)s</b> successfully erased."
+#~ msgid_plural ""
+#~ "%(count)d virtuals machines (<b>%(desc)s</b>) successfully erased."
+#~ msgstr[0] "Maszyna wirtualna <b>%(desc)s</b> została dobita."
+#~ msgstr[1] "%(count)d maszyny wirtualne (<b>%(desc)s</b>) zostały dobite."
+#~ msgstr[2] "%(count)d maszyn wirtualnych (<b>%(desc)s</b>) zostało dobitych."
+
+#~ msgid "IP address revoked."
+#~ msgstr "Odłączono adres IP"
+
+#~ msgid "Revoke IP address?"
+#~ msgstr "Zwolnić adres IP?"
+
+#~ msgid "You have successfully edited a template."
+#~ msgstr "Szablon został zmieniony."
+
+#~ msgid "Storage successfully mounted."
+#~ msgstr "Macierz została podpięta."
+
+#~ msgid "Mount storage to RM?"
+#~ msgstr "Podpiąć macierz?"
+
+#~ msgid "Public IP <b>%(desc)s</b> successfully deleted."
+#~ msgid_plural "%(count)d pulic IPs (<b>%(desc)s</b>) successfully deleted."
+#~ msgstr[0] "Publiczny adres IP <b>%(desc)s</b> został usunięty."
+#~ msgstr[1] ""
+#~ "%(count)d publiczne adresy IP (<b>%(desc)s</b>) zostały usunięte."
+#~ msgstr[2] ""
+#~ "%(count)d publicznych adresów IP (<b>%(desc)s</b>) zostało usuniętych."
+
+#~ msgid "User removed from group."
+#~ msgstr "Użytkownik usunięty z grupy."
+
+#~ msgid "User added to group."
+#~ msgstr "Użytkownik dodany do grupy."
+
+#~ msgid "Group leader changed."
+#~ msgstr "Zmieniono zarządce grupy."
+
+#~ msgid "Request canceled."
+#~ msgstr "Prośba odrzucona."
+
+#~ msgid "Group data edited."
+#~ msgstr "Dane grupy zostały zmienione."
+
+#~ msgid "Image assigned to group."
+#~ msgstr "Obraz udostępniony grupie."
+
+#~ msgid "Group assignment revoked."
+#~ msgstr "Obraz odłączony od grupy."
+
+#~ msgid "Request IP address?"
+#~ msgstr "Poproś o adres IP"
+
+#~ msgid "IP address released."
+#~ msgstr "Odłączono adres IP."
+
+#~ msgid "Release IP address?"
+#~ msgstr "Zwolnij adres IP"
+
+#~ msgid "Disk data edited."
+#~ msgstr "Dane zostały zmienione."
+
+#~ msgid "Machine password"
+#~ msgstr "Hasło maszyny"
+
+#~ msgid "Password set successfully on <b>%(desc)s</b>."
+#~ msgid_plural ""
+#~ "Password set successfully on %(count)d virtual machines (<b>%(desc)s</b>)."
+#~ msgstr[0] "Hasło zostało ustawione na <b>%(desc)s</b>."
+#~ msgstr[1] ""
+#~ "Hasło zostało ustawione na %(count)d maszynach wirtualnych (<b>%(desc)s</"
+#~ "b>)."
+#~ msgstr[2] ""
+#~ "Hasło zostało ustawione na %(count)d maszynach wirtualnych (<b>%(desc)s</"
+#~ "b>)."
+
+#~ msgid "IP address assigned."
+#~ msgstr "Przyłączono adres IP."
+
+#~ msgid "Set selected IP"
+#~ msgstr "Ustaw wybrany adres IP"
+
+#~ msgid "VNC is now enabled."
+#~ msgstr "Aktywowano VNC."
+
+#~ msgid "Enable VNC?"
+#~ msgstr "Aktywować VNC?"
+
+#~ msgid "VNC is now disabled."
+#~ msgstr "Deaktywowano VNC."
+
+#~ msgid "Disable VNC?"
+#~ msgstr "Deaktywować VNC?"
+
+#~ msgid "IP address reovked."
+#~ msgstr "Odłączono adres IP"
+
+#~ msgid "Revoke selected IP"
+#~ msgstr "Odepnij wybrany adres IP"
+
+#~ msgid "Create vm"
+#~ msgstr "Utwórz maszynę"
+
+#~ msgid "cpu"
+#~ msgstr "rdzenie"
+
+#~ msgid "memory"
+#~ msgstr "pamięć"
+
+#~ msgid "ec2 name"
+#~ msgstr "Nazwa ec2"
+
+#~ msgid "Disk will be available <b>after reboot</b>."
+#~ msgstr "Dysk będzie dosepny <b>po restarcie</b>."
+
+#~ msgid "IP addresses:"
+#~ msgstr "Adresy IP:"
+
+#~ msgid "Disks:"
+#~ msgstr "Dyski:"
+
+#~ msgid "IP address assigned:"
+#~ msgstr "Przydzielony adres IP:"
+
+#~ msgid "Disk volume attached."
+#~ msgstr "Dysk dołączony"
+
+#~ msgid "ISO image attached."
+#~ msgstr "Podpięty obraz ISO."
+
+#~ msgid "Disk assigned. Disk will be available after reboot"
+#~ msgstr "Dysk dołączony. Będzie dostępny po restarcie."
+
+#~ msgid "Revoke disk?"
+#~ msgstr "Odłączyć dysk?"
+
+#~ msgid "IP address assigned to lease <b>%(desc)s</b>."
+#~ msgstr "Przydzielono adres IP do lease'a <b>%(desc)s</b>?."
+
+#~ msgid "Mountpoint - on the node"
+#~ msgstr "Punkt montowania - po stronie node'a"
+
+#~ msgid "Network options"
+#~ msgstr "Sieć"
+
+#~ msgid "HDD Free [MB]"
+#~ msgstr "Wolne miejsce na dysku [MB]"
+
+#~ msgid "Deprecated - probably?"
+#~ msgstr "Przedawnione - prawdopodobnie?"
+
+#~ msgid "Network interface - for elastic IP"
+#~ msgstr "Interfejs sieciowy - dla elastycznych IP"
+
+#~ msgid "Network"
+#~ msgstr "Sieć"
+
+#~ msgid "Will be deprecated in 1.3 - libvirt network name"
+#~ msgstr "Nazwa sieci libvirta"
+
+#~ msgid "Pool mask"
+#~ msgstr "Maska puli"
+
+#~ msgid "Release network?"
+#~ msgstr "Zwolnić sieć?"
+
+#~ msgid "Registration Success!"
+#~ msgstr "Rejestracja zakończona sukcesem."
+
+#~ msgid "Pubilc IPs"
+#~ msgstr "Publiczne adresy IP"
+
+#~ msgid "Register error"
+#~ msgstr "Błąd rejstracji"
+
+#~ msgid "Error: storage limit reached."
+#~ msgstr "Błąd: osiągnięto limit przestrzeni dyskowej."
+
+#~ msgid ""
+#~ "You're receiving this e-mail because you requested a password reset for "
+#~ "your user account at"
+#~ msgstr "Ten e-mail został wysłany w celu zresetowania hasła dla użytkownika"
+
+#~ msgid "To change your password visit:"
+#~ msgstr "Żeby zmienić hasło kliknij:"
+
+#~ msgid "Your username:"
+#~ msgstr "Twoja nazwa użytkownika:"
+
+#~ msgid "Thanks for using our site,"
+#~ msgstr "Dziękujemy za używanie naszej strony"
+
+#~ msgid "The CC1 team"
+#~ msgstr "Zespół CC1"
+
+#~ msgid "Your account has just been activated. You can now log in at: "
+#~ msgstr "Konto zostalo aktywowane. Teraz możesz sie zalogować."
+
+#~ msgid "The CC1 Team"
+#~ msgstr "Zespół CC1"
+
+#~ msgid "Account activated"
+#~ msgstr "Konto zostało aktywowane"
+
+#~ msgid "Password reset on %s"
+#~ msgstr "Reset hasła - %s"
+
+#~ msgid "Memory Total"
+#~ msgstr "Całkowita pamięć"
+
+#~ msgid "To confirm your email address, please visit the link below:"
+#~ msgstr "W celu potwierdzenia e-maila, wejdź w poniższy link:"
+
+#~ msgid ""
+#~ "After successful email address confirmation your account will be verified "
+#~ "by our system operator. You will receive an email when your account is "
+#~ "fully operational."
+#~ msgstr ""
+#~ "Po potwierdzeniu e-maila Twoje konto musi zostać zatwierdzone przez "
+#~ "operatora systemu. W momencie kiedy konto będzie w pełni funkcjonalne "
+#~ "zostanie wysłany e-mail."
+
+#~ msgid "Thank you,"
+#~ msgstr "Dzięki,"
+
+#~ msgid "Email address confirmation"
+#~ msgstr "Potwierdzenie adresu e-mail"
+
+#~ msgid "New user account awaiting activation."
+#~ msgstr "Konto czeka na aktywację."
+
+#~ msgid "First name:"
+#~ msgstr "Imię:"
+
+#~ msgid "Last name:"
+#~ msgstr "Nazwisko:"
+
+#~ msgid "Step"
+#~ msgstr "Krok"
+
+#~ msgid "of"
+#~ msgstr "z"
+
+#~ msgid "First"
+#~ msgstr "Do początku"
+
+#~ msgid "adding"
+#~ msgstr "dodawanie"
+
+#~ msgid "Copied."
+#~ msgstr "Skopiowano."
+
+#~ msgid "Copy image"
+#~ msgstr "Kopiuj obraz"
+
+#~ msgid "You have successfully deleted disk <b>%(desc)s</b>."
+#~ msgstr "Dysk <b>%(desc)s</b> został usunięty."
+
+#~ msgid "Do you want to delete disk <b>%(desc)s</b>?"
+#~ msgstr "Czy chcesz usunąć dysk <b>%(desc)s</b>?"
+
+#~ msgid "You have successfully removed ISO image volume <b>%(desc)s</b>."
+#~ msgstr "Obraz ISO <b>%(desc)s</b> został usunięty."
+
+#~ msgid "Do you want to delete ISO image volume <b>%(desc)s</b>?"
+#~ msgstr "Czy chcesz usunąć obraz ISO <b>%(desc)s</b>?"
+
+#~ msgid "Image selection"
+#~ msgstr "Wybór obrazu"
+
+#~ msgid "Template selection"
+#~ msgstr "Wybór szablonu"
+
+#~ msgid "first name"
+#~ msgstr "imię"
+
+#~ msgid "last name"
+#~ msgstr "nazwisko"
+
+#~ msgid "email"
+#~ msgstr "e-mail"
+
+#~ msgid "surname"
+#~ msgstr "imię"
+
+#~ msgid "Virtual machine successfully destroyed."
+#~ msgid_plural "%(count)d virtual machines successfully destroyed."
+#~ msgstr[0] "Maszyna wirtualna została zniszczona."
+#~ msgstr[1] "%(count)d maszyny wirtualne zostały zniszczone."
+#~ msgstr[2] "%(count)d maszyn wirtualnych zostało zniszczonych."
+
+#~ msgid "Farm successfully destroyed."
+#~ msgid_plural "%(count)d farms successfully destroyed."
+#~ msgstr[0] "Farma została zniszczona."
+#~ msgstr[1] "%(count)d farmy zostały zniszczone."
+#~ msgstr[2] "%(count)d farm zostało zniszczonych."
+
+#~ msgid "Farm successfully erased."
+#~ msgid_plural "%(count)d farms successfully erased."
+#~ msgstr[0] "Farma została dobita."
+#~ msgstr[1] "%(count)d farmy zostały dobite."
+#~ msgstr[2] "%(count)d farm zostało dobitych."

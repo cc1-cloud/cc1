@@ -1,0 +1,167 @@
+.context-menu-list {
+    margin:0; 
+    padding:0;    
+    max-width: 250px;
+    display: inline-block;
+    position: absolute;
+    list-style-type: none;
+
+    
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+       -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+         -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    
+    font: 11px/19px Verdana,sans-serif;
+    
+    background: url("../../media/img/context-menu/cmenu-vista-bg.gif") repeat-y scroll left top #FAFAFA;
+    border: 1px solid #868686;
+    min-width: 180px;
+}
+.context-menu-item {
+    padding: 3px 10px 3px 35px;
+    position: relative;
+    -moz-user-select: -moz-none;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+.context-menu-separator {
+	background-color: #CCCCCC;
+    border: 0;
+    height: 1px;
+    padding: 0;
+}
+.context-menu-item > label {
+    -moz-user-select: text;
+}
+.context-menu-item.disabled {
+    color: #666;
+}
+.context-menu-input.hover,
+.context-menu-item.disabled.hover {
+    cursor: default;
+    background-color: #EEE;
+}
+.context-menu-submenu:after {
+    content: ">";
+    color: #666;
+    position: absolute;
+    top: 0;
+    right: 3px;
+    z-index: 1;
+}
+
+/* icons
+    #protip:
+    In case you want to use sprites for icons (which I would suggest you do) have a look at
+    http://css-tricks.com/13224-pseudo-spriting/ to get an idea of how to implement 
+    .context-menu-item.icon:before {}
+ */
+.context-menu-item.icon { 
+	min-height: 18px; 
+	background-repeat: no-repeat; 
+	background-position: 4px 5px; 
+}
+.context-menu-list li.inactive {
+	cursor: default !important;
+	border-top: 1px solid transparent !important;
+	border-bottom: 1px solid transparent !important;
+	opacity: 0.4;filter:alpha(opacity=40)
+}
+.context-menu-list li.hover {
+	cursor: pointer;
+	background-color: #E4E6E6;
+    border-top: 1px solid #C5C5C5;
+    border-bottom: 1px solid #C5C5C5;
+}
+
+.context-menu-item.icon-magnify { 	background-image: url(../../media/img/icons/mag.png); }
+.context-menu-item.icon-edit { 		background-image: url(../../media/img/icons/edit.png); }
+.icon_edit{							background: url(../../media/img/icons/edit.png) no-repeat;}
+.context-menu-item.icon-ip { 		background-image: url(../../media/img/icons/web.png); }
+.icon_assign_ip{					background: url(../../media/img/icons/web.png) no-repeat;}
+.context-menu-item.icon-password { 	background-image: url(../../media/img/icons/lock.png); }
+.icon_change_password{				background: url(../../media/img/icons/lock.png) no-repeat;}
+.context-menu-item.icon-ssh { 		background-image: url(../../media/img/icons/ssh.png); }
+.icon_ssh_key{						background: url(../../media/img/icons/ssh.png) no-repeat;}
+.context-menu-item.icon-reset { 	background-image: url(../../media/img/icons/restart.png); }
+.icon_restart{						background: url(../../media/img/icons/restart.png) no-repeat;	}
+.context-menu-item.icon-saveshut { 	background-image: url(../../media/img/icons/save.png); }
+.icon_save_and_shutdown{			background: url(../../media/img/icons/save.png) no-repeat;}
+.context-menu-item.icon-vnc { 		background-image: url(../../media/img/icons/vnc.png); }
+.icon_vnc{							background: url(../../media/img/icons/vnc.png) no-repeat;}
+.context-menu-item.icon-destroy { 	background-image: url(../../media/img/icons/shutdown.png); }
+.icon_destroy {						background: url(../../media/img/icons/shutdown.png) no-repeat;}
+.context-menu-item.icon-hdd {	 	background-image: url(../../media/img/icons/hdd.png); }
+.icon_hdd{							background: url(../../media/img/icons/hdd.png) no-repeat;}
+.context-menu-item.icon-cd {	 	background-image: url(../../media/img/icons/cd.png); }
+.icon_cd{							background: url(../../media/img/icons/cd.png) no-repeat;}
+.context-menu-item.icon-cancel {	background-image: url(../../media/img/icons/cancel.png); }
+.icon_cancel{						background: url(../../media/img/icons/cancel.png) no-repeat;}
+.context-menu-item.icon-accept {	background-image: url(../../media/img/icons/accept.png); }
+.icon_accept{						background: url(../../media/img/icons/accept.png) no-repeat;}
+.context-menu-item.icon-delete { 	background-image: url(../../media/img/icons/remove.png); }
+.icon_delete{						background: url(../../media/img/icons/remove.png) no-repeat;}
+.context-menu-item.icon-poweron {	background-image: url(../../media/img/icons/start.png); }
+.icon_poweron{						background: url(../../media/img/icons/start.png) no-repeat;}
+.context-menu-item.icon-chart	 {	background-image: url(../../media/img/icons/chart.png); }
+.icon_chart{						background: url(../../media/img/icons/chart.png) no-repeat;}
+.context-menu-item.icon-copy	 {	background-image: url(../../media/img/icons/copy.png); }
+.icon_copy{							background: url(../../media/img/icons/copy.png) no-repeat;}
+
+
+.context-menu-item.icon-group { 	background-image: url(../../media/img/icons/group.png); }
+.context-menu-item.icon-back { 		background-image: url(../../media/img/icons/back.png); }
+.context-menu-item.icon-private { 	background-image: url(../../media/img/icons/private.png); }
+.context-menu-item.icon-sendrequest{background-image: url(../../media/img/icons/add_user.png); }
+.context-menu-item.icon-computers {	background-image: url(../../media/img/icons/computers.png);}
+
+.icon_add{						background: url(../../media/img/icons/add.png) no-repeat;}
+.icon_computers{				background: url(../../media/img/icons/computers.png) no-repeat;}
+.icon_action{					background: url(../../media/img/icons/action.png) no-repeat;}
+.icon_accept{					background: url("../../media/img/icons/accept.png") no-repeat;}
+.icon_cancel{					background: url("../../media/img/icons/cancel.png") no-repeat;}
+.icon_hdd{						background: url("../../media/img/icons/hdd.png") no-repeat;}
+
+.icon_action{ background: url("../../media/img/icons/action.png") no-repeat;}
+
+/* vertically align inside labels */
+.context-menu-input > label > * { vertical-align: top; }
+
+/* position checkboxes and radios as icons */
+.context-menu-input > label > input[type="checkbox"],
+.context-menu-input > label > input[type="radio"] {
+    margin-left: -17px;
+}
+.context-menu-input > label > span {
+    margin-left: 5px;
+}
+.context-menu-input > label,
+.context-menu-input > label > input[type="text"],
+.context-menu-input > label > textarea,
+.context-menu-input > label > select {
+    display: block;
+    width: 100%;
+    
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+         -o-box-sizing: border-box;
+            box-sizing: border-box;
+}
+.context-menu-input > label > textarea {
+    height: 100px;
+}
+.context-menu-item > .context-menu-list {
+    display: none;
+    /* re-positioned by js */
+    right: -5px;
+    top: 5px;
+}
+.context-menu-item.hover > .context-menu-list {
+    display: block;
+}
+.context-menu-accesskey {
+    text-decoration: underline;
+}

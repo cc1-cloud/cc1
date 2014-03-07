@@ -1,0 +1,18 @@
+{% load i18n %}
+{% url 'grp_list' as url_list %}
+{% url 'grp_my_groups' as url_my_groups %}
+{% blocktrans %}
+<p>
+	Group is a users unit that allowes sharing images between its members.
+</p>
+<p>
+	In <a href="{{ url_list }}">Show groups</a> section you'll find the list of all active groups. To join an existing group you must click <strong>send request</strong> at chosen group, which will notify the group leader. Once request is accepted, you will gain access to the group resources.
+	In <a href="{{ url_my_groups }}">My groups</a> section you can create new groups and manage ones that belong to you.
+</p>
+<p>
+	Be aware that any private keys and other data you left on the image you share become available for all group members. 
+</p>
+<p>
+	It's strongly recommended to remove all unnecessary private keys and ensure security.
+</p>
+{% endblocktrans %}

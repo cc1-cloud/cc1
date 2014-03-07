@@ -1,0 +1,321 @@
+{% load i18n %}
+{% load formtags %}
+
+<style>
+#monitoring-form .center > span{
+    margin: 0 5px;
+}
+#monitoring-form .center > button {
+    vertical-align: middle;
+    line-height: 19px;
+}
+#flotChart{
+    width: 530px;
+    height: 400px;
+    float:left;
+}
+#monitoring-form .overflow{
+    width: 770px;
+    height: 420px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    float:left;
+    padding:3px;
+}
+.arrow_left, .arrow_right{
+    width: 15px;
+    height: 420px;
+    background-position: 0 188px;
+    opacity: .40; filter: alpha(opacity=40);
+    cursor: pointer;
+    float:left;
+}
+#timeRange {
+    text-align: center;
+    color: #545454;
+    font-size: 0.8em;
+    margin-top: 10px;
+}
+.form {
+    float:left;
+    width: 200px;
+}
+</style>
+
+<form method="post" action="" id="monitoring-form">
+    <div id="timeRange"></div>
+    <div class="overflow">
+        <div class="form">
+            {% csrf_token %}
+            {{ form.vm_id|safe }}
+            {{ form.time|safe }}
+            {{ form.stat_name }}
+            <table>
+                <tr>
+                    <td>{{ form.resolution.label_tag }}</td>
+                    <td>{{ form.resolution|safe }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.stat_range.label_tag }}</td>
+                    <td>{{ form.stat_range|safe }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="mid_button" type="button">{% trans "Refresh" %}</button></td>
+                </tr>
+            </table>
+            <div class="clear"></div>
+            <div id="statTotal"></div>
+        </div>
+        <div class="arrow_left" title="{% trans "Previous data" %}"></div>
+
+        <div id="flotChart"></div>
+        <div class="arrow_right" title="{% trans "Next data" %}"></div>
+    </div>
+    <div class="clear"></div>
+</form>
+
+<script type="text/javascript">
+$(function () {
+    var $form = $('#monitoring-form'),
+        $ui_se = $('.ui-resizable-se'),
+        $ui = $('.ui-dialog'),
+        $overflow = $('.overflow'),
+        $arrow = $('.arrow_left, .arrow_right'),
+        $chart = $('#flotChart'),
+        $timestamp = $('#id_time'),
+        $total = $('#statTotal'),
+        $timeRange = $('#timeRange'),
+        points = null,
+        range = null,
+        time_mod = 0,
+        format = 'num',
+        timeZoneOffset = (new Date()).getTimezoneOffset() * 60,
+
+        isSEclicked = false,
+
+        data=[],
+        series=[],
+        axes=[],
+        axes_names=[],
+        head=[],
+
+        colors_stats = {
+                       'cpu_time':0,
+                       'rd_req':1,
+                       'rd_bytes':2,
+                       'wr_req':3,
+                       'wr_bytes':4,
+                       'rx_bytes':5,
+                       'rx_packets':6,
+                       'tx_bytes':7,
+                       'tx_packets':8,
+        }
+        colors=[
+                "#3366FF",
+                "#FFAF0F",
+                "#2EB800",
+                "#FF3D3D",
+                "#D98CD9",
+                "#CC8033",
+                "#3DB8B8",
+                "#66CC66",
+                "#FF4D88",
+       ]
+
+    function getBoundingBoxForAxis(plot, axis) {
+        var left = axis.box.left, top = axis.box.top,
+            right = left + axis.box.width, bottom = top + axis.box.height;
+
+        // some ticks may stick out, enlarge the box to encompass all ticks
+        var cls = axis.direction + axis.n + 'Axis';
+        plot.getPlaceholder().find('.' + cls + ' .tickLabel').each(function () {
+            var pos = $(this).position();
+            left = Math.min(pos.left, left);
+            top = Math.min(pos.top, top);
+            right = Math.max(Math.round(pos.left) + $(this).outerWidth(), right);
+            bottom = Math.max(Math.round(pos.top) + $(this).outerHeight(), bottom);
+        });
+
+        return { left: left, top: top, width: right - left, height: bottom - top };
+    }
+
+    byteFormatter = function(val, axis) {
+        if (val >= 1024*1024*1024) {
+            return (val / (1024*1024*1024)).toFixed(axis.tickDecimals) + " GB";
+        } else if (val >= 1024*1024) {
+            return (val / (1024*1024)).toFixed(axis.tickDecimals) + " MB";
+        } else if (val >= 1024) {
+            return (val / 1024).toFixed(axis.tickDecimals) + " kB";
+        } else { return val.toFixed(axis.tickDecimals) + " B"; }
+    },
+
+    opsFormatter = function(val, axis) {
+        return (val).toFixed(axis.tickDecimals) + " I/O";
+    },
+
+    tickFormatters = {
+        num: null,
+        bytes: byteFormatter,
+        ops: opsFormatter,
+    },
+
+    loadChart = function() {
+        var showError = function(data) {
+            $chart.empty().append('<div class="align_center" style="padding-top:165px">'+data+'</div>');
+            points = [];
+        },
+
+        fetchData = function(response) {
+            $(".stats").css({"color":"black"});
+
+            if (response !== undefined && response.status !== undefined && response.status < 8000) {
+                points = response.data;
+                if (points[0][2] == undefined){
+                    showError('{% trans "Select data." %}');
+                } else {
+
+                    // clearing lists
+                    axes_names.splice(0, axes_names.length);
+                    axes.splice(0, axes.length);
+                    data.splice(0, data.length);
+                    series.splice(0, series.length);
+                    head.splice(0, head.length);
+
+                    //format = points[0][2];
+                    //$total.text("Total: " + (typeof tickFormatters[format] === 'undefined'? points[0][5][0] : tickFormatters[format](parseInt(points[0][5][0]), 1) ) );
+
+                    head = points.shift()
+                    range = points[points.length-1][0] - points[0][0];
+
+
+                    // calculating dates
+                    for (var i=0; i<points.length; i++) {
+                            points[i][0] = (points[i][0] - timeZoneOffset) * 1000;
+                    }
+                    // choosing proper yaxes
+                    for (var i=0; i<head[2].length; i++){
+                        if(axes_names.indexOf(head[2][i]) == -1){
+                            axes_names.push(head[2][i]);
+                        }
+                        series.push([]);
+                        for (var j=0; j<points.length; j++){
+                            series[i].push([points[j][0],points[j][i+1]]);
+                        }
+                    }
+                    // adding y axes
+                    for (var i=0; i<axes_names.length; i++){
+                        axes.push({
+                            axisLabel: axes_names[i] + '',
+                            position: (i%2 == 0) ? "left": "right",
+                            min:0,
+                            tickDecimals: 1,
+                            tickFormatter: tickFormatters[format],
+                        });
+                    }
+                    // adding data series
+                    for (var i=0; i<head[2].length; i++){
+                        data.push({
+                            data: series[i],
+                            lines: { show: true },
+                            color: colors[colors_stats[head[1][i]]],
+                            yaxis: axes_names.indexOf(head[2][i])+1,
+                        });
+                        $('.'+head[1][i]).css({"color":colors[colors_stats[head[1][i]]]});
+                    }
+                    // ploting
+                    var plot = $.plot($chart,data,{
+                            xaxes: [{
+                                axisLabel: 'Time',
+                                mode: 'time'}],
+                            yaxes: axes,
+                            grid: {
+                                hoverable: true,
+                                borderWidth: 1
+                            },
+                        });
+
+                    /* $timeRange.text(gettext('Time range') + ': '
+                        + (new Date(points[1][0][0])).toShortStringUTC() + ' - '
+                        + (new Date(points[1][points[1].length-1][0])).toShortStringUTC() );
+                    */
+                    $('.axisLabels').css({'color':'black'});
+
+                    // hover
+                    $chart.on("plothover", function (event, pos, item) {
+                        $('.axis').css({"opacity":"0.0"});
+                        if (item) {
+                            var axis = item.series.yaxis.n;
+                            selector = '.y' + axis + 'axis';
+                            $(selector).css({"opacity":"0.1"});
+                        }
+                    });
+
+                    // creating axes overlays
+                    $.each(plot.getAxes(), function (i, axis) {
+                        if (!axis.show)
+                            return;
+
+                        var box = getBoundingBoxForAxis(plot, axis);
+
+                        $('<div class="axis '+axis.direction+axis.n+'axis" style="position:absolute;left:' + box.left + 'px;top:' + box.top + 'px;width:' + box.width +  'px;height:' + box.height + 'px"></div>')
+                            .css({ backgroundColor: "#000", opacity: 0})
+                            .appendTo(plot.getPlaceholder())
+                    });
+
+                }
+            } else {
+                showError('{% trans "Error fetching plot data." %}');
+            }
+        };
+
+        $timestamp.val(Math.round(new Date().getTime()/1000) + time_mod);
+
+        $.ajax({ type: 'POST', url: window.location.pathname.substring(0, 9) === "/cm_admin"? "{% url 'cma_ajax_vm_monitoring' id %}" : "{% url 'vms_ajax_vm_monitoring' id %}",
+            data: $form.find('input, select').serialize(),
+            success: fetchData,
+            error: showError,
+        });
+    };
+
+    $('#id_vm_id').val({{id}});
+
+    $form.on('click', 'button', loadChart);
+    $form.on('change', '#id_stat_name', loadChart);
+    $form.on('click', '.arrow_left', function() {
+        if (points === null) { return; }
+        time_mod -= range;
+        loadChart();
+    });
+    $form.on('click', '.arrow_right', function() {
+        if (points === null) { return; }
+        time_mod += range;
+        loadChart();
+    });
+    $ui_se.on('mousedown', function() {
+        isSEclicked = true;
+    });
+    $(document).on('mouseup.resize', function() {
+        if ( isSEclicked ){
+            isSEclicked = false;
+            var ui_height = $ui.height();
+            var ui_width = $ui.width();
+            var arrow_heigth = "0 " + ((ui_height - 60)/2 -24) +"px";
+
+            $chart.width(ui_width - 270);
+            $chart.height(ui_height - 80);
+
+            $overflow.width(ui_width - 30);
+            $overflow.height(ui_height - 60);
+
+            $arrow.height(ui_height - 60);
+
+            $arrow.css( "background-position", arrow_heigth);
+            loadChart();
+        }
+    });
+    loadChart();
+});
+
+</script>

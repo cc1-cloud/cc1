@@ -1,0 +1,101 @@
+{% extends "resources/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Elastic IPs" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Manage elastic IPs" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_elastic_ip{% endblock %}
+
+{% block box_title %}
+	{% trans "Elastic IPs" %}
+{% endblock %}
+
+{% block help_icon %}
+    {% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/resources_elastic_ip.html" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	var localIdKey = 'public_ip_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'res_ajax_get_ips_table' %}',
+		idKey: localIdKey,
+	});
+
+	// dodanie ip
+	cc1.sthTable.requestIp = cc1.utils.createAction({
+		url: '{% url 'res_ajax_request_ip' %}',
+		dialogTitle: '{% trans "Add IP" %}',
+	});
+	// usuniecie ip
+	cc1.sthTable.releaseIp = cc1.utils.createAction({
+		url: '{% url 'res_ajax_release_ip' 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).address};
+		},
+		dialogTitle: '{% trans "Release IP" %}',
+	});
+});
+/*]]>*/</script>
+
+<table id="item-list" class="tab w100pc">
+	<thead class="thead">
+		<tr>
+			<td> {% trans "IP address" %} </td>
+			<td> {% trans "Attached to machine" %} </td>
+            <td> {% trans "Actions" %} </td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${public_ip_id}" class="rclick">
+			<td> ${address} </td>
+			<td>
+				{{if lease_id}}
+					${vm_name}
+				{{else}}
+					{% trans "not assigned" %}
+				{{/if}}
+			</td>
+			<td>
+				<a onclick="cc1.sthTable.releaseIp(${public_ip_id});">{% trans "Release IP" %}</a>
+			</td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="3">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="3" class="table_bottom_actions">
+				<ul>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.requestIp();">{% trans "Add a new IP" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+    </tfoot>
+</table>
+{% endblock %}

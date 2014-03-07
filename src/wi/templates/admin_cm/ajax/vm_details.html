@@ -1,0 +1,273 @@
+{% load i18n %}
+{% load templatetags %}
+
+<div class="TL"></div>
+<div class="BL"></div>
+<div class="TR"></div>
+<div class="BR"></div>
+<div class="b_innerContainer">
+    {% if item %}
+	<h2>
+		{% trans "Machine id:" %} {{ vm_id }} - {% trans "state" %}: {{ states_reversed|getitem:item.state }}
+		<span class="box-close" onclick='cc1.sthTable.closeDetails();' title="{% trans "Close machine details" %}"></span>
+	</h2>
+    {% endif %}
+    <div>
+		<table class="tab_details w100pc">
+			<tbody>
+                {% if item %}
+                <tr>
+                	<td colspan="4" class="table_bottom_actions vm_details_actions">
+	               	<div>
+	                	<span>{% trans "Owner data" %}</span>
+	                    <div class="clear"></div>
+	                    </div>
+	                </td>
+	            </tr>
+	            <tr>
+					<td class="label">{% trans "ID" %}:</td>
+					<td>{{ owner.user_id }}</td>
+
+					<td class="label">{% trans "Username" %}:</td>
+					<td>{{ owner.username }}</td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "First name" %}:</td>
+					<td>{{ owner.firstname }}</td>
+
+					<td class="label">{% trans "Last name" %}:</td>
+					<td>{{ owner.lastname }}</td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "Organization" %}:</td>
+					<td>{{ owner.organization }}</td>
+
+					<td class="label">{% trans "Email" %}:</td>
+					<td>{{ owner.email }}</td>
+				</tr>
+	        	<tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+        		</tr>
+            	<tr>
+                    <td colspan="4"></td>
+            	</tr>
+
+				<tr>
+					<td colspan="4" class="table_bottom_actions vm_details_actions">
+					<div>
+						<span>{% trans "Management" %}</span>
+						<ul>
+							<li class="icon_save_and_shutdown {% if item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
+								<a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.saveAndShutdownVm( {{ vm_id }} );{% endif %}">
+									{% trans "Save and shutdown" %}
+								</a>
+							</li>
+							<li class="icon_destroy {% if item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
+								<a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.destroyVm( {{ vm_id }} );{% endif %}">
+									{% trans "Destroy" %}
+								</a>
+							</li>
+							<li class="icon_delete">
+							    <a onclick="cc1.sthTable.eraseVm( {{ vm_id }} );">
+								    {% trans "Erase" %}
+	    						</a>
+		    				</li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    </td>
+                </tr>
+				<tr>
+					<td class="label"></td>
+					<td></td>
+
+					<td class="label"></td>
+					<td></td>
+				</tr>
+ 				<tr>
+	                <td class="label">{% trans "Name" %}:</td>
+	                <td>{{ item.name }}</td>
+
+	                <td class="label">{% trans "Image" %}:</td>
+	                <td>{{ item.image_name }}</td>
+            	</tr>
+            	<tr>
+                    <td class="label">{% trans "Created" %}:</td>
+                    <td>{{ item.start_time }}</td>
+
+                    <td class="label">{% trans "Uptime" %}:</td>
+                    <td>{{ item.uptime }}</td>
+            	</tr>
+                <tr>
+                    <td class="label">{% trans "Description" %}:</td>
+                    <td colspan="3">{{ item.description|linebreaksbr }}</td>
+                </tr>
+				<tr>
+					<td class="label">{% trans "Node" %}:</td>
+					<td>{{ item.node }}</td>
+
+					<td></td>
+					<td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+
+				<tr>
+                    <td colspan="4" class="table_bottom_actions vm_details_actions">
+	               	<div>
+	                	<span>{% trans "Resources" %}</span>
+	                	<!--
+	                    <ul>
+							<li class="icon_accept {% if item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
+								<a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.assignDisk( {{ vm_id }} );{% endif %}">
+									{% trans "Assign disk" %}
+								</a>
+							</li>
+							<li class="icon_cancel {% if item.storage_images|length == 0 %}inactive{% endif %}">
+								<a onclick="{% if item.storage_images|length != 0 %}cc1.sthTable.revokeDisk( {{ vm_id }} );{% endif %}">
+									{% trans "Revoke disk" %}
+								</a>
+							</li>
+						</ul>
+						-->
+                        <div class="clear"></div>
+	                    </div>
+					</td>
+				</tr>
+
+                <tr>
+					<td class="label">{% trans "Disks" %}:</td>
+					<td colspan="3">
+					{% for item2 in item.storage_images %}
+	                    {{ item2.name }},
+	                	{% empty %}
+	                    {% trans "none" %}
+					{% endfor %}
+					</td>
+				</tr>
+				<tr>
+					<td class="label">{% trans "ISO images" %}:</td>
+					<td colspan="3">
+					{% for item2 in item.iso_images %}
+	                    {{ item2.name }},
+	                	{% empty %}
+	                    {% trans "none" %}
+					{% endfor %}
+					</td>
+                </tr>
+
+				<tr>
+					<td colspan="4" class="vm_details_actions_bottom">
+						<div></div>
+					</td>
+				</tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+
+				<tr>
+                	<td colspan="4" class="table_bottom_actions vm_details_actions">
+	               	<div>
+	                	<span>{% trans "Access" %}</span>
+	                    <ul>
+							<li class="icon_vnc {% if item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
+								<a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.vnc('{{ item.vnc_endpoint }}', '{{ item.vnc_passwd }}', '{{ vm_id }}');{% endif %}" target="_blank">
+									{% trans "Graphical console (VNC)" %}
+								</a>
+							</li>
+						</ul>
+                        <div class="clear"></div>
+	                    </div>
+	                </td>
+	            </tr>
+
+ 				{% for i in item.leases %}
+	            <tr>
+                    <td class="label">{% trans "Private IP" %}:</td>
+                    <td>{{ i.address }}</td>
+
+                    <td class="label">{% trans "Public IP" %}:</td>
+                    <td>
+                    	<ul>
+	                    	{% if i.public_ip %}
+								<a onclick="cc1.sthTable.revokeIp( {{ i.lease_id }} );">
+									{{ i.public_ip.address }}
+								</a>
+							{% else %}
+								{% trans "empty" %}
+							{% endif %}
+						</ul>
+					</td>
+	            </tr>
+	            {% endfor %}
+
+	            <tr>
+	                <td class="label">{% trans "VNC" %}:</td>
+                    <td> {{ item.vnc_endpoint }} </td>
+
+                    <td class="label">{% trans "VNC password" %}:</td>
+                    <td>
+	                    <a onclick="cc1.utils.openCopyToClip('{{ item.vnc_passwd }}');">{% trans "Show" %}</a>
+                    </td>
+	            </tr>
+
+	        	<tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+        		</tr>
+            	<tr>
+                    <td colspan="4"></td>
+            	</tr>
+
+            	<tr>
+                	<td colspan="4" class="table_bottom_actions vm_details_actions">
+	               	<div>
+	                	<span>{% trans "Monitoring" %}</span>
+	                	<ul>
+							<li class="icon_chart">
+								<a onclick="adminMonitoring( {{ vm_id }} );">
+									{% trans "Monitoring" %}
+								</a>
+							</li>
+						 </ul>
+	                    <div class="clear"></div>
+	                    </div>
+	                </td>
+	            </tr>
+
+	            <tr>
+                    <td class="label">{% trans "CPU load 1/5/15 min" %}:</td>
+                    <td>{{ item.cpu_load|getitem:'60' }} / {{ item.cpu_load|getitem:'300' }} / {{ item.cpu_load|getitem:'900' }}</td>
+
+	            	<td></td>
+	            	<td></td>
+	            </tr>
+	        	<tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+        		</tr>
+            	<tr>
+                    <td colspan="4"></td>
+            	</tr>
+            {% else %}
+                <tr>
+					<td colspan="4">
+                        {% trans "No info" %}
+                    </td>
+                </tr>
+            {% endif %}
+			</tbody>
+		</table>
+	</div>
+</div>

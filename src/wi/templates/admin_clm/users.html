@@ -1,0 +1,217 @@
+{% extends "admin_clm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Users" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Users" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_users{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox"/>
+{% endblock %}
+
+{% block box_title %}
+	{% trans "Users" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/states.js"></script>
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'user_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'clm_ajax_get_table_users' %}',
+		contextFun : function(itemData) {
+			var items = {
+		    	'user_account' 	: {name: '{% trans "User account" %}', icon: 'magnify'},
+		    	'sep1'			: '---------',
+		    	'admin'	 		: {name: (itemData.is_superuser === 0)?'{% trans "Set admin" %}': '{% trans "Unset admin" %}', icon: (itemData.is_superuser === 0)?'accept':'cancel'},
+		    	'set_password'	: {name: '{% trans "Set password" %}', icon: 'password'},
+		    };
+		    if ($.inArray(itemData.is_active, [cc1.states.user['inactive'], cc1.states.user['email_confirmed']]) >= 0) {
+		    	items['activate'] = {name: '{% trans "Activate" %}', icon: 'accept'};
+		    }
+		    if ($.inArray(itemData.is_active, [cc1.states.user['ok'], cc1.states.user['email_confirmed']]) >= 0) {
+		    	items['block'] = {name: '{% trans "Block" %}', icon: 'cancel'};
+		    }
+		    if ($.inArray(itemData.is_active, [cc1.states.user['blocked']]) >= 0) {
+		    	items['unblock'] = {name: '{% trans "Unblock" %}', icon: 'cancel'};
+		    }
+		    items['delete'] = {name: '{% trans "Delete" %}', icon: 'delete'};
+		    return {
+		        callback: function(key, options) {
+		        	switch (key) {
+		        		case 'user_account':
+		        			location.href = "{% url 'clm_user_account' 0 %}".replace('0', itemData[localIdKey]);
+		        		break;
+		        		case 'activate':
+							cc1.sthTable.activateUser(itemData[localIdKey]);
+		        		break;
+		        		case 'block':
+							cc1.sthTable.blockUser(itemData[localIdKey]);
+		        		break;
+		        		case 'unblock':
+							cc1.sthTable.unblockUser(itemData[localIdKey]);
+		        		break;
+		        		case 'delete':
+							cc1.sthTable.deleteUser(itemData[localIdKey]);
+		        		break;
+		        		case 'set_password':
+							cc1.sthTable.setPassword(itemData[localIdKey]);
+		        		break;
+		        		case 'admin':
+		        			if (itemData.is_superuser === 0) {
+								cc1.sthTable.setAdmin(itemData[localIdKey]);
+							} else {
+								cc1.sthTable.unsetAdmin(itemData[localIdKey]);
+							}
+		        		break;
+		        	}
+		        },
+		        items: items
+		    };
+		},
+		autoRefreshTime : 60000,
+		leftClickMenu : '.action_button',
+		showSearchBox: true,
+		overTable: '#over-table',
+		enableSorting: true,
+		sortingColumnIndex: 0,
+		sortingDescending: true,
+		idKey: localIdKey,
+	});
+	// dialog blokowania uzytkownika
+	cc1.sthTable.blockUser = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_block_user' 0 %}',
+		dialogTitle: '{% trans "Block user" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+	});
+	// dialog usuwania uzytkownika
+	cc1.sthTable.deleteUser = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_delete_user' 0 %}',
+		dialogTitle: '{% trans "Delete user" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+		dialogClass: 'warning'
+	});
+	// dialog ustawiania hasla userowi
+	cc1.sthTable.setPassword = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_set_password' 0 %}',
+		dialogTitle: '{% trans "Set password" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+	});
+	// dialog aktywowania uzytkownika
+	cc1.sthTable.activateUser = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_activate_user' 0 %}',
+		dialogTitle: '{% trans "Activate user" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+	});
+	// dialog blokowania uzytkownika
+	cc1.sthTable.blockUser = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_block_user' 0 %}',
+		dialogTitle: '{% trans "Block user" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+	});
+	// dialog odblokowania uzytkownika
+	cc1.sthTable.unblockUser = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_unblock_user' 0 %}',
+		dialogTitle: '{% trans "Unblock user" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+	});
+	// dialog ustawiania adminem uzytkownika
+	cc1.sthTable.setAdmin = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_set_admin' 0 %}',
+		dialogTitle: '{% trans "Set admin" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+	});
+	// dialog zabierania praw admina uzytkownikowi
+	cc1.sthTable.unsetAdmin = cc1.utils.createAction({
+		url: '{% url 'clm_ajax_unset_admin' 0 %}',
+		dialogTitle: '{% trans "Unset admin" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).first + ' ' + cc1.sthTable.getItemById(id).last };
+		},
+	});
+});
+/*]]>*/</script>
+
+<div id="over-table"></div>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td>{% trans "ID" %}</td>
+			<td>{% trans "Username" %}</td>
+			<td>{% trans "Email" %}</td>
+			<td>{% trans "Name and surname" %}</td>
+			<td>{% trans "State" %}</td>
+			<td class="noSort">{% trans "Actions" %}</td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${user_id}" class="rclick">
+			<td> ${user_id} </td>
+			<td>
+				<a onclick='location.href = "{% url 'clm_user_account' 0 %}".replace("0", ${user_id});'>
+					{{if is_superuser === 1}}
+						<b>${login}</b>
+					{{else}}
+						${login}
+					{{/if}}
+				</a>
+			</td>
+			<td>
+				{{html email.escapeHTML().wbrAndLb()}}
+			</td>
+			<td>
+				{{html first.escapeHTML().wbrAndLb()}}
+				{{html last.escapeHTML().wbrAndLb()}}
+			</td>
+			<td> ${is_activeName} </td>
+			<td>
+				<div id="action${user_id}" class="action_button"></div>
+			</td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="6">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="6">
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

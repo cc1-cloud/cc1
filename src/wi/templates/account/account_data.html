@@ -1,0 +1,98 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Account data" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Account data" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_account_data{% endblock %}
+
+{% block box_title %}
+	{% trans "Account data" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#user-data', 
+		template : '#rowTemplate', 
+		urlGetData : '{% url 'acc_ajax_get_user_data' %}'
+	});
+	
+	// edycja swojego emaila
+	cc1.sthTable.editAccountData = cc1.utils.createAction({
+		url: '{% url 'acc_ajax_account_data_edit' %}', 
+		dialogTitle: '{% trans "Edit account data" %}',
+	});
+});
+/*]]>*/</script>
+
+<div id="user-data">
+	<script id="rowTemplate" type="text/x-jquery-tmpl">
+	<fieldset class="noBorder">
+		<div>
+			<span class="labels"> <label>{% trans "Username" %}:</label> </span>
+			<span class="inputs text" id="account_data_login"> ${login} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "Name and surname" %}:</label> </span>
+			<span class="inputs text" id="account_data_first_last"> ${first} ${last} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "Email" %}:</label> </span>
+			<span class="inputs text" id="account_data_email"> ${email} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "Organization" %}:</label> </span>
+			<span class="inputs text" id="account_data_organization"> ${organization} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "Default cluster" %}:</label> </span>
+			<span class="inputs text" id="account_data_default_cluster"> ${default_cluster_id} </span>
+		</div>
+	</fieldset>
+	<fieldset class="noBorder align_center">
+		<a class="big_button" onclick="cc1.sthTable.editAccountData();">{% trans "Edit account data" %}</a>
+	</fieldset>
+	
+	<div class="box_separator"> {% trans "EC2 data" %} </div>
+	
+	<fieldset class="noBorder">
+		<div>
+			<span class="labels"> <label>{% trans "AWS Access Key ID" %}:</label> </span>
+			<span class="inputs text"> ${login} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "AWS Secret Access Key" %}:</label> </span>
+			<span class="inputs text">
+				<a onclick="cc1.utils.openCopyToClip('{{ request.session.user.password }}');">{% trans "Show" %}</a>
+			</span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "EC2 endpoints" %}:</label> </span>
+			<span class="inputs text">				
+			{% verbatim2 %}
+				{{each ec2_endpoints}}
+					${this}
+					<br>
+				{{/each}}	
+			{% endverbatim2 %}	
+			 </span>
+			
+		</div>
+	</fieldset>
+	<div class="clear"></div>
+	</script>
+	<div class="ajax_loader1">&nbsp;</div>
+</div>
+
+{% endblock %}

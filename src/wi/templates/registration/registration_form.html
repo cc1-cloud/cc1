@@ -1,0 +1,32 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "Register for an Account" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}
+	{% trans "Registration" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+$(function() {
+	$("#id_username").focus();
+	$("#registration-form").validate({
+		rules: {
+			new_password: { minlength: 5},
+			password2: { equalTo: "#id_new_password"}
+		}
+	});
+});
+/*]]>*/</script>
+
+<form method="post" action="" id="registration-form">
+	{% csrf_token %}
+
+	{% show_fieldsetform form %}
+	<div class="fieldset align_center">
+    	<input class="big_button" type="submit" value="{% trans "Register" %}" />
+    </div>
+</form>
+{% endblock %}

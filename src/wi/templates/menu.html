@@ -1,0 +1,45 @@
+{% load i18n %}
+<ul class="topnav">
+	<li class="menu-item">
+		<a href="{% url 'mai_main' %}">{% trans "CC1" %}</a>
+        <ul class="subnav">
+			{% include "main/menu.html" %} 
+        </ul>
+	</li>
+{% if request.session.user %}
+    <li class="menu-item">
+        <a href="{% url 'vms_vms' %}">{% trans "Machines" %}</a>
+        <ul class="subnav">
+			{% include "vms/menu.html" %} 
+        </ul>
+    </li>    
+    <li class="menu-item">
+        <a href="{% url 'far_farms' %}">{% trans "Farms" %}</a>
+        <ul class="subnav">
+			{% include "farms/menu.html" %}
+        </ul>
+    </li>
+    <li class="menu-item">
+        <a href="{% url 'img_images' %}">{% trans "Images" %}</a>
+        <ul class="subnav">
+			{% include "images/menu.html" %}
+        </ul>
+    </li>
+    <li class="menu-item">
+        <a href="{% url 'res_resources' %}">{% trans "VM Resources" %}</a>
+        <ul class="subnav">
+			{% include "resources/menu.html" %}
+        </ul>
+    </li>
+    <li class="menu-item">
+        <a href="{% url 'grp_groups' %}">{% trans "Groups" %}</a>
+        <ul class="subnav">
+			{% include "groups/menu.html" %} 
+        </ul>
+    </li>    
+{% else %}
+	<li class="menu-item">
+		<a href="{% url 'reg_register' %}">{% trans "Registration" %}</a>	
+	</li>	
+{% endif %}  
+</ul>

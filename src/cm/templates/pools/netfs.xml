@@ -1,0 +1,18 @@
+<!--
+Use remote, NFS storage
+-->
+<pool type="netfs">
+  <name>{{ storage.name }}</name>
+  <source>
+    <host name="{{ storage.address }}"/>
+    <dir path="{{ storage.dir }}"/>
+  </source>
+  <target>
+    <path>/var/lib/cc1/storages/{{ storage.name }}</path>
+    <permissions>
+    	<mode>0770</mode>
+    	<owner>{{ cc_userid }}</owner>
+    	<group>{{ cc_groupid }}</group>
+    </permissions>
+  </target>
+</pool>

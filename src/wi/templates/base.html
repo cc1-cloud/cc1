@@ -1,0 +1,212 @@
+{% load i18n %}
+{% load formtags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl" xml:lang="pl">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>{% block title %}CC1{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/main.min.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/jquery.selectBox.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/jquery.contextmenu.css" />
+    <link rel="shortcut icon" type="image/png" href="{{ MEDIA_URL }}img/favicon.ico" />
+
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/jquery/excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.flot.time.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.flot.threshold.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.flot.selection.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.flot.axislabels.js"></script>
+
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/markdown/Markdown.Converter.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/markdown/Markdown.Sanitizer.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">/*<![CDATA[*/
+var cc1 = {};
+cc1.configs = {
+	tooltip: {
+		top: -14,
+		left: 20,
+		track: true,
+		fade: 200,
+		showBody: ' - ',
+	},
+	selectbox: {
+		menuTransition: 'fade',
+		menuSpeed: 'fast'
+	},
+	wdr: 15,
+};
+cc1.states = {};
+/*]]>*/</script>
+
+<div id="message-div"></div>
+<div id="top-messages"></div>
+
+<div class="wrapper">
+<div class="all">
+    <div id="header">
+	 	<div class="logo-img" onclick="location.href='{% url 'mai_main' %}'" title="{% trans "Home page" %}"></div>
+		<div class="language-change">
+			<form id="languageForm" action="">
+				{% csrf_token %}
+				<select class="small" name="language">
+				{% for lang in LANGUAGES %}
+					<option value="{{ lang.0 }}"
+					{% ifequal LANGUAGE_CODE lang.0 %}
+						selected="selected"
+					{% endifequal %}
+					>{{ lang.1 }}</option>
+				{% endfor %}
+				</select>
+			</form>
+		</div>
+
+	{% block cm-change %}
+		{% if request.session.user %}
+		<div id="cm-change">
+			<form id="cmForm" action="">
+				{% csrf_token %}
+				<select class="small" name="cm">
+				{% for item in cm_list %}
+					<option value="{{ item.cluster_id }}"
+					{% ifequal item.cluster_id request.session.user.cm_id %}
+						selected="selected"
+					{% endifequal %}
+					{% ifequal item.state cluster_states.locked %}
+						disabled="disabled"
+					{% endifequal %}
+					>{{ item.name }}</option>
+				{% endfor %}
+				</select>
+			</form>
+		</div>
+		{% endif %}
+	{% endblock %}
+
+	{% block over_menu %}
+		{% include "over_menu.html" %}
+	{% endblock %}
+
+		<div class="topnav_left"></div>
+
+		{% block menu %}
+        	{% include "menu.html" %}
+		{% endblock %}
+
+		<div class="topnav_right"></div>
+    </div><!-- header -->
+
+	<div id="content">
+		<ul id="breadcrumb">
+			{% block breadcrumb %}<li><a href="{% url 'mai_main' %}">{% trans "Home" %}</a></li>{% endblock %}
+		</ul>
+		<div class="clear"></div>
+
+	 	{% block main_content %}
+	 	{% endblock %}
+	</div>
+
+</div> <!-- all -->
+<div class="push"></div>
+</div> <!-- wrapper -->
+
+<div class="footer all align_center">
+	<div class="topnav_left"></div>
+    <ul class="topnav">
+		<li>
+			{% if VERSION %}
+				<small>{% trans "version" %} {{ VERSION }} </small>
+			{% endif %}
+			&nbsp;&nbsp;&nbsp; &copy; 2010-2014
+			&nbsp;&nbsp;&nbsp; Powered by <a href="http://cc1.ifj.edu.pl" class="poweredby">CC1 - Cracow Cloud One</a>
+		</li>
+	</ul>
+	<div class="topnav_right"></div>
+</div>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.contextmenu.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.ui.position.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.selectBox.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.hoverIntent.minified.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.config.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.validate.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.tmpl.js"></script>
+{% if LANGUAGE_CODE != "en" %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/local/messages_{{ LANGUAGE_CODE }}.js"></script>
+{% endif %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.autoresize.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery/jquery.tooltip.min.js"></script>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/menu.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/utils.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/sthTable.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/messages.js"></script>
+<script type="text/javascript">/*<![CDATA[*/
+
+$('textarea').autoResize();
+$('select').selectBox(cc1.configs.selectbox);
+$('.tooltip').tooltip(cc1.configs.tooltip);
+
+var selectLanguage = $('#languageForm select');
+selectLanguage.change(function(){
+	location.href = '/change_language/' + selectLanguage.val() + '/';
+});
+
+var selectCM = $('#cmForm select');
+selectCM.change(function(){
+	location.href='/change_cm/' + selectCM.val() + '/';
+});
+
+cc1.messages = cc1.initMessages({
+	urlGetMessages : '{% url 'get_messages' %}',
+	urlRemoveMessage : '{% url 'remove_message' 0 %}',
+{% if request.session.user %}
+	autoRefreshTime : 400000,
+{% endif %}
+});
+
+{% if messages %}
+	{% for message in messages %}
+		cc1.messages.add(0, new Date().toShortString(), "{{ message.tags }}", "{{ message }}");
+	{% endfor %}
+{% endif %}
+
+// common functions
+// open new tab with vnc applet
+openVnc = function(vnc_endpoint, passwd, vmid) {
+	$.post('{% url 'vms_ajax_vnc_configured' %}', function(response) {
+		if (response !== undefined && response.status < 8000) {
+			var url = '{% url 'vms_vnc' 0 %}'.replace('0', vmid);
+			$('#vnc-form').remove();
+			$('#message-div').append("<div id='vnc-form'><form action='" + url + "' method='POST' target='_blank'>{% csrf_token %}<input type='hidden' name='vnc_endpoint' value='" + vnc_endpoint + "'/><input type='hidden' name='vnc_passwd' value='" + passwd + "'/><input type='hidden' name='vmid' value='" + vmid + "'/></form></div>");
+			$('#vnc-form').find('form').submit();
+		} else {
+			cc1.messages.showAjaxResponseDialog(response);
+		}
+	});
+};
+// monitoring
+monitoring = cc1.utils.createAction({
+	url: '{% url 'vms_ajax_vm_monitoring' 0 %}',
+	dialogTitle: '{% trans "Virtual machine resource usage" %}',
+	dialogWidth: 800,
+	resizable: 'se',
+	dialogClass: 'info',
+});
+// admin monitoring
+adminMonitoring = cc1.utils.createAction({
+	url: '{% url 'cma_ajax_vm_monitoring' 0 %}',
+	dialogTitle: '{% trans "Virtual machine resource usage" %}',
+	dialogWidth: 800,
+	resizable: 'se',
+	dialogClass: 'info',
+});
+
+/*]]>*/</script>
+</body>
+</html>

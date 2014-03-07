@@ -1,0 +1,13 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Activation success!" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}
+	{% trans "Activation complete" %}
+{% endblock %}
+
+
+{% block box_content %}
+    <p class="success">{% trans "Your email have been confirmed. You may now sign in!" %}</p>
+{% endblock %}

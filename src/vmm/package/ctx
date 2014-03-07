@@ -1,0 +1,70 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          ctx
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: CTX
+# Description:       Virtual Machine Managment Tools for CC1 system
+### END INIT INFO
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="CTX"
+PACKAGE_PATH=/opt/cc1/ctx
+CONF_PATH=/etc/cc1/ctx/ctx.conf
+VAR_PATH=/var/cc1/ctx
+
+#get config vars:
+. $CONF_PATH
+
+
+do_start()
+{
+	# Return
+	#   0 if daemon has been started
+	#   1 if daemon was already running
+	#   2 if daemon could not be started
+	echo "Starting Virtual Machine Management tool..."		
+	start-stop-daemon -m -b -p $VAR_PATH/ctx.pid -S $PACKAGE_PATH/VMMDaemon.py $LOG_PATH/ctx.log $CM_ADDRESS --exec $PYTHON_BIN 1>$LOG_PATH/ctx_all.log 2>$LOG_PATH/ctx_all.log
+    if [ "$?" != "0" ] ; then
+        echo "Cannot start Virtual Machine Management tool. See logs"
+        exit 1
+    fi
+	echo "Virtual Machine Management tool started"
+	return "0"
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+	# Return
+	#   0 if daemon has been stopped
+	#   1 if daemon was already stopped
+	#   2 if daemon could not be stopped
+	#   other if a failure occurred
+	echo "Stopping Virtual Machine Management tool..."
+    start-stop-daemon -p $VAR_PATH/ctx.pid -K --exec $PYTHON_BIN
+	echo "Virtual Machine Management tool stopped"
+	
+	return "0"
+}
+
+case "$1" in
+  start)
+	do_start
+	;;
+  stop)
+	do_stop
+	;;
+  restart)
+	do_stop
+	do_start
+	;;
+  *)
+	echo "Usage: $SCRIPTNAME {start|stop|restart}" >&2
+	exit 3
+	;;
+esac

@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load templatetags %}
+
+<div class="TL"></div>
+<div class="BL"></div>
+<div class="TR"></div>
+<div class="BR"></div>
+<div class="b_innerContainer">
+	{% if item %}
+	<h2>
+        {% trans "Network id:" %} {{ id }}
+	</h2>
+	{% endif %}
+    <div>
+		<table class="tab_details w100pc">
+			<tbody>
+            {% if item %}
+                <tr>
+					<td colspan="4" class="table_bottom_actions vm_details_actions">
+					<div>
+						<span>{% trans "Leases" %}</span>
+						<ul>
+						</ul>
+                        <div class="clear"></div>
+                    </div>
+                    </td>
+                </tr>
+                {% for i in item %}
+				<tr>
+					<td class="label">{% trans "ID" %}:</td>
+					<td>{{ i.lease_id }}</td>
+
+					<td class="label">{% trans "Address" %}:</td>
+					<td>{{ i.address }}</td>
+				</tr>
+				{% endfor %}
+		        <tr>
+                    <td colspan="4" class="vm_details_actions_bottom">
+                    	<div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>

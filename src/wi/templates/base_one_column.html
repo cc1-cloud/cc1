@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main_content %}
+	<div class="middle {% block box_width %}w600{% endblock %}">
+		<div class="b_greyWhiteStroke">
+			<div class="TL"></div>
+			<div class="BL"></div>
+			<div class="TR"></div>
+			<div class="BR"></div>
+			<div class="b_innerContainer">
+				<h2>
+					{% block box_title %}
+					{% endblock %}
+				</h2>
+				<div>
+					{% block box_content %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

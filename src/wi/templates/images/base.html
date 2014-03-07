@@ -1,0 +1,27 @@
+{% extends "base_two_column.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Images" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="{% url 'img_images' %}">{% trans "Images" %}</a></li>
+{% endblock %}
+
+{% block left_box_title %}{% trans "Images" %}{% endblock %}
+{% block left_box_content %}
+<ul id="{% block men_div_name %}{% endblock %}">
+	{% include "images/menu.html" %} 
+</ul>
+{% endblock %}
+
+{% block left_box_watermark %}images{% endblock %}
+
+{% block box_title %}
+	{% trans "Images" %}
+{% endblock %}
+
+{% block box_content %}
+	{% include "tutorials/images.html" %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% load i18n %}
+{% url 'hlp' as url_help %}
+{% blocktrans %}
+<p>
+	Here you can browse, upload and manage virtual machine images. 
+</p>
+<p>
+	Images are dedicated to keep virtual machine's configuration, such as operating system, software and configs. Thats what new virtual machines are created from and existing ones are saved to. 
+</p>
+<p>
+	All images are divided into 3 groups:
+</p>
+<ul class="text-ul">
+	<li><strong>Public images</strong> - images available for everyone.</li>
+	<li><strong>My images</strong> - your images, nobody else can see or use them.</li>
+	<li><strong>Group images</strong> - your groups' images, available to your groups' members.</li>
+</ul>
+<p>
+	Disks on the other hand are intended to store your data.
+</p>
+{% endblocktrans %}

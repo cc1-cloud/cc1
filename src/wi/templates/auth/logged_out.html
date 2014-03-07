@@ -1,0 +1,15 @@
+{% extends "auth/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Logged Out" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}{% trans "Logged out" %}{% endblock %}
+
+{% block box_width %}w500{% endblock %}
+
+{% block box_content %}
+    <p class="success">{% trans "You have been logged out!" %}</p>
+    <script>
+    	setTimeout('location.replace("{% url 'login' %}");', 2000);
+    </script>
+{% endblock %}

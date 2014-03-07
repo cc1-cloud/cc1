@@ -1,0 +1,177 @@
+{% extends "resources/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Disks" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Manage disks" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_disks{% endblock %}
+
+{% block box_title %}
+	{% trans "Storage disks" %}
+{% endblock %}
+
+{% block help_icon %}
+    {% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/resources_disks.html" %}
+{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox" checked="checked"/>
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'storage_image_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'res_ajax_get_disk_table' %}',
+		contextFun : function(itemData) {
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'edit':
+							cc1.sthTable.editDisk(itemData[localIdKey]);
+                		break;
+                		case 'changeToImage':
+							cc1.sthTable.changeToImage(itemData[localIdKey]);
+                		break;
+                		case 'delete':
+                			cc1.sthTable.deleteDisk(itemData[localIdKey]);
+                		break;
+                	}
+                },
+                items: {
+                	'edit'			: {name: '{% trans "Edit" %}', icon: 'edit'},
+                	'changeToImage'	: {name: '{% trans "Change to VM image" %}', icon: 'computers'},
+                    'delete' 		: {name: '{% trans "Remove" %}', icon: 'delete'},
+                }
+            };
+		},
+		autoRefreshTime : 30000,
+		leftClickMenu : '.action_button',
+		enableSorting: true,
+		sortingColumnIndex: 2,
+		sortingDescending: true,
+        idKey: localIdKey,
+	});
+
+	// edycja dysku
+	cc1.sthTable.editDisk = cc1.utils.createAction({
+		url: '{% url 'res_ajax_edit_disk' 0 %}',
+		dialogTitle: '{% trans "Edit disk" %}',
+		dialogWidth: 500,
+	});
+	// usuniecie dysku
+	cc1.sthTable.deleteDisk = cc1.utils.createAction({
+		url: '{% url 'res_ajax_delete_disk' 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+		dialogClass: 'warning'
+	});
+	// zmiana w obraz
+	cc1.sthTable.changeToImage = cc1.utils.createAction({
+		url: '{% url 'img_ajax_change_to_image' 0 %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+	});
+	// dodanie dysku
+	cc1.sthTable.addDisk = cc1.utils.createAction({
+		url: '{% url 'res_ajax_add_disk' %}',
+		dialogTitle: '{% trans "Add new disk" %}',
+		dialogWidth: 500,
+	});
+	// wgranie dysku
+	cc1.sthTable.uploadDisk = cc1.utils.createAction({
+		url: '{% url 'res_ajax_upload_disk_http' %}',
+		dialogTitle: '{% trans "Upload disk" %}',
+		dialogWidth: 500,
+	});
+});
+/*]]>*/</script>
+
+<table id="item-list" class="tab w100pc">
+	<thead class="thead">
+		<tr>
+			<td> {% trans "Name" %} </td>
+			<td> {% trans "Description" %} </td>
+			<td> {% trans "Creation date" %} </td>
+			<td> {% trans "Size" %} </td>
+			<td> {% trans "Bus" %} </td>
+			<td class="noSort">  {% trans "Machine" %} </td>
+            <td class="noSort"> {% trans "Actions" %} </td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${storage_image_id}" class="rclick" title="{% trans "Right click table row to open context menu." %}">
+			<td>
+				{{html name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td class="text-justify">
+				{% include "snippets/resizable_description.js" %}
+			</td>
+			<td> ${creation_date} </td>
+			<td>
+			{{if state === 0}}
+				${size}
+		   	{{else state === 3}}
+		   		{% trans "failed" %}
+		   	{{else}}
+		   		<div class="ajax_loader3" title="{% trans "Creating" %}"></div> ${progress}%
+		   	{{/if}}
+			</td>
+			<td>
+				${bus}
+			</td>
+			<td>
+				{{if vm_id}}
+					{{html vm_name.escapeHTML().wbrAndLb()}}
+				{{else}}
+				{% trans "not assigned" %}
+				{{/if}}
+			</td>
+		   	<td>
+				<div id="action${storage_image_id}" class="action_button"></div>
+			</td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="7">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="7" class="table_bottom_actions">
+				<ul>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.addDisk();">{% trans "Create new disk" %}</a>
+					</li>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.uploadDisk();">{% trans "Upload disk" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+    </tfoot>
+</table>
+{% endblock %}

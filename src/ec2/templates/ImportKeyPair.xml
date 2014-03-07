@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ImportKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+   <requestId>7a62c49f-347e-4fc4-9331-6e8eEXAMPLE</requestId>
+   <keyName>${keyName}</keyName>
+   <keyFingerprint>${keyFingerprint}</keyFingerprint>
+</ImportKeyPairResponse>
