@@ -1,0 +1,6 @@
+{% load i18n %}
+{% trans "Your account has just been activated. You can now log in at: " %}
+    
+http://{{ site }}/
+
+{% trans "The CC1 Team" %}
