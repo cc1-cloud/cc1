@@ -1,0 +1,21 @@
+Script categories and numbers
+=============================
+
+Scripts in 001-009 are designed to create and install new CC1 cloud.
+Scripts in 010-019 configure CC1 system to work properly. This two ranges
+shouldn't be called very often. Once created cluster could be used as test
+cloud for tests with numbers 020-899.
+
+001 - 009 - System services initialization, preparing virtual cloud. First
+            version requires Debian or Ubuntu image with installed openssh
+            server and known ssh public key in authorized keys. First script
+            (vm creation) should be called as root or user in kvm/libvirtd group
+010 - 019 - User registration, configuring CLM and CMs via CLM Api. Adds at
+            least one vm template, vm disk image, storage image and node(s).
+            Not nasty
+020 - 029 - Networking tests
+900 - 999 - System cleanup after tests.
+
+Installation tests
+==================
+In first phase of tests (001-009) scripts are creating virtual cloud enviroment.

@@ -1,0 +1,148 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""
+@author Maciej Nabozny <mn@mnabozny.pl>
+"""
+
+import subprocess
+import os
+import sys
+import time
+import datetime
+import sha
+import netifaces
+import netaddr
+import socket
+import imp
+update_config = imp.load_source('update_config', '/usr/sbin/cc1_network_update_config')
+
+from django.template import loader, Context
+
+
+def configure(cm_cluster_address, interfaces, ospf_token):
+    print "COMMON-NETWORKING: Checking quagga templates and saving old configs..."
+    if not os.path.exists('/etc/cc1/common-networking/zebra.template.conf') or not os.path.exists('/etc/cc1/common-networking/ospfd.template.conf'):
+        print "\tERROR: Cannot find default quagga and ospf configurations!"
+        return 1
+    
+    if not os.path.exists('/etc/quagga/'):
+        print "\tERROR: /etc/quagga doesn't exists! Probably you are running this tool not on CM or node"
+        return 1
+    
+    if os.path.exists('/etc/quagga/ospfd.conf'):
+        os.rename('/etc/quagga/ospfd.conf', '/etc/quagga/ospfd.conf.bak.%s' % str(datetime.datetime.now()))
+    if os.path.exists('/etc/quagga/zebra.conf'):
+        os.rename('/etc/quagga/zebra.conf', '/etc/quagga/zebra.conf.bak.%s' % str(datetime.datetime.now()))
+    
+    print "COMMON-NETWORKING: Updating configuration file (config.py)..."
+    update_config.set_value('cm_cluster_address', cm_cluster_address)
+    update_config.set_value('interfaces', interfaces)
+    update_config.set_value('ospf_token' ,ospf_token)
+    
+    print "COMMON-NETWORKING: Collecting informations about networking..."
+    interfaces = interfaces.split(',')
+    networks = []
+
+    router_id = None
+
+    for interface in interfaces:
+        try:
+            iface = netifaces.ifaddresses(interface)
+        except:
+            print "ERROR: Interface %s not found." % interface
+            return 1
+
+        for ip in iface[2]:
+            addr = str(netaddr.IPNetwork('%s/%s' % (ip['addr'], ip['netmask'])).cidr)
+            print "COMMON-NETWORKING: Adding network " + addr
+            networks.append(addr)
+
+            if router_id == None:
+                print "COMMON-NETWORKING: Setting router id to firsh iface addr: %s" % ip['addr']
+                router_id = ip['addr']
+    
+    loader.settings.configure(TEMPLATE_DIRS=['/etc/cc1/common-networking/'], DEBUG=True)
+    print "COMMON-NETWORKING: Generating ospfd configs..."
+    template = loader.get_template("ospfd.template.conf")
+    
+    c = Context({
+        'interfaces': interfaces,
+        'networks': networks,
+        'ospf_token': ospf_token,
+        'password': sha.sha(str(time.time())).hexdigest(),
+        'hostname': socket.gethostname(),
+        'router_id': router_id,
+    })
+    
+    ospfd_conf = open('/etc/quagga/ospfd.conf', 'w')
+    ospfd_conf.write(template.render(c))
+    ospfd_conf.close()
+    
+    print "COMMON-NETWORKING: Generating zebra configs..."
+    template = loader.get_template("zebra.template.conf")
+    
+    zebra_conf = open('/etc/quagga/zebra.conf', 'w')
+    zebra_conf.write(template.render(c))
+    zebra_conf.close()
+    
+    daemons = open('/etc/quagga/daemons', 'w')
+    daemons.write('''zebra=yes
+bgpd=no
+ospfd=yes
+ospf6d=no
+ripd=no
+ripngd=no
+isisd=no
+babeld=no''')
+    daemons.close()
+
+    subprocess.call('/etc/init.d/quagga restart', shell=True)
+    return 0
+
+def remove():
+    return 0
+
+
+def purge():
+    if os.path.exists('/etc/quagga/ospfd.conf'):
+        os.remove('/etc/quagga/ospfd.conf')
+    if os.path.exists('/etc/quagga/zebra.conf'):
+        os.remove('/etc/quagga/zebra.conf')
+    if os.path.exists('/etc/quagga/daemons'):
+        os.remove('/etc/quagga/daemons')
+    if os.path.exists('/etc/cc1/common-networking/config.py'):
+        os.remove('/etc/cc1/common-networking/config.py')
+    return 0
+    
+        
+
+if __name__ == "__main__":
+    if len(sys.argv) == 5 and sys.argv[1] == 'configure':
+        sys.exit(configure(sys.argv[2], sys.argv[3], sys.argv[4]))
+    elif len(sys.argv) == 2 and sys.argv[1] == 'remove':
+        sys.exit(remove())
+    elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
+        sys.exit(purge())
+    else:
+        print "Usage: %s [configure] cm_cluster_address interface1,interface2 ospf_token" % sys.argv[0]
+        print "          where cm_cluster address is e.g.: http://1.2.3.4:8003/"
+        sys.exit(1)
+

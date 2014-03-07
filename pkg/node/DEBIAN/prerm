@@ -1,0 +1,29 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+import netifaces
+
+print str(sys.argv)
+if __name__ == '__main__':
+    if 'remove' in sys.argv:
+        log = open('/var/log/cc1/cm_install.log', 'a')
+
+        r = subprocess.call('cc1_node_configure remove', shell=True, stdout=log)
+        r = subprocess.call('cc1_node_setup_libvirt remove', shell=True, stdout=log)
+
+        r = subprocess.call('cc1_setup_networking remove', shell=True, stdout=log)
+        log.close()
+        sys.exit(0)
+    elif 'purge' in sys.argv:
+        log = open('/var/log/cc1/cm_install.log', 'a')
+
+        r = subprocess.call('cc1_node_configure purge', shell=True, stdout=log)
+        r = subprocess.call('cc1_node_setup_libvirt purge', shell=True, stdout=log)
+
+        log.close()
+        sys.exit(0)
+    else:
+        print "Use cc1 tools (cc1_...) to reconfigure services!"
+        sys.exit(0)
+
