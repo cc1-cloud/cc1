@@ -1,0 +1,3 @@
+/etc/cc1/common-networking/config.py
+/etc/cc1/common-networking/ospfd.template.conf
+/etc/cc1/common-networking/zebra.template.conf

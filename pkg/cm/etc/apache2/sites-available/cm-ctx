@@ -1,0 +1,17 @@
+<VirtualHost *:8002>
+#        SSLEngine on
+#        SSLCertificateFile /etc/cc1/cm/cc1.pem
+#        SSLCertificateKeyFile /etc/cc1/cm/cc1.pem
+    DocumentRoot "/usr/lib/cc1/cm/"
+    WSGIDaemonProcess cm-ctx user=cc1 group=cc1 processes=1 threads=10
+    WSGIScriptAlias / /usr/lib/cc1/cm/wsgi_ctx.py
+    ErrorLog /var/log/cc1/cm/cm-ctx-error.log
+    <Directory /usr/lib/cc1/cm>
+        WSGIProcessGroup cm-ctx
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
+
+Listen 8002

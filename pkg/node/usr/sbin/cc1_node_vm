@@ -1,0 +1,103 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""
+@author Maciej Nabozny <mn@mnabozny.pl>
+"""
+
+import os
+import imp
+import sys
+import libvirt
+import pwd, grp
+
+sys.path.append('/usr/lib/cc1/')
+
+from common import utils
+from common.states import node_states
+
+try:
+
+    network_config = imp.load_source('network_config', '/etc/cc1/common-networking/config.py')
+    node_config = imp.load_source('node_config', '/etc/cc1/node/config.py')
+
+    lv_address = node_config.lv_conn_string
+    cm_address = network_config.cm_cluster_address
+except:
+    print "ERROR: First, configure this node from CM (command cc1_cm_setup_node)"
+    sys.exit(1)
+
+cm = utils.ServerProxy(cm_address)
+
+def start():
+    return 0
+    # Restore saved vms
+    conn = libvirt.open(node_config.lv_conn_string)
+    #defined_vms = conn.listDefinedDomains()
+
+    for vol in images_pool.listVolumes():
+        if vol.endswith('-dump'):
+            dump = images_pool.storageVolLookupByName('%s-dump' % dom.name())
+            conn.restore(dump.path())
+    conn.close()
+
+
+def stop():
+    cm.send_request('ci/node/update_state/', state=node_states['offline'])
+    return 0
+    conn = libvirt.open(node_config.lv_conn_string)
+    running_vms = [conn.lookupByID(dom) for dom in conn.listDomainsID()]
+
+    images_pool = conn.storagePoolLookupByName('images')
+    images_pool.refresh(0)
+
+    for vm in running_vms:
+        dom = conn.lookupByName(vm)
+
+        # Save image to file: (disk image) + (-dump)
+        # e.g. 1234-dump
+        dom_id = dom.name().split('-')[1]
+        vm.save(images_pool.storageVolLookupByName(dom_id).path() + '-dump')
+
+
+if __name__ == "__main__":
+    uid_cc1 = pwd.getpwnam('cc1').pw_uid
+    gid_cc1 = grp.getgrnam('cc1').gr_gid
+    gid_kvm = grp.getgrnam('kvm').gr_gid
+    gid_libvirt = grp.getgrnam('libvirt').gr_gid
+
+    if os.getuid() == 0:
+        os.environ['HOME'] = '/var/lib/cc1/'
+
+        os.setgroups([gid_cc1, gid_kvm, gid_libvirt])
+        os.setregid(gid_cc1, gid_cc1)
+        os.setreuid(uid_cc1, uid_cc1)
+    elif os.getuid() != uid_cc1:
+        print "Run this tool as cc1 or root user!"
+        sys.exit(1)
+
+    if len(sys.argv) == 2 and sys.argv[1] == "start":
+        sys.exit(start())
+    elif len(sys.argv) == 2 and sys.argv[1] == "stop":
+        sys.exit(stop())
+    else:
+        print "Usage: %s [start|stop]" % sys.argv[0]
+        print "This tool suspends and restores all vms on node."
+        sys.exit(1)

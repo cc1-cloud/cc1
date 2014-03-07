@@ -1,0 +1,71 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""
+@author Maciej Nabozny <mn@mnabozny.pl>
+"""
+
+# @author: Maciej Nabozny <mn@mnabozny.pl>
+
+import os
+import sys
+import imp
+import time
+import datetime
+
+sys.path.append('/usr/lib/cc1/')
+from common import utils
+
+# Open log
+log = open('/var/log/cc1/node/hook.log', 'a')
+log.write('%s: %s\n' % (
+                        str(datetime.datetime.now()),
+                        ':'.join(sys.argv)
+                        ))
+log.flush()
+
+
+try:
+    network_config = imp.load_source('network_config', '/etc/cc1/common-networking/config.py')
+    cm_address = network_config.cm_cluster_address
+except:
+    log.write('ERROR: Node is not configured. Configure this node from CM!\n')
+    sys.exit(1)
+
+# Wait until hook execution is not finished
+while os.getppid() > 1:
+    log.write('\tINFO: Waiting for libvirt hook end...\n')
+    log.flush()
+    time.sleep(1)
+
+# Connect with cm
+cm = utils.ServerProxy(cm_address)
+
+
+# Update state
+try:
+    r = cm.send_request('/ci/vm/update_state/', vm_name=sys.argv[1], action=sys.argv[2], state=sys.argv[3])
+    log.write('\tINFO: Status: %s\n' % str(r))
+    log.flush()
+except Exception, e:
+    log.write('\tERROR: %s\n' % str(e))
+    log.flush()
+
+log.close()
