@@ -1,0 +1,59 @@
+*.pot
+*.pyc
+*~
+*session-tmp
+.metadata/*
+config.py
+
+# IDE related #
+###############
+.settings
+*.project
+*.pydev*
+.gradle
+bin/
+tmp/
+*.swp
+.idea/*
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules
+atlassian-ide-plugin.xml
+
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.pid
+
+# Other #
+#########
+
+.svn
