@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+  <requestId>833f0802-7b29-4641-b953-6f6b78908b22</requestId>
+  <imagesSet>
+    % for image in images:
+    <item>
+      <architecture>x86_64</architecture>
+      <description>${image['description']}</description>
+      <imageId>ami-${image['image-id']}</imageId>
+      <imageLocation>${image['name']}</imageLocation>
+      <imageState>${image['state']}</imageState>
+      <imageOwnerId>${image['owner_id']}</imageOwnerId>
+      <isPublic>${image['is_public']}</isPublic>
+      <name>${image['name']}</name>
+##      <imageType>machine</imageType>
+##      <kernelId>aki-8d396bc8</kernelId>
+      <platform>${image['platform']}</platform>
+##      <rootDeviceType>ebs</rootDeviceType>
+##      <rootDeviceName>/dev/sda1</rootDeviceName>
+##      <blockDeviceMapping>
+##        <item>
+##          <deviceName>/dev/sda1</deviceName>
+##          <ebs>
+##            <snapshotId>snap-74eecf16</snapshotId>
+##            <volumeSize>8</volumeSize>
+##            <deleteOnTermination>false</deleteOnTermination>
+##          </ebs>
+##        </item>
+##      </blockDeviceMapping>
+##      <virtualizationType>paravirtual</virtualizationType>
+##      <hypervisor>xen</hypervisor>
+    </item>
+    % endfor
+  </imagesSet>
+</DescribeImagesResponse>

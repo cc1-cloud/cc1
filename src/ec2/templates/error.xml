@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Errors>
+    <Error>
+      <Code>${code}</Code>
+      <Message>${message}</Message>
+    </Error>
+  </Errors>
+  <RequestID>0b6a63c0-b86a-47be-94bf-6e5449938245</RequestID>
+</Response>

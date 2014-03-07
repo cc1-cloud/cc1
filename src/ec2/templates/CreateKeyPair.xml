@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+  <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
+  <keyName>${keyName}</keyName>
+  <keyFingerprint>${keyFingerprint}</keyFingerprint>
+  <keyMaterial>${keyMaterial}</keyMaterial>
+</CreateKeyPairResponse>
