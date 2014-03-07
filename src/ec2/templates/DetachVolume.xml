@@ -1,0 +1,8 @@
+<DetachVolumeResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+   <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+   <volumeId>vol-${volume_id}</volumeId>
+   <instanceId>i-${instance_id}</instanceId>
+##   <device>Not implemented</device>
+   <status>detaching</status>
+##   <attachTime>YYYY-MM-DDTHH:MM:SS.000Z</attachTime>
+</DetachVolumeResponse>

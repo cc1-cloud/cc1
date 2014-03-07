@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
+  <requestId>00000000-0000-0000-0000-000000000000</requestId> 
+  % if reservations:
+  <reservationSet>
+    % for reservation in reservations:
+    <item>
+      <reservationId>r-${reservation['reservation-id']}</reservationId>
+      <ownerId>${reservation['ownerId']}</ownerId>
+      <instancesSet>
+	  % for instance in reservation['instances']:
+        <item>
+          <hypervisor>kvm</hypervisor>
+          <imageId>ami-${instance['image-id']}</imageId>
+          <instanceId>i-${instance['instance-id']}</instanceId>
+          <instanceState>
+            <code>${instance['instanceState']['code']}</code>
+            <name>${instance['instanceState']['name']}</name>
+          </instanceState>
+          <instanceType>${instance['template_name']}</instanceType>
+          <ipAddress>${instance['ipAddress']}</ipAddress>
+          <launchTime>${instance['launchTime']}</launchTime>
+          <placement>
+            <availabilityZone>${instance['placement']['availabilityZone']}</availabilityZone>
+          </placement>
+          <privateIpAddress>${instance['privateIpAddress']}</privateIpAddress>
+          <reason></reason>
+        </item>
+      % endfor
+      </instancesSet>
+    </item>
+    % endfor
+  </reservationSet>
+  % endif
+</DescribeInstancesResponse>
