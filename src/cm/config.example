@@ -1,0 +1,91 @@
+# logging
+import logging
+
+# Logging directory. Inside CM will create directory per user for user's logs.
+LOG_DIR = '/var/log/cc1/cm/'
+
+# Log level - WARNING, DEBUG, INFO or ERROR
+LOG_LEVEL = logging.DEBUG
+
+# Log format for each entry
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+
+# Default user quota for new users. Values are in MB
+USER_QUOTA = {
+    'cpu': 20,
+    'memory': 40000,
+    'storage': 40000,
+    'public_ip': 1,
+    'points': 2000
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cm',  # Or path to database file if using sqlite3.
+#        'USER': 'cc1',  # Not used with sqlite3.
+#        'PASSWORD': '',  # Not used with sqlite3.
+#        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+    },
+    # Historical database for logs and old virtual machine entries
+    'history': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cm_history',  # Or path to database file if using sqlite3.
+#        'USER': 'cc1',  # Not used with sqlite3.
+#        'PASSWORD': '',  # Not used with sqlite3.
+#        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+
+# Link to CLM, e.g. https://192.168.1.2:8000/
+CLM_ADDRESS = 'http://127.0.0.1:8000/'
+
+# OSPF Token which is authorising all routing updates in network
+OSPF_TOKEN = 'RANDOM_OSPF_TOKEN'
+
+# Public address of RM used for VNC redirection
+VNC_ADDRESS = '127.0.0.1'
+VNC_PORTS = {
+	'START': 5900,
+	'EXCLUDE': []
+}
+
+################################################################################
+#                        Monitoring Configuration                              #
+################################################################################
+
+MONITOR_ENABLE = False
+TIMEOUT = 30                                # timeout of reading information from node
+PATH_TO_RRD = '/var/lib/cc1/cm/rrd/'        # path to stats db
+BACKUP_PATH = '/var/lib/cc1/cm/rrd_backup/' # path to backuped stats
+
+PERIOD = 5  # period of the check every node (in seconds)
+
+CLEANING_PERIOD = 60                        # period in seconds of running cleaning thread
+TIME_TO_REMOVE = 60 * 10                    # after this time (s) stats are removed (and moved to backup) if vm was closed
+
+# definition of monitoring data periods.
+# first value define how many rows of raw data is calcutate to average
+# second value define how many rows are stored in db
+# ie. 2 and 43200 (with PERIOD=5) means that resolution of statistics is 2*5=10s
+# and the data are available from last 5 days (43200 * 10s)
+STATS = [# [RESOLUTION]                             [TIME RANGE]                              [SIZE]
+           [2, 8640],       # 2*PERIOD = 10 s       8640*10 = 1 days (864 00s)                675.00 KB
+           [12, 43200],     # 12*PERIOD = 1 min     43200*60 = 1 month (2 592 000s)           3.30 MB
+           [60, 8640],      # 60*PERIOD = 5 min     8640*300 = 1 month (2 592 000s)           675.00 KB
+           [180, 2880],     # 180*PERIOD = 15 min   2880*900 = 1 month (2 592 000s)           225.00 KB
+           [720, 8760],     # 720*PERIOD = 1 h      8760*3600 = 1 year (31 536 000s)          684.38 KB
+           [17280, 3650],   # 17280*5s = 1 days     3650*86400 = 10.0 years (315 360 000s)    285.16 KB
+           [120960, 521],   # 120960*5s = 7 days    521*604800 = 10.0 years (315 100 800s)    40.7 KB
+        ]  #                                                                                  Total:  5.82 MB
+
+# # Dir should not include trailing slash
+CTX_SSL_DIR = '/etc/cc1/cm/ctx'
+CTX_SSL_CERT = 'ctx.crt'
+CTX_SSL_KEY = 'ctx.key'
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'CM_SECRET_KEY'
