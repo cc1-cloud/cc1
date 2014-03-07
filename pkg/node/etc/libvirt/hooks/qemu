@@ -1,0 +1,5 @@
+#!/bin/bash
+
+python /usr/sbin/cc1_node_hook $1 $2 $3 &
+
+exit 0

@@ -1,0 +1,13 @@
+/etc/apache2/sites-available/cm
+/etc/apache2/sites-available/cm-ci
+/etc/apache2/sites-available/cm-ctx
+/etc/apache2/sites-available/cm-ec2ctx
+/etc/cc1/cm/wsgi.conf
+/etc/cc1/cm/cc1.pem
+/usr/lib/cc1/cm/templates/qemu.xml
+/usr/lib/cc1/cm/templates/networking/routed.xml
+/usr/lib/cc1/cm/templates/pools/dir.xml
+/usr/lib/cc1/cm/templates/pools/images.xml
+/usr/lib/cc1/cm/templates/pools/netfs.xml
+/usr/lib/cc1/cm/templates/pools/user_dir.xml
+/usr/lib/cc1/cm/templates/volumes/file.xml

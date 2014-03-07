@@ -1,0 +1,207 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""
+@author Maciej Nabozny <mn@mnabozny.pl>
+"""
+
+import sys
+import libvirt
+import imp
+import os
+import pwd, grp
+
+
+sys.path.append('/usr/lib/cc1/')
+from common import utils
+from common import states
+
+try:
+    network_config = imp.load_source('network_config', '/etc/cc1/common-networking/config.py')
+    node_config = imp.load_source('node_config', '/etc/cc1/node/config.py')
+
+    lv_address = node_config.lv_conn_string
+    cm_address = network_config.cm_cluster_address
+except:
+    print "ERROR: First, configure this node from CM (command cc1_cm_setup_node)"
+    sys.exit(1)
+
+cm = utils.ServerProxy(cm_address)
+
+
+def mount_images_pool():
+    conn = libvirt.open(lv_address)
+    resp = cm.send_request('ci/storage/get_images_template/')['data']
+
+    try:
+        conn.storagePoolDefineXML(resp['images_pool'], 0)
+    except:
+        print "WARNING: Storage pool is defined"
+
+    pool = conn.storagePoolLookupByName('images')
+    if pool.info()[0] != libvirt.VIR_STORAGE_POOL_RUNNING:
+        try:
+            pool.build(0)
+        except Exception, e:
+            print "WARNING: Build failed: %s" % str(e)
+
+        try:
+            pool.create(0)
+        except Exception, e:
+            print "WARNING: Creating pool failed: " % str(e)
+
+    try:
+        pool.createXML(resp['volume_info'], 0)
+    except Exception, e:
+        print "INFO: Volume info already exists: %s" % str(e)
+
+
+def mount():
+    conn = libvirt.open(lv_address)
+
+    # Get local libvirt storages
+    lv_storages = []
+    for storage_name in conn.listStoragePools():
+        lv_storages.append(conn.storagePoolLookupByName(storage_name))
+
+    # Get storage list from cm
+    cm_storages = cm.send_request('/ci/storage/get_list/')['data']
+
+    # Cleanup old storages and remount if necessary
+    for lv_storage in lv_storages:
+        # Stop and undefine storages, which are not listed in CM or not running
+        if lv_storage.name() in cm_storages and lv_storage.info()[0] != libvirt.VIR_STORAGE_POOL_RUNNING:
+            try:
+                lv_storage.destroy()
+                print "SUCCESS: Storage %s destroyed" % lv_storage.name()
+            except Exception, e:
+                print "ERROR: Cannot destroy storage %s: %s" % (lv_storage.name(), str(e))
+
+            try:
+                lv_storage.undefine()
+                print "SUCCESS: Storage %s undefined" % lv_storage.name()
+            except Exception, e:
+                print "ERROR: Cannot undefine storage %s"
+        elif lv_storage.name() not in cm_storages and lv_storage.name() != 'images':
+            print "WARNING: Storage %s not exists in ClusterManager!" % lv_storage.name()
+
+        # Start if not running (and undefine was failed)
+        try:
+            if lv_storage.info()[0] != libvirt.VIR_STORAGE_POOL_RUNNING:
+                try:
+                    lv_storage.build(0)
+                except:
+                    print "WARNING: Cannot build storage"
+
+                lv_storage.create(0)
+        except Exception, e:
+            print "ERROR: Cannot start storage pool %s: %s" % (lv_storage.name(), str(e))
+            cm.send_request('/ci/node/update_state/', state=states.node_states['storage_lock'], comment="Problems with remounting %s storage" % lv_storage)
+
+    # Mount new storages
+    for storage in cm_storages:
+        template = cm.send_request('/ci/storage/get_template/', name=storage)['data']
+        if storage in conn.listStoragePools() and conn.storagePoolLookupByName(storage).info()[0] == libvirt.VIR_STORAGE_POOL_RUNNING:
+            print "INFO: Storage %s is running" % storage
+            continue
+
+        try:
+            conn.storagePoolDefineXML(template, 0)
+        except Exception, e:
+            print "WARNING: Cannot define storage pool: %s" % str(e)
+
+        try:
+            pool = conn.storagePoolLookupByName(storage)
+            pool.build(0)
+        except Exception, e:
+            print "WARNING: Cannot build storage! %s" % str(e)
+
+        try:
+            pool.create(0)
+        except Exception, e:
+            print "ERROR: Cannot create storage pool: %s" % str(e)
+            cm.send_request('/ci/node/update_state/', state=states.node_states['storage_lock'], comment="Problems with mounting %s storage" % lv_storage)
+
+    conn.close()
+    return 0
+
+
+def umount():
+    # First, lock this node
+    cm.send_request('ci/node/update_state/', state=states.node_states['offline'])
+
+    # TODO: Should we check if vms are running on this storage?
+
+    conn = libvirt.open(lv_address)
+
+    # Get local libvirt storages
+    lv_storages = []
+    for storage_name in conn.listStoragePools():
+        lv_storages.append(conn.storagePoolLookupByName(storage_name))
+
+    # Get storage list from cm
+    cm_storages = cm.send_request('ci/storage/get_list/')['data']
+
+    for lv_storage in lv_storages:
+        # Stop and undefine storages, which are not listed in CM or not running
+        if lv_storage.name() in cm_storages:
+            try:
+                lv_storage.destroy()
+                print "SUCCESS: Storage %s destroyed" % lv_storage.name()
+            except Exception, e:
+                print "ERROR: Cannot destroy storage %s: %s" % (lv_storage.name(), str(e))
+
+            try:
+                lv_storage.undefine()
+                print "SUCCESS: Storage %s undefined" % lv_storage.name()
+            except Exception, e:
+                print "ERROR: Cannot undefine storage %s"
+        elif lv_storage.name() not in cm_storages and lv_storage.name() != 'images':
+            print "WARNING: Storage %s not exists in ClusterManager!" % lv_storage.name()
+
+    conn.close()
+    return 0
+
+
+if __name__ == "__main__":
+    uid_cc1 = pwd.getpwnam('cc1').pw_uid
+    gid_cc1 = grp.getgrnam('cc1').gr_gid
+    gid_kvm = grp.getgrnam('kvm').gr_gid
+    gid_libvirt = grp.getgrnam('libvirt').gr_gid
+
+    if os.getuid() == 0:
+        os.environ['HOME'] = '/var/lib/cc1/'
+
+        os.setgroups([gid_cc1, gid_kvm, gid_libvirt])
+        os.setregid(gid_cc1, gid_cc1)
+        os.setreuid(uid_cc1, uid_cc1)
+    elif os.getuid() != uid_cc1:
+        print "Run this tool as cc1 or root user!"
+        sys.exit(1)
+
+    if len(sys.argv) == 2 and sys.argv[1] == "mount":
+        sys.exit(mount())
+    elif len(sys.argv) == 2 and sys.argv[1] == "umount":
+        sys.exit(umount())
+    elif len(sys.argv) == 2 and sys.argv[1] == "mount_images_pool":
+        sys.exit(mount_images_pool())
+    else:
+        print "Usage: %s [mount|umount|mount_images_pool]" % sys.argv[0]
+        sys.exit(1)

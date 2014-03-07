@@ -1,0 +1,211 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""
+@author Maciej Nabozny <mn@mnabozny.pl>
+"""
+
+
+import subprocess
+import sys
+import os
+import imp
+
+sys.path.append('/usr/lib/cc1/')
+from common import utils
+
+try:
+    network_config = imp.load_source('network_config', '/etc/cc1/common-networking/config.py')
+    node_config = imp.load_source('node_config', '/etc/cc1/node/config.py')
+
+    lv_address = node_config.lv_conn_string
+    cm_address = network_config.cm_cluster_address
+except:
+    print "ERROR: First, configure this node from CM (command cc1_cm_setup_node)"
+    sys.exit(1)
+
+cm = utils.ServerProxy(cm_address)
+
+
+def start():
+    null = open('/dev/null', 'w')
+    # Remove (if exists) redirection to SNAT and DNAT
+    r = subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PREROUTING', '-j', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+    r += subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'POSTROUTING', '-j', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+
+    # Remove old redirections (if exists)
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+
+    # If iptables returned error code (chains were not found), setup all chains and rules
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-N', 'PUBLIC_IP_SNAT'])
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-N', 'PUBLIC_IP_DNAT'])
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-A', 'PREROUTING', '-j', 'PUBLIC_IP_DNAT'])
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-A', 'POSTROUTING', '-j', 'PUBLIC_IP_SNAT'])
+    
+    subprocess.call(['sysctl', '-w', 'net.ipv4.ip_forward=1'])
+    subprocess.call(['sysctl', '-w', 'net.ipv4.conf.all.promote_secondaries=1'])
+
+    null.close()
+
+    ips = cm.send_request('ci/public_ip/get_list/')['data']
+    for ip in ips:
+        attach(ip['vm_id'], ip['private_lease'], ip['public_lease'])
+
+
+def stop():
+    null = open('/dev/null', 'w')
+
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PREROUTING', '-j', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'POSTROUTING', '-j', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-X', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+    subprocess.call(['/sbin/iptables', '-t', 'nat', '-X', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+
+    null.close()
+
+
+def get_interface():
+    routes = open('/proc/net/route', 'r')
+    lines = routes.readlines()
+    for line in lines:
+        fields = line.split('\t')
+        if fields[1] == '00000000':
+            return fields[0]
+
+
+def attach(vm_id, private_ip, public_ip):
+    print "Starting ip: %s <-> %s" % (private_ip, public_ip)
+
+    r = 0
+    r = r+subprocess.call(['/sbin/ifconfig',  '%s:%s' % (get_interface(), vm_id),  public_ip,  'up'])
+    r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-I', 'PUBLIC_IP_DNAT', '-d', public_ip, '-j', 'DNAT', '--to-destination', private_ip])
+    #r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-I', 'PUBLIC_IP_SNAT', '-s', private_ip, '!', '-d', node.SNAT_DISABLE, '-j', 'SNAT', '--to-source', public_ip])
+    r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-I', 'PUBLIC_IP_SNAT', '-s', private_ip, '-j', 'SNAT', '--to-source', public_ip])
+
+    if r != 0:
+        detach(vm_id, private_ip, public_ip)
+    return r
+
+
+def detach(vm_id, private_ip, public_ip):
+    print "Stopping ip: %s <-> %s" % (private_ip, public_ip)
+    # TODO: add coment: -m comment --comment "tresc komentarza"
+    r = 0
+    r = r+subprocess.call(['/sbin/ifconfig',  '%s:%s' % (get_interface(), vm_id),  public_ip,  'down'])
+    r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PUBLIC_IP_DNAT', '-d', public_ip, '-j', 'DNAT', '--to-destination', private_ip])
+    #r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PUBLIC_IP_SNAT', '-s', private_ip, '!', '-d', node.SNAT_DISABLE, '-j', 'SNAT', '--to-source', public_ip])
+    r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PUBLIC_IP_SNAT', '-s', private_ip, '-j', 'SNAT', '--to-source', public_ip])
+
+    return r
+
+
+# Returns list of redirections:
+# TYPE public_ip local_ip
+def list_redirections():
+    p = subprocess.Popen('iptables-save -t nat', shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    entries = p.stdout.readlines()
+    for line in entries:
+        if '-A PUBLIC_IP_DNAT -d' in line:
+            fields = line.split()
+            print 'DNAT %s %s' % (fields[3].split('/')[0], fields[7])
+        if '-A PUBLIC_IP_SNAT -s' in line:
+            fields = line.split()
+            print 'SNAT %s %s' % (fields[10], fields[3].split('/')[0])
+
+    # hostname -I returns list of ip addresses attached to host. This is one line.
+    # This should read this line and split it into separate entries
+    p = subprocess.Popen('hostname -I', shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    entries = p.stdout.readlines()[0].split()
+    for ip in entries:
+        print "IP %s" % ip
+
+    return 0
+
+
+def check():
+    print "Checking public ip redirections..."
+
+    p = subprocess.Popen('iptables-save -t nat', shell=True, stdout=subprocess.PIPE)
+    lines = p.stdout.readlines()
+
+    chain_snat = False
+    chain_dnat = False
+    redirection_postrouting = False
+    redirection_prerouting = False
+    promote_secondaries = False
+    ip_forward = False
+
+    for line in lines:
+        if ':PUBLIC_IP_SNAT' in line:
+            print "\t...chains snat exists"
+            chain_snat = True
+        if ':PUBLIC_IP_DNAT' in line:
+            print "\t...chain dnat exists"
+            chain_dnat = True
+        if '-A PREROUTING' in line and '-j PUBLIC_IP_DNAT' in line:
+            print "\t...redirection to prerouting exists"
+            redirection_prerouting = True
+        if '-A POSTROUTING' in line and '-j PUBLIC_IP_SNAT' in line:
+            print "\t...redirection to postrouting exists"
+            redirection_postrouting = True
+
+    if '1' in open('/proc/sys/net/ipv4/ip_forward').read():
+        print "\t...ip forwarding"
+        ip_forward = True
+
+    if '1' in open('/proc/sys/net/ipv4/conf/all/promote_secondaries').read():
+        print "\t...promote secondaries"
+        promote_secondaries = True
+
+    if chain_snat and chain_dnat and promote_secondaries and ip_forward and redirection_postrouting and redirection_prerouting:
+        return 0
+    else:
+        return 1
+
+
+if __name__ == "__main__":
+    if os.getuid() != 0:
+        print "Run this tool as root!"
+        sys.exit(0)
+
+    if len(sys.argv) == 2 and sys.argv[1] == 'start':
+        sys.exit(start())
+    elif len(sys.argv) == 2 and sys.argv[1] == 'stop':
+        sys.exit(stop())
+    elif len(sys.argv) == 5 and sys.argv[1] == 'attach':
+        exit(attach(sys.argv[2], sys.argv[3], sys.argv[4]))
+    elif len(sys.argv) == 5 and sys.argv[1] == 'detach':
+        exit(detach(sys.argv[2], sys.argv[3], sys.argv[4]))
+    elif len(sys.argv) == 2 and sys.argv[1] == 'list_redirections':
+        exit(list_redirections())
+    elif len(sys.argv) == 2 and sys.argv[1] == 'check':
+        exit(check())
+    else:
+        print "Usage: %s [attach|detach] vm_id private_ip public_ip" % sys.argv[0]
+        print "       %s [start|stop]" % sys.argv[0]
+        print "       %s [list_redirections]" % sys.argv[0]
+        print "Attach/detach adds new redirection. Start/stop creates/destroys"
+        print "iptables chains"
+        exit(1)
+

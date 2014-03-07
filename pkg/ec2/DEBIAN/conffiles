@@ -1,0 +1,2 @@
+/etc/apache2/sites-available/ec2
+/etc/cc1/ec2/wsgi.conf

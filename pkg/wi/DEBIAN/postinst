@@ -1,0 +1,36 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+
+if __name__ == '__main__':
+    if 'configure' in sys.argv:
+        print "Installing right Django version"
+        subprocess.call("pip install --upgrade django==1.6.1", shell=True)
+        
+        print "WI: Removing old .pyc files"
+        subprocess.call("find /usr/lib/cc1/wi -name '*.pyc' -exec rm {} \\;", shell=True)
+        subprocess.call("find /etc/cc1/wi -name '*.pyc' -exec rm {} \\;", shell=True)
+
+        log = open('/var/log/cc1/wi_install.log', 'a')
+
+        print "WI: Creating cc1 user"
+        r = subprocess.call('cc1_setup_user create', shell=True, stdout=log)
+
+        print "WI: Changing permissions"
+        subprocess.call("chown -R cc1:cc1 /var/log/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /var/lib/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /usr/lib/cc1/", shell=True, stdout=log, stderr=log)
+
+        print "WI: Creating default config"
+        r = subprocess.call('cc1_wi_setup_config configure', shell=True, stdout=log)
+
+        print "WI: Adding apache vhost"
+        r = subprocess.call('cc1_wi_setup_apache enable', shell=True, stdout=log)
+
+        log.close()
+        sys.exit(0)
+    else:
+        print "Use cc1 tools (cc1_...) to reconfigure services!"
+        sys.exit(1)
+
