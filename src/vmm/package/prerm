@@ -1,0 +1,5 @@
+#!/bin/bash
+#stop service
+/etc/init.d/ctx stop
+rm -rf /opt/cc1/ctx/*.pyc
+rm -rf /opt/cc1/ctx/*.py

@@ -1,0 +1,55 @@
+#!/bin/bash
+mkdir -p /var/log/ctx/
+mkdir -p /var/ctx/
+
+#create services symlinks:
+update-rc.d ctx defaults
+
+#if old ctx is present kill it
+oldCTXpid=$(ps aux | grep '.*[p]ython .*/VMMDaemon.py' | awk '{print $2}'); echo $a
+if [ -n "$oldCTXpid" ] ; then
+	echo 'Shutting down old CTX...'
+	kill $oldCTXpid
+fi
+#remove starting from rc.local
+grep 'VMMDaemon.py' /etc/rc.local
+if [ "$?" != "0" ] ; then
+	mv /etc/rc.local /tmp/rc.local.back
+	grep -Ev 'VMMPython.py' /tmp/rc.local.back > /etc/rc.local
+fi
+oldCTXPath=""
+if [ -d "/opt/vmm" ]; then
+	oldCTXPath="/opt/vmm"
+fi
+if [  -d "/opt/cc1/vmm" ]; then
+	if [ -n "$oldCTXPath" ]; then
+	oldCTXPath="$oldCTXPath /opt/cc1/vmm"
+	else
+	oldCTXPath="/opt/cc1/vmm"
+	fi
+fi
+if [ -n "$oldCTXPath" ]; then
+	
+	if [ -z $choice ]; then
+		echo "Do you want to remove old CTX?"
+		echo -n "$oldCTXPath [y/N]"
+		read choice
+	fi
+	case $choice in
+		N)
+		
+		;;
+		y)
+		echo "removing $oldCTXPath"
+		rm -rf $oldCTXPath
+		;;
+		*)
+		echo "removing $oldCTXPath"
+		rm -rf $oldCTXPath
+		;;
+	esac
+
+fi
+
+#start service:
+/etc/init.d/cc1-ctx start

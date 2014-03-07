@@ -1,0 +1,12 @@
+#!/bin/bash
+
+case "$1" in
+remove)
+	;;
+purge)
+	rm -rf /etc/cc1/ctx || true
+	#remove logs and vars
+	rm -rf /var/log/cc1/ctx || true
+	rm -rf /var/cc1/ctx || true
+	;;
+esac
