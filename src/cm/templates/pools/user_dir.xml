@@ -1,0 +1,15 @@
+<!--
+This storagePool is only used to create user-pool inside storage pool. Don't
+use this as storage driver.
+-->
+<pool type="dir">
+  <name>{{ parent_name }}-{{ user_id }}</name>
+  <target>
+    <path>{{ parent_path }}/{{ user_id }}</path>
+    <permissions>
+        <mode>0770</mode>
+        <owner>{{ uid }}</owner>
+        <group>{{ gid }}</group>
+    </permissions>
+  </target>
+</pool>
