@@ -1,0 +1,14 @@
+<!--
+Use local (on node!) directory as storage
+-->
+<pool type="dir">
+  <name>{{ storage.name }}</name>
+  <target>
+    <path>{{ storage.dir }}</path>
+    <permissions>
+        <mode>0770</mode>
+        <owner>{{ uid }}</owner>
+        <group>{{ gid }}</group>
+    </permissions>
+  </target>
+</pool>

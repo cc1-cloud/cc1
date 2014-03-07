@@ -1,0 +1,12 @@
+<network>
+  <name>net-{{ vm.id }}-{{ lease.id }}</name>
+  <forward mode='route'/>
+  <domain name="{{ lease.domain_name }}" />
+  <bridge name='br-{{ vm.id }}-{{ lease.id }}' stp='on' delay='0' />
+  <ip address='{{ lease.node_address }}' netmask='255.255.255.252'>
+    <dhcp>
+      <host mac='{{ lease.mac }}' name='{{ lease.hostname }}' ip='{{ lease.vm_address }}' />
+      <range start='{{ lease.node_address }}' end='{{ lease.node_address }}' />
+    </dhcp>
+  </ip>
+</network>

@@ -1,0 +1,10 @@
+<volume type='file'>
+    <name>{{ name }}</name>
+    <allocation>0</allocation>
+    <capacity unit="M">{{ size }}</capacity>
+    <permissions>
+        <mode>0664</mode>
+        <owner>331</owner>
+        <group>331</group>
+    </permissions>
+</volume>
