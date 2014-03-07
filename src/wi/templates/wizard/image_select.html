@@ -1,0 +1,136 @@
+{% load i18n %}
+{% load templatetags %}
+
+<style>
+.td1{width: 200px}
+.td2{width: 270px}
+.td3{width: 100px}
+.td4{width: 120px}
+</style>
+
+<form action="" method="post" id="wizard-form">
+
+{% include "wizard/steps.html" %}
+
+{% csrf_token %}
+{{ wizard.management_form }}
+{{ wizard.form }}
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	var $form = $('#wizard-form'),
+		$filter = $('#over-table select'),
+		$image_id_input = $('#id_0-image_id');
+		
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv: '#item-list',
+		template: '#rowTemplate',
+		urlGetData: '{% url 'img_ajax_get_all_table' 0 %}'.replace('0', $filter.val()),
+		showSearchBox: true,
+		enableSorting: true,
+		overTable: '#over-table',
+		scrollableContent: true,
+		sortingColumnIndex: 2,
+		sortingDescending: true,
+	});	
+	
+	$filter.change(function() {
+		cc1.sthTable.setUrlGetData( '{% url 'img_ajax_get_all_table' 0 %}'.replace('0', $filter.val()) );
+		cc1.sthTable.loadData();
+	});
+	
+	// next step button
+	$('#item-list').on('click', 'a.selectButton', function() {
+		var $this = $(this),
+			id = $this.parent().parent().data('id');
+		$image_id_input.val(id);
+		cc1.sthTable.freeze();
+		$form.submit();
+	});	
+});
+/*]]>*/</script>
+
+<div>
+<div id="over-table">
+	<div id="category-changer">
+		<span>{% trans "Image category" %}:</span>
+		<span>
+			<select>
+			{% for item in image_categories %}
+				<option value="{{ item.0 }}">{{ item.1 }}</option>
+			{% endfor %}
+			</select>
+		</span>
+	</div>
+</div>
+
+<div id="item-list" class="tab w100pc context_menu">
+	<div class="thead">
+		<table>
+			<tbody>
+				<tr>
+					<td class="td1"> {% trans "Name" %} </td>
+					<td class="td2"> {% trans "Description" %} </td>
+					<td class="td3"> {% trans "Created" %} </td>
+					<td class="td4 noSort"> {% trans "Actions" %} </td>
+					<td class="td-last noSort"> </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="tbody fixed-height">
+		<table>
+			<tbody>
+				<script id="rowTemplate" type="text/x-jquery-tmpl">
+				{% verbatim2 %}
+				<tr data-id="${image_id}" class="rclick">
+					<td class="td1"> 
+						${name}
+						<br />
+						<small>${type}</small>
+					</td>					
+					<td class="td2 text-justify"> 
+						{% include "snippets/resizable_description.js" %}
+						<br />
+						<small>
+							{{if state === 2}}
+				   				<div class="ajax_loader3" title="{% trans "Adding" %}"></div> ${progress}%
+				   			{{else}}
+				   				${size}
+				   			{{/if}}
+				   		</small>
+					</td>			
+					<td class="td3">
+					${creation_date}
+					</td>
+					<td class="td4">
+						<a class="big_button selectButton">{% trans "Select" %}</a>
+					</td>
+				</tr>
+				{% endverbatim2 %}
+				</script>
+			    <tr>
+		    		<td colspan="4">
+		    			<div class="ajax_loader1">&nbsp;</div>
+		    		</td>
+		    	</tr>
+			</tbody>
+		</table>
+	</div>
+		
+	<div class="tfoot">
+		<table>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+					</td>
+				</tr>
+			<tfoot>
+		</table>
+	</div>
+</div>
+</div>
+</form>

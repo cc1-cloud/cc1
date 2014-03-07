@@ -1,0 +1,246 @@
+{% extends "admin_cm/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Farms" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Show farms" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_admin_cm_show_farm{% endblock %}
+
+{% block box_title %}
+	{% trans "Farms" %}
+{% endblock %}
+
+{% block help_icon %}
+{% endblock %}
+
+{% block help_box %}
+{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox"/>
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/states.js"></script>
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'farm_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'cma_farms_ajax_get_table' 0 %}'.replace('0', $('#filter').val()),
+		detailsUrl : '{% url 'cma_farms_ajax_details' 0 %}',
+		detailsDiv : '#details',
+		contextFun : function(itemData) {
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'details':
+                			cc1.sthTable.openDetails(itemData[localIdKey], itemData[localIdKey] === cc1.sthTable.getOpenedId() );
+                		break;
+                		case 'destroy':
+                			if (itemData.state === cc1.states.farm['running']) {
+                				cc1.sthTable.destroyFarm(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'erase':
+                			cc1.sthTable.eraseFarm(itemData[localIdKey]);
+                		break;
+                		case 'vnc':
+                			if ($.inArray(itemData.vms[0].state, [cc1.states.vm['running'],cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.vnc(itemData.vms[0].vnc_endpoint, itemData.vms[0].vnc_passwd, itemData.vms[0].id);
+                			}
+                		break;
+                		case 'saveshut':
+                			if (itemData.state === cc1.states.farm['running']) {
+                				cc1.sthTable.saveAndShutdown(itemData[localIdKey]);
+                			}
+                		break;
+                	}
+                },
+                items: {
+                    'details'	: {name: '<b>{% trans "Show details" %}</b>', icon:'magnify' },
+                    'sep1'		: '---------',
+                    'vnc'		: {name: '{% trans "Graphical console (VNC)" %}', icon: (itemData.vms[0].state === cc1.states.vm['running'] || itemData.vms[0].state === cc1.states.vm['running ctx'])?'vnc':'vnc inactive'},
+                    'saveshut'	: {name: '{% trans "Save and shutdown" %}', icon: (itemData.state === cc1.states.farm['running'])?'saveshut':'saveshut inactive'},
+                    'destroy'	: {name: '{% trans "Destroy" %}', icon: (itemData.state === cc1.states.farm['running'])?'destroy':'destroy inactive'},
+                    'erase'		: {name: '{% trans "Erase" %}', icon: 'delete'},
+                }
+            };
+		},
+		autoRefreshTime : 30000,
+		showSearchBox: true,
+		overTable: '#over-table',
+		enableSorting: true,
+		sortingColumnIndex: 2,
+		sortingDescending: true,
+        idKey: localIdKey,
+	});
+
+	$('#filter').change(function(){
+		cc1.sthTable.setUrlGetData(  '{% url 'cma_farms_ajax_get_table' 0 %}'.replace('0', $('#filter').val()) );
+		cc1.sthTable.loadData();
+	});
+
+	// group actions
+	$.contextMenu({
+        selector: '#group_action',
+        trigger: 'left',
+        ignoreRightClick: true,
+        build: function($trigger, e) {
+            return {
+                callback: function(key, options) {
+                    switch (key) {
+                    	case 'destroy':
+                    		if ( cc1.utils.stateTest([cc1.states.farm['running']]) ) {
+                				cc1.sthTable.destroyFarm(null);
+                			}
+                		break;
+                		case 'erase':
+                			if (cc1.sthTable.getListOfSelected().length) {
+                				cc1.sthTable.eraseFarm(null);
+                			}
+                		break;
+                	}
+                },
+                items: {
+                    'destroy'	: {name: '{% trans "Destroy" %}', icon: (cc1.utils.stateTest([cc1.states.farm['running']]))?'destroy':'destroy inactive'},
+                    'erase'		: {name: '{% trans "Erase" %}', icon: (cc1.sthTable.getListOfSelected().length)?'delete':'delete inactive'},
+                }
+            };
+        }
+    });
+    // zniszczenie farm/y
+	cc1.sthTable.destroyFarm = cc1.utils.createAction({
+		url: '{% url 'cma_farms_ajax_destroy' %}',
+		dialogTitle: '{% trans "Destroy farm" %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getListOfSelectedNames(id),
+			        'length': cc1.sthTable.getListOfSelected(id).length};
+		},
+		dialogClass: 'warning'
+	});
+	// zmazanie farm/y
+	cc1.sthTable.eraseFarm = cc1.utils.createAction({
+		url: '{% url 'cma_farms_ajax_erase' %}',
+		dialogTitle: '{% trans "Erase farm" %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+        calculateParams: function(id) {
+            return {'desc': cc1.sthTable.getListOfSelectedNames(id),
+                    'length': cc1.sthTable.getListOfSelected(id).length};
+        },
+		dialogClass: 'warning'
+	});
+	// zapis i zamkniecie farmy
+	cc1.sthTable.saveAndShutdown = cc1.utils.createAction({
+		url: '{% url 'cma_farms_ajax_save_and_shutdown' 0 %}',
+		dialogTitle: '{% trans "Save and shutdown" %}',
+		dialogWidth: 500,
+	});
+    // odebranie IP
+    cc1.sthTable.revokeIp = cc1.utils.createAction({
+        url: '{% url 'cma_vms_ajax_revoke_ip' 0 %}',
+        dialogTitle: '{% trans "Revoke IP address" %}',
+    });
+});
+/*]]>*/</script>
+
+<div id="over-table">
+	<div id="category-changer">
+		<span>{% trans "Farm owner" %}:</span>
+		<span>
+			<select id="filter">
+				<option value="0">{% trans "All users" %}</option>
+				{% for user in all_users %}
+				<option value="{{ user.user_id }}">{{ user.user_id }} - {{ user.first }} {{ user.last }}</option>
+				{% endfor %}
+			</select>
+		</span>
+	</div>
+</div>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td class="noSort">
+				<input id='select-all' type='checkbox' onclick="cc1.sthTable.toggleChecked(this.checked);" />
+			</td>
+			<td>{% trans "Owner" %}</td>
+			<td>{% trans "ID" %}</td>
+			<td>{% trans "Name" %}</td>
+			<td>{% trans "Info" %}</td>
+			<td>{% trans "State" %}</td>
+			<td>{% trans "CPUs" %}</td>
+			<td>{% trans "Image" %}</td>
+		</tr>
+	</thead>
+
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${farm_id}" class="rclick pointer">
+			<td class="selecting"><input data-id="${farm_id}" type="checkbox"/></td>
+			<td> ${owner} </td>
+			<td> ${farm_id} </td>
+			<td>
+				{{html name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td>
+				{{if vms[0].pub_ip.length}}<span class="tableIcon icon-ip" title="{% trans "IP addresses: " %} ${stringPubIP}"></span>{{/if}}
+				{{if vms[0].storage_images.length }}<span class="tableIcon icon-hdd" title="{% trans "Disks: " %} ${stringDisk}"></span>	{{/if}}
+			</td>
+			<td>
+				{{if state === cc1.states.farm['failed'] || state === cc1.states.farm['saving failed'] }}
+					<div class="redBackground">${stateName}</div>
+				{{else state === cc1.states.farm['init']}}
+					<div class="yellowBackground">${stateName}</div>
+				{{else}}
+					${stateName}
+				{{/if}}
+			</td>
+			<td> ${cpu} </td>
+			<td>
+				{{html image_name.escapeHTML().wbrAndLb()}}
+			</td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="8">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="8" class="table_bottom_actions">
+				<ul>
+					<li id="group_action" class="icon_action">
+						<a id="menu_all">{% trans "Perform for selected"%}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}
+
+{% block box_extra %}
+<div id="details" class="b_greyWhiteStroke"> </div>
+{% endblock %}

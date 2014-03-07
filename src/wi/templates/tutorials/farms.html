@@ -1,0 +1,31 @@
+{% load i18n %}
+{% blocktrans %}
+<p>
+	Farms are automaticaly created clusters of virtual machines with preconfigured batch system.
+</p>
+<p>
+	The functionality to create the preconfigured farm of VMs is provided to perform large scale processing.
+	The farm can be created with any VM image with contextualization installed. 
+</p>
+<p>Every farm consists of:</p>
+<ul>
+	<li>a single head node (HN)</li>
+	<li>a specified number of worker nodes (WNs)</li>
+</ul>
+<p>All are created with the same VM image.</p>
+<p>
+	The HN plays the role of NFS server and the batch system controller (if the batch system is installed). 
+	No central authentication is required. 
+	All users present on a base VM image appears as local users on HN and every WNs 
+	since they are created from the same VM image. 
+	They share the same /home directory exported from HN to all WNs.
+</p>
+<p>The farm is created in two main steps:</p>
+<ul class="text-ul">
+	<li>In the first automatic step paswordless access from the HN to WNs is enabled.</li>
+	<li>In the second step configuration script is executed on HN to mount /home directory on all WNs.</li>
+</ul>
+<p>
+More about farms you can read in the <a href="http://cc1.ifj.edu.pl/en/UserGuide/html/index.html">CC1 User Guide</a>.
+</p>
+{% endblocktrans %}

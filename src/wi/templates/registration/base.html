@@ -1,0 +1,12 @@
+{% extends "base_one_column.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Registration" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="{% url 'reg_register' %}">{% trans "Registration" %}</a></li>
+{% endblock %}
+
+{% block box_width %}w500{% endblock %}

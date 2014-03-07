@@ -1,0 +1,81 @@
+{% extends "farms/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "New farm" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Potatoes:)" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_create_farm{% endblock %}
+
+{% block box_title %}
+	{% trans "New farm" %}
+{% endblock %}
+
+
+{% block help_icon %}
+	{% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/create_farm.html" %}
+{% endblock %}
+
+
+{% block box_content %}
+
+<script>
+$(function(){
+	$('.div0').draggable({ containment: "#div-1", 
+							scroll: false,
+							revert: "invalid",
+							cursor: "move" });
+	$('#div1').droppable({
+							accept: ".div0",			
+							drop: function( event, ui ) {
+								$('#div1').append(ui.draggable);
+								$('#div1 .div0').css('position', 'inherit');
+								$(ui.draggable).hide('explode', function() {$(ui.draggable).remove();}, 2000);
+								cc1.messages.add( 0, new Date().toShortString(), 'info', 'Zabiłeś ziemniaka:(' );
+							}
+	});
+	$('#div2').droppable({
+							accept: ".div0",			
+							drop: function( event, ui ) {
+								ui.draggable.draggable( "option", "disabled", true );
+								$('#div2').append(ui.draggable);
+								$('#div2 .div0').css('position', 'inherit');
+								cc1.messages.add( 0, new Date().toShortString(), 'info', 'Uratowałeś ziemniaka!' );															
+							}
+	});
+});
+function create(){
+	var size = Math.random()*150+40;
+	$('#div-1').append('<img class="div0" src="../../media/img/potato.jpg" style="width:'+size+'px;height:'+size+'px;margin:3px;" />');
+	$('#div-1 > .div0').draggable({ containment: "#div-1", 
+							scroll: false,
+							revert: "invalid",
+							cursor: "move" });
+}
+</script>
+<div id="div-1" style="height:500px;">
+	
+	<div style="padding:1px;width:300px; float:left; min-height:20px; background: #6a6;">PotatoHell</div>
+	<div style="padding:1px;width:350px; float:left; min-height:20px	; background: #a66;">PotatoHeaven</div>
+	<div class="clear"></div>
+	<div id="div1" style="padding:1px;width:300px; float:left; min-height:100px; background: #6a6;"></div>
+	<div id="div2" style="padding:1px;width:350px; float:left; min-height:100px	; background: #a66;"></div>
+	
+	<div class="clear"></div>
+	<a href="#" onclick="create();">Stwórz ziemniaka</a>
+	<div class="clear"></div>
+		
+	<img class="div0" src="../../media/img/potato.jpg" style="width:80px;height:80px;margin:3px;" />			
+	<img class="div0" src="../../media/img/potato.jpg" style="width:90px;height:90px;margin:3px;" />	
+</div>
+
+{% endblock %}

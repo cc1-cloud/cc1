@@ -1,0 +1,383 @@
+{% extends "vms/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Virtual machines" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Show virtual machines" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_show_vm{% endblock %}
+
+{% block box_title %}
+	{% trans "List of virtual machines" %}
+{% endblock %}
+
+{% block help_icon %}
+    {% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/show_vm.html" %}
+{% endblock %}
+
+{% block auto_refresh %}
+    {% trans "Auto refresh" %} <input type="checkbox" checked="checked"/>
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/states.js"></script>
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	var localIdKey = 'vm_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'vms_ajax_get_table' %}',
+		detailsUrl : '{% url 'vms_ajax_vm_details' 0 %}',
+		detailsDiv : '#vm_details',
+		contextFun : function(itemData) {
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'details':
+                			// if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0){
+                				cc1.sthTable.openDetails(itemData[localIdKey], itemData[localIdKey] === cc1.sthTable.getOpenedId() );
+                			// }
+                		break;
+                		case 'destroy':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.destroyVm(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'edit':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.editVm(itemData[localIdKey]);
+                			}
+                		break;
+                		// ONE_LEASE_MODE
+                		case 'ipchange':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				if (itemData.leases[0].public_ip){
+                					cc1.sthTable.revokechosenIp(itemData.leases[0].lease_id);
+                				} else {
+									cc1.sthTable.assignchosenIp(itemData.leases[0].lease_id);
+                				}
+                			}
+                		break;
+                		/*
+                		case 'iprevoke':
+                			if (itemData.pub_ip.length) {
+                				cc1.sthTable.revokeIp(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'ipassign':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.assignIp(itemData[localIdKey]);
+                				cc1.sthTable.assignchosenIp(itemData.leases[0].id);
+                			}
+                		break;
+                		*/
+                		case 'diskassign':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.assignDisk(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'diskrevoke':
+                			if (itemData.storage_images.length) {
+                				cc1.sthTable.revokeDisk(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'setvnc':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				(itemData.vnc_enabled)? cc1.sthTable.unsetVNC(itemData[localIdKey]) : cc1.sthTable.setVNC(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'password':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.resetVmPassword(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'ssh':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.setSshKey(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'reset':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.resetVm(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'saveshut':
+                			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.saveAndShutdownVm(itemData[localIdKey]);
+                			}
+                		break;
+                		case 'vncconnect':
+                			if (itemData.vnc_enabled && $.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                				cc1.sthTable.vnc(itemData.vnc_endpoint, itemData.vnc_passwd, itemData[localIdKey]);
+                			}
+                		break;
+                		case 'monia':
+                			monitoring(itemData[localIdKey]);
+                		break;
+                	}
+                },
+                items: {
+                    'details'		: {name: '<b>{% trans "Show details" %}</b>', icon: 'magnify'}, //($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'magnify':'magnify inactive'},
+                    'sep1'			: '---------',
+                    'destroy'		: {name: '{% trans "Destroy" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'destroy':'destroy inactive'},
+                    'saveshut'		: {name: '{% trans "Save and shutdown" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'saveshut':'saveshut inactive'},
+                    'reset'			: {name: '{% trans "Reset" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'reset':'reset inactive'},
+                    'edit'			: {name: '{% trans "Edit" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'edit':'edit inactive'},
+                    'sep2'			: '---------',
+                    // ONE_LEASE_MODE
+                    'ipchange'		: {name: (itemData.pub_ip.length)?'{% trans "Revoke external IP" %}':'{% trans "Assign external IP" %}',icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0 )? 'ip' : 'ip inactive'},
+                 	// 'iprevoke'		: {name: '{% trans "Revoke external IP" %}', icon: (itemData.pub_ip.length)?'ip':'ip inactive'},
+                    // 'ipassign'		: {name: '{% trans "Assign external IP" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0 )?'ip':'ip inactive'},
+                    'diskassign'	: {name: '{% trans "Assign disk" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'accept':'accept inactive'},
+                    'diskrevoke'	: {name: '{% trans "Revoke disk" %}', icon: (itemData.storage_images.length)?'cancel':'cancel inactive'},
+                    'setvnc'		: {name: (itemData.vnc_enabled)?'{% trans "Disable VNC" %}':'{% trans "Enable VNC" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'ip':'ip inactive'},
+                    'vncconnect'	: {name: '{% trans "Graphical console (VNC)" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0 && itemData.vnc_enabled)?'vnc':'vnc inactive'},
+                    'sep3'			: '---------',
+                    'password'		: {name: '{% trans "Reset password" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running ctx']]) >= 0)?'password':'password inactive'},
+                    'ssh'			: {name: '{% trans "Set SSH key" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running ctx']]) >= 0)?'ssh':'ssh inactive'},
+                    'sep4'			: '---------',
+                    'monia'			: {name: '{% trans "Monitoring" %}', icon: 'chart'},
+                	}
+            };
+		},
+		autoRefreshTime : 15000,
+		enableSorting: false,
+		idKey: localIdKey,
+	});
+
+	// group actions
+	$.contextMenu({
+        selector: '#group_action',
+        trigger: 'left',
+        ignoreRightClick: true,
+        build: function($trigger, e) {
+            return {
+                callback: function(key, options) {
+                    switch (key) {
+                    	case 'destroy':
+                    		if ( cc1.utils.stateTest([cc1.states.vm['running'], cc1.states.vm['running ctx']]) ) {
+                				cc1.sthTable.destroyVm();
+                			}
+                		break;
+                		case 'reset':
+                			if ( cc1.utils.stateTest([cc1.states.vm['running'], cc1.states.vm['running ctx']]) ) {
+                				cc1.sthTable.resetVm();
+                			}
+                		break;
+                		case 'ssh':
+                			if ( cc1.utils.stateTest([cc1.states.vm['running ctx']]) ) {
+      							cc1.sthTable.setSshKey();
+      						}
+                		break;
+                	}
+                },
+                items: {
+                    'destroy'	: {name: '{% trans "Destroy" %}', icon: (cc1.utils.stateTest([cc1.states.vm['running'], cc1.states.vm['running ctx']]))?'destroy': 'destroy inactive'},
+                    'reset'		: {name: '{% trans "Reset" %}', icon: (cc1.utils.stateTest([cc1.states.vm['running'], cc1.states.vm['running ctx']]))?'reset':'reset inactive'},
+                    'ssh'		: {name: '{% trans "Set SSH key" %}', icon: (cc1.utils.stateTest([cc1.states.vm['running ctx']]))?'ssh':'ssh inactive'},
+                }
+            };
+        }
+    });
+
+    // edycja danych vmki
+	cc1.sthTable.editVm = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_edit_vm' 0%}',
+		dialogTitle: '{% trans "Edit virtual machine" %}',
+		dialogWidth: 500,
+	});
+	// zamkniecie duzo maszyn/1 maszyny
+	cc1.sthTable.destroyVm = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_destroy' %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getListOfSelectedNames(id)};
+		},
+		calculateGetParams: function(id) {
+			return {'length': cc1.sthTable.getListOfSelected(id).length};
+		},
+		dialogWidth: 500,
+		dialogClass: 'warning'
+	});
+	// restart duzo maszyn/1 maszyny
+	cc1.sthTable.resetVm = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_restart' %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getListOfSelectedNames(id)};
+		},
+		calculateGetParams: function(id) {
+			return {'length': cc1.sthTable.getListOfSelected(id).length};
+		},
+		dialogWidth: 500,
+	});
+	// dialog zapisywania maszyny
+	cc1.sthTable.saveAndShutdownVm = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_save_and_shutdown' 0 %}',
+		dialogTitle: '{% trans "Saving virtual machine" %}',
+		calculateGetParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+		dialogWidth: 500,
+	});
+	// przydzielenie IP
+	cc1.sthTable.assignIp = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_assign_ip' 0 %}',
+		dialogTitle: '{% trans "Public IP assign" %}',
+		dialogWidth: 500,
+	});
+	// odebranie IP
+	cc1.sthTable.revokeIp = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_revoke_ip' 0 %}',
+		dialogTitle: '{% trans "Revoke IP address" %}',
+		dialogWidth: 500,
+	});
+	// przydzielenie IP do wybranego lease'a
+	cc1.sthTable.assignchosenIp = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_assign_chosen_ip' 0 %}',
+		dialogTitle: '{% trans "Public IP assign" %}',
+		dialogWidth: 500,
+	});
+	// przypiecie dysku
+	cc1.sthTable.assignDisk = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_assign_disk' 0 %}',
+		dialogTitle: '{% trans "Assign disk" %}',
+		dialogWidth: 500,
+	});
+	// odebranie dysku
+	cc1.sthTable.revokeDisk = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_revoke_disk' 0 %}',
+		dialogTitle: '{% trans "Revoke disk" %}',
+		dialogWidth: 500,
+	});
+	// odebranie wybranego IP
+	cc1.sthTable.revokechosenIp = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_revoke_chosen_ip' 0 %}',
+		dialogTitle: '{% trans "Revoke IP address" %}',
+		dialogWidth: 500,
+	});
+	// wlaczenie VNC
+	cc1.sthTable.setVNC = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_set_vnc' 0 %}',
+		dialogTitle: '{% trans "Enable VNC" %}',
+		calculateGetParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+	});
+	// wylaczenie VNC
+	cc1.sthTable.unsetVNC = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_unset_vnc' 0 %}',
+		dialogTitle: '{% trans "Disable VNC" %}',
+		calculateGetParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+	});
+	// zmiana hasla
+	cc1.sthTable.resetVmPassword = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_reset_password' 0 %}',
+		dialogTitle: '{% trans "Reset machine password" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getListOfSelectedNames(id)};
+		},
+		dialogWidth: 500,
+	});
+	// ustawianie klucza
+	cc1.sthTable.setSshKey = cc1.utils.createAction({
+		url: '{% url 'vms_ajax_ssh_key' %}',
+		dialogTitle: '{% trans "Machine SSH key" %}',
+		calculatePostParams: function(id) {
+			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+		},
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getListOfSelectedNames(id)};
+		},
+		calculateGetParams: function(id) {
+			return {'length': cc1.sthTable.getListOfSelected(id).length};
+		},
+		dialogWidth: 500,
+	});
+});
+/*]]>*/</script>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td>
+				<input id='select-all' type='checkbox' onclick="cc1.sthTable.toggleChecked(this.checked);" />
+			</td>
+			<td>{% trans "Name" %}</td>
+			<td>{% trans "Info" %}</td>
+			<td>{% trans "State" %}</td>
+			<td>{% trans "Template" %}</td>
+			<td>{% trans "Image" %}</td>
+			<td style="width: 60px !important;">{% trans "Load" %}</td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${vm_id}" class="rclick pointer" title="{% trans "Left click table row to open virtual machine details box below. Right click table row to show context menu." %}">
+			<td class="selecting"><input data-id="${vm_id}" type="checkbox" /></td>
+			<td>
+				{{ html name.escapeHTML().wbrAndLb() }}
+			</td>
+			<td>
+				{{ if pub_ip.length }} <span class="tableIcon icon-ip" title="{% trans "IP addresses: " %} ${stringIP}"></span> {{/if}}
+				{{ if storage_images.length }} <span class="tableIcon icon-hdd" title="{% trans "Disks: " %} ${stringDisk}"></span>	 {{/if}}
+				{{ if iso_images.length }} <span class="tableIcon icon-cd" title="{% trans "ISO images: " %} ${stringISO}"></span>	 {{/if}}
+				{{ if state === cc1.states.vm['running ctx'] }} <span class="tableIcon icon-context" title="{% trans "Machine with management module." %}"></span> {{/if}}
+				{{ if vnc_enabled !== 0 }} <span class="tableIcon icon-vnc" title="{% trans "VNC enabled." %}"></span> {{/if}}
+			</td>
+			<td> ${stateName} </td>
+			<td> ${template_name} </td>
+			<td>
+				 {{ html image_name.escapeHTML().wbrAndLb() }}
+			</td>
+			<td>
+				${cpuLoadPercent}%
+				<span class="cpuLoadBox" style="background: ${cpuLoadColor};"></span>
+			</td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+		<tr>
+			<td colspan="7" class="noClick">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="7" class="table_bottom_actions">
+				<ul>
+					<li id="group_action" class="icon_action">
+						<a id="menu_all">{% trans "Perform for selected"%}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}
+
+{% block box_extra %}
+<div id="vm_details" class="b_greyWhiteStroke"> </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "auth/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "Login page" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}{% trans "Login" %}{% endblock %}
+
+{% block box_width %}w500{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+$(function() {
+	$('#id_username').focus();
+	$('#login-form').validate();
+});
+/*]]>*/</script>
+
+<noscript><ul class="errorlist"><li>{% trans "Your browser does not support JavaScript!" %}</li></ul></noscript>
+
+<form method="post" action="" id="login-form">
+	{% csrf_token %}
+	{% show_fieldsetform_nrf form %}
+	<div class="fieldset align_center">
+    	<input class="big_button" type="submit" value="{% trans "Sign in" %}" tabindex="3" />
+    	<input type="hidden" name="next" value="{{ next }}" />
+    </div>
+</form>
+
+<div class="box_footer align_center">
+	{% trans "Don't have an account?" %} <a href="{% url 'reg_register' %}">{% trans "Sign up" %}</a>
+	<br/>    	
+	<a href="{% url 'acc_password_reset' %}">{% trans "Forgot your password?" %}</a>
+</div>
+{% endblock %}

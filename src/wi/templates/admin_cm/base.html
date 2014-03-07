@@ -1,0 +1,68 @@
+{% extends "admin_cm/cm_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "CM admin panel" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="{% url 'cma_admin' %}">{% trans "CM-Admin panel" %}</a></li>
+{% endblock %}
+
+{% block box_title %}
+	{% trans "CM-Admin panel" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#cm-data', 
+		template : '#rowTemplate', 
+		urlGetData : '{% url 'cma_ajax_get_cm_data' %}'
+	});
+	// dialog przesuniecia danych do bazy historycznej
+	cc1.sthTable.moveDatabase = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_move_database' %}', 
+		dialogTitle: '{% trans "Move data to archival database." %}',
+	});
+});
+/*]]>*/</script>
+
+<div id="cm-data">
+	<script id="rowTemplate" type="text/x-jquery-tmpl">
+	<fieldset class="noBorder">
+		<div>
+			<span class="labels"> <label>{% trans "Name:" %}</label> </span>
+			<span class="inputs text"> ${name} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "Address:" %}</label> </span>
+			<span class="inputs text"> ${address}:${port} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "Free CPU:" %}</label> </span>
+			<span class="inputs text"> ${free_cpu} / ${total_cpu} </span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "Free memory:" %}</label> </span>
+			<span class="inputs text"> ${free_mem} / ${total_mem}</span>
+		</div>
+		<div>
+			<span class="labels"> <label>{% trans "State:" %}</label> </span>
+			<span class="inputs text"> ${stateName} </span>
+		</div>
+		<!--
+		<div class="fieldset align_center">
+			<a class="big_button" onclick="cc1.sthTable.moveDatabase();">{% trans "Move to archive" %}</a>
+		</div>  
+		-->
+	</fieldset>
+	<div class="clear"></div>
+	</script>
+	<div class="ajax_loader1">&nbsp;</div>
+</div>
+
+{% endblock %}

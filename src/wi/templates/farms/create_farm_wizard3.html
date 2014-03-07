@@ -1,0 +1,118 @@
+{% extends "farms/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "New farm" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "New farm" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_create_farm{% endblock %}
+
+{% block box_title %}
+	{% trans "New farm" %}
+{% endblock %}
+
+{% block help_icon %}
+	{% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/create_farm.html" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+
+$(function() {
+	var submitDiv = $('#submit-div'), 
+		$form = $('#wizard-form');
+		
+	submitDiv.on('click', 'input.big_button', function() {
+		submitDiv.html('');
+		cc1.utils.createOverlay(submitDiv.parent());
+		$form.submit();
+	});
+});
+
+/*]]>*/</script>
+
+<form id="wizard-form" action="" method="post">	
+	{% include "wizard/steps.html" %}
+	
+	<div>
+		{% csrf_token %}
+		{{ wizard.management_form }}
+		{% show_fieldsetform wizard.form %}
+
+		<fieldset>
+			<legend>{% trans "Farm settings summary" %}</legend>
+		
+			<div>
+				<span class="labels"><label>{% trans "Image" %}</label>:</span>
+				<span class="inputs text">{{ summary_image|getitem:'name' }}</span>
+			</div>
+		
+			<div>
+				<span class="labels"><label>{% trans "Head template" %}</label>:</span>
+				<span class="inputs text">{{ summary_head_template|getitem:'name' }}</span>
+			</div>
+		
+			<div>
+				<span class="labels"><label>{% trans "Number of worker nodes" %}</label>:</span>
+				<span class="inputs text">{{ summary_count }}</span>
+			</div>
+		
+			<div>
+				<span class="labels"><label>{% trans "Worker node template" %}</label>:</span>
+				<span class="inputs text">{{ summary_template|getitem:'name' }}</span>
+			</div>
+		
+			<div>
+				<span class="labels"><label>{% trans "IP address" %}</label>:</span>
+				<span class="inputs text">{% if summary_ip %} {{ summary_ip|getitem:'ip'}} {% else %} {% trans "not attached" %} {% endif %}</span>
+			</div>
+		
+			<div>
+				<span class="labels"><label>{% trans "Disk volumes" %}</label>:</span>
+				<span class="inputs text">
+				{% for disk in summary_disks %}
+					{{ disk|getitem:'name' }} ({{ disk|getitem:'size'|filesizeformatmb }}){% if not forloop.last %},{% endif %} 
+				{% empty %}
+					{% trans "not attached" %}
+				{% endfor %}
+				</span>
+			</div>
+		
+			<div>
+				<span class="labels"><label>{% trans "ISO images" %}</label>:</span>
+				<span class="inputs text">
+				{% for disk in summary_iso %}
+					{{ disk|getitem:'name' }} ({{ disk|getitem:'size'|filesizeformatmb }}){% if not forloop.last %},{% endif %} 
+				{% empty %}
+					{% trans "not attached" %}
+				{% endfor %}
+				</span>
+			</div>
+		
+			<div>
+				<span class="labels"><label>{% trans "VNC" %}</label>:</span>
+				<span class="inputs text">
+				{% if summary_vnc %} {% trans "attached" %} {% else %} {% trans "not attached" %} {% endif %}
+				</span>
+			</div>
+		
+			<div class="clear"></div>
+		</fieldset>
+
+		<div class="clear"></div>
+		<div id="submit-div" class="fieldset align_center">
+			<input type="button" class="big_button" value="{%trans "Create" %}" />
+	    </div>
+	</div>
+</form>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends "vms/base.html" %}
+{% load i18n %}
+{% load formtags %}
+
+{% block title %}{% trans "New virtual machine" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }} 
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "New virtual machine" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_create_vm{% endblock %}
+
+{% block box_title %}
+	{% trans "New virtual machine" %}
+{% endblock %}
+
+{% block help_icon %}
+	{% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/create_vm.html" %}
+{% endblock %}
+
+{% block box_content %}
+<style>
+.td1{width: 200px}
+.td2{width: 150px}
+.td3{width: 100px}
+.td4{width: 100px}
+.td5{width: 140px}
+</style>
+
+<form action="" method="post" id="wizard-form">
+
+{% include "wizard/steps.html" %}
+
+{% csrf_token %}
+{{ wizard.management_form }}
+{{ wizard.form }}
+
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+	var $form = $('#wizard-form'),		
+		$template_id_input = $('#id_1-template_id');
+		
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv: '#item-list',
+		template: '#rowTemplate',
+		urlGetData: '{% url 'vms_ajax_get_template_list' %}',
+		showSearchBox: false,
+		enableSorting: false,
+		scrollableContent: true,
+	});
+	
+	// next step button
+	$('#item-list').on('click', 'a.selectButton', function() {
+		var $this = $(this),
+			id = $this.parent().parent().data('id');
+		$template_id_input.val(id);
+		cc1.sthTable.freeze();
+		$form.submit();
+	});	
+});
+/*]]>*/</script>
+
+<div>
+<div id="item-list" class="tab w100pc context_menu">
+	<div class="thead">
+		<table>
+			<tbody>
+				<tr>
+					<td class="td1"> 
+						{% trans "Name" %} 
+						<span class="tooltip" title="{% trans "Name - Additionally ec2name if assigned"%}"></span> 
+					</td>
+					<td class="td2"> 
+						{% trans "Points' usage" %}
+						<span class="tooltip" title="{% trans "Points' usage - Amount of points used by virtual machine per hour"%}"></span> 
+					</td>
+					<td class="td3"> {% trans "CPU" %} </td>
+					<td class="td4"> {% trans "Memory" %} </td>
+					<td class="td5 noSort"> {% trans "Actions" %} </td>
+					<td class="td-last noSort"> </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="tbody fixed-height">
+		<table>
+			<tbody>
+				<script id="rowTemplate" type="text/x-jquery-tmpl">
+				<tr data-id="${template_id}" class="rclick">
+					<td class="td1">
+						${name}
+						<br />
+						<small>${ec2fullname}</small>
+					</td>
+					<td class="td2">
+						${points} pts/h
+					</td>
+					<td class="td3">
+						${cpu} core(s)
+					</td>
+					<td class="td4">
+						${memory}
+					</td>
+					<td class="td5">
+						<a class="big_button selectButton">{% trans "Select" %}</a>
+					</td>
+				</tr>
+				</script>
+			    <tr>
+		    		<td colspan="5">
+		    			<div class="ajax_loader1">&nbsp;</div>
+		    		</td>
+		    	</tr>
+			</tbody>
+		</table>
+	</div>
+		
+	<div class="tfoot">
+		<table>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+					</td>
+				</tr>
+			<tfoot>
+		</table>
+	</div>
+</div>
+</div>
+</form>
+{% endblock %}

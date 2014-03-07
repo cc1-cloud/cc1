@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<script type="text/javascript">/*<![CDATA[*/
+$(function() {
+	var $form = $('#wizard-form');	
+	// powrot do poprzednich krokow
+	$('#wizard-steps').on('click', 'div.done', function() {		
+		$('#wizard_goto_step').val( $(this).data('step') );
+		cc1.utils.createOverlay($('#wizard-form > div:last-child'));
+		$form.submit();
+	});
+});
+/*]]>*/</script>
+
+<input id="wizard_goto_step" name="wizard_goto_step" type='hidden' />
+
+<div id="wizard-steps">
+	{% for item in steps_desc %}
+		<div data-step="{{ forloop.counter0 }}" 
+			 class="normal {% if forloop.counter0 == wizard.steps.step0 %}current{% endif %} {% if forloop.counter <= wizard.steps.step0 %}done{% endif %}"
+			 {% if forloop.counter <= wizard.steps.step0 %}title="{% trans "Click to go to this step." %}"{% endif %}
+			 >
+			<span class="step_img wizard_step{{ forloop.counter }}"></span>
+			<span class="step_desc">{{ item }}</span>
+		</div>
+		{% if forloop.counter != wizard.steps.count %}
+			<div class="arrow {% if forloop.counter0 == wizard.steps.step0 %}arrow2{% elif forloop.counter == wizard.steps.step0  %}arrow1{% elif forloop.counter <= wizard.steps.step0  %}arrow0{% else %}arrow3{% endif %}"></div>
+		{% endif %}
+	{% endfor %}
+</div>

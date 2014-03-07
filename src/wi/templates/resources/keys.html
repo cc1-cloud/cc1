@@ -1,0 +1,130 @@
+{% extends "resources/base.html" %}
+{% load i18n %}
+{% load formtags %}
+{% load templatetags %}
+
+{% block title %}{% trans "Authorization Keys" %} - {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	<li><span class="bc-arrow"></span></li>
+	<li><a href="#">{% trans "Authorization Keys" %}</a></li>
+{% endblock %}
+
+{% block men_div_name %}nav_keys{% endblock %}
+
+{% block box_title %}
+	{% trans "Authorization Keys" %}
+{% endblock %}
+
+{% block help_icon %}
+    {% include "snippets/help_button.html" %}
+{% endblock %}
+
+{% block help_box %}
+    {% include "tutorials/resources_keys.html" %}
+{% endblock %}
+
+{% block box_content %}
+<script type="text/javascript">/*<![CDATA[*/
+cc1.sthTable = null;
+
+$(function() {
+    var localIdKey = 'key_id';
+	cc1.sthTable = cc1.makeSthTable({
+		destDiv : '#item-list',
+		template : '#rowTemplate',
+		urlGetData : '{% url 'res_ajax_get_table_keys' %}',
+		contextFun : function(itemData) {
+            return {
+                callback: function(key, options) {
+                	switch (key) {
+                		case 'delete':
+                			cc1.sthTable.deleteKey(itemData[localIdKey]);
+                		break;
+                	}
+                },
+                items: {
+                    'delete' 	: {name: '{% trans "Remove" %}', icon: 'delete'},
+                }
+            };
+		},
+		autoRefreshTime: 15000,
+		leftClickMenu: '.action_button',
+        idKey: localIdKey,
+	});
+
+	cc1.sthTable.generateKey = cc1.utils.createAction({
+		url: '{% url 'res_ajax_generate_key' %}',
+		dialogTitle: '{% trans "Generate new key" %}',
+		action: function(response){
+			if (response.name && response.file) {
+				window.location = encodeURI("../key_file?name=" + response.name + "&file=" + encodeURIComponent(response.file));
+			}
+		},
+	});
+	// dodawanie klucza
+	cc1.sthTable.addKey = cc1.utils.createAction({
+		url: '{% url 'res_ajax_add_key' %}',
+		dialogTitle: '{% trans "Add my key" %}',
+		dialogWidth: 500,
+	});
+	// usuwanie klucza
+	cc1.sthTable.deleteKey = cc1.utils.createAction({
+		url: '{% url 'res_ajax_delete_key' 0 %}',
+		dialogTitle: '{% trans "Delete key" %}',
+		calculateParams: function(id) {
+			return {'desc': cc1.sthTable.getItemById(id).name};
+		},
+		dialogClass: 'warning'
+	});
+});
+/*]]>*/</script>
+
+<table id="item-list" class="tab w100pc context_menu">
+	<thead class="thead">
+		<tr>
+			<td> {% trans "Name" %} </td>
+			<td> {% trans "Finegerprint" %} </td>
+			<td> {% trans "Created" %} </td>
+			<td> {% trans "Actions" %} </td>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<script id="rowTemplate" type="text/x-jquery-tmpl">
+		{% verbatim2 %}
+		<tr data-id="${key_id}" class="rclick" title="{% trans "Right click table row to open context menu." %}">
+			<td>
+				{{html name.escapeHTML().wbrAndLb()}}
+			</td>
+			<td> ${fingerprint} </td>
+			<td> ${creation_date} </td>
+			<td>
+				<div id="action${key_id}" class="action_button"></div>
+			</td>
+		</tr>
+		{% endverbatim2 %}
+		</script>
+       <tr>
+			<td colspan="4">
+				<div class="ajax_loader1">&nbsp;</div>
+			</td>
+		</tr>
+	</tbody>
+
+	<tfoot class="tfoot">
+		<tr>
+			<td colspan="4" class="table_bottom_actions">
+				<ul>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.generateKey();">{% trans "Generate a new key" %}</a>
+					</li>
+					<li class="icon_add">
+						<a onclick="cc1.sthTable.addKey();">{% trans "Add my key" %}</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+{% endblock %}

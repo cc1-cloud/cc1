@@ -1,0 +1,13 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Registration success" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}
+	{% trans "Registration complete" %}
+{% endblock %}
+
+
+{% block box_content %}
+    <p class="success">{% trans "You have been registered. You may now sign in!" %}</p>
+{% endblock %}

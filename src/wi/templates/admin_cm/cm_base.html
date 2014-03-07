@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block menu %}
+	{% include "admin_cm/cm_menu.html" %}
+{% endblock %}
+
+{% block over_menu %}
+	{% include "admin_cm/cm_over_menu.html" %}
+{% endblock %}
+
+{% block cm-change %}
+{% endblock %}
+		
+{% block main_content %}
+<div class="middle {% block box_width %}{% endblock %}">
+	<div class="b_greyWhiteStroke">
+		<div class="TL"></div>
+		<div class="BL"></div>
+		<div class="TR"></div>
+		<div class="BR"></div>
+		<div class="b_innerContainer">
+			<h2>
+				{% block box_title %}
+				{% endblock %}
+				<span id="help_icon" title="{% trans "Help" %}">
+						{% block help_icon %}{% endblock %}
+				</span>
+				<span id="auto-refresh">
+					{% block auto_refresh %}{% endblock %}
+				</span>
+			</h2>
+			<div id="help_box">
+				{% block help_box %}
+				{% endblock %}
+			</div>
+			<div>
+				{% block box_content %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+	{% block box_extra %}
+	{% endblock %}
+</div>
+{% endblock %}

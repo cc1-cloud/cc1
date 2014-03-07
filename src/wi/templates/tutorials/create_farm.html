@@ -1,0 +1,32 @@
+{% load i18n %}
+{% blocktrans %}
+<p>
+	Farm creation form is divided into four steps analogous to VM creation:
+</p>
+<ul class="text-ul">
+	<li>
+		<strong>Image choice</strong>:
+		You select one common image for all nodes and for head.
+		That makes them start with the same configuration.
+	</li>
+	<li>
+		<strong>Hardware choice</strong>: 
+		However, you can select diffrent template for head and for nodes,
+		giving them diffrent computational power.
+			<ul class="text-ul">
+				<li>Head template</li>
+				<li>Worker node template</li>
+				<li>Number of worker nodes</li>
+			</ul>
+	</li>
+	<li>
+		<strong>Optional resources</strong>:
+		It is recommended to attach disk volume to store data on it.
+		This is only possible on stage of farm creation.
+		You are not able to attach disk to already created farms.
+	</li>
+	<li>
+		<strong>Confirmation</strong>
+	</li>
+</ul>
+{% endblocktrans %}

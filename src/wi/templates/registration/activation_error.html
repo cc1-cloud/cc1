@@ -1,0 +1,14 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Activation Error" %} - {{ block.super }}{% endblock %}
+
+{% block box_title %}
+	{% trans "Activation" %}
+{% endblock %}
+
+{% block box_content %}
+    <p>
+    	{% trans "Email address confirmation error occured. Please make sure that you have clicked the correct link in your e-mail or typed in the correct address. If you get this message repeatedly, contact us so that we can set your account up correctly." %}
+    </p>
+{% endblock %}
