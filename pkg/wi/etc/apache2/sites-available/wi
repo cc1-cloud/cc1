@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+    DocumentRoot "/usr/lib/cc1/wi"
+    WSGIDaemonProcess wi user=cc1 group=cc1 processes=1 threads=10
+    WSGIScriptAlias / /usr/lib/cc1/wi/wsgi.py
+    ErrorLog /var/log/cc1/wi/wi-error.log
+    <Directory /usr/lib/cc1/wi>
+        WSGIProcessGroup wi
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:443>
+        SSLEngine on
+        SSLCertificateFile /etc/cc1/wi/cc1.pem
+        SSLCertificateKeyFile /etc/cc1/wi/cc1.pem
+    DocumentRoot "/usr/lib/cc1/wi/"
+    WSGIDaemonProcess wissl user=cc1 group=cc1 processes=1 threads=10
+    WSGIScriptAlias / /usr/lib/cc1/wi/wsgi.py
+    ErrorLog /var/log/cc1/wi/wi-error.log
+    <Directory /usr/lib/cc1/wi>
+        WSGIProcessGroup wi
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>

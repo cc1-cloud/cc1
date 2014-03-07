@@ -1,0 +1,82 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""
+@author Maciej Nabozny <mn@mnabozny.pl>
+"""
+
+import os
+import sys
+import subprocess
+
+
+def configure(public_key):
+    print "NODE: Adding public key to cc1 user"
+    pub_key = open('/var/lib/cc1/.ssh/authorized_keys', 'a')
+    pub_key.write(public_key)
+    pub_key.close()
+
+    print "NODE: Changing permissions for ~cc1/.ssh directory"
+    os.chmod('/var/lib/cc1/.ssh/authorized_keys', 0600)
+    os.chown('/var/lib/cc1/.ssh/authorized_keys', 331, 331)
+
+    print "NODE: Adding sudo permissions for cc1"
+    sudoers = open('/etc/sudoers', 'a')
+    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_public_ip #CC1\n')
+    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_network_setup #CC1\n')
+    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_storage #CC1\n')
+    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_setup_libvirt #CC1\n')
+    sudoers.write('cc1 ALL=NOPASSWD: /etc/init.d/cc1-node #CC1\n')
+    sudoers.close()
+
+    return 0
+
+def remove():
+    sudoers = open('/etc/sudoers', 'r')
+    lines = sudoers.readlines()
+    sudoers.close()
+
+    sudoers = open('/etc/sudoers', 'w')
+    for line in lines:
+        if not '#CC1' in line:
+            sudoers.write(line)
+    sudoers.close()
+
+    return 0
+    
+def purge():
+    return 0
+
+
+if __name__ == "__main__":
+    if os.getuid() != 0:
+        print "ERROR: Run this tool as root!"
+        sys.exit(1)
+
+    if len(sys.argv) == 3 and sys.argv[1] == 'configure':
+        sys.exit(configure(sys.argv[2]))
+    elif len(sys.argv) == 2 and sys.argv[1] == 'remove':
+        sys.exit(remove())
+    elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
+        sys.exit(purge())
+    else:
+        print "Usage: %s [configure] public_key" % sys.argv[0]
+        print "       %s [remove|purge]" % sys.argv[0]
+        sys.exit(1)
