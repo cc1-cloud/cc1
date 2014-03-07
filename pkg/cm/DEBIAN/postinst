@@ -1,0 +1,119 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+import netifaces
+
+if __name__ == '__main__':
+    if 'configure' in sys.argv:
+        print "Installing right Django version and other pip dependencies"
+        subprocess.call("pip install --upgrade django==1.6.1", shell=True)
+        subprocess.call("pip install --upgrade django-typed-models", shell=True)
+        
+        print "CM: Removing old .pyc files"
+        subprocess.call("find /usr/lib/cc1/cm -name '*.pyc' -exec rm {} \\;", shell=True)
+        subprocess.call("find /etc/cc1/cm -name '*.pyc' -exec rm {} \\;", shell=True)
+
+        log = open('/var/log/cc1/cm_install.log', 'a')
+
+        print "CM: Creating cc1 user"
+        r = subprocess.call('cc1_setup_user create', shell=True, stdout=log, stderr=log)
+        if r == 1:
+            print "INFO: CC1 user exists"
+        elif r > 1:
+            print "ERROR: Cannot create user! Configure CM manually"
+            sys.exit(0)
+
+        print "CM: Creating default config"
+        r = subprocess.call('cc1_cm_setup_config configure', shell=True, stdout=log, stderr=log)
+        if r > 0:
+            print "ERROR: Cannot configure CM! Configure it manually"
+            sys.exit(0)
+
+
+        print "CM: Changing permissions"
+        subprocess.call("chown -R cc1:cc1 /var/log/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /var/lib/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /usr/lib/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /etc/cc1/cm/", shell=True, stdout=log, stderr=log)
+
+        subprocess.call('chmod a+x /etc/init.d/cc1-cm', shell=True)
+        subprocess.call('chmod a+x /usr/sbin/cc1_*', shell=True)
+        subprocess.call('chown cc1:libvirt /var/lib/cc1/storages/', shell=True)
+
+        print "CM: Configuring database"
+        r = subprocess.call('cc1_cm_setup_db_psql create', shell=True, stdout=log, stderr=log)
+        if r > 0:
+            print "ERROR: Cannot create database. Create it manually"
+            sys.exit(0)
+
+        r = subprocess.call('su cc1 -c "/usr/sbin/cc1_manage_db cm syncdb"', shell=True, stdout=log, stderr=log)
+        if r > 0:
+            print "ERROR: Cannot install database. Install it manually"
+            sys.exit(0)
+
+        r = subprocess.call('su cc1 -c "/usr/sbin/cc1_manage_db cm migrate"', shell=True, stdout=log, stderr=log)
+        if r > 0:
+            print "ERROR: Cannot migrate database. Migrate it manually"
+            sys.exit(0)
+
+        print "CM: Changing permissions to /var/lib/cc1/storages/"
+        subprocess.call('chmod a+rwx /var/lib/cc1/storages/', shell=True)
+
+        print "CM: Changing other permissions and modes"
+        subprocess.call('chmod a+x /etc/init.d/cc1-cm', shell=True)
+        subprocess.call('chmod a+x /usr/sbin/cc1_*', shell=True)
+
+        print "CM: Updating cc1-cm init script"
+        r = subprocess.call('update-rc.d cc1-cm defaults', shell=True)
+        if r > 0:
+            print "WARNING: Update-rc.d returned non-zero status code. Check services"
+
+        print "CM: Adding apache vhost"
+        r = subprocess.call('cc1_cm_setup_apache enable', shell=True, stdout=log, stderr=log)
+        if r > 0:
+            print "ERROR: Cannot enable apache vhost. Add it manually"
+            sys.exit(0)
+
+        try:
+            sys.path.append('/etc/cc1/cm/')
+            import config
+        except:
+            print "ERROR: Cannot import CM config!"
+            sys.exit(1)
+        
+        ifaces = netifaces.interfaces()
+        ifaces.remove('lo')
+        
+        r = subprocess.call(['cc1_network_setup',
+                             'configure',
+                             '127.0.0.1',
+                             ','.join(ifaces),
+                             config.OSPF_TOKEN], stdout=log)
+
+        if r > 0:
+            print "ERROR: Cannot networking. Configure ospf manually"
+            sys.exit(0)
+        log.close()
+
+        print "CM: Restarting services"
+        subprocess.call('/etc/init.d/cc1-cm restart', shell=True)
+        
+        print "CM: Restarting quagga"
+        subprocess.call('/etc/init.d/quagga restart', shell=True)
+
+        print "CM: Adding sudo for iptables"
+        #TODO: Change it to script
+        try:
+            f = open('/etc/sudoers', 'a')
+            f.write('cc1 ALL=(ALL:ALL) NOPASSWD: /sbin/iptables #CC1\n')
+            f.close()
+        except:
+            print "ERROR: Cannot edit sudoers."
+            sys.exit(0)
+
+        sys.exit(0)
+    else:
+        print "Use cc1 tools (cc1_...) to reconfigure services!"
+        sys.exit(0)
+

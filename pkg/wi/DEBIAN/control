@@ -1,0 +1,13 @@
+Package: cc1-wi
+Version: BUILD_NUMBER
+Architecture: amd64
+Bugs: mailto:cc1@cloud.ifj.edu.pl
+Maintainer: Maciej Nabozny <mn@mnabozny.pl>
+Depends: python-yaml, python-recaptcha, python-pip, apache2, libapache2-mod-wsgi, apache2-threaded-dev, cc1-common, python-simplejson
+Conflicts: cc1-system-wi-v1.7
+Section: cc1
+Priority: optional
+Homepage: http://cc1.ifj.edu.pl
+Description: CC1 Private Cloud Web Interface
+ This package provides web interface to manage and administrate CC1 private
+ cloud. You also need to install cc1-clm and cc1-cm on suitable machines.
