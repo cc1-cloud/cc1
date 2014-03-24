@@ -181,6 +181,7 @@ class VM(models.Model):
         d['platform'] = 0
         d['description'] = self.description or ''
         d['vnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.vnc_port)
+        d['vnc_port'] = self.vnc_port
         d['vnc_enabled'] = self.vnc_enabled
         d['vnc_passwd'] = self.vnc_passwd or ''
         d['start_time'] = self.start_time
