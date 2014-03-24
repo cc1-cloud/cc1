@@ -411,16 +411,16 @@ cc1.makeSthTable = function(settings) {
 		// adding sorting data (text and numeric)
 		var parseElement = function(node) {
 				var parsed = $.trim(node.textContent),
-					datePatt = /^\d{1,2}\.\d{1,2}\.\d{4}\, \d{1,2}:\d{2}$/,
+					datePatt = /^\d{1,2}\.\d{1,2}\.\d{4}\, \d{1,2}:\d{2}:\d{2}$/,
 					sizePatt = /^\d{1,4}(\.\d)? (KB|MB|GB|TB)$/;
 
 				// for Date
 				if (datePatt.test(parsed)) {
 					var data = parsed.split(/\.|, |:/);
-					for ( j = 0; j< 5; j++)
+					for ( j = 0; j < 6; j++)
 						if (isDecimal(data[j]) === false)
 							return parsed;
-					return [3, new Date(data[2], data[1]-1, data[0], data[3], data[4], 0)];
+					return [3, new Date(data[2], data[1]-1, data[0], data[3], data[4], data[5])];
 				}
 
 				// for size (KB, MB, ...)
