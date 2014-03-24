@@ -33,6 +33,8 @@ except Exception, ex:
 import os
 import logging
 
+ALLOWED_HOSTS = ['*']
+
 VERSION = '2.0'
 
 PROJECT_DIR = os.path.dirname(__file__)
