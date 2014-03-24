@@ -122,6 +122,7 @@ class Farm(models.Model):
                     vm.release_resources()
                     vm.state = vm_states['closed']
                     vm.stop_time = datetime.now()
+                    vm.save()
                     log.debug(vm.user.id, "vm state %s" % vm.state)
                 r = VM.destroy([farm.head])
             else:
