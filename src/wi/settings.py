@@ -228,8 +228,8 @@ INSTALLED_APPS = (
 )
 
 # session settings
-# SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
