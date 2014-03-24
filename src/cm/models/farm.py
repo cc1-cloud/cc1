@@ -162,24 +162,32 @@ class Farm(models.Model):
 
         head_vm = farm.head
         try:
+            head_vm.name = name
+            head_vm.description = description
+            head_vm.save_vm = 2
+            head_vm.save()
             head_vm.save_image()
+            head_vm.release_resources()
             head_vm.remove()
+            head_vm.state = vm_states['closed']
+            head_vm.save()
         except Exception:
             CMException('farm_save')
 
         node_vms = []
         if farm.state == farm_states['init_head']:
-            for vm in farm.vms:
+            for vm in farm.vms.all():
                 if vm.is_head():
                     continue
                 vm.release_resources()
                 vm.state = vm_states['closed']
         else:
-            for vm in farm.vms:
+            for vm in farm.vms.all():
                 node_vms.append(vm)
             VM.destroy(node_vms)
 
         try:
+            farm.state = farm_states['closed']
             farm.save()
         except:
             CMException('farm_save')
