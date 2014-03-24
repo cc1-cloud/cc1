@@ -298,8 +298,5 @@ class SystemImage(Image):
             os.makedirs(os.path.dirname(image.path))
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)]))
 
-        r = subprocess.call(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)])
-
-    def check_attached(self):
-        if self.vm_set.exclude(state__in=[vm_states['closed'], vm_states['erased']]).exists():
-            raise CMException('image_attached')
+        if subprocess.call(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)]):
+            raise CMException('image_copy_to_storage')

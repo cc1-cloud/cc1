@@ -76,16 +76,6 @@ def mount(cm_response, **data):
 
 @admin_cm_log(log=True, pack=False)
 @cm_request
-def mount_rm(cm_response, **data):
-    """
-    @clmview_admin_cm
-    @clm_view_transparent{storage.mount_rm()}
-    """
-    return cm_response
-
-
-@admin_cm_log(log=True, pack=False)
-@cm_request
 def check(cm_response, **data):
     """
     @clmview_admin_cm
