@@ -109,7 +109,7 @@ class VMThread(threading.Thread):
         try:
             domain = conn.createXML(tmpl, 0)
             self.vm.libvirt_id = domain.ID()
-            self.vm.save()
+            self.vm.save(update_fields=['libvirt_id'])
             log.debug(self.vm.user_id, "New domain id: %d" % domain.ID())
         except Exception, e:
             log.exception(self.vm.user_id, 'Libvirt error: %s' % e)
@@ -117,9 +117,9 @@ class VMThread(threading.Thread):
             #TODO:message
             #message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
             self.vm.node.lock()
-            self.vm.save()
+            self.vm.save(update_fields=['state'])
             return
-        
+
         try:
             self.vm.set_state('running')
             if self.vm.is_head():
