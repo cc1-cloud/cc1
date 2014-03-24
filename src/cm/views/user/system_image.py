@@ -143,7 +143,6 @@ def delete(caller_id, system_image_id):
     if image.state != image_states['ok']:
         raise CMException('image_delete')
 
-    image.check_attached()
     try:
         subprocess.call(['rm', image.path])
     except Exception, e:

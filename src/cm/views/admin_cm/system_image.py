@@ -128,7 +128,6 @@ def delete(caller_id, system_image_id):
     """
     image = SystemImage.admin_get(system_image_id)
 
-    image.check_attached()
     image.state = image_states['locked']
     image.save()
 
