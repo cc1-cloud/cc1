@@ -64,7 +64,7 @@ class AddDiskForm(EditDiskForm):
     Form for <b>disk addition</b>.
     """
     size = forms.IntegerField(max_value=2000000,
-                              min_value=1,
+                              min_value=2,
                               label=_('Disk size [MB]'))
 
     def __init__(self, *args, **kwargs):
