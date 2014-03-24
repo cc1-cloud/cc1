@@ -456,8 +456,8 @@ class VM(models.Model):
         # if self.is_head():
         #     self.farm.state = farm_states['saving head']
         try:
-            self.save()
-            # Session.commit()
+            self.save(update_fields=['state'])
+            transaction.commit()
         except Exception, e:
             log.exception(self.user.id, 'save img')
             return
@@ -475,11 +475,13 @@ class VM(models.Model):
             img.copy_to_storage(self, img)
         except Exception, e:
             self.set_state('saving failed')
+            self.save()
             self.node.lock()
             # TODO:
             # message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
             try:
                 img.delete()
+                transaction.commit()
             except Exception, e:
                 log.exception(self.user.id, "Cannot commit changes: %s" % e)
             log.exception(self.user.id, "Cannot move image - error code: %s" % e)
@@ -507,7 +509,6 @@ class VM(models.Model):
         if not self.state in (vm_states['closing'], vm_states['saving']):
             self.set_state('closing')
         try:
-            # Session.commit()
             self.save()
         except Exception, e:
             log.exception(self.user.id, 'closing img')
@@ -567,9 +568,7 @@ class VM(models.Model):
 
         try:
             self.save()
-            # Session.commit()
         except Exception, e:
-            # Session.rollback()
             log.exception(self.user_id, "Cannot update resurce information: %s", str(e))
             self.node.lock()
             return
@@ -608,9 +607,7 @@ class VM(models.Model):
         self.stop_time = datetime.now()
         try:
             self.save()
-            # Session.commit()
         except Exception, e:
-            # Session.rollback()
             log.exception(self.user.id, "Cannot commit changes: %s" % e)
 
     def lv_domain(self):
@@ -734,6 +731,7 @@ class VM(models.Model):
         vm.set_state('erasing')
         try:
             vm.save()
+            transaction.commit()
         except:
             log.error(vm.user.id, 'Cannot set save=0')
 
