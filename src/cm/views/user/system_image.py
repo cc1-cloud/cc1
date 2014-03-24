@@ -69,7 +69,7 @@ def download(caller_id, description, name, path, disk_controller, network_device
         connection = urllib.urlopen(path)
         size = int(connection.info()["Content-Length"])
     except IOError:
-        log.exception('Cannot find image')
+        log.exception(caller_id, 'Cannot find image')
         raise CMException('image_not_found')
     except KeyError:
         log.exception(caller_id, 'Cannot calculate size')
