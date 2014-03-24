@@ -133,7 +133,7 @@ file_js_states.close()
 #############################################
 # Django specific settings for cc1 project. #
 #############################################
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 WSGI_APPLICATION = 'wi.wsgi.application'
