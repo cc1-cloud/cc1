@@ -33,6 +33,7 @@ import libvirt
 
 from cm.utils.exception import CMException
 from cm.utils import log
+from cm.settings import DNS_DOMAIN
 
 
 class Lease(models.Model):
@@ -84,7 +85,7 @@ class Lease(models.Model):
 
     @property
     def domain_name(self):
-        return 'abc'
+        return DNS_DOMAIN
 
     @property
     def hostname(self):
