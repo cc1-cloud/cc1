@@ -1,0 +1,48 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+
+if __name__ == '__main__':
+    if 'configure' in sys.argv:
+        print "Installing right Django version"
+        subprocess.call("pip install --upgrade django==1.6.1", shell=True)
+        
+        print "CLM: Removing old .pyc files"
+        subprocess.call("find /usr/lib/cc1/clm -name '*.pyc' -exec rm {} \\;", shell=True)
+        subprocess.call("find /etc/cc1/clm -name '*.pyc' -exec rm {} \\;", shell=True)
+
+        log = open('/var/log/cc1/clm_install.log', 'a')
+
+        print "CLM: Creating cc1 user"
+        r = subprocess.call('cc1_setup_user create', shell=True, stdout=log, stderr=log)
+
+        print "CLM: Changing permissions"
+        subprocess.call("chown -R cc1:cc1 /var/log/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /var/lib/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /etc/cc1/clm/", shell=True, stdout=log, stderr=log)
+
+        print "CLM: Creating default config"
+        r = subprocess.call('cc1_clm_setup_config configure', shell=True, stdout=log, stderr=log)
+
+        print "CLM: Configuring database"
+        r = subprocess.call('cc1_clm_setup_db_psql create', shell=True, stdout=log, stderr=log)
+        r = subprocess.call('su cc1 -c "/usr/sbin/cc1_manage_db clm syncdb"', shell=True, stdout=log, stderr=log)
+        r = subprocess.call('su cc1 -c "/usr/sbin/cc1_manage_db clm migrate"', shell=True, stdout=log, stderr=log)
+
+        # Check if database has at least one user (not new installation):
+        r = subprocess.call('su cc1 -c \'cd ; psql -A -t -c "SELECT count(id) FROM clm_user;" -L out clm\' | grep "^0$"', shell=True)
+        if r == 0:
+            print "CLM: Installing database initial data"
+            r = subprocess.call('su cc1 -c "/usr/sbin/cc1_manage_db clm loaddata /usr/lib/cc1/clm/initial_data.json"', shell=True, stdout=log, stderr=log)
+        else:
+            print "CLM: Database already installed"
+
+        print "CLM: Adding apache vhost"
+        r = subprocess.call('cc1_clm_setup_apache enable', shell=True, stdout=log, stderr=log)
+        log.close()
+        sys.exit(0)
+    else:
+        print "Use cc1 tools (cc1_...) to reconfigure services!"
+        sys.exit(1)
+

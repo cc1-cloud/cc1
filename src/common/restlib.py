@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -225,7 +225,6 @@ def register_functions(*args, **kwargs):
     urls = register_functions(funct1, funct2, funct3, ..., prefix="some/path/")
     #or with decorator
     urls = register_functions(funct1, funct2, funct3, ..., prefix="some/path/", decorator=my_decorator)
-
 
 
     Generates list of django urls pointing to all callables supplied as arguments

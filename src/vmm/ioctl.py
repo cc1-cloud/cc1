@@ -81,12 +81,12 @@ _IOC_NONE = 0
 _IOC_WRITE = 1
 _IOC_READ = 2
 
+
 def _IOC(dir,type,nr,FMT):
         return int((((dir)  << _IOC_DIRSHIFT) | \
          ((type) << _IOC_TYPESHIFT) | \
          ((nr)   << _IOC_NRSHIFT) | \
          ((FMT) << _IOC_SIZESHIFT)) & 0xffffffff )
-
 
 # used to create numbers
 # type is the assigned type from the kernel developers
@@ -94,7 +94,11 @@ def _IOC(dir,type,nr,FMT):
 # FMT is a struct module format string.
 def _IO(type,nr): return _IOC(_IOC_NONE,(type),(nr),0)
 def _IOR(type,nr,FMT): return _IOC(_IOC_READ,(type),(nr),sizeof(FMT))
+
+
 def _IOW(type,nr,FMT): return _IOC(_IOC_WRITE,(type),(nr),sizeof(FMT))
+
+
 def _IOWR(type,nr,FMT): return _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),sizeof(FMT))
 
 # used to decode ioctl numbers

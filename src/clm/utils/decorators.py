@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 Here are placed decorators for CLM views functions targeted to specific CLM
 role actors (and src.clm.utils.decorators.genericlog() called by all those).
 
+
 @par Actor decorators
 - src.clm.utils.decorators.guest_log
 - src.clm.utils.decorators.user_log
@@ -30,6 +31,7 @@ All those decorators call src.clm.utils.decorators.genericlog().
 By default those decorators call src.clm.utils.decorators.genericlog
 with logging disabled. You can enable it by giving kwarg \c log=True ,
 when decorating, eg.:
+
 
 @code
 @admin_clm_log(log=True)
@@ -52,7 +54,6 @@ from functools import wraps
 import json
 from django.http import HttpResponse
 from django.db import transaction
-
 
 # Set of functions decorated by actor decorators
 #  (clm.utils.decorators.guest_log(), src.clm.utils.decorators.user_log(),
@@ -336,4 +337,3 @@ def cm_request(fun):
         fun.packed = True  # mark function response to not be packed by genericlog
         return fun(cm_response, **data)
     return wrapper
-

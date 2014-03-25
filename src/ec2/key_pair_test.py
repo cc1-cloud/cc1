@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.ec2.key_pair_test
-
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 """
@@ -64,7 +63,6 @@ class KeyPairTestCase(TestCase):
                 'Action': 'CreateKeyPair',
             }, self.cluster_manager).execute()
 
-
         self.cluster_manager.key.user.gen.return_value = None
 
         # 3. Test `InvalidKeyPair.Duplicate` exception.
@@ -75,7 +73,6 @@ class KeyPairTestCase(TestCase):
                 'Action': 'CreateKeyPair',
                 'KeyName': 'test key pair',
             }, self.cluster_manager).execute()
-
 
     def test_DeleteKeyPair(self):
         self.cluster_manager.key.user.delete.return_value = None
@@ -90,7 +87,7 @@ class KeyPairTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <DeleteKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2012-04-01/">
-              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
               <return>true</return>
             </DeleteKeyPairResponse>
             """
@@ -101,7 +98,6 @@ class KeyPairTestCase(TestCase):
             response = Action({
                 'Action': 'DeleteKeyPair',
             }, self.cluster_manager).execute()
-
 
     def test_DescribeKeyPairs(self):
         self.cluster_manager.key.user.list.return_value = [
@@ -118,7 +114,7 @@ class KeyPairTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2012-04-01/">
-              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
               <keySet>
                 <item>
                   <keyName>key01</keyName>
@@ -132,7 +128,6 @@ class KeyPairTestCase(TestCase):
             </DescribeKeyPairsResponse>
             """
         )
-
 
     def test_ImportKeyPair(self):
         self.cluster_manager.key.user.add.return_value = None

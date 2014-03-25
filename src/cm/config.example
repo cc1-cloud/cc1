@@ -46,6 +46,9 @@ CLM_ADDRESS = 'http://127.0.0.1:8000/'
 # OSPF Token which is authorising all routing updates in network
 OSPF_TOKEN = 'RANDOM_OSPF_TOKEN'
 
+# DNS domain name
+DNS_DOMAIN = 'localdomain'
+
 # Public address of RM used for VNC redirection
 VNC_ADDRESS = '127.0.0.1'
 VNC_PORTS = {

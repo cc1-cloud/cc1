@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.network
-
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -32,7 +31,6 @@ from wi.forms.vm import MonitoringVMForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import form_generic_id, direct_to_template, \
     simple_generic_id, form_generic, get_list_generic, generic_multiple_id
-
 
 network_patterns = patterns('wi.views.admin_cm.network',
     url(r'^networks/$', 'cma_networks', name='cma_networks'),

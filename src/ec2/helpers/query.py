@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.ec2.helpers.query
-
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 """
@@ -61,3 +60,47 @@ def query(parameters, aws_key=None, aws_secret=None, endpoint=None,
     response = urllib.urlopen(*request).read()
 
     return request, response
+
+
+def get_instance_tags(cluster_manager):
+    instances = cluster_manager.user.vm.get_list()
+
+    tags = []
+    for instance in instances:
+        tags.append({'resource-id' : 'i-' + str(instance['vm_id']),
+                 'key' : 'Name',
+                 'resource-type' : 'instance',
+                 'value' : instance['name']})
+    return tags
+
+
+def get_instance_name_tag(cluster_manager, id):
+    instance = cluster_manager.user.vm.get_by_id({'vm_id':id})
+
+    tags = {'resource-id' : 'i-' + str(instance['vm_id']),
+            'key' : 'Name',
+            'resource-type' : 'instance',
+            'value' : instance['name']}
+    return tags
+
+
+def get_volume_name_tag(cluster_manager, id):
+    volume = cluster_manager.user.storage_image.get_by_id({'vm_id':id})
+
+    tags = {'resource-id' : 'i-' + str(volume['storage_image_id']),
+            'key' : 'Name',
+            'resource-type' : 'volume',
+            'value' : volume['name']}
+    return tags
+
+
+def get_volume_tags(cluster_manager):
+    volumes = cluster_manager.user.storage_image.get_list()
+
+    tags = []
+    for volume in volumes:
+        tags.append({'resource-id' : 'vol-' + str(volume['storage_image_id']),
+                 'key' : 'Name',
+                 'resource-type' : 'volume',
+                 'value' : volume['name']})
+    return tags

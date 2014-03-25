@@ -19,7 +19,6 @@
 
 # -*- coding: utf-8 -*-
 """@package src.wi.tests.account_test
-
 @author Piotr Wójcik
 @author Krzysztof Danielowski
 @date 12.10.2012

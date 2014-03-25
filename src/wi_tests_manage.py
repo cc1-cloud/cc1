@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ import datetime
 import docopt
 import os
 import sys
-
 
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASEDIR)
@@ -103,7 +102,6 @@ def runtest_wi(args):
         print('Tests finished. Errors: ' + str(len(testResults.errors) + len(testResults.failures)) + '.')
 
 Commands.set_command(runtest_wi, 'runtest', 'wi')
-
 
 if __name__ == '__main__':
     options = docopt.docopt(__doc__, help=True)

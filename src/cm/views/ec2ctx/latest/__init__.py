@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -28,19 +28,20 @@ from meta_data import meta_data, meta_data_patterns
 import base64
 
 """@package src.cm.views.ec2ctx.latest
-
 @copyright Copyright (c) 2013 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
+
 @ec2ctx_log(log=True)
 def user_data(request):
     vm_ip = request.META.get('REMOTE_ADDR')
-     
+
     vm = VM.get_by_ip( vm_ip )
     user_data = vm.long_dict['user_data']
- 
+
     return base64.b64decode( user_data )
+
 
 @ec2ctx_log(log=True)
 def latest(request):
@@ -50,4 +51,4 @@ def latest(request):
 latest_patterns = patterns('',
                            url(r'^$', latest),
                            url(r'^meta-data/',include(meta_data_patterns) ),
-                           url(r'^user-data/$', user_data) )
+                           url(r'^user-data/?$', user_data) )

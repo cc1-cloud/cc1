@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
 """@package src.ec2
 WSGI application for EC2 API service
-
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
@@ -41,7 +40,6 @@ from ec2 import (address, image, instance, key_pair, region,
 from ec2.base.action import Action, CLMException
 from ec2.error import AuthFailure, EC2Exception, InvalidZone
 # from restapi.ec2.settings import XMLRPCSERVER
-
 
 DEBUG = True
 
@@ -93,7 +91,7 @@ class CloudManager(object): # TODO JAK KTOS PODA ZLEGO CM TO WYWALA BLAD BRZYDKI
 
     def get_cluster_manager(self, by_environ=None, by_id=None, by_name=None):
         if by_environ:
-            name = by_environ['HTTP_HOST'].split('.')[0]
+            name = by_environ['HTTP_HOST'].lower().split('.')[0]
             cluster_manager = self.get_cluster_manager(by_name=name)
         else:
             if by_id:
@@ -154,7 +152,7 @@ class ClusterManager(object):
             response = clm.send_request(url)
         status = response['status']
         response_data = response['data']
-        
+
         if status != 'ok':
             raise CLMException(status, url, response_data)
         return response_data
@@ -165,8 +163,6 @@ class ClusterManager(object):
 
     def __repr__(self):
         return "<ClusterManager(id=%s, name=%s)>" % (self.id, self.name)
-
-
 def _environ_to_parameters(environ):
     """Extract EC2 parameters from GET/POST request.
 
@@ -206,7 +202,7 @@ def _application(environ, start_response):
         parameters=parameters,
         signature=parameters.get('Signature'),
     )
-    cluster_manager_name = environ['HTTP_HOST'].split('.')[0]
+    cluster_manager_name = environ['HTTP_HOST'].lower().split('.')[0]
     cluster_manager = cloud_manager.get_cluster_manager(
         by_name=cluster_manager_name
     )

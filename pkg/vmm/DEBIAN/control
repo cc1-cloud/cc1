@@ -1,0 +1,11 @@
+Package: cc1-vmm
+Version: BUILD_NUMBER
+Architecture: amd64
+Bugs: mailto:cc1@cloud.ifj.edu.pl
+Maintainer: Maciej Nabozny <mn@mnabozny.pl>
+Depends: python
+Conflicts: cc1-vm-ctx-v1.7
+Section: cc1
+Priority: optional
+Homepage: http://cc1.ifj.edu.pl
+Description: CC1 Private Cloud Virtual Machine Manager package

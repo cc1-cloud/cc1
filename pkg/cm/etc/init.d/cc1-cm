@@ -1,0 +1,49 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:             cc1-cm
+# Required-Start:       $remote_fs $syslog
+# Required-Stop:        $remote_fs $syslog
+# Should-Start:         apache2 libvirt-bin postgresql quagga ssh
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 6
+# Short-Description:    CC1 Node configuration
+### END INIT INFO
+
+set -e
+
+function start() {
+    echo "Starting CC1 CM..."
+    /usr/sbin/cc1_cm_storage mount
+    /usr/sbin/cc1_cm_node start
+    /usr/sbin/cc1_cm_monitoring start
+    /usr/sbin/cc1_cm_vnc start
+}
+
+function stop() {
+    echo "Stopping CC1 CM..."
+    /usr/sbin/cc1_cm_vnc stop
+    /usr/sbin/cc1_cm_monitoring stop
+    /usr/sbin/cc1_cm_storage umount
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+
+    stop)
+        stop
+        ;;
+
+    restart)
+        stop
+        start
+        ;;
+
+    *)
+        echo "Usage: $0 [start|stop|restart]"
+        exit 1
+esac
+
+exit 0

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@
 """@package src.cm.views.suer.network
 @author Maciej Nabożny <mn@mnabozny.pl>
 
-
 Functions for creating and deleting networks
 """
 
@@ -32,6 +31,7 @@ from cm.utils.decorators import admin_cm_log
 from common.states import available_network_states
 
 from netaddr import IPNetwork
+
 
 @admin_cm_log(log=True)
 def add(caller_id, address, mask):
@@ -47,7 +47,6 @@ def add(caller_id, address, mask):
             raise CMException('network_exists')
         elif ipnet.prefixlen < networks[i].prefixlen and ipnet.previous() < networks[i] and ipnet.next() > networks[i]:
             raise CMException('network_exists')
-
 
     # Add new network
     new_net = AvailableNetwork()

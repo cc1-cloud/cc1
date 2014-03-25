@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -36,10 +36,11 @@ from common.hardware import disk_controllers, video_devices, network_devices, \
     disk_filesystems_reversed, video_devices_reversed, network_devices_reversed
 from common.states import image_access, image_states, storage_states, vm_states
 
-
 # from cm.utils import message
 # import libvirt
 # Django templates
+
+
 class SystemImage(Image):
     """
     @model{SYSTEM_IMAGE} VM type image's class.
@@ -298,8 +299,5 @@ class SystemImage(Image):
             os.makedirs(os.path.dirname(image.path))
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)]))
 
-        r = subprocess.call(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)])
-
-    def check_attached(self):
-        if self.vm_set.exclude(state__in=[vm_states['closed'], vm_states['erased']]).exists():
-            raise CMException('image_attached')
+        if subprocess.call(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)]):
+            raise CMException('image_copy_to_storage')

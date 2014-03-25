@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
 """@package src.common.Signature
 Signatures handling for EC2 API for CC1
-
 @author Rafal Grzymkowski
 @author Miłosz Zdybał
 """
@@ -29,7 +28,6 @@ import hashlib
 import hmac
 import logging
 import urllib
-
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -63,7 +61,7 @@ class Signature:
         toSign += qs
         h = hmac.new(password, toSign, hashlib.sha256)
         b64 = base64.b64encode(h.digest())
-        
+
         return b64
 
     @staticmethod

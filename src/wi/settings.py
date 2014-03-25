@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.settings
-
 @author Piotr Wójcik
 @author Krzysztof Danielowski
 @date 21.09.2010
@@ -32,6 +31,8 @@ except Exception, ex:
 
 import os
 import logging
+
+ALLOWED_HOSTS = ['*']
 
 VERSION = '2.0'
 
@@ -133,7 +134,7 @@ file_js_states.close()
 #############################################
 # Django specific settings for cc1 project. #
 #############################################
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 WSGI_APPLICATION = 'wi.wsgi.application'
@@ -228,8 +229,8 @@ INSTALLED_APPS = (
 )
 
 # session settings
-# SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
