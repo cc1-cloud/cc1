@@ -51,4 +51,4 @@ def latest(request):
 latest_patterns = patterns('',
                            url(r'^$', latest),
                            url(r'^meta-data/',include(meta_data_patterns) ),
-                           url(r'^user-data/$', user_data) )
+                           url(r'^user-data/?$', user_data) )
