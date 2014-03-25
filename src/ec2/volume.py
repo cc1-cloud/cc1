@@ -66,11 +66,11 @@ class CreateVolume(Action):
 
         try:
             volume_dict = {
-                        'name' : 'EC2 Volume',
-                        'size' : size * SIZE_RATIO,
-                        'filesystem' : ext4_id,
-                        'disk_controller' : disk_controllers['virtio'],
-                        'description' : 'Storage created by EC2 API'
+                        'name': 'EC2 Volume',
+                        'size': size * SIZE_RATIO,
+                        'filesystem': ext4_id,
+                        'disk_controller': disk_controllers['virtio'],
+                        'description': 'Storage created by EC2 API'
                         }
             volume = self.cluster_manager.user.storage_image.create(volume_dict)
         except CLMException, error:
