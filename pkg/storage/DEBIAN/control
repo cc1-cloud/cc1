@@ -1,0 +1,10 @@
+Package: cc1-storage
+Version: BUILD_NUMBER
+Architecture: amd64
+Bugs: mailto:cc1@cloud.ifj.edu.pl
+Maintainer: Maciej Nabozny <mn@mnabozny.pl>
+Depends: python, nfs-kernel-server, cc1-common
+Section: cc1
+Priority: optional
+Homepage: http://cc1.ifj.edu.pl
+Description: Sample storage service over nfs.

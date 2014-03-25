@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,9 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.views.admin_cm.storage
-
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log}
-
 @author Maciej Nabożny <di.dijo@gmail.com>
 """
 
@@ -31,9 +29,6 @@ from cm.utils import log
 from common.states import storage_states
 from cm.utils.decorators import admin_cm_log
 import libvirt
-
-#from cm.utils.rm import StorageHandler
-from cm.rm.storage_handler import StorageHandler
 
 # Django templates
 from django.template import loader, Context
@@ -239,44 +234,4 @@ def check(caller_id, node_list):
             except:
                 pass
         result['%d' % n] = {'mounted': mounted, 'unmounted': unmounted}
-    return result
-
-
-@admin_cm_log(log=True)
-def mount_rm(caller_id, storage_id=None):
-    """
-    Mount selected storage on CM.
-    @cmview_admin_cm
-
-    @parameter{caller_id,int}
-    @dictkey{storage_id,int} @optional{all}
-
-    @response{None}
-    """
-    if storage_id:
-        storages = Storage.objects.filter(id__exact=storage_id)
-    else:
-        storages = Storage.objects.all()
-
-    log.debug(caller_id, "Available storages: %s" % str(storages))
-
-    result = {}
-
-    for storage in storages:
-        try:
-            log.debug(caller_id, "Connecting to RM")
-            #r = rm().storage.mount(storage.dict)
-            StorageHandler.mount(storage.dict, caller_id)
-
-            #log.debug(caller, "Status: %s" % r['status'])
-            #result[storage.name] = r['ok']
-
-            #rm functions do not return a response anymore, so
-            #if no exception occurs, it just writes 'ok' in the log
-            log.debug(caller_id, "Status: ok")
-            result[storage.name] = 'ok'
-
-        except Exception, e:
-            log.error(caller_id, "Cannot mount storage on RM: %s" % str(e))
-            raise CMException("storage_rm_mount")
     return result

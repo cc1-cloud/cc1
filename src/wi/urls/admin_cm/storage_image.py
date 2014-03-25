@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.storage_image
-
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -30,7 +29,6 @@ from wi.forms.storage_image import EditDiskForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import form_generic_id, simple_generic_id, \
     direct_to_template
-
 
 disk_patterns = patterns('wi.views.admin_cm.storage_image',
     url(r'^disks/$', admin_cm_permission(direct_to_template), {'template_name': 'admin_cm/disks.html'}, name='cma_disks'),

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls
-
 @author Piotr Wójcik
 @author Krzysztof Danielowski
 @date 21.09.2010
@@ -31,7 +30,6 @@ from django.views.generic import RedirectView
 
 from wi.utils.decorators import user_permission
 from wi.utils.views import simple_generic_id, direct_to_template
-
 
 urlpatterns = patterns('',
     url(r'^$', direct_to_template, {'template_name': 'main/home.html'}, name='mai_main'),

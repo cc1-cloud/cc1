@@ -38,4 +38,3 @@ LOG_LEVEL = logging.ERROR
 #FILES_TO_DOWNLOAD = {
 #    '/path/to/file': 'url'
 #}
-

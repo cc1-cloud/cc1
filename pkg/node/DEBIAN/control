@@ -1,0 +1,12 @@
+Package: cc1-node
+Version: BUILD_NUMBER
+Architecture: amd64
+Bugs: mailto:cc1@cloud.ifj.edu.pl
+Maintainer: Maciej Nabozny <mn@mnabozny.pl>
+Depends: cc1-common-networking, cc1-common, libvirt-bin, openssh-server, sudo, python-libvirt, qemu, python, qemu-kvm, kvm
+Suggests: tcpdump, ipython, traceroute
+Conflicts: cc1-node-conf-v1.7
+Section: cc1
+Priority: optional
+Homepage: http://cc1.ifj.edu.pl
+Description: CC1 Private Cloud node configuration package

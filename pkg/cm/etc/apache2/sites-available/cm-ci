@@ -1,0 +1,18 @@
+<VirtualHost *:8003>
+#    SSLEngine on
+#    SSLCertificateFile /etc/cc1/cm/cc1.pem
+#    SSLCertificateKeyFile /etc/cc1/cm/cc1.pem
+
+    DocumentRoot "/usr/lib/cc1/cm/"
+    WSGIDaemonProcess cm-ci user=cc1 group=cc1 processes=1 threads=10
+    WSGIScriptAlias / /usr/lib/cc1/cm/wsgi_cluster_interface.py
+    ErrorLog /var/log/cc1/cm/ci-error.log
+    <Directory /usr/lib/cc1/cm>
+        WSGIProcessGroup cm-ci
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
+
+Listen 8003

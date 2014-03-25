@@ -61,6 +61,11 @@ def pinsert(query):
     PCURSOR.execute(query)
 
 
+def pselect(query):
+    PCURSOR.execute(query)
+    return  PCURSOR.fetchall()
+
+
 def prepare(row):
     nrow = []
     for i in row:
@@ -69,7 +74,7 @@ def prepare(row):
         elif type(i) == long:
             nrow.append("%d" % i)
         else:
-            nrow.append("E'%s'" % str(i).replace("'", "\\'"))
+            nrow.append("E'%s'" % str(i).replace("'", "\\'").decode('utf-8'))
     return ','.join(nrow)
 
 
@@ -153,22 +158,24 @@ class Command(BaseCommand):
                         print row
                         pinsert("insert into %s(%s) values (%s);" % (new_table, ','.join(new_cols), prepare(row)))
 
+                    seq_id_table = new_table + '_id_seq'
+                    if pselect("select column_name from information_schema.columns where table_name='%s' and column_name='id';" % (new_table)):
+                        pinsert("select setval('%s', (select max(id) from %s));" % (seq_id_table, new_table))
                 # GROUPS
                 values = mselect("select id,leader_id,name,group.desc from clm.group;")
                 for row in values:
                     pinsert('insert into clm_group (id,leader_id,name,"desc") values(%s);' % prepare(row))
-
+                pinsert("select setval('%s', (select max(id) from %s));" % ('clm_group_id_seq', 'clm_group'))
                 # KEYS
                 values = mselect("select id,user_id,name,fingerprint,data,creation_date from clm.key;")
                 for row in values:
                     pinsert(
                         "insert into clm_key (id,user_id,name,fingerprint,data,creation_date) values(%s);" % prepare(
                             row))
-
+                pinsert("select setval('%s', (select max(id) from %s));" % ('clm_key_id_seq', 'clm_key'))
                 transaction.commit()
                 print "Migration complete"
             except:
                 traceback.print_exc()
 
                 transaction.rollback()
-

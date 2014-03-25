@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ from cm.models.node import Node
 from cm.utils.exception import CMException
 from common.states import node_states
 import datetime
+
 
 @ci_log(log=True)
 def update_state(remote_ip, state, comment=""):

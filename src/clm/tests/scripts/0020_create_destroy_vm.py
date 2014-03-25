@@ -22,4 +22,3 @@ from clm.tests import settings
 
 Test(settings):
     def run():
-        

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.cm.manager.monia.threads
-
 @author Tomek Wojtoń
 """
 
@@ -36,10 +35,12 @@ from common.states import node_states
 from cm.utils import log
 from cm import settings
 
+
 def get_nodes():
     nlist = [{'address':node.dict['address'], 'state':node.dict['state'], 'conn_string':node.conn_string}  for node in Node.objects.filter(state__exact=node_states['ok'])]
 
     return nlist
+
 
 def refresh_nodes():
     if not settings.MONITOR_ENABLE:
@@ -52,6 +53,7 @@ def refresh_nodes():
         if i.name == "initiator":
             i.update_nodes(nlist)
     return nlist
+
 
 def start_monia():
     """
@@ -93,6 +95,7 @@ def start_monia():
 
     #log.info(0, 'Monitoring threads %s started' % str(r))
     return r
+
 
 def stop_monia():
     """
@@ -180,6 +183,7 @@ class CleanerThread(threading.Thread):
         except Exception, e:
             log.exception(0, 'CleanerThread: %s'%(e))
 
+
 class MonitorThread(threading.Thread):
     def __init__(self, data):
         threading.Thread.__init__(self)
@@ -266,7 +270,6 @@ class MonitorThread(threading.Thread):
             log.error(0, 'libvirt close error %s' % (str(g)))
         self.lv_data = [used_cpu, used_memory, total_cpu, total_memory, vms]
         return self.lv_data
-
 
     def kill(self):
         ok = True

@@ -1,0 +1,14 @@
+Package: cc1-cm
+Version: BUILD_NUMBER
+Architecture: amd64
+Bugs: mailto:cc1@cloud.ifj.edu.pl
+Maintainer: Maciej Nabozny <mn@mnabozny.pl>
+Depends: libvirt-bin, cc1-common-networking, cc1-common, python-pip, openssh-server, python-libvirt, python-psycopg2, python-netaddr, python-netifaces, postgresql, apache2, libapache2-mod-wsgi, apache2-threaded-dev, python-rrdtool, gddrescue, parted, python-django-south, ntfs-3g, dosfstools, reiserfsprogs, xfsprogs, sudo
+Suggests: tcpdump, ipython
+Conflicts: cc1-system-cm-v1.7
+Section: cc1
+Priority: optional
+Homepage: http://cc1.ifj.edu.pl
+Description: CC1 Private Cloud node configuration package
+
+

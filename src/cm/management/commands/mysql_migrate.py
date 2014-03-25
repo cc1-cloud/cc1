@@ -83,6 +83,10 @@ def pinsert(query):
     PCURSOR.execute(query)
 
 
+def pselect(query):
+    PCURSOR.execute(query)
+    return  PCURSOR.fetchall()
+
 def prepare(row):
     nrow = []
     for i in row:
@@ -91,7 +95,7 @@ def prepare(row):
         elif type(i) == long:
             nrow.append("%d" % i)
         else:
-            nrow.append("E'%s'" % str(i).replace("'", "\\'"))
+            nrow.append("E'%s'" % str(i).replace("'", "\\'").decode('utf-8'))
     return ','.join(nrow)
 
 
@@ -174,6 +178,9 @@ class Command(BaseCommand):
                     for row in values:
                         pinsert("insert into %s(%s) values (%s);" % (new_table, ','.join(new_cols), prepare(row)))
 
+                    seq_id_table = new_table + '_id_seq'
+                    if pselect("select column_name from information_schema.columns where table_name='%s' and column_name='id';" % (new_table)):
+                        pinsert("select setval('%s', (select max(id) from %s));" % (seq_id_table, new_table))
                 # STORAGE IMAGES - 1
                 values = mselect("select id,name,description,user_id,type,disk_dev,creation_date,platform,size,access,"
                                  "state,vm_id,storage_id,network_device,video_device,disk_controller,progress "
@@ -181,19 +188,24 @@ class Command(BaseCommand):
                 for row in values:
                     row = list(row)
                     row[5] = ord(row[5][2]) - 96 # changing sda to 1,  sdb to 2 and so on
+                    if row[4] == 0: # change image type from numeric id to django model tag
+                        row[4] = 'cm.isoimage'
+                    elif row[4] == 1:
+                        row[4] = 'cm.storageimage'
+                    elif row[4] == 2:
+                        row[4] = 'cm.systemimage'
                     pinsert("insert into cm_image (id,name,description,user_id,type,disk_dev,creation_date,"
                             "platform,size,access,state,vm_id,storage_id,network_device,video_device,"
                             "disk_controller,progress) values(%s);" % prepare(row))
-
+                pinsert("select setval('%s', (select max(id) from %s));" % ('cm_image_id_seq', 'cm_image'))
                 # PUBLIC IP
                 values = mselect("select id, ip, user_id from public_lease;")
                 for row in values:
                     pinsert("insert into cm_publicip (id, address, user_id) values(%s);" % prepare(row))
-
+                pinsert("select setval('%s', (select max(id) from %s));" % ('cm_publicip_id_seq', 'cm_publicip'))
                 transaction.commit()
             except:
                 traceback.print_exc()
 
                 transaction.rollback()
             print "Migration complete"
-

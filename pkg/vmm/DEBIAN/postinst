@@ -1,0 +1,24 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+import netifaces
+
+print str(sys.argv)
+if __name__ == '__main__':
+    if 'configure' in sys.argv:
+        log = open('/var/log/cc1/vmm_install.log', 'a')
+
+        subprocess.call('chmod a+x /etc/init.d/cc1-vmm', shell=True)
+        subprocess.call('chmod a+x /usr/sbin/cc1_*', shell=True)
+        subprocess.call('chown cc1:root /var/log/cc1/node/', shell=True)
+        subprocess.call('chmod 775 /var/log/cc1/node/', shell=True)
+        subprocess.call('chown cc1:libvirt /var/lib/cc1/storages/', shell=True)
+        subprocess.call('update-rc.d cc1-vmm defaults', shell=True)
+
+        log.close()
+        sys.exit(0)
+    else:
+        print "Use cc1 tools (cc1_...) to reconfigure services!"
+        sys.exit(0)
+
