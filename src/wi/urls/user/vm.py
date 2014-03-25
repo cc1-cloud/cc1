@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.user.vm
-
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 @date 26.11.2010
@@ -34,7 +33,6 @@ from wi.views.user.vm import CreateVMWizard
 from wi.forms.vm import ChangeVMPasswordForm, EditVMForm, SetSshKeyForm, \
     AssignChosenIPForm, CreateVMForm1, CreateVMForm2, CreateVMForm3, CreateVMForm4, \
     MonitoringVMForm
-
 
 vm_patterns = patterns('wi.views.user.vm',
     url(r'^$', user_permission(direct_to_template), {'template_name': 'vms/base.html'}, name='vms_vms'),
@@ -164,7 +162,6 @@ vm_patterns = patterns('wi.views.user.vm',
         },
         name='vms_ajax_vm_monitoring'),
 )
-
 
 urlpatterns = patterns('',
     url(r'^vm/', include(vm_patterns)),

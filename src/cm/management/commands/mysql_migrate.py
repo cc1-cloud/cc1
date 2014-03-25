@@ -209,4 +209,3 @@ class Command(BaseCommand):
 
                 transaction.rollback()
             print "Migration complete"
-

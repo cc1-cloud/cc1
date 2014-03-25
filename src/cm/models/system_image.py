@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -36,10 +36,11 @@ from common.hardware import disk_controllers, video_devices, network_devices, \
     disk_filesystems_reversed, video_devices_reversed, network_devices_reversed
 from common.states import image_access, image_states, storage_states, vm_states
 
-
 # from cm.utils import message
 # import libvirt
 # Django templates
+
+
 class SystemImage(Image):
     """
     @model{SYSTEM_IMAGE} VM type image's class.

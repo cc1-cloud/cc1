@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -116,7 +116,6 @@ def send_issue(cm_id, caller_id, topic, issue):
         mail.send(settings.ISSUE_EMAIL, issue, topic)
     except Exception:
         raise CLMException('send_issue_error')
-
 
 # @todo: monia not defined in CM
 # @user_log(log=True, pack=False)

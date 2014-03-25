@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@
 
 from clm.utils.decorators import admin_cm_log, cm_request
 
+
 @admin_cm_log(log=True, pack=False)
 @cm_request
 def get_list(cm_response, **data):
@@ -32,6 +33,7 @@ def get_list(cm_response, **data):
     @clm_view_transparent{public_ip.get_list()}
     """
     return cm_response
+
 
 @admin_cm_log(log=True, pack=False)
 @cm_request
@@ -42,6 +44,7 @@ def add(cm_response, **data):
     """
     return cm_response
 
+
 @admin_cm_log(log=True, pack=False)
 @cm_request
 def delete(cm_response, **data):
@@ -51,6 +54,7 @@ def delete(cm_response, **data):
     """
     return cm_response
 
+
 @admin_cm_log(log=True, pack=False)
 @cm_request
 def unassign(cm_response, **data):
@@ -59,4 +63,3 @@ def unassign(cm_response, **data):
     @clm_view_transparent{public_ip.unassign()}
     """
     return cm_response
-

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 #
 # @COPYRIGHT_end
 """@package src.cm.rm.image_handler
-
 @author Maciej Nabożny <di.dijo@gmail.com>
 """
 
@@ -29,7 +28,6 @@ import urllib
 import hashlib
 import threading
 # from multiprocessing import Process
-
 
 from common.states import image_states, image_types
 from cm.utils.exception import CMException
@@ -73,15 +71,15 @@ class ImageHandler:
         # t.start()
         t = ImageThread("create_thread", 'create', data)
         t.start()
-        
+
         # return response('ok')
-    
+
     @staticmethod
     # @xmllog
     def copy(data):
         """
         Create new, empty image.
-        
+
         @parameter{data,dict}
         \n fields:
         @dictkey{user_id} who is calling?
@@ -96,17 +94,17 @@ class ImageHandler:
         # t.start()
         t = ImageThread("copy_thread", 'copy', data)
         t.start()
-        
+
         # return response('ok')
-    
+
     @staticmethod
     # #@xmllog
     def download(data):
         """
         Download image from link or path.
-        
+
         @parameter{data,dict}
-        \n fields: 
+        \n fields:
         @dictkey{dest_pool} destination pool name
         @dictkey{dest_userid} destination user id
         @dictkey{source} url to image
@@ -119,15 +117,15 @@ class ImageHandler:
         # t.start()
         t = ImageThread("download_thread", 'download', data)
         t.start()
-        
+
         # return response('ok')
-    
+
     @staticmethod
     # @xmllog
     def delete(data):
         """
         Delete image from storage.
-        
+
         @parameter{data,dict}
         \n fields:
         @dictkey{dest_pool} destination pool name
@@ -142,7 +140,7 @@ class ImageHandler:
             ImageUtils.failed(data['user_id'], {'image_id':image_id, 'status': 'incomplete_information', 'type':data['type']})
             # rmi().image.rmi.failed(image_id, {'status': 'incomplete_information'})
             return
-            
+
         subprocess.call(['rm', path])
         # return response('ok')
         # rmi().image.rmi.finished(image_id)
@@ -190,7 +188,7 @@ class ImageThread (threading.Thread):
             ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_create_incomplete_information', 'type':self.data['type']})
             return
             # sys.exit(1)
-        
+
         if size < 2:
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_too_small'})
             ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_too_small', 'type':self.data['type']})
@@ -204,27 +202,25 @@ class ImageThread (threading.Thread):
         subprocess.call(['chown', '331', os.path.dirname(destination)])
         subprocess.call(['chgrp', '331', os.path.dirname(destination)])
 
-        
         # dd command copy data blocks from 'if' to 'of'
         r = execute(['dd', 'if=/dev/zero', 'of=%s' % destination, 'bs=1M', 'count=1', 'seek=%d' % (int(size) - 1)])
-        
+
         if r != 0:
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'dd_failed'})
             ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'dd_failed', 'type':image_type})
             # log.error(user_id ,"image_dd_failed")
             return
             # sys.exit(1)
-        
-           
+
         log.debug(user_id , "chmod")
         subprocess.call(['chmod', '600', destination])
-        
+
         # TODO: Move 331 uid/gid to config
         log.debug(user_id , "chown")
         subprocess.call(['chown', '331', destination])
         log.debug(user_id , "chgrp")
         subprocess.call(['chgrp', '331', destination])
-        
+
         # Format image
         if 'format_command' in self.data:
             # rmi().image.rmi.update(user_id, {'image_id': image_id, 'state': image_states['formatting'], 'progress': 0})
@@ -237,15 +233,15 @@ class ImageThread (threading.Thread):
                 ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'format_failed', 'type':image_type})
                 return
                 # sys.exit(1)
-        
+
         log.debug(user_id , "return size")
         filesize = os.path.getsize(destination) / 1024 / 1024
-        
+
         ImageUtils.created(user_id, {'image_id': image_id, 'size': filesize, 'type':image_type})
         # rmi().image.rmi.created(user_id, {'image_id': image_id, 'size': filesize})
-        
+
         # sys.exit(0)
-    
+
     # @xmllog
     def copy(self):
         """
@@ -266,30 +262,28 @@ class ImageThread (threading.Thread):
             # log.error(user_id ,"image_incomplete_information")
             return
             # sys.exit(1)
-        
+
         try:
-            
+
             # directory must first be created, to create file to write
             destination = ImageUtils.get_path({'dest_pool': dest_pool, 'dest_userid': dest_userid, 'id': dest_imageid, 'type':image_type})
-            
+
             # subprocess.call execute new process with command given
             subprocess.call(['mkdir', '-p', '%s' % os.path.dirname(destination)])
             subprocess.call(['chmod', '700', os.path.dirname(destination)])
             # TODO: Move 331 uid and gid to config
             subprocess.call(['chown', '331', os.path.dirname(destination)])
             subprocess.call(['chgrp', '331', os.path.dirname(destination)])
-            
+
             src = open(ImageUtils.get_path({'dest_pool': src_pool, 'dest_userid': src_userid, 'id': src_imgid, 'type':image_type}), "r")
             dst = open(destination, "w+")
         except Exception, e:
             ImageUtils.failed(user_id, {'image_id': dest_imageid, 'status': 'image_not_found', 'type':image_type})
             # #mi().image.rmi.failed(user_id, {'image_id': dest_imageid, 'status': 'image_not_found'})
             # log.error(user_id ,"image_not_found")
-            return 
+            return
             # sys.exit(1)
-        
-        
-            
+
         copied = 0
         size = os.path.getsize(ImageUtils.get_path({'dest_pool': src_pool, 'dest_userid': src_userid, 'id': src_imgid, 'type':image_type}))
         size /= 1048576
@@ -304,25 +298,23 @@ class ImageThread (threading.Thread):
             if (100 * copied / size) % 5 == 0:
                 ImageUtils.update(self.data['user_id'], {'image_id': dest_imageid, 'state': image_states['adding'], 'progress': (100 * copied) / size, 'type':image_type})
                 # #rmi().image.rmi.update(self.data['user_id'], {'image_id': dest_imageid, 'state': image_states['adding'], 'progress': (100*copied/size)})
-        
+
         dst.close()
 
         # destination = ImageUtils.get_path({'dest_pool': dest_pool, 'dest_userid': dest_userid, 'id': dest_imageid,'type':type})
         filesize = os.path.getsize(destination) / 1024 / 1024
         subprocess.call(['chmod', '600', destination])
-        
+
         # TODO: Move 331 uid/gid to config
         subprocess.call(['chown', '331', destination])
         subprocess.call(['chgrp', '331', destination])
-        
+
         ImageUtils.created(user_id, {'image_id': dest_imageid, 'size': filesize, 'type':image_type})
         # #rmi().image.rmi.created(user_id, {'image_id': dest_imageid, 'size': filesize})
-        
+
         # log.debug(user_id,"exit")
         # sys.exit(0)
-        
-        
-        
+
     # @xmllog
     def download(self):
         """
@@ -339,19 +331,19 @@ class ImageThread (threading.Thread):
             #    #rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_size'})
             #    exit(0)
         except Exception, e:
-            
+
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_incomplete_information'})
             ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_incomplete_information', 'type':image_type})
             # log.error(user_id ,"image_incomplete_information")
             return
             # sys.exit(1)
-        
+
         subprocess.call(['mkdir', os.path.dirname(destination)])
         subprocess.call(['chmod', '700', os.path.dirname(destination)])
         # TODO: Move 331 uid/gid to config
         subprocess.call(['chown', '331', os.path.dirname(destination)])
         subprocess.call(['chgrp', '331', os.path.dirname(destination)])
-        
+
         try:
             dst = open(destination, "w")
         except Exception, e:
@@ -360,8 +352,7 @@ class ImageThread (threading.Thread):
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_not_found'})
             return
             # sys.exit(1)
-        
-        
+
         # Calculate size
         size = None
         try:
@@ -375,8 +366,7 @@ class ImageThread (threading.Thread):
                 # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_not_found'})
                 ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_not_found', 'type':image_type})
                 raise CMException('image_calculate_size')
-        
-        
+
         downloaded = 0
         step = int(size / 50)
         if step == 0:
@@ -392,35 +382,35 @@ class ImageThread (threading.Thread):
             if size != None and (int(float(downloaded) / float(size)) * 100) % step == 0:
                 ImageUtils.update(self.data['user_id'], {'image_id': image_id, 'state': image_states['adding'], 'progress': (100 * downloaded / size), 'type':image_type})
                 # rmi().image.rmi.update(self.data['user_id'], {'image_id': image_id, 'state': image_states['adding'], 'progress': (100 * downloaded / size)})
-        
 
         dst.close()
         filesize = os.path.getsize(destination) / 1024 / 1024
         subprocess.call(['chmod', '600', destination])
-        
+
         # TODO: Move 331 uid/gid to config
         subprocess.call(['chown', '331', destination])
         subprocess.call(['chgrp', '331', destination])
-        
+
         md5sum = ImageUtils.md5sum(self.data)
         log.debug(user_id, "md5: %s" % md5sum)
         ImageUtils.downloaded(user_id, {'image_id': image_id, 'size': filesize, 'md5sum': md5sum, 'type':image_type})
         # rmi().image.rmi.downloaded(user_id, {'image_id': image_id, 'size': filesize, 'md5sum': md5sum})
-        
+
         # log.debug(user_id, "exit")
         # sys.exit(0)
-        
+
+
 class ImageUtils:
     """
     Additional functions for disk management
     """
-    
+
     @staticmethod
     # #@xmllog
     def get_path(data):
         """
-        Create path from given LV pool name, user id, type of image and image id. 
-        
+        Create path from given LV pool name, user id, type of image and image id.
+
         Data should be a dictionary with fields:
             @dictkey{dest_pool} destination pool name
             @dictkey{dest_userid} user id
@@ -437,21 +427,20 @@ class ImageUtils:
         except:
             log.error(user_id, 'Incomplete information in get_path')
             raise CMException('image_getpath_incomplete_information')
-        
+
         try:
             conn = libvirt.open('qemu:///system')
         except Exception, e:
             log.debug(user_id, 'Cannot connect to libvirt: %s' % str(e))
             raise CMException('storage_connect_libvirt')
-        
+
         try:
             pool = conn.storagePoolLookupByName(pool_name)
             usr_dir = "%s/%d" % (os.path.dirname(pool.storageVolLookupByName("info").path()), user_id)
         except Exception, e:
             log.error(user_id, "Cannot get libvirt pool: %s" % str(e))
             raise CMException('rm_pool')
-        
-        
+
         # check type image to add it to the img path
         if image_type == image_types['cd']:
             type_str = "ISO"
@@ -462,21 +451,20 @@ class ImageUtils:
         else:
             log.error(user_id, "image_unsupported")
             raise CMException('image_unsupported')
-        
+
         # between usr_dir and image_id we put the TYPE of image
         # usr_dir/type/image_id
         # e.g.: /home/gaet/rm_storages/storage1/1/DISKVOL_23
-        
+
         return "%s/%s_%s" % (usr_dir, type_str, image_id)
         # return "%s/%s" % (usr_dir,image_id)
-    
-    
+
     @staticmethod
     # #@xmllog
     def format(data):
         """
         Make partition table and format file with given filesystem.
-        
+
         Data should be a dictionary with fields:
         @dictkey{path}
         @dictkey{format_command} commamd to format
@@ -487,32 +475,31 @@ class ImageUtils:
             format_command = data['format_command']
         except:
             raise CMException('incomplete_information')
-        
+
         log.info(data['user_id'], 'Creating filesystem on %s by command: %s' % (path, format_command % path))
         log.debug(data['user_id'], "Looking for unused loopback")
         p = subprocess.Popen(['losetup', '-f'], stdout=subprocess.PIPE)
         loopname = str(p.stdout.read())[:-1]
         log.debug(data['user_id'], "\t Unused loopback: %s" % loopname)
         p.wait()
-        
+
         try:
             log.debug(data['user_id'], "Mounting loopback: %s -> %s" % (loopname, path))
             p = subprocess.Popen(['losetup', loopname, path])
             p.wait()
-        
-        
+
             log.debug(data['user_id'], "Creating partition table on " + loopname + "...")
             p = subprocess.Popen(['parted', '-s', loopname, 'mktable', 'msdos'], stdin=subprocess.PIPE)
             p.wait()
-            
+
             log.debug(data['user_id'], "Creating partition on " + loopname + "...")
             p = subprocess.Popen(['parted', '-s', loopname, 'mkpart', 'primary', '0%', '100%'], stdin=subprocess.PIPE)
             p.wait()
-            
+
             log.debug(data['user_id'], "Mapping loopback with kpartx...")
             p = subprocess.Popen(['kpartx', '-a', loopname])
             p.wait()
-            
+
             # TODO: split format_command string to list by inteligent function.
             # First element of splitted format_command should be a mkfs binary
             if os.path.exists(format_command.split()[0]):
@@ -523,7 +510,7 @@ class ImageUtils:
                 p.wait()
             else:
                 raise CMException('rm_format_command')
-            
+
             log.debug(data['user_id'], "Cleaning the balagan...")
             p = subprocess.Popen(['kpartx', '-d', loopname])
             p.wait()
@@ -541,9 +528,9 @@ class ImageUtils:
                 # p.wait()
             except Exception:
                 log.exception(data['user_id'], "Cannot delete device mapper")
-            
+
             time.sleep(5)
-            
+
             try:
                 p = subprocess.Popen(['losetup', '-d', loopname])
                 # p.wait()
@@ -551,11 +538,9 @@ class ImageUtils:
                 log.exception(data['user_id'], "Cannot delete loopback")
             time.sleep(5)
             raise CMException('format_failure')
-        
+
         # return response('ok')
-        
-        
-    
+
     @staticmethod
     # @xmllog
     def md5sum(data):
@@ -573,7 +558,7 @@ class ImageUtils:
         """
         Image created
         """
-        
+
         """
         #check if information have been sent, not necessary now
         try:
@@ -585,13 +570,13 @@ class ImageUtils:
         try:
             # use admin_get caues no need to check permissions here
             image = image_utils.admin_get(data['image_id'], data['type'])
-            # TODO: created should be only for disk volumes, is type necessary? 
+            # TODO: created should be only for disk volumes, is type necessary?
             # image = StorageImage.objects.get(pk=data['image_id'])
             # image = Session.query(Image).get(image_id)
         except Exception, e:
             log.error(user_id, "Cannot get image: %s" % str(e))
             # return response('image_no_image')
-            
+
         try:
             image.state = image_states['ok']
             image.size = data['size']
@@ -600,12 +585,12 @@ class ImageUtils:
         except Exception, e:
             log.error(user_id, "Cannot update image: %s" % str(e))
             # Session.rollback()
-        
+
         log.debug(user_id, "Image finished")
         # TODO: send message to CLM
         # message.info(user_id, 'image_created', {'name': image.name})
         # return response('ok')
-    
+
     @staticmethod
     def downloaded(user_id, data):
         """
@@ -623,7 +608,7 @@ class ImageUtils:
         except Exception, e:
             log.error(user_id, "Cannot get image: %s" % str(e))
             # return response('image_no_image')
-            
+
         try:
             image.state = image_states['ok']
             image.size = data['size']
@@ -632,12 +617,12 @@ class ImageUtils:
         except Exception, e:
             log.error(user_id, "Cannot update image: %s" % str(e))
             # Session.rollback()
-        
+
         log.debug(user_id, "Image finished")
         # TODO: send message to CLM
         # message.info(user_id, 'image_downloaded', {'name': image.name, 'md5sum': data['md5sum']})
         # return response('ok')
-        
+
     @staticmethod
     def failed(user_id, data):
         """
@@ -649,7 +634,7 @@ class ImageUtils:
         except Exception, e:
             log.error(user_id, "Cannot update image. Image %d not found: %s" % (data['image_id'], str(e)))
             # return response('image_no_image')
-        
+
         try:
             image.state = image_states['failed']
             image.save()
@@ -658,16 +643,16 @@ class ImageUtils:
             log.error(user_id, "Cannot update image: %s" % str(e))
             # return response('image_status_update')
             # Session.rollback()
-        
+
         log.error(user_id, "Image failed: %s" % data['status'])
         # TODO: Message
         # return response('ok')
-    
+
     @staticmethod
     def update(user_id, data):
         """
         Updates image as described by data.
-        
+
         @parameter{user_id,int}
         @parameter{data,dict}
         \n fields:
@@ -676,13 +661,12 @@ class ImageUtils:
         - progress
         """
         log.debug(user_id, data)
-        
+
         image_id = data['image_id']
         state = data['state']
         image_type = data['type']
         progress = data['progress']
 
-            
         try:
             # admin_get cause no need to check permissions here
             image = image_utils.admin_get(image_id, image_type)
@@ -690,7 +674,7 @@ class ImageUtils:
         except Exception, e:
             log.error(user_id, "Cannot update image. Image %d not found: %s" % (image_id, str(e)))
             # return response('image_no_image')
-        
+
         try:
             image.state = state
             image.progress = progress

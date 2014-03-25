@@ -21,17 +21,16 @@ from ec2.error import MissingParameter, InvalidAMIID, InvalidParameterValue
 
 """@package src.ec2.universal
 EC2 actions common for more than one resource
-
 @copyright Copyright (c) 2014 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
+
 
 class CreateTags(Action):
     def _execute(self):
         resource_ids = []
         tags = []
         try:
-            
             for param, value in self.parameters.iteritems():
                 if param.startswith('ResourceId'):
                     resource_ids.append(value)

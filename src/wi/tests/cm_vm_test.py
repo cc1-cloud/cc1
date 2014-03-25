@@ -19,7 +19,6 @@
 
 # -*- coding: utf-8 -*-
 """@package src.wi.tests.cm_vm_test
-
 @author Piotr Wójcik
 @author Krzysztof Danielowski
 @date 13.02.2013

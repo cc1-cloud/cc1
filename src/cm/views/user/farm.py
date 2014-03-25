@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
 """@package src.cm.views.user.vm
 @alldecoratedby{src.cm.utils.decorators.user_log}
-
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 @author Maciej Nabożny <di.dijo@gmail.com>
 @author Miłosz Zdybał <milosz.zdybal@ifj.edu.pl>
@@ -36,9 +35,10 @@ from cm.utils.exception import CMException
 from cm.utils.threads.vm import VMThread
 from common.states import farm_states, node_states
 
-
 # from cm.utils import message
 # from cm.utils.rm import rm
+
+
 @user_log(log=True)
 def get_by_id(caller_id, farm_id):
     """

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -19,13 +19,13 @@
 
 """@package src.ec2.error
 EC2 API exceptions
-
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
 from ec2 import lookup
+
 
 class EC2Exception(BaseException):
     """Superclass for EC2 API exceptions."""
@@ -42,18 +42,22 @@ class EC2Exception(BaseException):
             message=self.message % self.context,
         )
 
+
 class AuthFailure(EC2Exception):
     code = "AuthFailure"
     message = "AWS was not able to validate the provided access credentials."
     #The address '%(address)s' does not belong to you
 
+
 class InsufficientAddressCapacity(EC2Exception):
     code = "InsufficientAddressCapacity"
     message = "Not enough available addresses to satisfy your minimum request."
 
+
 class InvalidAction(EC2Exception):
     code = "InvalidAction"
     message = "The action %(action)s is not valid for this web service."
+
 
 class InvalidAMIID(object):
     class NotFound(EC2Exception):
@@ -62,7 +66,8 @@ class InvalidAMIID(object):
     class Malformed(EC2Exception):
         code = "InvalidAMIID.Malformed"
         message = "Specified AMI ID is malformed"
-        
+
+
 class InvalidInstanceID(object):
     class Malformed(EC2Exception):
         code = "InvalidInstanceID.Malformed"
@@ -70,6 +75,7 @@ class InvalidInstanceID(object):
     class NotFound(EC2Exception):
         code = "InvalidInstanceID.NotFound"
         message = "The Instance ID '%(image_id)s' does not exist"
+
 
 class InvalidKeyPair(object):
     class Duplicate(EC2Exception):
@@ -79,14 +85,17 @@ class InvalidKeyPair(object):
         code = "InvalidKeyPair.NotFound"
         message = "The key pair '%(key_name)s' does not exist"
 
+
 class InvalidZone(object):
     class NotFound(EC2Exception):
         code = "InvalidZone.NotFound"
         message = "The zone '%(zone_name)s' does not exist."
 
+
 class MissingParameter(EC2Exception):
     code = "MissingParameter"
     message = "The request must contain the parameter %(parameter)s"
+
 
 class UndefinedError(EC2Exception):
     code = "UndefinedError"
@@ -98,15 +107,19 @@ class UnknownParameter(EC2Exception):
     message = "The parameter %(parameter)s is not recognized"
 
 # Łukasz Chrząszcz : Amazon
+
+
 class VolumeInUse(EC2Exception):
     code = "VolumeInUse"
     message = "Specified volume is attached to VM"
+
 
 class InvalidVolume(object):
     class NotFound(EC2Exception):
         code = "InvalidVolume"
         message = "Specified volume does not exist"
-    
+
+
 class InvalidVolumeID(object):
     class Duplicate(EC2Exception):
         code = ""
@@ -114,47 +127,61 @@ class InvalidVolumeID(object):
     class Malformed(EC2Exception):
         code = "InvalidVolumeID.Malformed"
         message = "Specified Volume ID is malformed, use only digits"
-        
+
+
 class DiskImageSizeTooLarge(EC2Exception):
     code = "DiskImageSizeTooLarge"
     message = "Quota exceeded"
 
+
 class InvalidParameterValue(EC2Exception):
     code = "InvalidParameterValue"
     message = "A value specified in a parameter is not valid"
-    
+
+
 class InvalidParameter(EC2Exception):
     code = "InvalidParameter"
     message = "Invalid parameter"
 
+
 class InternalError(EC2Exception):
     code = "InternalError"
     message = "An internal error has occurred. Try again later. If the problem persists, contact administrator"
-    
+
+
 class InvalidAddress(object):
     class NotFound(EC2Exception):
         code = "InvalidAddress.NotFound"
         message = "Couldn't find specified Elastic IP address"
-        
+
+
 class CannotDelete(EC2Exception):
     code = "CannotDelete"
     message = "Can't delete default security group"
-    
+
+
 class InvalidGroup(object):
     class NotFound(EC2Exception):
         code = "InvalidGroup.NotFound"
         message = "The specified security group does not exist"
-        
+
+
 class InvalidIPAddress(object):
     class InUse(EC2Exception):
         code = "InvalidIPAddress"
         message = "Specified IP Address is already in use. You must first disassociate it from the instance"
-        
+
+
 class InvalidFilter(EC2Exception):
     code = "InvalidFilter"
     message = "The specified filter is not correct or it is not supported"
-    
-    
+
+
+class InvalidID(EC2Exception):
+    code = "InvalidID"
+    message = "The specified ID for resource is not valid"
+
+
 class InvalidAttachment(object):
     class NotFound(EC2Exception):
         code = "InvalidAttachment"

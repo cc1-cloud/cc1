@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_clm.news
-
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -29,7 +28,6 @@ from django.utils.translation import ugettext_lazy as _
 from wi.utils.decorators import user_permission, admin_clm_permission
 from wi.forms.news import NewsForm
 from wi.utils.views import form_generic, simple_generic_id
-
 
 news_patterns = patterns('wi.views.admin_clm.news',
     url(r'^ajax/add_news/$', admin_clm_permission(form_generic),

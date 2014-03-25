@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -20,11 +20,9 @@
 """@package src.ec2.base.action
 
 Superclass for EC2 API actions
-
 @author Oleksandr Gituliar <oleksandr@gituliar.org>
 @copyright: Copyright (c) 2012 IFJ PAN <http://www.ifj.edu.pl/>
 """
-
 
 from ec2 import lookup
 from ec2.error import AuthFailure, InvalidAction, MissingParameter

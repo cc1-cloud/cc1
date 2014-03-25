@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ from ec2.helpers.parse import parseFilters, parseID, parseIDs, parseClmDate
 
 """@package src.ec2.volume
 EC2 actions for volumes
-
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
@@ -45,10 +44,12 @@ STATE = {
 
 SIZE_RATIO = 1024;  # EC2 uses GiB, we use MiB
 
+
 def get_volume_status(clm_volume_state):
     if clm_volume_state == 0:
         return 'available'
     return 'failed'
+
 
 class CreateVolume(Action):
     def _execute(self):
@@ -123,7 +124,6 @@ class DescribeVolumes(Action):
         if not validateEc2Filters(filters, self.translation_filters):
             raise InvalidFilter
 
-
         # if extra arguments weren't given
         clm_volumes = []
         if not volume_ids:
@@ -151,7 +151,6 @@ class DescribeVolumes(Action):
             }
             volumes.append(volume)
 
-
         if filters.get('size'):
             for size in filters['size']:
                 size = str(int(size) / SIZE_RATIO)
@@ -159,7 +158,6 @@ class DescribeVolumes(Action):
         if filters.get('status'):
             for state in filters['status']:
                 state = [k for k, v in STATE.iteritems() if v == STATE.get(state) ]  # ?? wymaga testu
-
 
 # attachment.attach-time - sprawdź
 # attachment.delete-on-termination - ?
@@ -230,7 +228,6 @@ class AttachVolume(Action):
                 'status' : 'attaching'}
 
 
-
 class DetachVolume(Action):
     def _execute(self):
         try:
@@ -243,7 +240,6 @@ class DetachVolume(Action):
             raise MissingParameter(parameter=error.args[0])
         except ValueError, error:
             raise InvalidParameterValue
-
 
         instance_id_ec2 = self.parameters.get('InstanceId')
         instance_id = instance_id_ec2
@@ -281,6 +277,7 @@ class DetachVolume(Action):
         return {'volume_id':volume_id,
                 'instance_id' : instance_id}
 
+
 class DeleteVolume(Action):
     def _execute(self):
         try:
@@ -304,5 +301,3 @@ class DeleteVolume(Action):
             raise UndefinedError
 
         return None
-
-

@@ -97,7 +97,6 @@ def configure(lv_conn_string, interfaces):
     #r = subprocess.call(['ssh', '-i', '/var/lib/cc1/.ssh/id_rsa', url.netloc, 'sudo /usr/sbin/cc1_node_storage mount_images_pool'])
 
 
-
 def add(lv_conn_string, cpu_total, memory_total, hdd_total):
     try:
         url = urllib2.urlparse.urlsplit(lv_conn_string)

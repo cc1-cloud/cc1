@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.clm.views.admin_clm.cluster
-
 @alldecoratedby{src.clm.utils.decorators.admin_clm_log}
 """
 from clm.models.cluster import Cluster
@@ -212,4 +211,3 @@ def get_list(cm_id, caller_id):
     @response{list(dict)} list of dictionaries about each cluster @asreturned{src.cm.database.entities.cluster.dict}
     """
     return [c.dict for c in Cluster.objects.all()]
-

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -29,8 +29,9 @@ from clm.utils.decorators import user_log, cm_request
 from clm.utils.exception import CLMException
 from common.states import image_access, image_types, group_states
 
-
 # from common import response
+
+
 @user_log(log=True, pack=False)  # false
 @cm_request
 def get_list(cm_response, **data):

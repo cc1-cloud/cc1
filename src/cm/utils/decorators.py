@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ Here are placed decorators for:
 - \b ctx functions,
 - \b rm functions.
 
+
 @par Actor decorators
 - src.cm.utils.decorators.guest_log
 - src.cm.utils.decorators.user_log
@@ -34,12 +35,12 @@ By default those decorators call src.cm.utils.decorators.genericlog
 with logging disabled. You can enable it by giving kwarg \c log=True ,
 when decorating, eg.:
 
+
 @code
 @admin_clm_log(log=False)
 def get_by_id(cm_id, caller_id, id):
     pass
 @endcode
-
 @author Tomasz Sośnicki <tom.sosnicki@gmail.com>
 @author Maciej Nabożny <mn@mnabozny.pl>
 """
@@ -66,7 +67,6 @@ global ctx_decorated_functions
 decorated_functions = set([])
 ci_decorated_functions = set([])
 ctx_decorated_functions = set([])
-
 
 locks = {
     'vmcreate': Lock()
@@ -294,7 +294,7 @@ def ec2ctx_log(*arg, **kw):
                 log.debug(0, 'Function: %s' % name)
 
             resp = None
-            try:            
+            try:
                 resp = fun(request, *args, **kwargs)
             except CMException, e:
                 log.exception(0, 'CMException %s' % e)
@@ -304,6 +304,7 @@ def ec2ctx_log(*arg, **kw):
             return HttpResponse(resp)
         return wrapper
     return logwrapper
+
 
 def genericlog(log_enabled, is_user, is_admin_cm, need_ip, fun, args):
     """
