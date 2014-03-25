@@ -344,7 +344,7 @@ def genericlog(log_enabled, is_user, is_admin_cm, need_ip, fun, args):
 
         caller_id = data['caller_id']
 
-        if name in ('vm.user.create', 'farm.user.create', 'vm.admin_cm.create', 'farm.admin_cm.create'):
+        if name in ('user.vm.create', 'user.farm.create', 'admin_cm.vm.create', 'admin_cm.farm.create'):
             lock_name = 'vmcreate'
             log.debug(caller_id, 'Try acquire lock vmcreate')
             locks[lock_name].acquire()
