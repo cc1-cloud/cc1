@@ -44,7 +44,7 @@ def get_list(remote_ip):
             if lease.publicip_set.count() != 0:
                 d = {}
                 d['vm_id'] = vm.id
-                d['private_lease'] = lease.address
+                d['private_lease'] = lease.vm_address
                 d['public_lease'] = lease.publicip_set.all()[0].address
                 public_leases.append(d)
     return public_leases
