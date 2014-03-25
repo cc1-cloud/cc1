@@ -16,3 +16,5 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
+
+from django.test import TestCase
