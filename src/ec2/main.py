@@ -91,7 +91,7 @@ class CloudManager(object): # TODO JAK KTOS PODA ZLEGO CM TO WYWALA BLAD BRZYDKI
 
     def get_cluster_manager(self, by_environ=None, by_id=None, by_name=None):
         if by_environ:
-            name = by_environ['HTTP_HOST'].split('.')[0]
+            name = by_environ['HTTP_HOST'].lower().split('.')[0]
             cluster_manager = self.get_cluster_manager(by_name=name)
         else:
             if by_id:
@@ -202,7 +202,7 @@ def _application(environ, start_response):
         parameters=parameters,
         signature=parameters.get('Signature'),
     )
-    cluster_manager_name = environ['HTTP_HOST'].split('.')[0]
+    cluster_manager_name = environ['HTTP_HOST'].lower().split('.')[0]
     cluster_manager = cloud_manager.get_cluster_manager(
         by_name=cluster_manager_name
     )
