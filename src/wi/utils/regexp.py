@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.regexp
-
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 @date 1.07.2011
@@ -33,7 +32,6 @@ Module contains dictionaries: \c regexp and \c regext_text. Both dictionaries co
 import re
 
 from django.utils.translation import ugettext_lazy as _
-
 
 regexp = {'login':      re.compile(r'^[a-zA-Z0-9_]+$'),
           'password':   re.compile(r'^[ -~]+$'),

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.states
-
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 @date 8.6.2010
@@ -32,7 +31,6 @@ from common.states import vm_states, node_states, image_access, image_types, \
     image_platforms, image_states, message_levels, ec2names, \
     cluster_states as cm_active, storage_states, \
     available_network_states as pool_states
-
 
 farm_states_reversed = {
                        0: _('Copying farm\'s head'),

@@ -64,6 +64,8 @@ def pinsert(query):
 def pselect(query):
     PCURSOR.execute(query)
     return  PCURSOR.fetchall()
+
+
 def prepare(row):
     nrow = []
     for i in row:
@@ -177,4 +179,3 @@ class Command(BaseCommand):
                 traceback.print_exc()
 
                 transaction.rollback()
-

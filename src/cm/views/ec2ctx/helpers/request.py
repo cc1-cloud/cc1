@@ -17,7 +17,6 @@
 #
 # @COPYRIGHT_end
 """@package src.cm.manager.ec2ctx.helpers.request
-
 @copyright Copyright (c) 2013 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
@@ -26,7 +25,6 @@ from cm.models.vm import VM
 from cm.utils import log
 from cm.utils.exception import CMException
 from time import sleep
-
 
 
 def get_vm_by_ip(vm_ip):
@@ -43,7 +41,6 @@ def get_vm_by_ip(vm_ip):
 #     if not vm:
 #         log.error(0, "Couldn't get vm by it's ip: %s: %s" % (vm_ip, error.message))
 #         raise cherrypy.HTTPError(500)
-#     
+#
 #     return vm
     pass
-

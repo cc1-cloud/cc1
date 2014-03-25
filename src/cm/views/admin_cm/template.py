@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,9 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.views.admin_cm.template
-
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log}
-
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 """
 from cm.models.template import Template

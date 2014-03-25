@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -28,9 +28,10 @@ from cm.models.vm import VM
 from cm.utils import log
 from cm.utils.exception import CMException
 
-
 # from common.states import image_states, storage_states
 # from common.hardware import disk_controllers
+
+
 class StorageImage(Image):
     """
     @model{DISK_VOLUME}

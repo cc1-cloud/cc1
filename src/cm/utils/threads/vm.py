@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ class VMThread(threading.Thread):
         self.vm = vm
         self.action = action
         self.shared = shared
-        
+
     def terminate(self):
         log.info(0, "Terminate vm %d" % (self.vm.id))
         return self._Thread__stop()
@@ -76,7 +76,7 @@ class VMThread(threading.Thread):
             self.vm.node.lock()
             self.vm.save(update_fields=['state'])
             return
-        
+
         #TODO: network part
         log.debug(self.vm.user_id, "Attaching network")
         try:
@@ -104,7 +104,7 @@ class VMThread(threading.Thread):
             self.vm.node.lock()
             self.vm.save(update_fields=['state'])
             return
-        
+
         log.info(self.vm.user_id, "Creating libvirt domain")
         try:
             domain = conn.createXML(tmpl, 0)
@@ -140,17 +140,17 @@ class VMThread(threading.Thread):
             log.exception(self.vm.user_id, 'Domain not started: %s' % str(e))
             self.vm.save(update_fields=['state'])
             return
-        
+
         try:
             self.vm.save(update_fields=['state'])
         except Exception, e:
             log.exception(self.vm.user_id, 'Cannot update database: %s' % str(e))
             return
-        
+
     def delete(self):
         """
         Ends VM's thread.
-        
+
         -# Unassigns public IP.
         -# Deletes VM.
         """
@@ -166,14 +166,14 @@ class VMThread(threading.Thread):
         #TODO: Move to entites.vm release resources
         #for lease in vm.public_leases:
         #    lease.unassign()
-        
+
         vm.delete()
         return
 
     def reset(self):
         """
         Restarts VM.
-        
+
         -# Connects to Libvirt.
         -# Sets VM's state as *restart*.
         -# Restarts it.
@@ -187,7 +187,7 @@ class VMThread(threading.Thread):
         except:
             log.exception(self.vm.user_id, 'Cannot set vm state')
             return
-        
+
         try:
             domain = self.vm.lv_domain()
             domain.reset(0)
@@ -198,15 +198,15 @@ class VMThread(threading.Thread):
             #message.error(vm.user_id, 'vm_restart', {'id': vm.id, 'name': vm.name})
             self.vm.set_state('failed')
             log.exception(self.vm.user_id, 'Cannot restart machine')
-            
+
             try:
                 self.vm.save()
             except:
                 log.exception(self.vm.user_id, 'Cannot update libvirt ID')
                 return
-            
+
             return
-            
+
         # Update state state
         self.vm.set_state('running')
         try:
@@ -219,7 +219,7 @@ class VMThread(threading.Thread):
         """
         Runs proper action depending on \ self.action.
         """
-        #TODO: 
+        #TODO:
         #global threads
         #threads[self.vm_id] = self
         #time.sleep(5)

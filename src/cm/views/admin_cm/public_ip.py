@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
 """@package src.cm.views.suer.network
 @author Maciej Nabożny <mn@mnabozny.pl>
-
 
 Functions to manage public leases in database for CM Administrator
 """
@@ -63,7 +62,6 @@ def delete(caller_id, public_ip_id_list):
         lease = PublicIP.objects.get(id=ip_address)
         if lease.lease != None:
             raise CMException('lease_in_use')
-
 
     for ip_address in public_ip_id_list:
         lease = PublicIP.objects.get(id=ip_address)

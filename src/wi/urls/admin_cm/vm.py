@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.vm
-
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -30,7 +29,6 @@ from wi.forms.vm import EditVMForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import generic_multiple_id, simple_generic_id, \
     form_generic_id
-
 
 vm_patterns = patterns('wi.views.admin_cm.vm',
     url(r'^vms/$', 'cma_vms', name='cma_vms'),

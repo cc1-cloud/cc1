@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -29,15 +29,18 @@ from common.states import storage_states
 from django.template import loader, Context
 from cm.utils.exception import CMException
 
+
 @ci_log(log=True)
 def get_list(remote_ip):
     storages = Storage.objects.filter(state=storage_states['ok'])
     return [storage.name for storage in storages]
 
+
 @ci_log(log=True)
 def get_template(remote_ip, name):
     storage = Storage.objects.get(name=name)
     return storage.libvirt_template()
+
 
 @ci_log(log=True)
 def get_images_template(remote_ip):
@@ -51,4 +54,3 @@ def get_images_template(remote_ip):
     images_pool = template_images.render(Context({'node': node}))
     volume_info = template_info.render(Context({'name': 'info', 'size': 1, 'node': node}))
     return {'images_pool': images_pool, 'volume_info': volume_info}
-

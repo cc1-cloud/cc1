@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@
 """
 
 from clm.utils.decorators import user_log, cm_request
-
 
 # returns list of templates (as user)
 # it calls the method registered in cm(cm_id) which is the XMLServerProxy for that cm

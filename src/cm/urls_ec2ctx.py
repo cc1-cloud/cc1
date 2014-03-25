@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -22,5 +22,5 @@
 
 from django.conf.urls import patterns, include, url
 from views.ec2ctx.latest import latest_patterns
-urlpatterns = patterns('',url(r'^latest/',include(latest_patterns)))
-urlpatterns += patterns('',url(r'^(\d{4}-\d{2}-\d{2})/',include(latest_patterns)))  
+urlpatterns = patterns('',url(r'^latest/?',include(latest_patterns)))
+urlpatterns += patterns('',url(r'^(\d{4}-\d{2}-\d{2})/?',include(latest_patterns)))

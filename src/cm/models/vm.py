@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -632,7 +632,6 @@ class VM(models.Model):
             log.exception(self.user.id, str(e))
             raise CMException('vm_get_lv_domain')
         return domain
-
 
     @property
     def storage_images(self):
