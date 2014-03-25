@@ -28,6 +28,8 @@ from common.hardware import disk_format_commands, disk_filesystems_reversed
 import os
 from cm.utils import log
 import random
+import hashlib
+
 
 class CreateImage(threading.Thread):
     image = None
@@ -40,14 +42,13 @@ class CreateImage(threading.Thread):
     def run(self):
         if os.path.exists(self.image.path):
             self.image.state = image_states['failed']
-            self.image.save()
+            self.image.save(update_fields=['state'])
             log.error(self.image.user.id, "Destination image %d for user %d exists! Aborting creation" % (self.image.id, self.image.user.id))
             return
         self.image.progress = 0
 
         if self.format() == 'failed':
             self.image.state = image_states['failed']
-            self.image.save()
         # file = open(self.image.path, 'w')
         # file.seek(self.image.size)
         # file.write(' ')
@@ -57,20 +58,31 @@ class CreateImage(threading.Thread):
         # self.image.save()
         # # TODO: Format image by self.format
         #
-        self.image.progress = 100
-        self.image.state = image_states['ok']
-        self.image.save()
+            self.image.save(update_fields=['state'])
+        else:
+            self.image.progress = 100
+            self.image.state = image_states['ok']
+            self.image.save(update_fields=['state', 'progress'])
+
+        log.debug(self.image.user.id, 'stage [6/6] cleaning..')
+        try:
+            os.remove('%s' % os.path.join('/var/lib/cc1/images-tmp/', os.path.split(self.image.path)[1]))
+        except Exception, e:
+            log.error(self.image.user.id, 'error remove file: %s' % str(e))
 
     def exec_cmd(self, args):
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        retr_std = p.stdout.read()
         ret = p.wait()
         if ret:
             retr_err = str(p.stderr.read())
             log.error(self.image.user.id, retr_err)
+            log.error(self.image.user.id, retr_std)
             return retr_err
+
     def set_progress(self, prg):
         self.image.progress = prg
-        self.image.save()
+        self.image.save(update_fields=['progress'])
 
     def format(self):
 
@@ -109,13 +121,8 @@ class CreateImage(threading.Thread):
             return 'failed'
         self.set_progress(random.randint(90,100))
 
-        log.debug(self.image.user.id, 'stage [6/6] cleaning..')
-        try:
-            os.remove('%s' % tmp_path)
-        except Exception, e:
-            log.error(self.image.user.id, 'error remove file: %s' % str(e))
-
         log.info(self.image.user.id, 'disk succesfully formatted')
+
 
 class DownloadImage(threading.Thread):
     image = None
@@ -140,7 +147,7 @@ class DownloadImage(threading.Thread):
 
         if os.path.exists(self.image.path):
             self.image.state = image_states['failed']
-            self.image.save()
+            self.image.save(update_fields=['state'])
             log.error(self.image.user.id, "Destination image %d for user %d exists! Aborting download" % (self.image.id, self.image.user.id))
             return
 
@@ -150,8 +157,10 @@ class DownloadImage(threading.Thread):
                 os.mkdir(dirpath)
             dest_image = open(self.image.path, 'w')
             downloaded_size = 0
+            md5sum = hashlib.md5()
             while downloaded_size < self.size:
                 buffer = src_image.read(1024*1024)
+                md5sum.update(buffer)
                 downloaded_size += len(buffer)
                 dest_image.write(buffer)
 
@@ -161,13 +170,15 @@ class DownloadImage(threading.Thread):
                     self.image.save(update_fields=['progress'])
 
             dest_image.close()
+
+            log.info(self.image.user.id, "md5 hash of image %d is %s" % (self.image.id, md5sum.hexdigest()))
             self.image.state = image_states['ok']
             self.image.size = downloaded_size / (1024*1024)
-            self.image.save()
+            self.image.save(update_fields=['progress', 'state', 'size'])
         except Exception, e:
             log.exception(self.image.user.id, "Failed to download image: %s" % str(e))
             self.image.state = image_states['failed']
-            self.image.save()
+            self.image.save(update_fields=['state'])
 
 
 class CopyImage(threading.Thread):
@@ -202,11 +213,11 @@ class CopyImage(threading.Thread):
 
             self.dest_image.state = image_states['ok']
             self.dest_image.size = self.src_image.size
-            self.dest_image.save()
+            self.dest_image.save(update_fields=['progress', 'state', 'size'])
 
             src.close()
             dst.close()
         except Exception, e:
-            log.exception(self.image.user.id, "Failed to copy image: %s" % str(e))
+            log.exception(self.dest_image.user.id, "Failed to copy image: %s" % str(e))
             self.dest_image.state = image_states['failed']
-            self.dest_image.save()
+            self.dest_image.save(update_fields=['state'])
