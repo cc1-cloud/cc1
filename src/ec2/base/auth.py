@@ -43,10 +43,10 @@ def authorize_ec2_request(parameters, aws_secret_key, **kwargs):
         raise Exception("Unknown SignatureVersion: %s." % signature_version)
 
     correct_signature = sign_parameters(
-        paras,
+        parameters,
         aws_secret_key,
-        endpoint = parameters.get('Endpoint', endpoint),
-        method = parameters.get('Method', method),
+        endpoint=parameters['Endpoint'],
+        method=parameters['Method'],
     )
     request_signature = parameters.get('Signature')
     return correct_signature == request_signature
