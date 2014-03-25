@@ -85,8 +85,7 @@ class CreateVolume(Action):
                          'description' : 'Storage created by EC2 API',
                          'disk_controller' : disk_controllers['virtio']}
 
-            # TODO
-#             self.cluster_manager.user.storage_image.edit( edit_dict )
+            self.cluster_manager.user.storage_image.edit( edit_dict )
         except:
             print 'Changing name for newly created storage image failed!'
             pass  # we can ignore error here, because it's not an essential operation
@@ -121,7 +120,7 @@ class DescribeVolumes(Action):
         volumes = []
 
         filters = parseFilters(self.parameters)
-        if not validateEc2Filters(filters, self.translation_filters):
+        if not validateEc2Filters(filters, self.available_filters):
             raise InvalidFilter
 
         # if extra arguments weren't given
