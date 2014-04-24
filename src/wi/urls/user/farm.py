@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.user.farm
+
 @author Piotr Wójcik
 @date 14.11.2011
 """
@@ -32,6 +33,7 @@ from wi.forms.vm import EditVMForm
 from wi.utils.decorators import user_permission
 from wi.utils.views import direct_to_template, simple_generic_id, \
     form_generic_id
+
 
 farm_patterns = patterns('wi.views.user.farm',
     url(r'^$', user_permission(direct_to_template), {'template_name': 'farms/base.html'}, name='far_farms'),
@@ -62,6 +64,7 @@ farm_patterns = patterns('wi.views.user.farm',
          'id_key':              'farm_id', },
         name='far_ajax_save_and_shutdown'),
 )
+
 
 urlpatterns = patterns('',
     url(r'^farm/', include(farm_patterns)),

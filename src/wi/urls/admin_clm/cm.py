@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_clm.cm
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """

@@ -22,7 +22,7 @@
   <on_crash>restart</on_crash>
   <devices>
 	  <emulator>/usr/bin/qemu-system-x86_64</emulator>
-      
+
       {% for lease in vm.lease_set.all %}
 	  <interface type='network'>
 	  	<source network='net-{{ vm.id }}-{{lease.id}}'/>
@@ -36,7 +36,7 @@
 	    <source file='{{ image_path }}'/>
 	    <target dev='{{ vm.system_image.dict.disk_dev }}' bus='{{ vm.system_image.disk_controller_name }}'/>
 	  </disk>
-      
+
 	  {% for img in vm.storage_images %}
 	  <disk type='file' device='disk'>
 	    <driver name="qemu" type="raw" cache="writeback" io="threads" />

@@ -28,6 +28,7 @@ from meta_data import meta_data, meta_data_patterns
 import base64
 
 """@package src.cm.views.ec2ctx.latest
+
 @copyright Copyright (c) 2013 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """

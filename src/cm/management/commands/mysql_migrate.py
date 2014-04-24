@@ -87,6 +87,7 @@ def pselect(query):
     PCURSOR.execute(query)
     return  PCURSOR.fetchall()
 
+
 def prepare(row):
     nrow = []
     for i in row:

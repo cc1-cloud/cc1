@@ -17,6 +17,7 @@
 #
 # @COPYRIGHT_end
 """@package src.cm.rm.image_handler
+
 @author Maciej Nabożny <di.dijo@gmail.com>
 """
 
@@ -28,6 +29,7 @@ import urllib
 import hashlib
 import threading
 # from multiprocessing import Process
+
 
 from common.states import image_states, image_types
 from cm.utils.exception import CMException

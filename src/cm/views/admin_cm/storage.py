@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.views.admin_cm.storage
+
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log}
 @author Maciej Nabożny <di.dijo@gmail.com>
 """

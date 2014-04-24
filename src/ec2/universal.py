@@ -28,6 +28,7 @@ from ec2.helpers.query import get_instance_tags, get_volume_tags, \
 
 """@package src.ec2.universal
 EC2 actions common for more than one resource
+
 @copyright Copyright (c) 2014 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """

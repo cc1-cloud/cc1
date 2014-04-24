@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.clm.views.admin_clm.cluster
+
 @alldecoratedby{src.clm.utils.decorators.admin_clm_log}
 """
 from clm.models.cluster import Cluster
@@ -211,3 +212,4 @@ def get_list(cm_id, caller_id):
     @response{list(dict)} list of dictionaries about each cluster @asreturned{src.cm.database.entities.cluster.dict}
     """
     return [c.dict for c in Cluster.objects.all()]
+

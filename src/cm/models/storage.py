@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.models.storage
+
 @author Maciej Nabożny <di.dijo@gmail.com>
 """
 

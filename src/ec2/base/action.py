@@ -20,9 +20,11 @@
 """@package src.ec2.base.action
 
 Superclass for EC2 API actions
+
 @author Oleksandr Gituliar <oleksandr@gituliar.org>
 @copyright: Copyright (c) 2012 IFJ PAN <http://www.ifj.edu.pl/>
 """
+
 
 from ec2 import lookup
 from ec2.error import AuthFailure, InvalidAction, MissingParameter

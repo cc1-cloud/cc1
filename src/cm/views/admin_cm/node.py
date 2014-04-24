@@ -30,7 +30,6 @@ from cm.utils.exception import CMException
 from common.states import node_states  # , lease_states
 
 
-
 @admin_cm_log(log=True)
 def add(caller_id, **node_info):
     """

@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.context_processors
+
 @author Piotr Wójcik
 @date 24.10.2011
 """

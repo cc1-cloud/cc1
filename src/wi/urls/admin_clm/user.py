@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_clm.user
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -29,6 +30,7 @@ from wi.forms.user import AccountDataEditAdminCLM
 from wi.utils.decorators import admin_clm_permission
 from wi.utils.views import direct_to_template, simple_generic_id, \
     form_generic_id, get_list_generic_id
+
 
 user_patterns = patterns('wi.views.admin_clm.user',
 

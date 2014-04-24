@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.clm.views.admin_clm.user
+
 @alldecoratedby{src.clm.utils.decorators.admin_clm_log}
 """
 

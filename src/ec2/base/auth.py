@@ -19,11 +19,13 @@
 
 """@package src.ec2.base.auth
 Signature generators for EC2 API requests
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Rafał Grzymkowski
 @author Miłosz Zdybał
 """
+
 
 import base64
 import hashlib

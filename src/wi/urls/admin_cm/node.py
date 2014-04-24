@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.node
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -31,6 +32,7 @@ from wi.forms.vm import CreateVMOnNodeForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import form_generic_id, direct_to_template, \
     simple_generic_id, form_generic
+
 
 node_patterns = patterns('wi.views.admin_cm.node',
     url(r'^nodes/$', admin_cm_permission(direct_to_template), {'template_name': 'admin_cm/nodes.html'}, name='cma_nodes'),

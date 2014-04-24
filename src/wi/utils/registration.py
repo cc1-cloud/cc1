@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.registration
+
 @author Piotr Wójcik
 @date 21.09.2010
 """
@@ -27,6 +28,7 @@ import re
 from django.conf import settings
 
 from wi.utils.views import make_request
+
 
 SHA1_RE = re.compile('^[A-Z0-9]{40}$')
 

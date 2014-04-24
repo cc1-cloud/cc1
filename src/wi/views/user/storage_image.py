@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.views.user.storage_image
+
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 """
@@ -105,3 +106,4 @@ def res_ajax_upload_disk_http(request, template_name='generic/form.html', form_c
                                                                   'text': _('Please specify disk parameters:')},
                                                    context_instance=RequestContext(request)),
                                 status=1)
+

@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.widgets
+
 @author Piotr Wójcik
 @date 20.10.2010
 """

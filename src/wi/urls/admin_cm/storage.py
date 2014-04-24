@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.storage
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -28,6 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 from wi.forms.storage import StorageForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import direct_to_template, simple_generic_id, form_generic
+
 
 storage_patterns = patterns('wi.views.admin_cm.storage',
     url(r'^storages/$', admin_cm_permission(direct_to_template), {'template_name': 'admin_cm/storages.html'}, name='cma_storages'),

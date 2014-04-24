@@ -6,12 +6,12 @@
 {% block title %}{% trans "News" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="#">{% trans "News" %}</a></li>
 {% endblock %}
 
-{% block men_div_name %}nav_news{% endblock %} 
+{% block men_div_name %}nav_news{% endblock %}
 
 {% block box_title %}
 	{% trans "News" %}
@@ -23,15 +23,15 @@ cc1.sthTable = null;
 
 $(function() {
 	cc1.sthTable = cc1.makeSthTable({
-		destDiv : '#item-list', 
-		template : '#rowTemplate', 
+		destDiv : '#item-list',
+		template : '#rowTemplate',
 		urlGetData : '{% url 'mai_ajax_get_news_table' %}',
 		idKey: 'news_id',
 	});
 	
 	// dodawanie newsa
 	cc1.sthTable.addNews = cc1.utils.createAction({
-		url: '{% url 'mai_ajax_add_news' %}', 
+		url: '{% url 'mai_ajax_add_news' %}',
 		dialogTitle: '{% trans "Create news entry" %}',
 		dialogWidth: 500,
 	});
@@ -45,7 +45,7 @@ $(function() {
 	});
 	// edycja newsa
 	cc1.sthTable.editNews = cc1.utils.createAction({
-		url: '{% url 'mai_ajax_edit_news' 0 %}', 
+		url: '{% url 'mai_ajax_edit_news' 0 %}',
 		dialogTitle: '{% trans "Edit news entry" %}',
 		dialogWidth: 500,
 	});

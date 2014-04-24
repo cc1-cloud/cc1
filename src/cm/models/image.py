@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.models.image
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 @author Maciej Nabożny <mn@mnabozny.pl>
 """

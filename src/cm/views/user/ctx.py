@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.manager.contextualization.user
+
 @alldecoratedby{src.cm.utils.decorators.user_log}
 """
 from cm.models.command import Command

@@ -1,8 +1,8 @@
 {% load i18n %}
 <ul class="over-menu-bar">			
 	{% if request.session.user %}
-		<li>{% trans "Logged as" %} <span id='logged_username'>{{ request.session.user.username }}</span> | </li>  
-		<li><a href="{% url 'logout' %}">{% trans "Logout" %}</a> | </li> 
+		<li>{% trans "Logged as" %} <span id='logged_username'>{{ request.session.user.username }}</span> | </li>
+		<li><a href="{% url 'logout' %}">{% trans "Logout" %}</a> | </li>
 		<li><a href="{% url 'acc_account_data' %}">{% trans "My account" %}</a> | </li>
 	{% else %}
 		<li><a href="{% url 'login' %}">{% trans "Login" %}</a> | </li>

@@ -18,12 +18,14 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.guest.news
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
 
 from django.conf.urls import url, patterns, include
 from wi.utils.views import direct_to_template
+
 
 news_patterns = patterns('wi.views.guest.news',
     url(r'^$', direct_to_template, {'template_name': 'main/news.html'}, name='mai_news'),

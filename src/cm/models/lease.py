@@ -20,6 +20,7 @@
 """@package src.cm.views.suer.network
 @author Maciej Nabożny <mn@mnabozny.pl>
 
+
 Database model describing single lease or mirco-network (depends on networking
 model) for VM
 """

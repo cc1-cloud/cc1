@@ -18,11 +18,13 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.cm
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
 
 from django.conf.urls import url, patterns, include
+
 
 cm_patterns = patterns('wi.views.admin_cm.cm',
     url(r'^ajax/get_cm_data/$', 'cma_ajax_get_cm_data', name='cma_ajax_get_cm_data'),

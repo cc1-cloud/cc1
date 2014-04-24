@@ -7,7 +7,7 @@ if __name__ == '__main__':
     if 'configure' in sys.argv:
         print "Installing right Django version"
         subprocess.call("pip install --upgrade django==1.6.1", shell=True)
-        
+
         print "WI: Removing old .pyc files"
         subprocess.call("find /usr/lib/cc1/wi -name '*.pyc' -exec rm {} \\;", shell=True)
         subprocess.call("find /etc/cc1/wi -name '*.pyc' -exec rm {} \\;", shell=True)

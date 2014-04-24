@@ -4,7 +4,7 @@
 {% block title %}{% trans "Groups" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="{% url 'grp_groups' %}">{% trans "Groups" %}</a></li>
 {% endblock %}
@@ -12,7 +12,7 @@
 {% block left_box_title %}{% trans "Groups" %}{% endblock %}
 {% block left_box_content %}
 <ul id="{% block men_div_name %}{% endblock %}">
-	{% include "groups/menu.html" %} 
+	{% include "groups/menu.html" %}
 </ul>
 {% endblock %}
 

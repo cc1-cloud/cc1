@@ -19,6 +19,7 @@
 
 """@package src.cm.manager.user
 @alldecoratedby{src.cm.utils.decorators.user_log}
+
 @author Tomek Wojtoń
 """
 

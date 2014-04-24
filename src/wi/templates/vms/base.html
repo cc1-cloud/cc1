@@ -4,7 +4,7 @@
 {% block title %}{% trans "Virtual machines" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="{% url 'vms_vms' %}">{% trans "Machines" %}</a></li>
 {% endblock %}
@@ -12,7 +12,7 @@
 {% block left_box_title %}{% trans "Machines" %}{% endblock %}
 {% block left_box_content %}
 <ul id="{% block men_div_name %}{% endblock %}">
-	{% include "vms/menu.html" %} 
+	{% include "vms/menu.html" %}
 </ul>
 {% endblock %}
 

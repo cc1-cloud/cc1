@@ -60,7 +60,7 @@ def remove():
     sudoers.close()
 
     return 0
-    
+
 def purge():
     return 0
 

@@ -12,7 +12,7 @@
         </ul>
     </li>
     <li class="menu-item">
-        
+
     </li>
     <li class="menu-item">
         <a href="{% url 'cma_users' %}">{% trans "Users" %}</a>
@@ -23,30 +23,30 @@
 			<li><a href="{% url 'cma_images' %}">{% trans "VM images" %}</a></li>
 			<li><a href="{% url 'cma_disks' %}">{% trans "Storage disks" %}</a></li>
 			<li><a href="{% url 'cma_iso' %}">{% trans "ISO images" %}</a></li>
-        </ul>   
-    </li>    
+        </ul>
+    </li>
     <li class="menu-item">
     	<a href="{% url 'cma_networks' %}">{% trans "Networks" %}</a>
     	<ul class="subnav">
 			<li><a href="{% url 'cma_networks' %}">{% trans "Users networks" %}</a></li>
 			<li><a href="{% url 'cma_pools' %}">{% trans "Available pools" %}</a></li>
 			<li><a href="{% url 'cma_publicips' %}">{% trans "Public IPs" %}</a></li>
-        </ul>        
-    </li>    
+        </ul>
+    </li>
     <li class="menu-item">
     	<a href="{% url 'cma_nodes' %}">{% trans "Hardware" %}</a>
     	<ul class="subnav">
 			<li><a href="{% url 'cma_nodes' %}">{% trans "Nodes" %}</a></li>
 			<li><a href="{% url 'cma_storages' %}">{% trans "Storages" %}</a></li>
-        </ul>        
-    </li>    
+        </ul>
+    </li>
     <li class="menu-item">
         <a href="{% url 'cma_templates' %}">{% trans "Templates" %}</a>
     </li>
-    
+
 {% else %}
 	<li class="menu-item">
 		<a href="{% url 'mai_main' %}">{% trans "CC1 home page" %}</a>	
 	</li>	
-{% endif %}  
+{% endif %}
 </ul>

@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.forms.user
+
 @author Krzysztof Danielowski
 @date 31.01.2014
 """

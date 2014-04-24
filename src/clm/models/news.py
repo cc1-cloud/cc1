@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.clm.models.news
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 @author Maciej Nabożny <di.dijo@gmail.com>
 """

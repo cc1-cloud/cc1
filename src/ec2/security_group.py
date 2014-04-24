@@ -19,12 +19,14 @@
 
 """@package src.ec2
 EC2 actions for security groups
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
 from ec2.base.action import Action
 from ec2.error import CannotDelete, InvalidGroup
+
 
 # We don't support security groups, but some scripts and applications
 # use them, so when required we return default security group

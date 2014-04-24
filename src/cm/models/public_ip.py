@@ -20,6 +20,7 @@
 """@package src.cm.views.suer.network
 @author Maciej Nabożny <mn@mnabozny.pl>
 
+
 Database model describing public ip addresses, which could be mapped on vm ip
 lease (Lease entity). Attached ips are redirected by nodes, on which vm are
 running. This is done by one-to-one NAT (SNAT+DNAT)

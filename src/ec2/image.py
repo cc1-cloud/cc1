@@ -26,6 +26,7 @@ from ec2.helpers.parse import parseFilters, parseID, parseIDs
 
 """@package src.ec2.image
 EC2 actions for images
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Rafał Grzymkowski
 @author Oleksandr Gituliar <gituliar@gmail.com>
@@ -110,6 +111,7 @@ class DescribeImages(Action):
                 'access': access,
             })
 
+
             for image in access_images:
                 if image_ids and str(image.get('image_id')) not in image_ids:
                     continue
@@ -125,6 +127,7 @@ class DescribeImages(Action):
 
         # listowanie obrazów grupowych - one są zwracane w innej strukturze
         access_images = self.cluster_manager.user.system_image.get_list({'access': GROUP_ACCESS})
+
 
         for images_dict in access_images:
             for image in images_dict['images']:

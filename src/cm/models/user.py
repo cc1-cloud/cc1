@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.models.user
+
 @author Maciej Nabożny <di.dijo@gmail.com>
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 """
@@ -335,5 +336,6 @@ class User(models.Model):
             log.exception(user_id, 'Cannot get user')
             raise CMException('user_get')
         return user
+
 
     # Note: superuser method moved to Admin model

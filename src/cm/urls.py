@@ -53,6 +53,7 @@ from cm.views.admin_cm.public_ip import *
 from cm.views.user.ctx import *
 from cm.views.user.monia import *
 
+
 global decorated_functions
 urlpatterns = patterns('',)
 

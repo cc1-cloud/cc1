@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.exceptions
+
 @author Piotr Wójcik
 @date 28.10.2013
 """

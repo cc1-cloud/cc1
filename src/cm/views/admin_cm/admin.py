@@ -18,6 +18,8 @@
 # @COPYRIGHT_end
 
 """@package src.cm.views.admin_cm.admin
+
+
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log}
 @author Miłosz Zdybał <milosz.zdybal@ifj.edu.pl>
 """

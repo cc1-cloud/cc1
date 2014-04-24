@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.forms.group
+
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 @date 03.12.2010

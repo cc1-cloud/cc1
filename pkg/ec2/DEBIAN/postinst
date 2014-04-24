@@ -9,14 +9,14 @@ from distutils.dir_util import mkpath
 # mkpath('/var/log/cc1/restapi/ec2/')
 # logging.basicConfig(filename='/var/log/cc1/restapi/ec2/install.log', level=logging.INFO)
 # log = logging.getLogger()
-# 
+#
 # log_file = file('/var/log/cc1/restapi/ec2/install.log', 'a')
 
 
 # def reset_value(db, name):
 #     db.reset(name)
-# 
-# 
+#
+#
 # def get_value(db, name):
 #     if name.replace('/', '_') in os.environ:
 #         return os.environ[name.replace('/', '_')]
@@ -28,7 +28,7 @@ from distutils.dir_util import mkpath
 #         log.info('Cannot get question: %s' % str(e))
 #         return False
 
- 
+
 if __name__ == '__main__':
     if 'configure' in sys.argv:
         print "EC2: Removing old .pyc files"
@@ -44,13 +44,13 @@ if __name__ == '__main__':
         subprocess.call("chown -R cc1:cc1 /usr/lib/cc1/ec2/", shell=True, stderr=log_file, stdout=log_file)
         subprocess.call("chown -R cc1:cc1 /usr/lib/cc1/ec2/", shell=True, stderr=log_file, stdout=log_file)
         subprocess.call("chown -R cc1:cc1 /etc/cc1/ec2/", shell=True, stderr=log_file, stdout=log_file)
-        
+
         print "EC2: Creating default config"
         r = subprocess.call('cc1_ec2_setup_config configure', shell=True, stdout=log_file, stderr=log_file)
 
         print "EC2: Adding apache vhost"
         r = subprocess.call('cc1_ec2_setup_apache enable', shell=True, stdout=log_file, stderr=log_file)
-        
+
         log_file.close()
         sys.exit(0)
     else:

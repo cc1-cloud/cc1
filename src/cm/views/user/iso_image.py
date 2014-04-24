@@ -19,6 +19,7 @@
 
 """@package src.cm.views.user.image
 @alldecoratedby{src.cm.utils.decorators.user_log}
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 @author Miłosz Zdybał <milosz.zdybal@ifj.edu.pl>
 @author Maciej Nabożny <mn@mnabozny.pl>
@@ -41,7 +42,6 @@ from common.hardware import disk_controllers, disk_filesystems, network_devices,
     video_devices
 from common.states import image_access, image_states, image_types
 import subprocess
-
 
 @user_log(log=True)
 def download(caller_id, name, description, path, disk_controller):

@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.formatters
+
 @author Piotr Wójcik
 @date 24.03.2011
 """

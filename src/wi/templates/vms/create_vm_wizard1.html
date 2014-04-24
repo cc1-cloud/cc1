@@ -5,7 +5,7 @@
 {% block title %}{% trans "New virtual machine" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="#">{% trans "New virtual machine" %}</a></li>
 {% endblock %}
@@ -74,13 +74,13 @@ $(function() {
 		<table>
 			<tbody>
 				<tr>
-					<td class="td1"> 
-						{% trans "Name" %} 
-						<span class="tooltip" title="{% trans "Name - Additionally ec2name if assigned"%}"></span> 
+					<td class="td1">
+						{% trans "Name" %}
+						<span class="tooltip" title="{% trans "Name - Additionally ec2name if assigned"%}"></span>
 					</td>
-					<td class="td2"> 
+					<td class="td2">
 						{% trans "Points' usage" %}
-						<span class="tooltip" title="{% trans "Points' usage - Amount of points used by virtual machine per hour"%}"></span> 
+						<span class="tooltip" title="{% trans "Points' usage - Amount of points used by virtual machine per hour"%}"></span>
 					</td>
 					<td class="td3"> {% trans "CPU" %} </td>
 					<td class="td4"> {% trans "Memory" %} </td>

@@ -6,7 +6,7 @@
 {% block title %}{% trans "New farm" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="#">{% trans "New farm" %}</a></li>
 {% endblock %}
@@ -29,7 +29,7 @@
 <script type="text/javascript">/*<![CDATA[*/
 
 $(function() {
-	var submitDiv = $('#submit-div'), 
+	var submitDiv = $('#submit-div'),
 		$form = $('#wizard-form');
 		
 	submitDiv.on('click', 'input.big_button', function() {
@@ -81,7 +81,7 @@ $(function() {
 				<span class="labels"><label>{% trans "Disk volumes" %}</label>:</span>
 				<span class="inputs text">
 				{% for disk in summary_disks %}
-					{{ disk|getitem:'name' }} ({{ disk|getitem:'size'|filesizeformatmb }}){% if not forloop.last %},{% endif %} 
+					{{ disk|getitem:'name' }} ({{ disk|getitem:'size'|filesizeformatmb }}){% if not forloop.last %},{% endif %}
 				{% empty %}
 					{% trans "not attached" %}
 				{% endfor %}
@@ -92,7 +92,7 @@ $(function() {
 				<span class="labels"><label>{% trans "ISO images" %}</label>:</span>
 				<span class="inputs text">
 				{% for disk in summary_iso %}
-					{{ disk|getitem:'name' }} ({{ disk|getitem:'size'|filesizeformatmb }}){% if not forloop.last %},{% endif %} 
+					{{ disk|getitem:'name' }} ({{ disk|getitem:'size'|filesizeformatmb }}){% if not forloop.last %},{% endif %}
 				{% empty %}
 					{% trans "not attached" %}
 				{% endfor %}

@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.ec2.address_test
+
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 """

@@ -117,6 +117,7 @@ def send_issue(cm_id, caller_id, topic, issue):
     except Exception:
         raise CLMException('send_issue_error')
 
+
 # @todo: monia not defined in CM
 # @user_log(log=True, pack=False)
 # def stat_test(cm_id, caller_id, vm_name, stats, start_time, stop_time, resolution):

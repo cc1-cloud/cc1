@@ -31,6 +31,7 @@ import sys
 import inspect
 
 """@package src.cm.manager.ec2ctx.latest.metadata
+
 @copyright Copyright (c) 2013 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
