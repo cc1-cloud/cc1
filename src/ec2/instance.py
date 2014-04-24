@@ -28,6 +28,7 @@ from ec2.helpers.parse import parseSequenceIntArguments, parseFilters, parseIDs,
 
 """@package src.ec2.instance
 EC2 actions for instances
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Rafał Grzymkowski
@@ -84,6 +85,7 @@ class DescribeInstances(Action):
         # if we didn't provide specific IDs then use a whole list of user's VMs
         if not clm_instances:
             clm_instances = self.cluster_manager.user.vm.get_list()
+
 
         ec2_instances = []
         try:
@@ -167,6 +169,7 @@ class DescribeInstances(Action):
 
         ec2_instances = applyEc2Filters(ec2_instances , filters)
 
+
         reservationsIds = []
         for ec2_instance in ec2_instances:
             reservationId = int(ec2_instance['reservation-id'])
@@ -237,6 +240,7 @@ class RunInstances(Action):
                     raise InvalidKeyPair.NotFound(key_name=key_name)
             machine['ssh_key'] = key['data']
             machine['ssh_username'] = 'root'
+
 
         device_mapping_counter = 1
         volumes = []

@@ -95,6 +95,7 @@ images_patterns = patterns('wi.views.user.system_image',
 
 )
 
+
 urlpatterns = patterns('',
     url(r'^images/', include(images_patterns)),
 )

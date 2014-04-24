@@ -19,6 +19,7 @@
 
 """@package src.cm.views.admin_cm.user
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log} (except for \c add)
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 """
 from cm.utils.exception import CMException

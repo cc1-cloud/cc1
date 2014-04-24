@@ -18,10 +18,10 @@
 # @COPYRIGHT_end
 
 """@package src.ec2.helpers.entities
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
-
 
 class Entity:
     volume = 'vol'

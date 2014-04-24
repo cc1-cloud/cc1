@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm
+
 @author Piotr Wójcik
 @date 31.01.2014
 """
@@ -26,6 +27,7 @@ from django.conf.urls import patterns, url, include
 
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import direct_to_template, simple_generic
+
 
 urlpatterns = patterns('',
     url(r'^admin_cm/$', admin_cm_permission(direct_to_template), {'template_name': 'admin_cm/base.html'}, name='cma_admin'),

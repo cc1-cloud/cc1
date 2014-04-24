@@ -20,6 +20,7 @@
 """@package src.cm.views.suer.network
 @author Maciej Nabożny <mn@mnabozny.pl>
 
+
 Functions for creating and deleting networks
 """
 

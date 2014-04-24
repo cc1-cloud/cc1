@@ -19,6 +19,7 @@
 
 """@package src.cm.views.guest.user
 @alldecoratedby{src.cm.utils.decorators.user_log}
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
         Copy&paste: Maciej Nabozny
 """

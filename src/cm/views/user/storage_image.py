@@ -19,6 +19,7 @@
 
 """@package src.cm.views.user.image
 @alldecoratedby{src.cm.utils.decorators.user_log}
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 @author Miłosz Zdybał <milosz.zdybal@ifj.edu.pl>
 @author Maciej Nabożny <mn@mnabozny.pl>
@@ -38,7 +39,6 @@ from common.states import image_states
 from common.hardware import disk_controllers, disk_filesystems, network_devices, live_attach_disk_controllers
 import os
 import subprocess
-
 
 @user_log(log=True)
 def create(caller_id, name, description, filesystem, size, disk_controller):
@@ -95,7 +95,7 @@ def download(caller_id, name, description, path, disk_controller):
             connection = urllib.urlopen(path)
             size = int(connection.info()["Content-Length"])
         except IOError:
-            log.exception('Cannot find image')
+            log.exception(caller_id, 'Cannot find image')
             raise CMException('image_not_found')
         except KeyError:
             log.exception(caller_id, 'Cannot calculate size')

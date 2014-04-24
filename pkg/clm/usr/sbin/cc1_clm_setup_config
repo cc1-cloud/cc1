@@ -35,13 +35,13 @@ def configure():
 
         print "WARNING: CLM alredy configured"
         return 0
-    
+
     shutil.copyfile('/etc/cc1/clm/config.example', '/etc/cc1/clm/config.py')
-    
+
     os.symlink('/etc/cc1/clm/config.py', '/usr/lib/cc1/clm/config.py')
-    
+
     return 0
-    
+
 def remove():
     if os.path.exists('/usr/lib/cc1/clm/config.py'):
         os.unlink('/usr/lib/cc1/clm/config.py')
@@ -51,7 +51,7 @@ def purge():
     remove()
     if os.path.exists('/etc/cc1/clm/config.py'):
         os.remove('/etc/cc1/clm/config.py')
-        
+
     if os.path.exists('/etc/cc1/clm/config.example'):
         os.remove('/etc/cc1/clm/config.example')
     return 0

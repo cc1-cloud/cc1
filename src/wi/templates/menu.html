@@ -3,16 +3,16 @@
 	<li class="menu-item">
 		<a href="{% url 'mai_main' %}">{% trans "CC1" %}</a>
         <ul class="subnav">
-			{% include "main/menu.html" %} 
+			{% include "main/menu.html" %}
         </ul>
 	</li>
 {% if request.session.user %}
     <li class="menu-item">
         <a href="{% url 'vms_vms' %}">{% trans "Machines" %}</a>
         <ul class="subnav">
-			{% include "vms/menu.html" %} 
+			{% include "vms/menu.html" %}
         </ul>
-    </li>    
+    </li>
     <li class="menu-item">
         <a href="{% url 'far_farms' %}">{% trans "Farms" %}</a>
         <ul class="subnav">
@@ -34,12 +34,12 @@
     <li class="menu-item">
         <a href="{% url 'grp_groups' %}">{% trans "Groups" %}</a>
         <ul class="subnav">
-			{% include "groups/menu.html" %} 
+			{% include "groups/menu.html" %}
         </ul>
-    </li>    
+    </li>
 {% else %}
 	<li class="menu-item">
 		<a href="{% url 'reg_register' %}">{% trans "Registration" %}</a>	
 	</li>	
-{% endif %}  
+{% endif %}
 </ul>

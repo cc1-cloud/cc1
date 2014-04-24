@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.system_image
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -29,6 +30,7 @@ from wi.forms.system_image import EditImageForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import form_generic_id, simple_generic_id, \
     direct_to_template
+
 
 image_patterns = patterns('wi.views.admin_cm.system_image',
     url(r'^images/$', admin_cm_permission(direct_to_template), {'template_name': 'admin_cm/images.html'}, name='cma_images'),

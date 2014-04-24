@@ -50,7 +50,6 @@ def start():
         if node.state != node_states['locked']:
             subprocess.call(['ssh', '%s@%s' % (node.username, node.address), 'sudo /etc/init.d/cc1-node start'])
 
-
 def node_exec(cmd, state="all"):
     nodes = []
     if state == "all":

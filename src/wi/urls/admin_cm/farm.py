@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.admin_cm.farm
+
 @author Krzysztof Danielowski, Piotr Wojcik
 @date 17.03.2011
 """
@@ -28,6 +29,7 @@ from django.utils.translation import ungettext, ugettext_lazy as _
 from wi.forms.vm import EditVMForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.views import generic_multiple_id, form_generic_id
+
 
 farm_patterns = patterns('wi.views.admin_cm.farm',
     url(r'^farms/$', 'cma_farms', name='cma_farms'),

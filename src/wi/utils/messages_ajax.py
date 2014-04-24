@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.messages_ajax
+
 @author Piotr Wójcik
 @date 23.11.2010
 """

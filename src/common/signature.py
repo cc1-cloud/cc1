@@ -19,6 +19,7 @@
 
 """@package src.common.Signature
 Signatures handling for EC2 API for CC1
+
 @author Rafal Grzymkowski
 @author Miłosz Zdybał
 """
@@ -28,6 +29,7 @@ import hashlib
 import hmac
 import logging
 import urllib
+
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)

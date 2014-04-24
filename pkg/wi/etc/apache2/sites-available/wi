@@ -20,7 +20,7 @@
     WSGIScriptAlias / /usr/lib/cc1/wi/wsgi.py
     ErrorLog /var/log/cc1/wi/wi-error.log
     <Directory /usr/lib/cc1/wi>
-        WSGIProcessGroup wi
+        WSGIProcessGroup wissl
         WSGIApplicationGroup %{GLOBAL}
         Order deny,allow
         Allow from all

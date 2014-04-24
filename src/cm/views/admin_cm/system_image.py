@@ -19,6 +19,7 @@
 
 """@package src.cm.views.user.image
 @alldecoratedby{src.cm.utils.decorators.user_log}
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 @author Miłosz Zdybał <milosz.zdybal@ifj.edu.pl>
 @author Maciej Nabożny <mn@mnabozny.pl>

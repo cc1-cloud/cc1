@@ -75,22 +75,21 @@ EVIOCGEFFECTS   = _IOR(69, 0x84, INT)           # Report number of effects playa
 EVIOCGRAB       = _IOW(69, 0x90, INT)          # Grab/Release device */
 
 
+
 class Queue(deque):
     def push(self, obj):
         self.appendleft(obj)
+
 
 # these take parameters.
 def EVIOCGBIT(evtype, len=255):
     return _IOC(_IOC_READ, 69, 0x20 + evtype, len)  # get event bits */
 
-
 def EVIOCGABS(abs):
     return _IOR(69, 0x40 + abs, INT5)       # get abs value/limits */
 
-
 def EVIOCGSW(len):
     return _IOC(_IOC_READ, 69, 0x1b, len)   # get all switch states */
-
 
 def EVIOCGLED(len):
     return _IOC(_IOC_READ, 69, 0x19, len)   #  get all LEDs */
@@ -118,7 +117,6 @@ EV_FF = 0x15
 EV_PWR = 0x16
 EV_FF_STATUS = 0x17
 EV_MAX = 0x1f
-
 
 class Features(object):
     """Contains a set of base features. May be actual set as returned by a
@@ -254,6 +252,7 @@ class EventFile(object):
             return True
         else:
             return False
+
 
 # base class for event devices. Subclass this for your specific device.
 class EventDevice(object):
@@ -398,3 +397,4 @@ def get_devices(start=0):
         if os.path.exists(filename):
             devs.append(EventDevice(filename))
     return devs
+

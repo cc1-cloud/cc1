@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.models.user
+
 @author Piotr Wójcik
 @author Przemysław Syktus
 @date 21.09.2010

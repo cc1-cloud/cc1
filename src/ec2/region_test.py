@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.ec2.region_test
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 """
@@ -26,6 +27,7 @@ from __future__ import with_statement
 
 import mock
 import unittest
+
 
 from ec2.base.action import Action
 from ec2.base.test import TestCase

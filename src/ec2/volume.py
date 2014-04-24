@@ -29,6 +29,7 @@ from ec2.helpers.parse import parseFilters, parseID, parseIDs, parseClmDate
 
 """@package src.ec2.volume
 EC2 actions for volumes
+
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
@@ -66,11 +67,11 @@ class CreateVolume(Action):
 
         try:
             volume_dict = {
-                        'name': 'EC2 Volume',
-                        'size': size * SIZE_RATIO,
-                        'filesystem': ext4_id,
-                        'disk_controller': disk_controllers['virtio'],
-                        'description': 'Storage created by EC2 API'
+                        'name' : 'EC2 Volume',
+                        'size' : size * SIZE_RATIO,
+                        'filesystem' : ext4_id,
+                        'disk_controller' : disk_controllers['virtio'],
+                        'description' : 'Storage created by EC2 API'
                         }
             volume = self.cluster_manager.user.storage_image.create(volume_dict)
         except CLMException, error:
@@ -84,6 +85,7 @@ class CreateVolume(Action):
                          'name' : 'vol-' + str(volume['storage_image_id']),
                          'description' : 'Storage created by EC2 API',
                          'disk_controller' : disk_controllers['virtio']}
+
 
             self.cluster_manager.user.storage_image.edit( edit_dict )
         except:
@@ -123,6 +125,7 @@ class DescribeVolumes(Action):
         if not validateEc2Filters(filters, self.available_filters):
             raise InvalidFilter
 
+
         # if extra arguments weren't given
         clm_volumes = []
         if not volume_ids:
@@ -150,6 +153,7 @@ class DescribeVolumes(Action):
             }
             volumes.append(volume)
 
+
         if filters.get('size'):
             for size in filters['size']:
                 size = str(int(size) / SIZE_RATIO)
@@ -157,6 +161,7 @@ class DescribeVolumes(Action):
         if filters.get('status'):
             for state in filters['status']:
                 state = [k for k, v in STATE.iteritems() if v == STATE.get(state) ]  # ?? wymaga testu
+
 
 # attachment.attach-time - sprawdź
 # attachment.delete-on-termination - ?
@@ -239,6 +244,7 @@ class DetachVolume(Action):
             raise MissingParameter(parameter=error.args[0])
         except ValueError, error:
             raise InvalidParameterValue
+
 
         instance_id_ec2 = self.parameters.get('InstanceId')
         instance_id = instance_id_ec2

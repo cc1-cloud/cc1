@@ -37,10 +37,10 @@ class PasswordResetTokenGenerator(object):
 
         @returns{string} Token with timestamp generated for specified User
         """
-        from django.utils.hashcompat import sha_constructor
-        h = sha_constructor(user.password +
-                            unicode(user.last_login_date) +
-                            unicode(user.id)).hexdigest()[::2]
+        import hashlib
+        h = hashlib.sha1(user.password +
+                         unicode(user.last_login_date) +
+                         unicode(user.id)).hexdigest()[::2]
         return "%s-%s" % (int_to_base36(user.id), h)
 
     def check_token(self, user, token):

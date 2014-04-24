@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.views.user.public_ip
+
 @alldecoratedby{src.cm.utils.decorators.user_log}
 @author Maciej Nabożny <di.dijo@gmail.com>
 @author Tomasz Sośnicki <tom.sosnicki@gmail.com>

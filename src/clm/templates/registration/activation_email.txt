@@ -1,7 +1,7 @@
 {% load i18n %}
 {% trans "Welcome to" %} {{ site_name }}!
 {% trans "To confirm your email address, please visit the link below:" %}
-    
+
 http://{{ site }}/registration/activate/key/{{ activation_key }}/
 
 {% trans "After successful email address confirmation your account will be verified by our system operator. You will receive an email when your account is fully operational." %}

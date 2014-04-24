@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.views.user.farm
+
 @author Piotr Wójcik
 @date 14.11.2011
 """
@@ -121,6 +122,7 @@ class CreateFarmWizard(CustomWizardView):
             context.update(summary_data)
 
         return context
+
 
 CreateFarmWizard.dispatch = method_decorator(user_permission)(
                             method_decorator(django_view)(

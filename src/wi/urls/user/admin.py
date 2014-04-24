@@ -18,11 +18,13 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.user.admin
+
 @author Piotr Wójcik
 @date 1.10.2010
 """
 
 from django.conf.urls import patterns, url, include
+
 
 admin_cm_patterns = patterns('wi.views.user.admin',
     url(r'^login/$', 'cma_login', name='cma_login'),

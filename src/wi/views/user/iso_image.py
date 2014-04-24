@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.views.user.iso_image
+
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 """
@@ -74,3 +75,4 @@ def res_ajax_upload_iso_http(request, template_name='generic/form.html', form_cl
                                                                   'text': _('Please specify ISO image parameters:')},
                                                    context_instance=RequestContext(request)),
                                 status=1)
+

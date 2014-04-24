@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.views.user.admin
+
 @author Maciej Nabozny <mn@mnabozny.pl>
 @alldecoratedby{src.cm.utils.decorators.user_log}
 """

@@ -29,6 +29,7 @@ from wi.utils.decorators import user_permission
 from wi.utils.views import direct_to_template, simple_generic_id, \
     form_generic_id
 
+
 resources_patterns = patterns('wi.views.user.iso_image',
 
     url(r'^iso/$', user_permission(direct_to_template), {'template_name': 'resources/iso.html'}, name='res_iso'),

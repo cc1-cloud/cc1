@@ -272,7 +272,7 @@ $(function () {
 
         $timestamp.val(Math.round(new Date().getTime()/1000) + time_mod);
 
-        $.ajax({ type: 'POST', url: window.location.pathname.substring(0, 9) === "/cm_admin"? "{% url 'cma_ajax_vm_monitoring' id %}" : "{% url 'vms_ajax_vm_monitoring' id %}",
+        $.ajax({ type: 'POST', url: window.location.pathname.substring(0, 9) === "/admin_cm"? "{% url 'cma_ajax_vm_monitoring' id %}" : "{% url 'vms_ajax_vm_monitoring' id %}",
             data: $form.find('input, select').serialize(),
             success: fetchData,
             error: showError,

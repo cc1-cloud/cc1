@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.auth
+
 @author Piotr Wójcik
 @date 21.09.2010
 """

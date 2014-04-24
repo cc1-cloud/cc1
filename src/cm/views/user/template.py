@@ -19,6 +19,7 @@
 
 """@package src.cm.views.user.template
 @alldecoratedby{src.cm.utils.decorators.user_log}
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 """
 from cm.models.template import Template
@@ -58,3 +59,4 @@ def get_by_id(caller_id, template_id):
         raise CMException("template_get")
 
     return t.dict
+

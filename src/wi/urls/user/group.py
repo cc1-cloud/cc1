@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.user.group
+
 @author Piotr Wójcik
 """
 
@@ -28,6 +29,7 @@ from wi.forms.group import GroupForm
 from wi.utils.decorators import user_permission
 from wi.utils.views import direct_to_template, simple_generic_twoid, \
     simple_generic_id, form_generic, form_generic_id
+
 
 group_patterns = patterns('wi.views.user.group',
     url(r'^$', user_permission(direct_to_template), {'template_name': 'groups/base.html'}, name='grp_groups'),

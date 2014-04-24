@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.cm.manager.monia.threads
+
 @author Tomek Wojtoń
 """
 

@@ -4,7 +4,7 @@
 {% block title %}{% trans "Error" %}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="{% url 'acc_password_reset' %}">{% trans "Error sending email" %}</a></li>
 {% endblock %}
@@ -19,5 +19,5 @@
     <p>
     	{% trans "Error occured. Cannot send email." %}
     	<a href="#" onclick="history.back();">{% trans "Go back" %}</a>
-    </p> 
+    </p>
 {% endblock %}

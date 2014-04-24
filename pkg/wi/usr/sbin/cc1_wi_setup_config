@@ -34,7 +34,7 @@ def configure():
     if os.path.exists('/etc/cc1/wi/config.py'):
         print "ERROR: Web Interface alredy configured"
         return 0
-    
+
     example = open('/etc/cc1/wi/config.example', 'r')
     config = ''
     for line in example.readlines():
@@ -48,9 +48,9 @@ def configure():
     conf_file.close()
 
     os.symlink('/etc/cc1/wi/config.py', '/usr/lib/cc1/wi/config.py')
-    
+
     return 0
-    
+
 def remove():
     if os.path.exists('/usr/lib/cc1/wi/config.py'):
         os.unlink('/usr/lib/cc1/wi/config.py')
@@ -60,7 +60,7 @@ def purge():
     remove()
     if os.path.exists('/etc/cc1/wi/config.py'):
         os.remove('/etc/cc1/wi/config.py')
-        
+
     if os.path.exists('/etc/cc1/wi/config.example'):
         os.remove('/etc/cc1/wi/config.example')
     return 0

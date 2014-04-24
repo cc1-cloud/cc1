@@ -18,8 +18,6 @@
 # @COPYRIGHT_end
 
 """
-
-
 @package src.cm.urls_ci
 @author Maciej Nabozny <mn@mnabozny.pl
 """

@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.ec2.key_pair_test
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 """
@@ -63,6 +64,7 @@ class KeyPairTestCase(TestCase):
                 'Action': 'CreateKeyPair',
             }, self.cluster_manager).execute()
 
+
         self.cluster_manager.key.user.gen.return_value = None
 
         # 3. Test `InvalidKeyPair.Duplicate` exception.
@@ -73,6 +75,7 @@ class KeyPairTestCase(TestCase):
                 'Action': 'CreateKeyPair',
                 'KeyName': 'test key pair',
             }, self.cluster_manager).execute()
+
 
     def test_DeleteKeyPair(self):
         self.cluster_manager.key.user.delete.return_value = None
@@ -98,6 +101,7 @@ class KeyPairTestCase(TestCase):
             response = Action({
                 'Action': 'DeleteKeyPair',
             }, self.cluster_manager).execute()
+
 
     def test_DescribeKeyPairs(self):
         self.cluster_manager.key.user.list.return_value = [
@@ -128,6 +132,7 @@ class KeyPairTestCase(TestCase):
             </DescribeKeyPairsResponse>
             """
         )
+
 
     def test_ImportKeyPair(self):
         self.cluster_manager.key.user.add.return_value = None

@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.clm.views.user.public_ip
+
 @alldecoratedby{src.clm.utils.decorators.user_log}
 """
 

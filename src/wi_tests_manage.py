@@ -40,6 +40,7 @@ import docopt
 import os
 import sys
 
+
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASEDIR)
 
@@ -102,6 +103,7 @@ def runtest_wi(args):
         print('Tests finished. Errors: ' + str(len(testResults.errors) + len(testResults.failures)) + '.')
 
 Commands.set_command(runtest_wi, 'runtest', 'wi')
+
 
 if __name__ == '__main__':
     options = docopt.docopt(__doc__, help=True)

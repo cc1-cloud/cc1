@@ -29,9 +29,8 @@ from clm.utils.decorators import user_log, cm_request
 from clm.utils.exception import CLMException
 from common.states import image_access, image_types, group_states
 
+
 # from common import response
-
-
 @user_log(log=True, pack=False)  # false
 @cm_request
 def get_list(cm_response, **data):

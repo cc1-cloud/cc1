@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.urls.guest.user
+
 @author Piotr Wójcik
 @date 1.10.2010
 """
@@ -26,6 +27,7 @@ from django.conf.urls import url, patterns, include
 
 from wi.utils.views import direct_to_template
 from wi.views.guest.user import reg_activate, reg_register
+
 
 auth_patterns = patterns('wi.views.guest.user',
     url(r'^login/$', 'login', name='login'),

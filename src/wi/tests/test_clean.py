@@ -19,6 +19,7 @@
 
 # -*- coding: utf-8 -*-
 """@package src.wi.tests.test_clean
+
 @author Piotr Wójcik
 @author Krzysztof Danielowski
 @date 20.02.2013

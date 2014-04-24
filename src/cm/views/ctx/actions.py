@@ -38,12 +38,16 @@ def missing_parameter(param):
     @parameter{param} missing parameter
     """
     raise Exception("The request must contain the parameter %s" % param)
+
+
 def execution_error(error):
     """
     Method to raise ExecutionError Exception
     @parameter{error} execution's error
     """
     raise Exception("There was problem during function execution: %s" % error)
+
+
 def build_in_command_failed(cmd, code):
     """
     Method to raise BuildInCommandFailed Exception
@@ -90,6 +94,8 @@ def update_hosts(hosts_list=None, user='root'):
         r = subprocess.call(['ssh-keyscan', host["host_name"]], stdout=known_hosts)
         if r != 0:
             build_in_command_failed("ssh-keyscan", r)
+
+
 def set_hostname(hostname=None):
     """
     @parameter{hostname}
@@ -99,6 +105,8 @@ def set_hostname(hostname=None):
     r = subprocess.call(['hostname', hostname])
     if r != 0:
         build_in_command_failed('hostname', r)
+
+
 def cmd_exists(cmd):
     """
     @parameter{cmd}
@@ -117,6 +125,8 @@ def shutdown():
         r = subprocess.call('sleep 5 && shutdown -h now', shell=True)
     if r != 0:
         build_in_command_failed('shutdown', r)
+
+
 def reboot():
     """
     Tries to restart VM. If fails, raises exception.
@@ -128,6 +138,8 @@ def reboot():
         r = subprocess.call(['shutdown', '-r', 'now'])
     if r != 0:
         build_in_command_failed('shutdown', r)
+
+
 def reset_password(user=None):
     """
     Tries to reset password of ther user
@@ -194,6 +206,8 @@ def add_ssh_key(user=None, ssh_key=None):
         ssh_conf.close()
     except IOError, e:
         execution_error(e.strerror)
+
+
 def generate_key(key_name="id_rsa"):
     """
     Creates pair of ssh keys on the machine (public - private)

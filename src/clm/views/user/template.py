@@ -24,6 +24,7 @@
 
 from clm.utils.decorators import user_log, cm_request
 
+
 # returns list of templates (as user)
 # it calls the method registered in cm(cm_id) which is the XMLServerProxy for that cm
 @user_log(log=False, pack=False)

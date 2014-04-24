@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.ec2
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 """
@@ -25,6 +26,7 @@
 import os.path
 
 from mako.lookup import TemplateLookup
+
 
 lookup = TemplateLookup(
     directories = [os.path.join(os.path.dirname(__file__), 'templates')],

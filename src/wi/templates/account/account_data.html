@@ -6,7 +6,7 @@
 {% block title %}{% trans "Account data" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="#">{% trans "Account data" %}</a></li>
 {% endblock %}
@@ -23,14 +23,14 @@ cc1.sthTable = null;
 
 $(function() {
 	cc1.sthTable = cc1.makeSthTable({
-		destDiv : '#user-data', 
-		template : '#rowTemplate', 
+		destDiv : '#user-data',
+		template : '#rowTemplate',
 		urlGetData : '{% url 'acc_ajax_get_user_data' %}'
 	});
 	
 	// edycja swojego emaila
 	cc1.sthTable.editAccountData = cc1.utils.createAction({
-		url: '{% url 'acc_ajax_account_data_edit' %}', 
+		url: '{% url 'acc_ajax_account_data_edit' %}',
 		dialogTitle: '{% trans "Edit account data" %}',
 	});
 });

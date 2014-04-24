@@ -31,6 +31,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import get_language, ugettext_lazy as _
 from recaptcha.client import captcha
 
+
 HUMAN_ERRORS = {
     'unknown':                  _(u'Unknown error.'),
     'invalid-site-public-key':  _(u'ReCAPTCHA is wrongly configured.'),

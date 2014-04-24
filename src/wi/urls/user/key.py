@@ -29,6 +29,7 @@ from wi.utils.decorators import user_permission
 from wi.utils.views import direct_to_template, get_list_generic, \
     simple_generic_id, form_generic
 
+
 resources_patterns = patterns('wi.views.user.key',
 
     url(r'^keys/$', user_permission(direct_to_template), {'template_name': 'resources/keys.html'}, name='res_keys'),

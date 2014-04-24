@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.utils.forms
+
 @author Piotr Wójcik
 @date 24.03.2011
 """
@@ -31,6 +32,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from wi.utils.regexp import regexp, regexp_text
+
 
 attrs_dict = {'class': 'required'}
 

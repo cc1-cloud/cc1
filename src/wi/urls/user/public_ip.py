@@ -28,6 +28,7 @@ from wi.utils.decorators import user_permission
 from wi.utils.views import direct_to_template, get_list_generic, simple_generic, \
     simple_generic_id
 
+
 resources_patterns = patterns('wi.views.user.public_ip',
 
     url(r'^$', user_permission(direct_to_template), {'template_name': 'resources/base.html'}, name='res_resources'),

@@ -6,7 +6,7 @@ Scripts in cc1/tests/clm allow to perform tests directly on CLM.
       view results.
     - mktest.py [test name|test_number] - start selected test. Console version.
       Results are stored in log.txt and log.html file.
-      
+
 Scenarios are stored in scripts directory.
 
 
@@ -47,7 +47,7 @@ In graphical tool you can see result of each test, including:
     - passed arguments (it is possible to unwrap lists and dictionaries)
     - returned status
     - returned data
-    
+
 Test steps, which have gone wrong are highlighted to red. It is caused by e.g.
 CMException, CLMException or wrong response status (different than expected,
 what could be defined).
@@ -88,15 +88,15 @@ Add to actions list dictionary with fields:
       given, this is default behavior
     - 'exec' - execute a command
     - 'sleep' - wait several seonds
-    
-    
+
+
 
 Action syntax for functions ('type' == 'function' or without 'type' field):
 - u or user - (optional) dictionary with user, who should call function:
     - l - login
     - p - password
     - cm - cm id
-    
+
   if given, the first three parameters are with user information. After it,
   proper parameters are passed to CLM
 - fname - (required) function name, which is registered in clm
@@ -116,7 +116,7 @@ Action syntax for functions ('type' == 'function' or without 'type' field):
   third parameter of function. Used with standard (non-cmadmin) functions could
   cause errors!
 - predefined_action - (optional) - defines if action is defined in
-  predefined/actions.py. Results beautiful light-blue background in test results 
+  predefined/actions.py. Results beautiful light-blue background in test results
 
 Action syntax for sleep ('type' == 'sleep'):
 - time - time to sleep (in seconds)
@@ -169,7 +169,7 @@ Action syntax for python scripts ('type' == 'pyscript')
 In scripts, there are some predefined variables: r, log, actions
 and stored_results. R variable contains result of script execution. By default
 it is 'done', but could be changed to 'error' string. Log variable is string with
-logs from scripts. It is only way to put any values by this variable.  
+logs from scripts. It is only way to put any values by this variable.
 Actions is actions list from script/scenario and stored_results is list
 of previously stored in test function results.
 
@@ -210,7 +210,7 @@ In predefined folder you can find some ready-to-use variables:
 - users.py - standard system users, including default admin (u_admin), cloud
   admin (u_admin_clm), cluster admin (u_admin_cm) and u_new. You could also get
   more accounts, which are stored in test_users list.
-  
+
 
 Sample BASH aliases to run tests
 --------------------------------

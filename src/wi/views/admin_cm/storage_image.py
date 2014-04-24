@@ -82,3 +82,4 @@ def cma_ajax_copy_disk(request, id1, template_name='generic/form.html', form_cla
                                                                   },
                                                   context_instance=RequestContext(request)),
                                 status=1)
+

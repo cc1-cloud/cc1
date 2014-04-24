@@ -54,10 +54,10 @@ def install(lv_conn_string):
     echo "NODE: Configuring node"
     python /usr/sbin/cc1_node_configure configure "%(public_key)s"
     ''' % {'public_key': public_key}
-    
+
     r = subprocess.call(['ssh', 'root@%s' % node_address, script])
-    
-    
+
+
     if r != 0:
         print "ERROR: Node pre-configuration error"
         return 1
@@ -82,7 +82,7 @@ def configure(lv_conn_string, interfaces):
     except:
         print "ERROR: First, configure CM! Execute command: cc1_cm_setup_config"
         return 1
-        
+
     cm_ip = 'echo $SSH_CLIENT | cut -d " " -f 1'
     r = subprocess.call(['ssh', '-i', '/var/lib/cc1/.ssh/id_rsa', url.netloc, 'sudo /usr/sbin/cc1_network_setup configure http://`%s`:8003/ %s %s' % (cm_ip, interfaces, config.OSPF_TOKEN)])
     if r != 0:
@@ -95,6 +95,7 @@ def configure(lv_conn_string, interfaces):
         return 1
 
     #r = subprocess.call(['ssh', '-i', '/var/lib/cc1/.ssh/id_rsa', url.netloc, 'sudo /usr/sbin/cc1_node_storage mount_images_pool'])
+
 
 
 def add(lv_conn_string, cpu_total, memory_total, hdd_total):

@@ -19,11 +19,13 @@
 
 """@package src.ec2.base.auth
 Signature generators for EC2 API requests
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Rafał Grzymkowski
 @author Miłosz Zdybał
 """
+
 
 import base64
 import hashlib
@@ -43,10 +45,10 @@ def authorize_ec2_request(parameters, aws_secret_key, **kwargs):
         raise Exception("Unknown SignatureVersion: %s." % signature_version)
 
     correct_signature = sign_parameters(
-        parameters,
+        paras,
         aws_secret_key,
-        endpoint=parameters['Endpoint'],
-        method=parameters['Method'],
+        endpoint = parameters.get('Endpoint', endpoint),
+        method = parameters.get('Method', method),
     )
     request_signature = parameters.get('Signature')
     return correct_signature == request_signature

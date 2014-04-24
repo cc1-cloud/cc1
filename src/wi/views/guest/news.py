@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.views.guest.news
+
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 @date 17.03.2011

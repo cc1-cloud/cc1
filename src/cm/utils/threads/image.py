@@ -30,7 +30,6 @@ from cm.utils import log
 import random
 import hashlib
 
-
 class CreateImage(threading.Thread):
     image = None
     filesystem = None
@@ -121,8 +120,8 @@ class CreateImage(threading.Thread):
             return 'failed'
         self.set_progress(random.randint(90,100))
 
-        log.info(self.image.user.id, 'disk succesfully formatted')
 
+        log.info(self.image.user.id, 'disk succesfully formatted')
 
 class DownloadImage(threading.Thread):
     image = None

@@ -28,6 +28,7 @@ from ec2.helpers.parse import parseSequenceArguments, parseFilters, \
 """@package src.ec2.address
 
 EC2 actions for IP addresses
+
 @author: Oleksandr Gituliar <oleksandr@gituliar.org>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 @copyright: Copyright (c) 2012 IFJ PAN <http://www.ifj.edu.pl/>

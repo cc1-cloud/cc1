@@ -24,6 +24,7 @@ from ec2.helpers.filters import applyEc2Filters
 
 """@package src.ec2.region
 EC2 actions for regions
+
 @copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Oleksandr Gituliar <gituliar@gmail.com>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
