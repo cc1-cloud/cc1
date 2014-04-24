@@ -40,7 +40,6 @@ from common.hardware import disk_controllers, disk_filesystems, network_devices,
 import os
 import subprocess
 
-
 @user_log(log=True)
 def create(caller_id, name, description, filesystem, size, disk_controller):
     """
@@ -96,7 +95,7 @@ def download(caller_id, name, description, path, disk_controller):
             connection = urllib.urlopen(path)
             size = int(connection.info()["Content-Length"])
         except IOError:
-            log.exception('Cannot find image')
+            log.exception(caller_id, 'Cannot find image')
             raise CMException('image_not_found')
         except KeyError:
             log.exception(caller_id, 'Cannot calculate size')
