@@ -16,6 +16,7 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
+from cm.models.image import Image
 """@package src.cm.rm.image_handler
 
 @author Maciej Nabożny <di.dijo@gmail.com>
@@ -29,7 +30,6 @@ import urllib
 import hashlib
 import threading
 # from multiprocessing import Process
-
 
 from common.states import image_states, image_types
 from cm.utils.exception import CMException
@@ -68,7 +68,7 @@ class ImageHandler:
         """
 
         # rmi().image.rmi.update(data['user_id'], {'image_id': data['id'], 'state': image_states['adding'], 'progress': 0})
-        ImageUtils.update(data['user_id'], {'image_id': data['id'], 'state': image_states['adding'], 'progress': 0, 'type':data['type']})
+        ImageUtils.update(data['user_id'], {'image_id': data['id'], 'state': image_states['adding'], 'progress': 0, 'type': data['type']})
         # t = ImageSubprocess('create', data)
         # t.start()
         t = ImageThread("create_thread", 'create', data)
@@ -114,7 +114,7 @@ class ImageHandler:
         @dictkey{size} maximum image size in MB
         """
         # rmi().image.rmi.update(data['user_id'], {'image_id': data['id'], 'state': image_states['adding'], 'progress': 0})
-        ImageUtils.update(data['user_id'], {'image_id': data['id'], 'state': image_states['adding'], 'progress': 0, 'type':data['type']})
+        ImageUtils.update(data['user_id'], {'image_id': data['id'], 'state': image_states['adding'], 'progress': 0, 'type': data['type']})
         # t = ImageSubprocess('download', data)
         # t.start()
         t = ImageThread("download_thread", 'download', data)
@@ -139,15 +139,13 @@ class ImageHandler:
             image_id = data['id']
         except:
             log.debug(data['dest_userid'], "incomplete_information")
-            ImageUtils.failed(data['user_id'], {'image_id':image_id, 'status': 'incomplete_information', 'type':data['type']})
+            ImageUtils.failed(data['user_id'], {'image_id': image_id, 'status': 'incomplete_information', 'type': data['type']})
             # rmi().image.rmi.failed(image_id, {'status': 'incomplete_information'})
             return
 
         subprocess.call(['rm', path])
         # return response('ok')
         # rmi().image.rmi.finished(image_id)
-        
-
 
 
 # class which define a new thread for image operation
@@ -187,13 +185,13 @@ class ImageThread (threading.Thread):
             log.debug(user_id, destination)
         except:
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_create_incomplete_information'})
-            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_create_incomplete_information', 'type':self.data['type']})
+            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_create_incomplete_information', 'type': self.data['type']})
             return
             # sys.exit(1)
 
         if size < 2:
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_too_small'})
-            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_too_small', 'type':self.data['type']})
+            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_too_small', 'type': self.data['type']})
             return
             # sys.exit(1)
 
@@ -209,37 +207,37 @@ class ImageThread (threading.Thread):
 
         if r != 0:
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'dd_failed'})
-            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'dd_failed', 'type':image_type})
+            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'dd_failed', 'type': image_type})
             # log.error(user_id ,"image_dd_failed")
             return
             # sys.exit(1)
 
-        log.debug(user_id , "chmod")
+        log.debug(user_id, "chmod")
         subprocess.call(['chmod', '600', destination])
 
         # TODO: Move 331 uid/gid to config
-        log.debug(user_id , "chown")
+        log.debug(user_id, "chown")
         subprocess.call(['chown', '331', destination])
-        log.debug(user_id , "chgrp")
+        log.debug(user_id, "chgrp")
         subprocess.call(['chgrp', '331', destination])
 
         # Format image
         if 'format_command' in self.data:
             # rmi().image.rmi.update(user_id, {'image_id': image_id, 'state': image_states['formatting'], 'progress': 0})
-            ImageUtils.update(user_id, {'image_id': image_id, 'state': image_states['formatting'], 'progress': 0, 'type':image_type})
+            ImageUtils.update(user_id, {'image_id': image_id, 'state': image_states['formatting'], 'progress': 0, 'type': image_type})
             try:
                 ImageUtils.format(self.data)
             except Exception, e:
                 # log.error(user_id ,"Formatting image: %s" % str(e))
                 # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'format_failed'})
-                ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'format_failed', 'type':image_type})
+                ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'format_failed', 'type': image_type})
                 return
                 # sys.exit(1)
 
-        log.debug(user_id , "return size")
+        log.debug(user_id, "return size")
         filesize = os.path.getsize(destination) / 1024 / 1024
 
-        ImageUtils.created(user_id, {'image_id': image_id, 'size': filesize, 'type':image_type})
+        ImageUtils.created(user_id, {'image_id': image_id, 'size': filesize, 'type': image_type})
         # rmi().image.rmi.created(user_id, {'image_id': image_id, 'size': filesize})
 
         # sys.exit(0)
@@ -260,7 +258,7 @@ class ImageThread (threading.Thread):
             src_imgid = self.data['src_imgid']
         except Exception, e:
             # rmi().image.rmi.failed(user_id, {'image_id': dest_imageid, 'status': 'imiage_incomplete_information'})
-            ImageUtils.failed(user_id, {'image_id': dest_imageid, 'status': 'image_incomplete_information', 'type':image_type})
+            ImageUtils.failed(user_id, {'image_id': dest_imageid, 'status': 'image_incomplete_information', 'type': image_type})
             # log.error(user_id ,"image_incomplete_information")
             return
             # sys.exit(1)
@@ -268,7 +266,7 @@ class ImageThread (threading.Thread):
         try:
 
             # directory must first be created, to create file to write
-            destination = ImageUtils.get_path({'dest_pool': dest_pool, 'dest_userid': dest_userid, 'id': dest_imageid, 'type':image_type})
+            destination = ImageUtils.get_path({'dest_pool': dest_pool, 'dest_userid': dest_userid, 'id': dest_imageid, 'type': image_type})
 
             # subprocess.call execute new process with command given
             subprocess.call(['mkdir', '-p', '%s' % os.path.dirname(destination)])
@@ -277,17 +275,17 @@ class ImageThread (threading.Thread):
             subprocess.call(['chown', '331', os.path.dirname(destination)])
             subprocess.call(['chgrp', '331', os.path.dirname(destination)])
 
-            src = open(ImageUtils.get_path({'dest_pool': src_pool, 'dest_userid': src_userid, 'id': src_imgid, 'type':image_type}), "r")
+            src = open(ImageUtils.get_path({'dest_pool': src_pool, 'dest_userid': src_userid, 'id': src_imgid, 'type': image_type}), "r")
             dst = open(destination, "w+")
         except Exception, e:
-            ImageUtils.failed(user_id, {'image_id': dest_imageid, 'status': 'image_not_found', 'type':image_type})
+            ImageUtils.failed(user_id, {'image_id': dest_imageid, 'status': 'image_not_found', 'type': image_type})
             # #mi().image.rmi.failed(user_id, {'image_id': dest_imageid, 'status': 'image_not_found'})
             # log.error(user_id ,"image_not_found")
             return
             # sys.exit(1)
 
         copied = 0
-        size = os.path.getsize(ImageUtils.get_path({'dest_pool': src_pool, 'dest_userid': src_userid, 'id': src_imgid, 'type':image_type}))
+        size = os.path.getsize(ImageUtils.get_path({'dest_pool': src_pool, 'dest_userid': src_userid, 'id': src_imgid, 'type': image_type}))
         size /= 1048576
         while 1:
             buff = src.read(1024 * 1024)  # Should be less than MTU?
@@ -298,12 +296,12 @@ class ImageThread (threading.Thread):
                 break
             # Update image information:
             if (100 * copied / size) % 5 == 0:
-                ImageUtils.update(self.data['user_id'], {'image_id': dest_imageid, 'state': image_states['adding'], 'progress': (100 * copied) / size, 'type':image_type})
+                ImageUtils.update(self.data['user_id'], {'image_id': dest_imageid, 'state': image_states['adding'], 'progress': (100 * copied) / size, 'type': image_type})
                 # #rmi().image.rmi.update(self.data['user_id'], {'image_id': dest_imageid, 'state': image_states['adding'], 'progress': (100*copied/size)})
 
         dst.close()
 
-        # destination = ImageUtils.get_path({'dest_pool': dest_pool, 'dest_userid': dest_userid, 'id': dest_imageid,'type':type})
+        # destination = ImageUtils.get_path({'dest_pool': dest_pool, 'dest_userid': dest_userid, 'id': dest_imageid,'type': type})
         filesize = os.path.getsize(destination) / 1024 / 1024
         subprocess.call(['chmod', '600', destination])
 
@@ -311,7 +309,7 @@ class ImageThread (threading.Thread):
         subprocess.call(['chown', '331', destination])
         subprocess.call(['chgrp', '331', destination])
 
-        ImageUtils.created(user_id, {'image_id': dest_imageid, 'size': filesize, 'type':image_type})
+        ImageUtils.created(user_id, {'image_id': dest_imageid, 'size': filesize, 'type': image_type})
         # #rmi().image.rmi.created(user_id, {'image_id': dest_imageid, 'size': filesize})
 
         # log.debug(user_id,"exit")
@@ -335,7 +333,7 @@ class ImageThread (threading.Thread):
         except Exception, e:
 
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_incomplete_information'})
-            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_incomplete_information', 'type':image_type})
+            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_incomplete_information', 'type': image_type})
             # log.error(user_id ,"image_incomplete_information")
             return
             # sys.exit(1)
@@ -349,7 +347,7 @@ class ImageThread (threading.Thread):
         try:
             dst = open(destination, "w")
         except Exception, e:
-            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_not_found', 'type':image_type})
+            ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_not_found', 'type': image_type})
             log.error(user_id, "Cannot open image: %s" % str(e))
             # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_not_found'})
             return
@@ -366,7 +364,7 @@ class ImageThread (threading.Thread):
             else:
                 log.exception(user_id, 'Cannot calculate size')
                 # rmi().image.rmi.failed(user_id, {'image_id': image_id, 'status': 'image_not_found'})
-                ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_not_found', 'type':image_type})
+                ImageUtils.failed(user_id, {'image_id': image_id, 'status': 'image_not_found', 'type': image_type})
                 raise CMException('image_calculate_size')
 
         downloaded = 0
@@ -382,7 +380,7 @@ class ImageThread (threading.Thread):
                 break
             # Update image information:
             if size != None and (int(float(downloaded) / float(size)) * 100) % step == 0:
-                ImageUtils.update(self.data['user_id'], {'image_id': image_id, 'state': image_states['adding'], 'progress': (100 * downloaded / size), 'type':image_type})
+                ImageUtils.update(self.data['user_id'], {'image_id': image_id, 'state': image_states['adding'], 'progress': (100 * downloaded / size), 'type': image_type})
                 # rmi().image.rmi.update(self.data['user_id'], {'image_id': image_id, 'state': image_states['adding'], 'progress': (100 * downloaded / size)})
 
         dst.close()
@@ -395,7 +393,7 @@ class ImageThread (threading.Thread):
 
         md5sum = ImageUtils.md5sum(self.data)
         log.debug(user_id, "md5: %s" % md5sum)
-        ImageUtils.downloaded(user_id, {'image_id': image_id, 'size': filesize, 'md5sum': md5sum, 'type':image_type})
+        ImageUtils.downloaded(user_id, {'image_id': image_id, 'size': filesize, 'md5sum': md5sum, 'type': image_type})
         # rmi().image.rmi.downloaded(user_id, {'image_id': image_id, 'size': filesize, 'md5sum': md5sum})
 
         # log.debug(user_id, "exit")
@@ -570,8 +568,7 @@ class ImageUtils:
             return response('image_params')
         """
         try:
-            # use admin_get caues no need to check permissions here
-            image = image_utils.admin_get(data['image_id'], data['type'])
+            image = Image.objects.get(id=data['image_id'], type=data['type'])
             # TODO: created should be only for disk volumes, is type necessary?
             # image = StorageImage.objects.get(pk=data['image_id'])
             # image = Session.query(Image).get(image_id)
@@ -605,7 +602,7 @@ class ImageUtils:
         @resonse{none}
         """
         try:
-            image = image_utils.get(user_id, data['image_id'], data['type'])
+            image = Image.get(user_id, data['image_id'], data['type'])
             # image = Session.query(Image).get(image_id)
         except Exception, e:
             log.error(user_id, "Cannot get image: %s" % str(e))
@@ -631,7 +628,7 @@ class ImageUtils:
         Marks image as failed.
         """
         try:
-            image = image_utils.get(user_id, data['image_id'], data['type'])
+            image = Image.objects.get(user__id=user_id, id=data['image_id'], type=data['type'])
             # image = Session.query(Image).get(image_id)
         except Exception, e:
             log.error(user_id, "Cannot update image. Image %d not found: %s" % (data['image_id'], str(e)))
@@ -671,7 +668,7 @@ class ImageUtils:
 
         try:
             # admin_get cause no need to check permissions here
-            image = image_utils.admin_get(image_id, image_type)
+            image = Image.objects.get(id=image_id, type=image_type)
             # image = Session.query(Image).get(image_id)
         except Exception, e:
             log.error(user_id, "Cannot update image. Image %d not found: %s" % (image_id, str(e)))
