@@ -96,8 +96,6 @@ def list_admins(caller_id):
     Method returns list of the admins.
     @cmview_admin_cm
 
-    @parameter{caller_id}
-
     @response{list(dict)} admins
     """
     admins = []
