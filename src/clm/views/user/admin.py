@@ -20,7 +20,7 @@
 """@package src.clm.views.admin_cm.admin
 @alldecoratedby{src.clm.utils.decorators.admin_cm_log}
 """
-from clm.utils.decorators import admin_cm_log, cm_request
+from clm.utils.decorators import admin_cm_log, cm_request, user_log
 
 
 @admin_cm_log(log=True, pack=False)
@@ -30,4 +30,9 @@ def check_password(cm_response, **data):
     @clmview_admin_cm
     @clm_view_transparent{admin.check_password()}
     """
+    return cm_response
+
+
+@user_log(log=True, pack=False)
+def am_i_admin(cm_response, **data):
     return cm_response
