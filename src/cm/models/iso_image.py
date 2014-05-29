@@ -20,8 +20,6 @@
 """@package src.cm.models.iso_image
 """
 
-import os
-
 from django.db import models
 
 from cm.models.image import Image
@@ -63,10 +61,7 @@ class IsoImage(Image):
 
         d['iso_image_id'] = self.id
 
-        # TODO: to be tested
-        # set of vms which is using the cd volume
-        #d['vms'] = self.vm_set.values_list('id', flat=True) or ''
-        vms = self.vm_set.all()
+        vms = self.vm_set.filter(state__in=[vm_states['running']])
         vm_ids = []
         vm_names = []
         for vm in vms:
