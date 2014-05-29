@@ -53,6 +53,7 @@ DNS_DOMAIN = 'localdomain'
 VNC_ADDRESS = '127.0.0.1'
 VNC_PORTS = {
 	'START': 5900,
+	'END': 6899,
 	'EXCLUDE': []
 }
 
