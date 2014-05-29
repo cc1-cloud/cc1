@@ -30,6 +30,14 @@ def add(cm_response, **data):
     @cmview_admin_clm
     @clm_view_transparent{admin.add()}
     """
+    if cm_response['status'] == 'ok':
+        try:
+            user = User.get(data['user_id'])
+            user.is_superuser_cm = 1
+            user.save()
+        except:
+            CLMException('cm_admin_add')
+
     return cm_response
 
 
