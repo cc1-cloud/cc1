@@ -331,21 +331,6 @@ class Node(models.Model):
         r = self.read_lv_data[6] / 1024 / 1024
         return r
 
-    @property
-    def get_cm_ip(self):
-        """
-        Method
-        """
-        try:
-            conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-            conn.connect(('192.245.169.43', 22))
-        except:
-            raise CMException('node_connect')
-        ip = conn.getsockname()[0]
-        conn.close()
-
-        return ip
-
     @staticmethod
     def get(user_id, node_id):
         """
