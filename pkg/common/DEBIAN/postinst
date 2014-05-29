@@ -1,0 +1,32 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+import os
+
+sys.path.append("/usr/lib/cc1/common")
+from utils import subcall
+
+if __name__ == '__main__':
+
+    try:
+        LANG = os.environ["LANG"]
+    except:
+        LANG="en_US.UTF-8"
+        subcall('export LANG=%s' % LANG, log)
+
+    try:
+        LANGUAGE = os.environ["LANGUAGE"]
+        LC_ALL = os.environ["LC_ALL"]
+    except:
+        print "Improperly configured locale. Please after installation issue the following:"
+        # print "    export LANGUAGE=%s" % LANGUAGE
+        # print "    export LC_ALL=%s" % LC_ALL
+        # print "    locale-gen %s" % LANG
+        # print "    dpkg-reconfigure locales"
+        # log = open('/var/log/cc1/clm_install.log', 'a')
+        # subcall('export export LANGUAGE=%s' % LANGUAGE, log)
+        # subcall('export LC_ALL=en_US.UTF-8' % LC_ALL, log)
+        # log.close()
+
+    sys.exit(0)

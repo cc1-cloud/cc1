@@ -19,7 +19,7 @@
 # @endcond LICENSE
 
 """
-@author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
+@author Maciej Nabozny <mn@mnabozny.pl>
 """
 
 import os
@@ -28,34 +28,35 @@ import shutil
 
 
 def configure():
-    shutil.copyfile('/usr/lib/cc1/ec2/settings_example.py', '/etc/cc1/ec2/settings_example.py')
-    if os.path.exists('/etc/cc1/ec2/settings.py'):
-        if not os.path.exists('/usr/lib/cc1/ec2/settings.py'):
-                os.symlink('/etc/cc1/ec2/settings.py', '/usr/lib/cc1/ec2/settings.py')
+    shutil.copyfile('/usr/lib/cc1/cm-vnc/config.example', '/etc/cc1/cm-vnc/config.example')
+    if os.path.exists('/etc/cc1/cm-vnc/config.py'):
+        # Create symlink, if not exists
+        if not os.path.exists('/usr/lib/cc1/cm-vnc/config.py'):
+                os.symlink('/etc/cc1/cm-vnc/config.py', '/usr/lib/cc1/cm-vnc/config.py')
 
-        print "WARNING: EC2 already configured"
+        print "WARNING: CM-VNC alredy configured"
         return 0
 
-    shutil.copyfile('/etc/cc1/ec2/settings_example.py', '/etc/cc1/ec2/settings.py')
+    shutil.copyfile('/etc/cc1/cm-vnc/config.example', '/etc/cc1/cm-vnc/config.py')
 
-    os.symlink('/etc/cc1/ec2/settings.py', '/usr/lib/cc1/ec2/settings.py')
+    os.symlink('/etc/cc1/cm-vnc/config.py', '/usr/lib/cc1/cm-vnc/config.py')
 
     return 0
 
 
 def remove():
-    if os.path.exists('/usr/lib/cc1/ec2/settings.py'):
-        os.unlink('/usr/lib/cc1/ec2/settings.py')
+    if os.path.exists('/usr/lib/cc1/cm-vnc/config.py'):
+        os.unlink('/usr/lib/cc1/cm-vnc/config.py')
     return 0
 
 
 def purge():
     remove()
-    if os.path.exists('/etc/cc1/ec2/settings.py'):
-        os.remove('/etc/cc1/ec2/settings.py')
+    if os.path.exists('/etc/cc1/cm-vnc/config.py'):
+        os.remove('/etc/cc1/cm-vnc/config.py')
 
-    if os.path.exists('/etc/cc1/ec2/settings_example.py'):
-        os.remove('/etc/cc1/ec2/settings_example.py')
+    if os.path.exists('/etc/cc1/cm-vnc/config.example'):
+        os.remove('/etc/cc1/cm-vnc/config.example')
     return 0
 
 

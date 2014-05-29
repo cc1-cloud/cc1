@@ -203,3 +203,18 @@ class ServerProxy(object):
             logger.error("Returned object is malformatted: %s" % response)
             raise Exception("Returned object is malformatted: %s" % response)
         return response
+
+
+def subcall(command, log=None, err_log=None, std_log=None, err_msg=None, err_exit=True):
+    if not (std_log or err_log):
+        std_log = log
+        err_log = log
+    r = subprocess.call(command, shell=True, stdout=std_log, stderr=err_log)
+    if r > 0:
+        if err_msg:
+            START_MSG = '\033[91m' if err_exit else '\033[93m'
+            END_MSG = '\033[0m'
+            print "%s%s%s" % (START_MSG, err_msg, END_MSG)
+        if err_exit:
+            sys.exit(1)
+    return r

@@ -1,0 +1,31 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+
+if __name__ == '__main__':
+    if 'configure' in sys.argv:
+        print "CM-VNC: Removing old .pyc files"
+        subprocess.call("find /usr/lib/cc1/cm-vnc -name '*.pyc' -exec rm {} \\;", shell=True)
+        subprocess.call("find /etc/cc1/cm-vnc -name '*.pyc' -exec rm {} \\;", shell=True)
+
+        log = open('/var/log/cc1/clm_install.log', 'a')
+
+        print "CM-VNC: Creating cc1 user"
+        r = subprocess.call('cc1_setup_user create', shell=True, stdout=log, stderr=log)
+
+        print "CM-VNC: Changing permissions"
+        subprocess.call("chown -R cc1:cc1 /var/log/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /var/lib/cc1/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chown -R cc1:cc1 /etc/cc1/cm-vnc/", shell=True, stdout=log, stderr=log)
+        subprocess.call("chmod a+x /usr/lib/cc1/cm-vnc/proxy.py", shell=True, stdout=log, stderr=log)
+
+        print "CM-VNC: Creating default config"
+        r = subprocess.call('cc1_cm_vnc_setup_config configure', shell=True, stdout=log, stderr=log)
+
+        log.close()
+        sys.exit(0)
+    else:
+        print "Use cc1 tools (cc1_...) to reconfigure services!"
+        sys.exit(1)
+

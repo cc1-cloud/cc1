@@ -12,7 +12,7 @@ if __name__ == '__main__':
         r = subprocess.call('cc1_node_configure remove', shell=True, stdout=log)
         r = subprocess.call('cc1_node_setup_libvirt remove', shell=True, stdout=log)
 
-        r = subprocess.call('cc1_setup_networking remove', shell=True, stdout=log)
+        r = subprocess.call('cc1_network_setup remove', shell=True, stdout=log)
         log.close()
         sys.exit(0)
     elif 'purge' in sys.argv:
