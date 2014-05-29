@@ -62,7 +62,7 @@ def add_variables(request):
 
     admin_cm_name = None
     for item in cm_list:
-        if request.session['user'].is_admin_cm and request.session['user'].admin_cm_id == item['cluster_id']:
+        if request.session['user'].is_logged_admin_cm and request.session['user'].cm_id == item['cluster_id']:
             admin_cm_name = item['name']
 
     return {'cm_list':        cm_list,
