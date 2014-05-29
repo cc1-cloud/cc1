@@ -176,7 +176,7 @@ class CleanerThread(threading.Thread):
         try:
             while self.running:
                 time.sleep(settings.CLEANING_PERIOD)
-                rrds=cm.utils.monia.RrdHandler().list()
+                rrds=cm.utils.monia.RrdHandler().get_list()
                 for vm in rrds:
                     if time.time()-settings.TIME_TO_REMOVE > rrds[vm][1]:
                         cm.utils.monia.RrdHandler({'name': str(vm), 'data': None}).remove()
