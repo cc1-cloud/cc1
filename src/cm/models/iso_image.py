@@ -61,7 +61,7 @@ class IsoImage(Image):
 
         d['iso_image_id'] = self.id
 
-        vms = self.vm_set.filter(state__in=[vm_states['running']])
+        vms = self.vm_set.filter(state__in=[vm_states['running'], vm_states['running_ctx']])
         vm_ids = []
         vm_names = []
         for vm in vms:

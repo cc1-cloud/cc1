@@ -41,8 +41,6 @@ from cm.utils import message
 # from cm.utils import message
 # import libvirt
 # Django templates
-
-
 class SystemImage(Image):
     """
     @model{SYSTEM_IMAGE} VM type image's class.
@@ -110,7 +108,7 @@ class SystemImage(Image):
 
         # TODO:
         # set of vms with this image attached
-        d['vms'] = list(self.vm_set.values_list('id', flat=True)) or []
+        d['vms'] = list(self.vm_set.filter(state__in=[vm_states['running'], vm_states['running_ctx']]).values_list('id', flat=True)) or []
 
         # groups image belongs (only one group for now)
         grouplist = self.systemimagegroup_set.values_list('group_id', flat=True)
