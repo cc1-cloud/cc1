@@ -39,10 +39,6 @@ DATABASES = {
     }
 }
 
-
-# Link to CLM, e.g. https://192.168.1.2:8000/
-CLM_ADDRESS = 'http://127.0.0.1:8000/'
-
 # OSPF Token which is authorising all routing updates in network
 OSPF_TOKEN = 'RANDOM_OSPF_TOKEN'
 
