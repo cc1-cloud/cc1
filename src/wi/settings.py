@@ -47,7 +47,8 @@ CAPTCHA = True
 RECAPTCHA_PUBLIC_KEY = '6LenDtcSAAAAAJLrj1MBBAVGIaOjo3PNFZc7FDc4'
 RECAPTCHA_PRIVATE_KEY = '6LenDtcSAAAAAKisRsijUTTOEWAtr6yBNg1Cl_AL'
 
-VNC_VIEWER_JAR = 'tightvnc-jviewer.jar'
+# port on which NoVNC proxy is running
+NOVNC_PORT = 6080
 
 import json
 
