@@ -139,7 +139,7 @@ def get_by_id_details(caller_id, node_id):
 
 
 @admin_cm_log(log=True)
-def lock(caller_id, node_id):
+def lock(caller_id, node_id_list):
     """
     Method locks specified Node. No VMs can be run on locked node.
     @decoratedby{src.cm.utils.decorators.admin_cm_log}
@@ -151,19 +151,18 @@ def lock(caller_id, node_id):
 
     @raises{node_lock,CMException}
     """
-    node = Node.get(caller_id, node_id)
-    node.state = node_states['locked']
+    for node_id in node_id_list:
+        node = Node.get(caller_id, node_id)
+        node.state = node_states['locked']
 
-    try:
-        node.save()
-        # TODO:
-        # start_monia()
-    except:
-        raise CMException('node_lock')
+        try:
+            node.save()
+        except:
+            raise CMException('node_lock')
 
 
 @admin_cm_log(log=True)
-def unlock(caller_id, node_id):
+def unlock(caller_id, node_id_list):
     """
     Method unlocks specified Node. After unlock Node's state is @val{ok} and
     one is be able to run VMs on that Node.
@@ -176,15 +175,15 @@ def unlock(caller_id, node_id):
 
     @raises{node_unlock,CMException}
     """
-    node = Node.get(caller_id, node_id)
-    node.state = node_states['ok']
 
-    try:
-        node.save()
-        # TODO:
-        # start_monia()
-    except:
-        raise CMException('node_unlock')
+    for node_id in node_id_list:
+        node = Node.get(caller_id, node_id)
+        node.state = node_states['ok']
+
+        try:
+            node.save()
+        except:
+            raise CMException('node_unlock')
 
 
 @admin_cm_log(log=True)
