@@ -109,12 +109,6 @@ def get_list(caller_id):
     return [node.dict for node in Node.objects.exclude(state__exact=node_states['deleted'])]
 
 
-# TODO:
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# def list_network(user_id, node_id):
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
 @admin_cm_log(log=True)
 def get_by_id(caller_id, node_id):
     """
