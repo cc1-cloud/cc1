@@ -35,7 +35,7 @@ from django.views.decorators.csrf import csrf_protect
 
 from wi.utils import CLM, check_response_errors, messages_ajax
 from wi.utils.decorators import django_view
-from wi.utils.errors import get_error
+from wi.utils.messages_codes import get_error
 from wi.utils.messages_ajax import ajax_request
 
 
