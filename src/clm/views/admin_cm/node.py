@@ -103,3 +103,13 @@ def get_by_id_details(cm_response, **data):
     @clm_view_transparent{node.get_by_id_details()}
     """
     return cm_response
+
+
+@admin_cm_log(log=True, pack=False)
+@cm_request
+def check(cm_response, **data):
+    """
+    @clmview_admin_cm
+    @clm_view_transparent{node.check()}
+    """
+    return cm_response
