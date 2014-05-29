@@ -63,3 +63,9 @@ def unassign(cm_response, **data):
     @clm_view_transparent{public_ip.unassign()}
     """
     return cm_response
+
+
+@admin_cm_log(log=True, pack=False)
+@cm_request
+def release(cm_response, **data):
+    return cm_response
