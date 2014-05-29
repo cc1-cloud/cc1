@@ -34,6 +34,7 @@ from cm.models.vm import VM
 from cm.utils import log
 # from cm.utils.rm import rm
 from cm.utils.threads.vm import VMThread
+from cm.utils import message
 from django.conf import settings
 import subprocess
 
@@ -63,9 +64,7 @@ def create(caller_id, name, description, image_id, template_id, public_ip_id, is
     try:
         user.check_points()
     except:
-        pass  # delete pass
-        # TODO: message to CLM
-        # message.warn(caller_id, 'point_limit', {'used_points': user.used_points, 'point_limit': user.points})
+        message.warn(caller_id, 'point_limit', {'used_points': user.used_points, 'point_limit': user.points})
     vms = VM.create(user, name=name, description=description, image_id=image_id,
                     template_id=template_id, public_ip_id=public_ip_id, iso_list=iso_list, disk_list=disk_list,
                     vnc=vnc, groups=groups, count=count, user_data=user_data, ssh_key=ssh_key, ssh_username=ssh_username)
