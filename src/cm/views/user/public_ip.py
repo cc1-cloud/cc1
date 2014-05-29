@@ -168,7 +168,7 @@ def release(caller_id, public_ip_id):
     public_lease = PublicIP.objects.filter(user=user).get(id=public_ip_id)
 
     if public_lease.lease:
-        public_lease.unassign()
+        raise CMException('public_lease_assigned')
 
     public_lease.user = None
     public_lease.save()
