@@ -53,6 +53,7 @@ class Node(models.Model):
     hdd_total = models.IntegerField()
     state = models.IntegerField()
     comment = models.TextField(null=True, blank=True)
+    errors = models.TextField(null=True, blank=True)
 
     class Meta:
         app_label = 'cm'
@@ -87,6 +88,7 @@ class Node(models.Model):
         d['hdd_free'] = self.hdd_free
         d['state'] = self.state
         d['comment'] = self.comment
+        d['errors'] = self.errors or ''
 
         return d
 
@@ -124,6 +126,7 @@ class Node(models.Model):
         d['state'] = self.state
         d['suffix'] = self.suffix
         d['comment'] = self.comment
+        d['errors'] = self.errors or ''
 
         return d
 
@@ -175,6 +178,7 @@ class Node(models.Model):
         d['lv_cpu_total'] = self.lv_cpu_total
         d['lv_cpu_free'] = self.lv_cpu_free
         d['comment'] = self.comment
+        d['errors'] = self.errors or ''
 
         return d
 
