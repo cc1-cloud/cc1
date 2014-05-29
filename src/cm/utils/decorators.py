@@ -59,6 +59,7 @@ from threading import Lock
 #  (cm.utils.decorators.guest_log(), src.cm.utils.decorators.user_log(),
 #  src.cm.utils.decorators.admin_cm_log())
 from common.utils import json_convert
+from cm.utils.message import MESSAGES
 
 global decorated_functions
 global ci_decorated_functions
@@ -67,6 +68,7 @@ global ctx_decorated_functions
 decorated_functions = set([])
 ci_decorated_functions = set([])
 ctx_decorated_functions = set([])
+
 
 locks = {
     'vmcreate': Lock()
@@ -389,7 +391,11 @@ def genericlog(log_enabled, is_user, is_admin_cm, need_ip, fun, args):
                 log.debug(caller_id, 'Try release lock vmcreate')
                 locks[lock_name].release()
                 log.debug(caller_id, 'Lock vmcreate released')
-
+    # adding messages to response
+    global MESSAGES
+    if MESSAGES:
+        resp['messages'] = MESSAGES.copy()
+        MESSAGES.clear()
     if resp['status'] != 'ok' and not log_enabled:
         log.debug(caller_id, '=' * 100)
         log.debug(caller_id, 'Function: %s' % name)
