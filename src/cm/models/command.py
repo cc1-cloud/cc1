@@ -31,6 +31,7 @@ from cm.utils.exception import CMException
 from cm.utils.threads.vm import VMThread
 from common import response
 from common.states import command_states, vm_states, farm_states
+from cm.utils import message
 
 
 class Command(models.Model):
@@ -260,7 +261,7 @@ class Command(models.Model):
             except Exception:
                 log.exception(vm.user_id, '')
                 vm.farm.state = farm_states['unconfigured']
-                # message.warn(vm.id, 'farm_create', {'id': vm.farm.id, 'name': vm.farm.name})
+                message.error(vm.id, 'farm_create', {'id': vm.farm.id, 'name': vm.farm.name})
         log.info(vm.user_id, 'Head %d registered' % vm.id)
         shared = {"counter": len(vms), "lock": threading.Lock()}
         for vm in vms:

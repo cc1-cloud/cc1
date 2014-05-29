@@ -35,6 +35,8 @@ from cm.utils.exception import CMException
 from common.hardware import disk_controllers, video_devices, network_devices, \
     disk_filesystems_reversed, video_devices_reversed, network_devices_reversed
 from common.states import image_access, image_states, storage_states, vm_states
+from cm.utils import message
+
 
 # from cm.utils import message
 # import libvirt
@@ -277,13 +279,11 @@ class SystemImage(Image):
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp %s /images/%d' % (vm.system_image.path, vm.id)]))
 
         if subprocess.call(['ssh', vm.node.ssh_string, 'cp %s /images/%d' % (vm.system_image.path, vm.id)]):
-            # TODO:
-            # message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
             raise CMException('vm_create')
 
         if subprocess.call(['ssh', vm.node.ssh_string, 'chmod a+rw /images/%d' % vm.id]):
-            # TODO:
-            # message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
             raise CMException('vm_create')
         return
 

@@ -48,6 +48,7 @@ import libvirt
 import subprocess
 
 from netaddr import IPNetwork
+from cm.utils import message
 
 
 class VM(models.Model):
@@ -488,8 +489,7 @@ class VM(models.Model):
             self.set_state('saving failed')
             self.save()
             self.node.lock()
-            # TODO:
-            # message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
+            message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
             try:
                 img.delete()
                 transaction.commit()
@@ -503,8 +503,7 @@ class VM(models.Model):
             img.save()
         except Exception, e:
             log.error(self.user.id, "Cannot commit changes: %s" % e)
-            # TODO:
-            # message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
+            message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
 
         # TODO:
         # if self.is_head():
@@ -539,8 +538,7 @@ class VM(models.Model):
             self.node.lock()
             self.set_state('failed')
 
-            # TODO
-            # message.error(self.user.id, 'vm_destroy', {'id': self.id, 'name': self.name})
+            message.error(self.user.id, 'vm_destroy', {'id': self.id, 'name': self.name})
             try:
                 self.save()
             except Exception, e:

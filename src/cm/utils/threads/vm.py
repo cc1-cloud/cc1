@@ -30,6 +30,7 @@ from common.states import farm_states #,vm_states
 from cm.models.vm import VM
 from cm.utils import log
 from django.db import transaction
+from cm.utils import message
 
 #TODO:add global threads
 #threads = {}
@@ -71,8 +72,7 @@ class VMThread(threading.Thread):
         except Exception, e:
             log.exception(self.vm.user_id, 'Libvirt error for %d: %s' % (self.vm.id, e))
             self.vm.set_state('failed')
-            #TODO: message
-            #message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(self.vm.user_id, 'vm_create', {'id': self.vm.id, 'name': self.vm.name})
             self.vm.node.lock()
             self.vm.save(update_fields=['state'])
             return
@@ -86,7 +86,7 @@ class VMThread(threading.Thread):
             log.exception(self.vm.user_id, "Cannot create network")
             self.vm.set_state('failed')
             self.vm.save(update_fields=['state'])
-            #message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(self.vm.user_id, 'vm_create', {'id': self.vm.id, 'name': self.vm.name})
             self.vm.node.lock()
             self.vm.node.save()
             return
@@ -99,8 +99,7 @@ class VMThread(threading.Thread):
         except Exception, e:
             log.exception(self.vm.user_id, "Cannot connect to libvirt")
             self.vm.set_state('failed')
-            #TODO:
-            #message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(self.vm.user_id, 'vm_create', {'id': self.vm.id, 'name': self.vm.name})
             self.vm.node.lock()
             self.vm.save(update_fields=['state'])
             return
@@ -114,8 +113,7 @@ class VMThread(threading.Thread):
         except Exception, e:
             log.exception(self.vm.user_id, 'Libvirt error: %s' % e)
             self.vm.set_state('failed')
-            #TODO:message
-            #message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(self.vm.user_id, 'vm_create', {'id': self.vm.id, 'name': self.vm.name})
             self.vm.node.lock()
             self.vm.save(update_fields=['state'])
             return
@@ -135,8 +133,7 @@ class VMThread(threading.Thread):
         except Exception, e:
             self.vm.set_state('failed')
             self.vm.node.lock()
-            #TODO:
-            #message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(self.vm.user_id, 'vm_create', {'id': self.vm.id, 'name': self.vm.name})
             log.exception(self.vm.user_id, 'Domain not started: %s' % str(e))
             self.vm.save(update_fields=['state'])
             return
@@ -194,8 +191,7 @@ class VMThread(threading.Thread):
             self.vm.libvirt_id = domain.ID()
         except:
             self.vm.node.lock()
-            #TODO:
-            #message.error(vm.user_id, 'vm_restart', {'id': vm.id, 'name': vm.name})
+            message.error(self.vm.user_id, 'vm_restart', {'id': self.vm.id, 'name': self.vm.name})
             self.vm.set_state('failed')
             log.exception(self.vm.user_id, 'Cannot restart machine')
 
