@@ -26,7 +26,7 @@ for TAG in $TAGS ; do
         dpkg-sig --sign builder $PKG
 
         echo "Adding to repository..."
-        reprepro -b $REPREPRO_DIR --ask-passphrase includedeb nightly $PKG
+        reprepro -b $REPREPRO_DIR --ask-passphrase --keepunreferencedfiles includedeb nightly $PKG
     done
 done
 
