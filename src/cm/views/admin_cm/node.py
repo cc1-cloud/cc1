@@ -81,6 +81,19 @@ def configure(caller_id, node_id, interfaces):
         raise CMException(str(e))
 
 
+@admin_cm_log(log=True)
+def check(caller_id, node_id_list):
+    """
+    @parameter{node_id,int} node id
+    @parameter{interfaces,string list} list of interfaces, which node should use to
+    communicate with other nodes and cm.
+    """
+    try:
+        for node_id in node_id_list:
+            node_tools.check(node_id)
+    except Exception, e:
+        log.error(caller_id, 'Cannot check node: %s' % str(e))
+        raise CMException(str(e))
 
 
 # returns list of added nodes
