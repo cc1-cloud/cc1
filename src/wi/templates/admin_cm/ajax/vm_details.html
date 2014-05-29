@@ -179,8 +179,21 @@
 	               	<div>
 	                	<span>{% trans "Access" %}</span>
 	                    <ul>
+                        {% if item.vnc_enabled %}
+                            <li class="icon_vnc {% if item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
+                                <a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.unsetVNC( {{ vm_id }} );{% endif %}">
+                                    {% trans "Disable VNC" %}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="icon_vnc {% if item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
+                                <a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.setVNC( {{ vm_id }} );{% endif %}">
+                                    {% trans "Enable VNC" %}
+                                </a>
+                            </li>
+                        {% endif %}
 							<li class="icon_vnc {% if item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
-								<a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.vnc('{{ item.vnc_endpoint }}', '{{ item.vnc_passwd }}', '{{ vm_id }}');{% endif %}" target="_blank">
+								<a onclick="{% if item.state == states|getitem:'running' or item.state == states|getitem:'running ctx' %}cc1.sthTable.vnc('{{ item.novnc_endpoint }}', '{{ item.vnc_passwd }}', '{{ vm_id }}');{% endif %}" target="_blank">
 									{% trans "Graphical console (VNC)" %}
 								</a>
 							</li>

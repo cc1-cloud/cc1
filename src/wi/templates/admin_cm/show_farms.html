@@ -58,7 +58,7 @@ $(function() {
                 		break;
                 		case 'vnc':
                 			if ($.inArray(itemData.vms[0].state, [cc1.states.vm['running'],cc1.states.vm['running ctx']]) >= 0) {
-                				cc1.sthTable.vnc(itemData.vms[0].vnc_endpoint, itemData.vms[0].vnc_passwd, itemData.vms[0].id);
+                				cc1.sthTable.vnc(itemData.vms[0].novnc_endpoint, itemData.vms[0].vnc_passwd, itemData.vms[0].id);
                 			}
                 		break;
                 		case 'saveshut':
