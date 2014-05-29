@@ -20,6 +20,7 @@
 """@package src.cm.models.node
 """
 
+
 import socket
 
 from django.db import models
@@ -390,7 +391,7 @@ class Node(models.Model):
             available_nodes = []
 
             # Get all nodes, which fit this VM
-            for node in Node.objects.filter(state__exact=node_states['ok']):
+            for node in Node.objects.filter(state__exact=node_states['ok']).order_by('id'):
                 if node.cpu_free >= template.cpu and node.memory_free >= template.memory and node.hdd_free >= image.size:
                     available_nodes.append(node)
 
