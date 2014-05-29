@@ -28,78 +28,59 @@ from cm.utils import log
 from cm.utils.decorators import admin_cm_log
 from cm.utils.exception import CMException
 from common.states import node_states  # , lease_states
+from cm.tools import node as node_tools
 
 
 @admin_cm_log(log=True)
-def add(caller_id, **node_info):
+def add(caller_id, address, username, transport, driver, suffix, cpu, memory, disk):
     """
     Method adds new Node to the Cluster.
     Node must be machine configured as CC1 node.
     @cmview_admin_cm
 
-    @parameter{username,string} optional username for transport
+    @parameter{username,string} cc1 user account on node. Should be cc1
     @parameter{address,string} node ip adress or domain name
     @parameter{transport,string} unix, ssh, tls or other available transport name for kvm
     @parameter{driver,string} XEN, KVM or other hypervisior name
-    @parameter{cpu_total,int}
-    @parameter{memory_total,int}
-    @parameter{hdd_total,int}
+    @parameter{cpu,int}
+    @parameter{memory,int}
+    @parameter{disk,int}
     @parameter{suffix,string} optional suffix for transport (i.e. /system for KVM)
-    @parameter{comment,string}
     """
-    node = Node()
-
-    node.username = node_info['username']
-    node.address = node_info['address']
-    node.transport = node_info['transport']
-    node.driver = node_info['driver']
-    node.cpu_total = node_info['cpu_total']
-    node.memory_total = node_info['memory_total']
-    node.hdd_total = long(node_info['hdd_total'])
-    node.suffix = node_info['suffix']
-    node.comment = node_info['comment']
-
-    node.state = node_states['ok']
-
-    # Session.add(node)
-
-    # Session.flush()
-
-    # add network
-    # try:
-    #    conn = libvirt.open(node.conn_string)
-    # except:
-    #    log.exception(user_id, 'node_lv_open')
-    #    raise CMException('node_lv_open')
-    # n = conn.networkLookupByName(node_info['network'])
-    # xml = n.XMLDesc(0)
-    # d = xml2dict(xml)
-    # start = ip_stoi(d.get('network').get('ip').get('dhcp').get('range').get('start'))
-    # end = ip_stoi(d.get('network').get('ip').get('dhcp').get('range').get('end'))
-
-    # network = Network()
-    # network.node_id = node.id
-    # network.name = node_info['network']
-    # Session.add(network)
-
-    # try:
-    #    for ip in range(start, end+1):
-    #        lease = Lease()
-    #        lease.network = network
-    #        lease.ip = ip_itos(ip)
-    #        lease.state = lease_states['free']
-    #        Session.add(lease)
-    # except:
-    #    log.exception(user_id, 'lease_create')
-    #    raise CMException('lease_create')
-
     try:
-        node.save()
-        # TODO: monia
-        # start_monia()  # odswiezenie listy nodow w monitoringu / refresh monitoring
-    except:
-        log.exception(caller_id, 'node_create')
-        raise CMException('node_create')
+        node_tools.add(address, username, transport, driver, suffix, cpu, memory, disk)
+    except Exception, e:
+        log.error(caller_id, 'Cannot add node: %s' % str(e))
+        raise CMException(str(e))
+
+
+@admin_cm_log(log=True)
+def install(caller_id, node_id, distribution):
+    """
+    @parameter{node_id,int} node id
+    @parameter{distribution,string} distribution name, e.g. debian
+    """
+    try:
+        node_tools.install(node_id, distribution)
+    except Exception, e:
+        log.error(caller_id, 'Cannot install node: %s' % str(e))
+        raise CMException(str(e))
+
+
+@admin_cm_log(log=True)
+def configure(caller_id, node_id, interfaces):
+    """
+    @parameter{node_id,int} node id
+    @parameter{interfaces,string list} list of interfaces, which node should use to
+    communicate with other nodes and cm.
+    """
+    try:
+        node_tools.configure(node_id, interfaces)
+    except Exception, e:
+        log.error(caller_id, 'Cannot configure node: %s' % str(e))
+        raise CMException(str(e))
+
+
 
 
 # returns list of added nodes
