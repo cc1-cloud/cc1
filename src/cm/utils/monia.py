@@ -170,11 +170,13 @@ class RrdHandler():
 
         rrds = {}
         for rrd in f:
-            t = []
-            t.append(rrdtool.first(settings.PATH_TO_RRD + rrd))
-            t.append(rrdtool.last(settings.PATH_TO_RRD + rrd))
-            rrds.update({os.path.splitext(rrd)[0]: t})
-            # rrds[{os.path.splitext(rrd)[0]: t}]
+            try:
+                t = []
+                t.append(rrdtool.first(settings.PATH_TO_RRD + rrd))
+                t.append(rrdtool.last(settings.PATH_TO_RRD + rrd))
+                rrds.update({os.path.splitext(rrd)[0]: t})
+            except Exception, e:
+                log.error(0, 'stat_error %s %s' % (rrd, e))
         return rrds
 
     def get_vm_info(self, vm):
