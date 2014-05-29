@@ -505,11 +505,10 @@ class VM(models.Model):
             log.error(self.user.id, "Cannot commit changes: %s" % e)
             message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
 
-        # TODO:
-        # if self.is_head():
-        #     message.info(self.user_id, 'farm_saved', {'farm_name': self.vm.farm.name})
-        # else:
-        #     message.info(self.user_id, 'vm_saved', {'vm_name': self.name})
+        if self.is_head():
+            message.info(self.user_id, 'farm_saved', {'farm_name': self.vm.farm.name})
+        else:
+            message.info(self.user_id, 'vm_saved', {'vm_name': self.name})
 
     def remove(self):
         """

@@ -174,6 +174,7 @@ class DownloadImage(threading.Thread):
             self.image.state = image_states['ok']
             self.image.size = downloaded_size / (1024*1024)
             self.image.save(update_fields=['progress', 'state', 'size'])
+            message.info(self.image.user.id, 'image_downloaded', {'name': self.image.name, 'md5sum': md5sum.hexdigest()})
         except Exception, e:
             log.exception(self.image.user.id, "Failed to download image: %s" % str(e))
             self.image.state = image_states['failed']
