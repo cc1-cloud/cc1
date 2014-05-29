@@ -32,7 +32,7 @@ import json
 # from common import response
 
 
-@user_log(log=True)  # XXX
+@user_log(log=False)
 def get_list(cm_id, caller_id, **data):
     """
     Method returns list of images.

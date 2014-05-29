@@ -25,7 +25,7 @@
 from clm.utils.decorators import admin_cm_log, cm_request
 
 
-@admin_cm_log(log=True, pack=False)
+@admin_cm_log(log=False, pack=False)
 @cm_request
 def get_list(cm_response, **data):
     """

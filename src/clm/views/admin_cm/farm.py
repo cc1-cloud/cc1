@@ -26,7 +26,7 @@ from clm.models.user import User
 from clm.utils.exception import CLMException
 
 
-@admin_cm_log(log=True)
+@admin_cm_log(log=False)
 @cm_request
 def get_list(cm_response, **data):
     """
