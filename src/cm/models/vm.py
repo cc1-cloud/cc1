@@ -18,7 +18,7 @@
 # @COPYRIGHT_end
 """@package src.cm.models.vm
 """
-from cm.settings import VNC_PORTS
+from cm.settings import VNC_PORTS, NOVNC_PORTS
 
 from cm.models.node import Node
 from cm.models.public_ip import PublicIP
@@ -85,6 +85,7 @@ class VM(models.Model):
     farm = models.ForeignKey(Farm, related_name='vms', null=True)
     hostname = models.CharField(max_length=256, null=True, blank=True)
     vnc_port = models.IntegerField()
+    novnc_port = models.IntegerField(default=0)
     vnc_enabled = models.IntegerField(default=0)
     reservation_id = models.IntegerField(default=0)
     user_data = models.CharField(max_length=32768, null=True, blank=True)
@@ -129,6 +130,7 @@ class VM(models.Model):
         d['platform'] = 0
         d['description'] = self.description or ''
         d['vnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.vnc_port)
+        d['novnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.novnc_port)
         d['vnc_enabled'] = self.vnc_enabled
         d['vnc_passwd'] = self.vnc_passwd or ''
 
@@ -261,16 +263,25 @@ class VM(models.Model):
             # Find first free vnc port
             used_ports = VM.objects.exclude(state__exact=vm_states['closed']).values_list('vnc_port', flat=True)
 
-            new_vnc_port = VNC_PORTS['START']
-            while True:
-                if (new_vnc_port in used_ports) or (new_vnc_port in VNC_PORTS['EXCLUDE']):
-                    new_vnc_port = new_vnc_port + 1
-                else:
+            for new_vnc_port in xrange(VNC_PORTS['START'], VNC_PORTS['END'] + 1):
+                if new_vnc_port not in used_ports and new_vnc_port not in VNC_PORTS['EXCLUDE']:
                     break
+            else:
+                raise CMException('vm_vnc_not_found')
 
             log.debug(user.id, "Found vnc port: %d" % new_vnc_port)
-
             vm.vnc_port = new_vnc_port
+
+            # Find first free novnc port
+            used_ports = VM.objects.exclude(state__in=[vm_states['closed'], vm_states['erased']]).values_list('novnc_port', flat=True)
+            for new_novnc_port in xrange(NOVNC_PORTS['START'], NOVNC_PORTS['END'] + 1):
+                if new_novnc_port not in used_ports and new_novnc_port not in NOVNC_PORTS['EXCLUDE']:
+                    break
+            else:
+                raise CMException('vm_novnc_not_found')
+
+            log.debug(user.id, "Found novnc port: %d" % new_novnc_port)
+            vm.novnc_port = new_novnc_port
 
             if vnc:
                 vm.attach_vnc()
@@ -859,6 +870,7 @@ class VM(models.Model):
     @staticmethod
     def reset(vms):
         from cm.utils.threads.vm import VMThread
+
         results = []
         for vm in vms:
             if vm.state in (vm_states['running'], vm_states['running ctx']):
@@ -877,14 +889,39 @@ class VM(models.Model):
         if self.vnc_enabled == vnc_states['attached'] and reattach == False:
             raise CMException('vm_vnc_attached')
 
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination", "%s:%s" % (self.node.address, str(self.vnc_port))])
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.vnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.novnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "MASQUERADE"])
 
         self.vnc_enabled = vnc_states['attached']
 
     def detach_vnc(self):
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination", "%s:%s" % (self.node.address, str(self.vnc_port))])
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.vnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.novnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "MASQUERADE"])
 
         self.vnc_enabled = vnc_states['detached']
 
@@ -903,6 +940,7 @@ class VM(models.Model):
 
         try:
             from cm.models.command import Command
+
             Command.execute('shutdown', user_id, vm.id)
         except:
             raise CMException('vm_ctx_connect')

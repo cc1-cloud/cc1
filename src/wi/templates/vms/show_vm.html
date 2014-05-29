@@ -122,7 +122,7 @@ $(function() {
                 		break;
                 		case 'vncconnect':
                 			if (itemData.vnc_enabled && $.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
-                				cc1.sthTable.vnc(itemData.vnc_endpoint, itemData.vnc_passwd, itemData[localIdKey]);
+                				cc1.sthTable.vnc(itemData.novnc_endpoint, itemData.vnc_passwd, itemData[localIdKey]);
                 			}
                 		break;
                 		case 'monia':
@@ -144,7 +144,7 @@ $(function() {
                     // 'ipassign'		: {name: '{% trans "Assign external IP" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0 )?'ip':'ip inactive'},
                     'diskassign'	: {name: '{% trans "Assign disk" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'accept':'accept inactive'},
                     'diskrevoke'	: {name: '{% trans "Revoke disk" %}', icon: (itemData.storage_images.length)?'cancel':'cancel inactive'},
-                    'setvnc'		: {name: (itemData.vnc_enabled)?'{% trans "Disable VNC" %}':'{% trans "Enable VNC" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'ip':'ip inactive'},
+                    'setvnc'		: {name: (itemData.vnc_enabled)?'{% trans "Disable VNC" %}':'{% trans "Enable VNC" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'vnc':'vnc inactive'},
                     'vncconnect'	: {name: '{% trans "Graphical console (VNC)" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0 && itemData.vnc_enabled)?'vnc':'vnc inactive'},
                     'sep3'			: '---------',
                     'password'		: {name: '{% trans "Reset password" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running ctx']]) >= 0)?'password':'password inactive'},

@@ -39,6 +39,7 @@ from django.views.decorators.csrf import csrf_protect
 from common.states import vm_states
 from wi.utils.decorators import user_permission
 from wi.commontags.templatetags.templatetags import filesizeformatmb
+from wi.settings import NOVNC_PORT
 from wi.utils import messages_ajax, parsing
 import wi.utils as utils
 from wi.utils.decorators import django_view
@@ -180,36 +181,21 @@ def vms_ajax_vm_details(request, vm_id, template_name='vms/ajax/vm_details.html'
 
 @django_view
 @user_permission
-def vms_vnc(request, vm_id, template_name='vms/vnc.html'):
+def vms_vnc(request, vm_id, template_name='vms/novnc.html'):
     """
     VNC applet view.
     """
     if request.POST is None or request.POST.get('vnc_endpoint') is None or request.POST.get('vnc_passwd') is None:
-        vnc_host, vnc_port, vnc_pass = '', '', ''
+        vnc_host, vnc_pass = 'undefined', 'undefined'
     else:
         vnc_endpoint = request.POST['vnc_endpoint'].split(':')
-        vnc_host, vnc_port, vnc_pass = vnc_endpoint[0], vnc_endpoint[1], request.POST['vnc_passwd']
-
-    return render_to_response(template_name, {'vnc_viewer_jar': settings.VNC_VIEWER_JAR,
-                                              'vnc_host': vnc_host,
-                                              'vnc_port': vnc_port,
+        vnc_host, vnc_pass = vnc_endpoint[0], request.POST['vnc_passwd']
+        print vnc_endpoint[1]
+    return render_to_response(template_name, {'vnc_host': vnc_host,
+                                              'vnc_port': vnc_endpoint[1],
                                               'vnc_passwd': vnc_pass,
                                               'vmid': vm_id
                                              }, context_instance=RequestContext(request))
-
-
-@django_view
-@ajax_request
-@user_permission
-def vms_ajax_vnc_configured(request):
-    """
-    Ajax view checking if VNC applet is configured.
-    """
-    vnc_jar_file = os.path.join(settings.MEDIA_ROOT, 'applets/vnc', settings.VNC_VIEWER_JAR).replace('\\', '/')
-    if os.path.isfile(vnc_jar_file):
-        return messages_ajax.success('configured')
-
-    return messages_ajax.error(_('VNC Viewer applet is not configured. Please contact system administrator. Meantime you may use a standalone VNC client.'))
 
 
 @django_view

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>noVNC</title>
+
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+                Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Apple iOS Safari settings -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- App Start Icon  -->
+    <link rel="apple-touch-startup-image" href="../../../media/novnc/images/screen_320x460.png" />
+    <!-- For iOS devices set the icon to use if user bookmarks app on their homescreen -->
+    <link rel="apple-touch-icon" href="../../../media/novnc/images/screen_57x57.png">
+    <!--
+    <link rel="apple-touch-icon-precomposed" href="../../../media/novnc/images/screen_57x57.png" />
+    -->
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../media/novnc/include/base.css" />
+    <link rel="alternate stylesheet" href="../../../media/novnc/include/black.css" TITLE="Black" />
+    <link rel="alternate stylesheet" href="../../../media/novnc/include/blue.css" TITLE="Blue" />
+
+	<script>
+    	var INCLUDE_URI = '../../../media/novnc/include/';
+    </script>
+</head>
+
+<body>
+    <div id="noVNC-control-bar">
+        <div id="noVNC-menu-bar" style="display:none;">
+        </div>
+        <!--noVNC Mobile Device only Buttons-->
+        <div class="noVNC-buttons-left">
+            <input type="image" src="../../../media/novnc/images/drag.png"
+                id="noVNC_view_drag_button" class="noVNC_status_button"
+                title="Move/Drag Viewport">
+            <div id="noVNC_mobile_buttons">
+                <input type="image" src="../../../media/novnc/images/mouse_none.png"
+                    id="noVNC_mouse_button0" class="noVNC_status_button">
+                <input type="image" src="../../../media/novnc/images/mouse_left.png"
+                    id="noVNC_mouse_button1" class="noVNC_status_button">
+                <input type="image" src="../../../media/novnc/images/mouse_middle.png"
+                    id="noVNC_mouse_button2" class="noVNC_status_button">
+                <input type="image" src="../../../media/novnc/images/mouse_right.png"
+                    id="noVNC_mouse_button4" class="noVNC_status_button">
+                <input type="image" src="../../../media/novnc/images/keyboard.png"
+                    id="showKeyboard" class="noVNC_status_button"
+                    value="Keyboard" title="Show Keyboard"/>
+                <input type="text" autocapitalize="off" autocorrect="off"
+                    id="keyboardinput" class=""/>
+                <div id="noVNC_extra_keys">
+                    <input type="image" src="../../../media/novnc/images/showextrakeys.png"
+                        id="showExtraKeysButton"
+                        class="noVNC_status_button">
+                    <input type="image" src="../../../media/novnc/images/ctrl.png"
+                        id="toggleCtrlButton"
+                        class="noVNC_status_button">
+                    <input type="image" src="../../../media/novnc/images/alt.png"
+                        id="toggleAltButton"
+                        class="noVNC_status_button">
+                    <input type="image" src="../../../media/novnc/images/tab.png"
+                        id="sendTabButton"
+                        class="noVNC_status_button">
+                    <input type="image" src="../../../media/novnc/images/esc.png"
+                        id="sendEscButton"
+                        class="noVNC_status_button">
+                </div>
+            </div>
+        </div>
+
+        <div id="noVNC_status">Loading</div>
+
+        <!--noVNC Buttons-->
+        <div class="noVNC-buttons-right">
+            <input type="image" src="../../../media/novnc/images/ctrlaltdel.png"
+                 id="sendCtrlAltDelButton" class="noVNC_status_button"
+                title="Send Ctrl-Alt-Del" />
+            <input type="image" src="../../../media/novnc/images/power.png"
+                id="xvpButton" class="noVNC_status_button"
+                title="Shutdown/Reboot..." />
+            <input type="image" src="../../../media/novnc/images/clipboard.png"
+                id="clipboardButton" class="noVNC_status_button"
+                title="Clipboard" />
+            <input type="image" src="../../../media/novnc/images/settings.png"
+                id="settingsButton" class="noVNC_status_button"
+                title="Settings" />
+            <input type="image" src="../../../media/novnc/images/connect.png"
+                id="connectButton" class="noVNC_status_button"
+                title="Connect" />
+            <input type="image" src="../../../media/novnc/images/disconnect.png"
+                id="disconnectButton" class="noVNC_status_button"
+                title="Disconnect" />
+        </div>
+
+        <div id="noVNC_description" style="display:none;" class="">
+            <input id="descriptionButton" type="button" value="Close">
+        </div>
+
+
+        <!-- Popup Status Panel -->
+        <div id="noVNC_popup_status_panel" class="">
+        </div>
+
+        <!-- Clipboard Panel -->
+        <div id="noVNC_clipboard" class="triangle-right top">
+            <textarea id="noVNC_clipboard_text" rows=5>
+            </textarea>
+            <br />
+            <input id="noVNC_clipboard_clear_button" type="button"
+                value="Clear">
+        </div>
+
+        <!-- XVP Shutdown/Reboot Panel -->
+        <div id="noVNC_xvp" class="triangle-right top">
+            <span id="noVNC_xvp_menu">
+                <input type="button" id="xvpShutdownButton" value="Shutdown" />
+                <input type="button" id="xvpRebootButton" value="Reboot" />
+                <input type="button" id="xvpResetButton" value="Reset" />
+            </span>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="noVNC_settings" class="triangle-right top">
+            <span id="noVNC_settings_menu">
+                <ul>
+                    <li><input id="noVNC_encrypt" type="checkbox"> Encrypt</li>
+                    <li><input id="noVNC_true_color" type="checkbox" checked> True Color</li>
+                    <li><input id="noVNC_cursor" type="checkbox"> Local Cursor</li>
+                    <li><input id="noVNC_clip" type="checkbox"> Clip to Window</li>
+                    <li><input id="noVNC_shared" type="checkbox"> Shared Mode</li>
+                    <li><input id="noVNC_view_only" type="checkbox"> View Only</li>
+                    <li><input id="noVNC_path" type="input" value="websockify"> Path</li>
+                    <li><input id="noVNC_repeaterID" type="input" value=""> Repeater ID</li>
+                    <hr>
+                    <!-- Stylesheet selection dropdown -->
+                    <li><label><strong>Style: </strong>
+                        <select id="noVNC_stylesheet" name="vncStyle">
+                            <option value="default">default</option>
+                        </select></label>
+                    </li>
+
+                    <!-- Logging selection dropdown -->
+                    <li><label><strong>Logging: </strong>
+                        <select id="noVNC_logging" name="vncLogging">
+                        </select></label>
+                    </li>
+                    <hr>
+                    <li><input type="button" id="noVNC_apply" value="Apply"></li>
+                </ul>
+            </span>
+        </div>
+
+        <!-- Connection Panel -->
+        <div id="noVNC_controls" class="triangle-right top">
+            <ul>
+                <li><label><strong>Host: </strong><input id="noVNC_host" /></label></li>
+                <li><label><strong>Port: </strong><input id="noVNC_port" /></label></li>
+                <li><label><strong>Password: </strong><input id="noVNC_password" type="password" /></label></li>
+                <li><input id="noVNC_connect_button" type="button" value="Connect"></li>
+            </ul>
+        </div>
+
+    </div> <!-- End of noVNC-control-bar -->
+
+
+    <div id="noVNC_screen">
+        <div id="noVNC_screen_pad"></div>
+
+        <!-- HTML5 Canvas -->
+        <div id="noVNC_container">
+            <canvas id="noVNC_canvas" width="640px" height="20px">
+                        Canvas not supported.
+            </canvas>
+        </div>
+
+    </div>
+    <script src="../../../media/novnc/include/util.js"></script>
+    <script src="../../../media/novnc/include/ui.js"></script>
+
+    <script>
+    window.onscriptsload = function () {    	
+    	UI.updateSetting("host", "{{ vnc_host }}");
+    	UI.updateSetting("port", "{{ vnc_port }}");
+    	UI.updateSetting("password", "{{ vnc_passwd }}");
+    	UI.updateSetting("path", "{{ vmid }}");
+    	UI.updateSetting("encrypt", (window.location.protocol === "https:"));
+    	    	
+    	UI.load();
+    	if ("{{ vnc_host }}" !== "undefined" && "{{ vnc_passwd }}" !== "undefined") {
+    		UI.connect();
+    	}
+    };
+    </script>
+ </body>
+</html>
