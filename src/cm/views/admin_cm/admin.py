@@ -25,10 +25,10 @@
 """
 
 from cm.utils.exception import CMException
+from cm.utils.decorators import admin_cm_log, guest_log
 from cm.models.admin import Admin
 from cm.models.user import User
 
-from cm.utils.decorators import admin_cm_log
 
 
 @admin_cm_log(log=True)
@@ -104,3 +104,7 @@ def list_admins(caller_id):
     for admin in Admin.objects.all():
         admins.append(admin.user.id)
     return admins
+
+@guest_log(log=True)
+def am_i_admin(caller_id):
+    return caller_id in [admin.user.id for admin in Admin.objects.all()]
