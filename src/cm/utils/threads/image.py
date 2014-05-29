@@ -48,15 +48,6 @@ class CreateImage(threading.Thread):
 
         if self.format() == 'failed':
             self.image.state = image_states['failed']
-        # file = open(self.image.path, 'w')
-        # file.seek(self.image.size)
-        # file.write(' ')
-        # file.close()
-        #
-        # self.image.progress = 75
-        # self.image.save()
-        # # TODO: Format image by self.format
-        #
             self.image.save(update_fields=['state'])
         else:
             self.image.progress = 100
