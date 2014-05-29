@@ -129,7 +129,7 @@ class User(models.Model):
         return self.group_leader_set.all()
 
     @staticmethod
-    def get(id):
+    def get(user_id):
         """
         @parameter{id,int} primary index of the @type{User}
 
@@ -138,7 +138,7 @@ class User(models.Model):
         @raises{user_get,CLMException}
         """
         try:
-            u = User.objects.get(pk=id)
+            u = User.objects.get(pk=user_id)
         except:
             raise CLMException('user_get')
         return u
