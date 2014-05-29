@@ -79,15 +79,15 @@ class Node(models.Model):
         """
         d = {}
         d['node_id'] = self.id
-        d['address'] = self.address
+        d['address'] = self.address  or ''
         d['cpu_total'] = self.cpu_total
         d['cpu_free'] = self.cpu_free
         d['memory_total'] = self.memory_total
         d['memory_free'] = self.memory_free
         d['hdd_total'] = self.hdd_total
         d['hdd_free'] = self.hdd_free
-        d['state'] = self.state
-        d['comment'] = self.comment
+        d['state'] = self.state or ''
+        d['comment'] = self.comment or ''
         d['errors'] = self.errors or ''
 
         return d
@@ -113,19 +113,19 @@ class Node(models.Model):
         """
         d = {}
         d['node_id'] = self.id
-        d['username'] = self.username
-        d['address'] = self.address
-        d['transport'] = self.transport
-        d['driver'] = self.driver
+        d['username'] = self.username or ''
+        d['address'] = self.address or ''
+        d['transport'] = self.transport or ''
+        d['driver'] = self.driver or ''
         d['cpu_total'] = self.cpu_total
         d['cpu_free'] = self.cpu_free
         d['memory_total'] = self.memory_total
         d['memory_free'] = self.memory_free
         d['hdd_total'] = self.hdd_total
         d['hdd_free'] = self.hdd_free
-        d['state'] = self.state
-        d['suffix'] = self.suffix
-        d['comment'] = self.comment
+        d['state'] = self.state or ''
+        d['suffix'] = self.suffix or ''
+        d['comment'] = self.comment or ''
         d['errors'] = self.errors or ''
 
         return d
@@ -157,18 +157,18 @@ class Node(models.Model):
         """
         d = {}
         d['node_id'] = self.id
-        d['username'] = self.username
-        d['address'] = self.address
-        d['transport'] = self.transport
-        d['driver'] = self.driver
+        d['username'] = self.username or ''
+        d['address'] = self.address or ''
+        d['transport'] = self.transport or ''
+        d['driver'] = self.driver or ''
         d['cpu_total'] = self.cpu_total
         d['cpu_free'] = self.cpu_free
         d['memory_total'] = self.memory_total
         d['memory_free'] = self.memory_free
         d['hdd_total'] = self.hdd_total
         d['hdd_free'] = self.hdd_free
-        d['state'] = self.state
-        d['suffix'] = self.suffix
+        d['state'] = self.state or ''
+        d['suffix'] = self.suffix or ''
         d['real_memory_total'] = self.real_memory_total
         d['real_memory_free'] = self.real_memory_free
         d['real_hdd_total'] = self.real_hdd_total
@@ -177,7 +177,7 @@ class Node(models.Model):
         d['lv_memory_free'] = self.lv_memory_free
         d['lv_cpu_total'] = self.lv_cpu_total
         d['lv_cpu_free'] = self.lv_cpu_free
-        d['comment'] = self.comment
+        d['comment'] = self.comment or ''
         d['errors'] = self.errors or ''
 
         return d
