@@ -101,3 +101,22 @@ def unassign(caller_id, lease_id):
     public_ip.unassign()
     public_ip.save()
 
+
+@admin_cm_log(log=True)
+def release(caller_id, public_ip_id_list):
+    """
+    Removes public IP from caller's IPs and makes it available in public pool.
+    @decoratedby{src.cm.utils.decorators.user_log}
+
+    @parameter{publicip_id,int} id of the IP to release
+
+    @response{None}
+    """
+    for public_ip_id in public_ip_id_list:
+        public_lease = PublicIP.objects.get(id=public_ip_id)
+
+        if public_lease.lease:
+            public_lease.unassign()
+
+        public_lease.user = None
+        public_lease.save()
