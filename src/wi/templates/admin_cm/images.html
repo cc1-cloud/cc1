@@ -65,13 +65,38 @@ $(function() {
 		autoRefreshTime : 60000,
 		leftClickMenu : '.action_button',
 		enableSorting: true,
-		sortingColumnIndex: 7,
+		sortingColumnIndex: 8,
 		sortingDescending: true,
 		showSearchBox: true,
 		overTable: '#over-table',
 		itemDataAttr: 'items',
         idKey: localIdKey,
 	});
+
+	// group actions
+    $.contextMenu({
+        selector: '#group_action',
+        trigger: 'left',
+        ignoreRightClick: true,
+        build: function($trigger, e) {
+            return {
+                callback: function(key, options) {
+                    switch (key) {
+                        case 'remove':
+                            if (cc1.sthTable.getListOfSelected().length) {
+                                cc1.sthTable.deleteImage(null);
+                            }
+                        break;
+                    }
+                },
+                items: {
+                    'remove'     : {name: '{% trans "Remove" %}', icon: (cc1.sthTable.getListOfSelected().length)?'delete':'delete inactive'},
+                }
+            };
+        }
+    });
+
+
 	// dialog dodawania nowego obrazu
 	cc1.sthTable.addImage =  cc1.utils.createAction({
 		url: '{% url 'cma_ajax_add_image' %}',
@@ -95,13 +120,25 @@ $(function() {
 	});
 	// dialog usuwania obrazu
 	cc1.sthTable.deleteImage = cc1.utils.createAction({
-		url: '{% url 'cma_ajax_delete_image' 0 %}',
+        url: '{% url 'cma_ajax_delete_image' %}',
+        calculatePostParams: function(id) {
+            return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+        },
+        calculateParams: function(id) {
+            return {'desc': cc1.sthTable.getListOfSelectedNames(id, 'items'),
+                    'length': cc1.sthTable.getListOfSelected(id).length,};
+        },
+        dialogWidth: 600,
+        dialogClass: 'warning'
+    });
+    /*cc1.sthTable.deleteImage = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_delete_image' %}',
 		dialogTitle: '{% trans "Delete image" %}',
 		calculateParams: function(id) {
 			return {'desc': cc1.sthTable.getItemById(id, 'items').name};
 		},
 		dialogClass: 'warning'
-	});
+	});*/
 	// dialog robienia obrazu publicznym
 	cc1.sthTable.publicImage = cc1.utils.createAction({
 		url: '{% url 'cma_ajax_public_image' 0 %}',
@@ -127,6 +164,9 @@ $(function() {
 <table id="item-list" class="tab w100pc context_menu">
 	<thead class="thead">
 		<tr>
+            <td class="noSort">
+                <input id='select-all' type='checkbox' onclick="cc1.sthTable.toggleChecked(this.checked);" />
+            </td>
 			<td> {% trans "Owner" %}</td>
 			<td> {% trans "ID" %} </td>
 			<td> {% trans "Name" %} </td>
@@ -142,7 +182,7 @@ $(function() {
 		<script id="rowTemplate" type="text/x-jquery-tmpl">
 		{% verbatim2 %}
 		<tr class="separator">
-			<td class="tab_separator" colspan="9">
+			<td class="tab_separator" colspan="10">
 				${name}
 				<span>
 					{% trans "Hide section" %} <input class="separator_check" data-category="${name}" type="checkbox"/>
@@ -152,10 +192,11 @@ $(function() {
 
 		{{each items}}
 		<tr data-id="${system_image_id}" class="rclick">
+            <td class="selecting"><input data-id="${system_image_id}" type="checkbox"/></td>
 			<td>
 				<a onclick='location.href = "{% url 'clm_user_account' 0 %}".replace("0", ${user_id});'> ${owner} </a>
 			</td>
-			<td> ${image_id} </td>
+			<td> ${system_image_id} </td>
 			<td>
 				{{html name.escapeHTML().wbrAndLb()}}
 			</td>
@@ -179,20 +220,23 @@ $(function() {
 		{{/each}}
 
 		{{if items.length === 0}}
-			<tr> <td colspan="9"> {% trans "No items to display." %} </td> </tr>
+			<tr> <td colspan="10"> {% trans "No items to display." %} </td> </tr>
 		{{/if}}
 		{% endverbatim2 %}
 		</script>
         <tr>
-    		<td colspan="9">
+    		<td colspan="10">
     			<div class="ajax_loader1">&nbsp;</div>
     		</td>
     	</tr>
     </tbody>
 	<tfoot class="tfoot">
 		<tr>
-			<td colspan="9" class="table_bottom_actions">
+			<td colspan="10" class="table_bottom_actions">
 				<ul>
+                    <li id="group_action" class="icon_action">
+                        <a id="menu_all">{% trans "Perform for selected"%}</a>
+                    </li>
 					<li class="icon_add">
 						<a onclick="cc1.sthTable.addImage();">{% trans "Register image" %}</a>
 					</li>

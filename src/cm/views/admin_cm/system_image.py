@@ -118,7 +118,7 @@ def get_by_id(caller_id, system_image_id):
 
 
 @admin_cm_log(log=True)
-def delete(caller_id, system_image_id):
+def delete(caller_id, system_image_id_list):
     """
     Deletes given Image
     @cmview_admin_cm
@@ -126,10 +126,10 @@ def delete(caller_id, system_image_id):
     @parameter{system_image_id} id of the Image to delete
     @parameter{type,image_types} type of image, automatically set, type is in the URL requested
     """
-    image = SystemImage.admin_get(system_image_id)
-
-    image.state = image_states['locked']
-    image.save()
+    for system_image_id in system_image_id_list:
+        image = SystemImage.admin_get(system_image_id)
+        image.state = image_states['locked']
+        image.save()
 
 
 @admin_cm_log(log=True)
