@@ -38,6 +38,14 @@ from wi.utils.decorators import django_view
 from wi.utils.messages_codes import get_error
 from wi.utils.messages_ajax import ajax_request
 
+not_to_be_logged_urls = ['admin_cm/farm/get_list/',
+                         'admin_cm/vm/get_list/',
+                         'admin_cm/monia/vm_stats/',
+
+                         'user/farm/get_list/',
+                         'user/vm/get_list/',
+                         'user/monia/vm_stats/']
+
 
 def make_request(url, data, user=None):
     """
