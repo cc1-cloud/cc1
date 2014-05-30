@@ -51,14 +51,12 @@ def make_request(url, data, user=None):
     """
     """
     if not url.startswith('guest'):
-        data.update({'login': user.username, 'password': user.password})
+        data.update({'login': user.username, 'password': user.password, 'cm_id': user.cm_id})
 
-    if url.startswith('user') or url.startswith('admin_clm'):
-        data.update({'cm_id': user.cm_id})
-    elif url.startswith('admin_cm'):
-        data.update({'cm_id': user.admin_cm_id, 'cm_password': user.cm_password})
+    if url.startswith('admin_cm'):
+        data.update({'cm_password': user.cm_password})
 
-    return CLM.send_request(url, **data)
+    return CLM.send_request(url, False if url in not_to_be_logged_urls else True, **data)
 
 
 def prep_data(request_urls, session):
