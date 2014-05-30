@@ -52,7 +52,6 @@ from functools import wraps
 import json
 from django.http import HttpResponse
 from django.db import transaction
-from cm.models.user import User
 from threading import Lock
 
 # # Set of functions decorated by actor decorators
@@ -67,6 +66,7 @@ global ctx_decorated_functions
 decorated_functions = set([])
 ci_decorated_functions = set([])
 ctx_decorated_functions = set([])
+
 
 locks = {
     'vmcreate': Lock()
@@ -227,7 +227,7 @@ def ctx_log(*arg, **kw):
             #log.debug(0, 'RAW ARGS: %s' % str(data))
 
             gen_exception = False
-            log_enabled=kw.get('log', False)
+            log_enabled = kw.get('log', False)
             name = '%s.%s' % (fun.__module__.replace('cm.views.', ''), fun.__name__)
             if log_enabled:
                 log.debug(0, '=' * 100)
@@ -287,7 +287,7 @@ def ec2ctx_log(*arg, **kw):
         @wraps(fun)
         def wrapper(request, *args, **kwargs):
             log.debug(0, "request\n%s: " % json.dumps(request.GET.dict(), indent=4))
-            log_enabled=kw.get('log', False)
+            log_enabled = kw.get('log', False)
             name = '%s.%s' % (fun.__module__.replace('cm.views.', ''), fun.__name__)
             if log_enabled:
                 log.debug(0, '=' * 100)
@@ -389,7 +389,11 @@ def genericlog(log_enabled, is_user, is_admin_cm, need_ip, fun, args):
                 log.debug(caller_id, 'Try release lock vmcreate')
                 locks[lock_name].release()
                 log.debug(caller_id, 'Lock vmcreate released')
-
+    # adding messages to response
+    global MESSAGES
+    if MESSAGES:
+        resp['messages'] = MESSAGES.copy()
+        MESSAGES.clear()
     if resp['status'] != 'ok' and not log_enabled:
         log.debug(caller_id, '=' * 100)
         log.debug(caller_id, 'Function: %s' % name)

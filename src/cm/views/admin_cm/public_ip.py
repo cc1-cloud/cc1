@@ -20,6 +20,7 @@
 """@package src.cm.views.suer.network
 @author Maciej Nabożny <mn@mnabozny.pl>
 
+
 Functions to manage public leases in database for CM Administrator
 """
 
@@ -45,12 +46,12 @@ def add(caller_id, start_address, count):
 
     pool = netaddr.IPAddress(start_address)
     for i in xrange(count):
-        if str(pool+i) in ips:
-            log.debug(caller_id, 'Ip %s is a duplicate! Skipping' % str(pool+i))
-        elif not IPAddress(pool+1).is_unicast():
-            log.debug(caller_id, 'Ip %s is not an unicast address! Skipping' % str(pool+i))
+        if str(pool + i) in ips:
+            log.debug(caller_id, 'Ip %s is a duplicate! Skipping' % str(pool + i))
+        elif not IPAddress(pool + 1).is_unicast():
+            log.debug(caller_id, 'Ip %s is not an unicast address! Skipping' % str(pool + i))
         else:
-            log.debug(caller_id, 'Adding public ip %s' % str(pool+i))
+            log.debug(caller_id, 'Adding public ip %s' % str(pool + i))
             public_lease = PublicIP()
             public_lease.address = str(pool + i)
             public_lease.save()
@@ -99,3 +100,23 @@ def unassign(caller_id, lease_id):
 
     public_ip.unassign()
     public_ip.save()
+
+
+@admin_cm_log(log=True)
+def release(caller_id, public_ip_id_list):
+    """
+    Removes public IP from caller's IPs and makes it available in public pool.
+    @decoratedby{src.cm.utils.decorators.user_log}
+
+    @parameter{publicip_id,int} id of the IP to release
+
+    @response{None}
+    """
+    for public_ip_id in public_ip_id_list:
+        public_lease = PublicIP.objects.get(id=public_ip_id)
+
+        if public_lease.lease:
+            public_lease.unassign()
+
+        public_lease.user = None
+        public_lease.save()

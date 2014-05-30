@@ -39,10 +39,6 @@ DATABASES = {
     }
 }
 
-
-# Link to CLM, e.g. https://192.168.1.2:8000/
-CLM_ADDRESS = 'http://127.0.0.1:8000/'
-
 # OSPF Token which is authorising all routing updates in network
 OSPF_TOKEN = 'RANDOM_OSPF_TOKEN'
 
@@ -53,8 +49,15 @@ DNS_DOMAIN = 'localdomain'
 VNC_ADDRESS = '127.0.0.1'
 VNC_PORTS = {
 	'START': 5900,
+	'END': 6899,
 	'EXCLUDE': []
 }
+NOVNC_PORTS = {
+	'START': 6900,
+	'END': 7899,
+	'EXCLUDE': []
+}
+
 
 ################################################################################
 #                        Monitoring Configuration                              #

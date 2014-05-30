@@ -34,7 +34,7 @@ def create(cm_response, **data):
     return cm_response
 
 
-@admin_cm_log(log=True, pack=False)
+@admin_cm_log(log=False, pack=False)
 @cm_request
 def get_list(cm_response, **data):
     """

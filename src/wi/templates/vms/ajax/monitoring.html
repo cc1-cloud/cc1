@@ -156,9 +156,9 @@ $(function () {
     },
 
     tickFormatters = {
-        num: null,
-        bytes: byteFormatter,
-        ops: opsFormatter,
+        "time": null,
+        "bytes": byteFormatter,
+        "ops": opsFormatter,
     },
 
     loadChart = function() {
@@ -201,9 +201,12 @@ $(function () {
                         }
                         series.push([]);
                         for (var j=0; j<points.length; j++){
-                            series[i].push([points[j][0],points[j][i+1]]);
+                            if (points[j][i+1] !== ""){
+                                series[i].push([points[j][0],points[j][i+1]]);
+                            }
                         }
                     }
+
                     // adding y axes
                     for (var i=0; i<axes_names.length; i++){
                         axes.push({
@@ -211,7 +214,7 @@ $(function () {
                             position: (i%2 == 0) ? "left": "right",
                             min:0,
                             tickDecimals: 1,
-                            tickFormatter: tickFormatters[format],
+                            tickFormatter: tickFormatters[axes_names[i]],
                         });
                     }
                     // adding data series

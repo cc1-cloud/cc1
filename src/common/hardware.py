@@ -60,25 +60,24 @@ live_attach_disk_controllers = ['virtio', 'usb']
 # - command - formatting program. %%s will be replaced with formatting filename
 # - enabled
 disk_filesystems = {
-    'ntfs': 0,
-    'ntfs-full': 1,
-    'Fat32': 2,
-    'ext2': 3,
-    'ext3': 4,
+    'raw': 0,
+    'fat32': 2,
     'ext4': 5,
     'reiserfs': 6,
-    'xfs': 7
+    'xfs': 7,
+    'ntfs': 8
 }
 
 disk_format_commands = {
-    'ntfs': '/sbin/mkfs.ntfs -Q -F',
+    'raw': '',
     'ntfs-full': '/sbin/mkfs.ntfs -F',
-    'Fat32': '/sbin/mkfs.vfat',
+    'fat32': '/sbin/mkfs.vfat',
     'ext2': '/sbin/mkfs.ext2 -F',
     'ext3': '/sbin/mkfs.ext3 -F',
     'ext4': '/sbin/mkfs.ext4 -F',
     'reiserfs': '/sbin/mkfs.reiserfs -f -q',
-    'xfs': '/sbin/mkfs.xfs -f'
+    'xfs': '/sbin/mkfs.xfs -f',
+    'ntfs': '/sbin/mkfs.ntfs -Q -F',
 }
 
 video_devices_reversed = dict((v, k) for k, v in video_devices.iteritems())

@@ -6,10 +6,6 @@ import netifaces
 
 if __name__ == '__main__':
     if 'configure' in sys.argv:
-        print "Installing right Django version and other pip dependencies"
-        subprocess.call("pip install --upgrade django==1.6.1", shell=True)
-        subprocess.call("pip install --upgrade django-typed-models", shell=True)
-
         print "CM: Removing old .pyc files"
         subprocess.call("find /usr/lib/cc1/cm -name '*.pyc' -exec rm {} \\;", shell=True)
         subprocess.call("find /etc/cc1/cm -name '*.pyc' -exec rm {} \\;", shell=True)

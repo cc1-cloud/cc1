@@ -61,9 +61,14 @@ $(function() {
                 				cc1.sthTable.saveAndShutdownVm(itemData[localIdKey]);
                 			}
                 		break;
+                        case 'setvnc':
+                            if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0) {
+                                (itemData.vnc_enabled)? cc1.sthTable.unsetVNC(itemData[localIdKey]) : cc1.sthTable.setVNC(itemData[localIdKey]);
+                            }
+                        break;
                 		case 'vnc':
                 			if ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 ) {
-                				cc1.sthTable.vnc(itemData.vnc_endpoint, itemData.vnc_passwd, itemData.id);
+                				cc1.sthTable.vnc(itemData.novnc_endpoint, itemData.vnc_passwd, itemData.id);
                 			}
                 		break;
                 		case 'monia':
@@ -75,6 +80,7 @@ $(function() {
                     'details'	: {name: '<b>{% trans "Show details" %}</b>', icon:'magnify' },
                     'sep1'		: '---------',
                     'vnc'		: {name: '{% trans "Graphical console (VNC)" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 )?'vnc':'vnc inactive'},
+                    'setvnc'    : {name: (itemData.vnc_enabled)?'{% trans "Disable VNC" %}':'{% trans "Enable VNC" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >= 0)?'vnc':'vnc inactive'},
                     'saveshut'	: {name: '{% trans "Save and shutdown" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 )?'saveshut':'saveshut inactive'},
                     'destroy'	: {name: '{% trans "Destroy" %}', icon: ($.inArray(itemData.state, [cc1.states.vm['running'], cc1.states.vm['running ctx']]) >=0 )?'destroy':'destroy inactive'},
                     'erase'		: {name: '{% trans "Erase" %}', icon: 'delete'},
@@ -162,6 +168,22 @@ $(function() {
 		url: '{% url 'cma_vms_ajax_revoke_ip' 0 %}',
 		dialogTitle: '{% trans "Revoke IP address" %}',
 	});
+    // wlaczenie VNC
+    cc1.sthTable.setVNC = cc1.utils.createAction({
+        url: '{% url 'cma_vms_ajax_set_vnc' 0 %}',
+        dialogTitle: '{% trans "Enable VNC" %}',
+        calculateGetParams: function(id) {
+            return {'desc': cc1.sthTable.getItemById(id).name};
+        },
+    });
+    // wylaczenie VNC
+    cc1.sthTable.unsetVNC = cc1.utils.createAction({
+        url: '{% url 'cma_vms_ajax_unset_vnc' 0 %}',
+        dialogTitle: '{% trans "Disable VNC" %}',
+        calculateGetParams: function(id) {
+            return {'desc': cc1.sthTable.getItemById(id).name};
+        },
+    });
 });
 /*]]>*/</script>
 

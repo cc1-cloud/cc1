@@ -27,7 +27,7 @@ from clm.models.news import News
 from clm.utils.decorators import guest_log
 
 
-@guest_log(log=True)
+@guest_log(log=False)
 def get_list():
     """
     Returns list of the news.

@@ -54,6 +54,9 @@ def create(caller_id, name, description, filesystem, size, disk_controller):
 
     @response{dict} Image's dictionary
     """
+    if size < 1:
+        raise CMException('image_invalid_size')
+
     user = User.get(caller_id)
     user.check_storage(size)
     image = StorageImage.create(user=user, disk_controller=disk_controller, description=description, name=name,
@@ -176,7 +179,7 @@ def edit(caller_id, storage_image_id, name, description, disk_controller):
 
     image = StorageImage.get(caller_id, storage_image_id)
 
-    if image.state != image_states['ok']:
+    if not image.state in [image_states['ok'], image_states['adding']]:
         raise CMException('image_edit')
 
     image.name = name

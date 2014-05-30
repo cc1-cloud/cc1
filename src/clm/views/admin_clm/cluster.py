@@ -45,8 +45,14 @@ def add(cm_id, caller_id, name, address, port, new_password):
     @parameter{new_password} password protecting the new CM
     """
 
-    if not re.search('^[a-z0-9-]+$', 'aa-asd-ada234234'):
+    if not re.search('^[a-z0-9-]+$', name):
         raise CLMException('cluster_invalid_name')
+
+    try:
+        Cluster.objects.get(name=name)
+        raise CLMException('cluster_duplicate_name')
+    except Cluster.DoesNotExist:
+        pass
 
     cluster = Cluster()
     cluster.address = address
@@ -212,4 +218,3 @@ def get_list(cm_id, caller_id):
     @response{list(dict)} list of dictionaries about each cluster @asreturned{src.cm.database.entities.cluster.dict}
     """
     return [c.dict for c in Cluster.objects.all()]
-

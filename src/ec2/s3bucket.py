@@ -16,6 +16,25 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
+import os
+from ec2.base.s3action import S3Action
+from ec2.helpers.auth import authenticate
 
-"""@package src.cm.rm
+"""@package src.s3bucket
+S3 base action
+
+@copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
+@author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
+
+
+class ListBucket(S3Action):
+    def _execute(self):
+        print 'ListBucket'
+        authenticate(self.parameters)
+        bucket = self.bucket_name
+        print self.path
+        if not os.path.exists(self.path):  # TODO przenieść to do innych funkcji
+            os.mkdir(self.path)
+
+        return {'body': {'bucket': bucket}}

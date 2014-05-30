@@ -26,9 +26,6 @@ DATABASES = {
     }
 }
 
-# Which local address and port shoud CLM listen for
-CLM_ADDRESS = ('127.0.0.1', 8000)
-
 # Should new accounts be activated after email confirmation (True) or manual activation by clmadmin (False)
 AUTOACTIVATION = False
 

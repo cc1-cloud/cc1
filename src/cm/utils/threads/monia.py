@@ -26,9 +26,8 @@ import threading
 import libvirt
 import time
 import sys
-import os
 from cm.utils.monia import RrdHandler
-from xml.dom.minidom import parse, parseString
+from xml.dom.minidom import parseString
 import cm.utils.monia
 import rrdtool
 from cm.models.node import Node
@@ -49,7 +48,7 @@ def refresh_nodes():
     nlist = get_nodes()
     if not nlist:
         return 'No nodes to monitor'
-    e=threading.enumerate()
+    e = threading.enumerate()
     for i in e:
         if i.name == "initiator":
             i.update_nodes(nlist)
@@ -68,8 +67,8 @@ def start_monia():
     if not nlist:
         stop_monia()
         return 'No nodes to monitor'
-    r=[]
-    e=threading.enumerate()
+    r = []
+    e = threading.enumerate()
 
     #update list of nodes in MonitorInitiator thread
     for t in e:
@@ -82,15 +81,13 @@ def start_monia():
     if not [t for t in e if t.name == 'initiator']:
         monitor = MonitorInitiator()
         monitor.start()
-        monitor.join()
         r.append('initiator started')
         log.info(0, 'Monitoring thread MonitorInitiator started')
 
     #start CleanerThread thread...
     if not [t for t in e if t.name == 'cleaner']:
-        cl=CleanerThread()
+        cl = CleanerThread()
         cl.start()
-        cl.join()
         r.append('cleaner started')
         log.info(0, 'Monitoring thread CleanerThread started')
 
@@ -104,9 +101,9 @@ def stop_monia():
     @response (list)
     """
 
-    t=threading.activeCount()
-    e=threading.enumerate()
-    th=[]
+    t = threading.activeCount()
+    e = threading.enumerate()
+    th = []
     for i in e:
         th.append(i.getName())
         if i.getName() == "initiator":
@@ -121,7 +118,7 @@ class MonitorInitiator(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.setDaemon(True)
-        self.name= "initiator"
+        self.name = "initiator"
         self.running = True
         if not cm.utils.monia.os.path.exists(settings.PATH_TO_RRD):
             cm.utils.monia.os.makedirs(settings.PATH_TO_RRD)
@@ -131,7 +128,7 @@ class MonitorInitiator(threading.Thread):
         self.rb = cm.utils.monia.RingBuffer()
 
         nlist = get_nodes()
-        self.frequency = settings.PERIOD*1.0/len(nlist)
+        self.frequency = settings.PERIOD * 1.0 / len(nlist)
         for n in nlist:
             self.rb.add(n)
         #self.start()
@@ -145,12 +142,12 @@ class MonitorInitiator(threading.Thread):
     def run(self):
             while self.running:
                 try:
-                    one=self.rb.get()
+                    one = self.rb.get()
                     if not one['address'] in [i.name for i in threading.enumerate()]:
                         t = MonitorThread(one)
                         t.start()
                 except Exception, e:
-                    log.error(0, 'Monitoring error %s: %s'%(one['address'],e))
+                    log.error(0, 'Monitoring error %s: %s' % (one['address'], e))
                 time.sleep(self.frequency)
             log.info(0, "MonitorInitiator stopped")
 
@@ -164,7 +161,7 @@ class CleanerThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.setDaemon(True)
-        self.name="cleaner"
+        self.name = "cleaner"
         self.running = True
 
     def kill(self):
@@ -176,13 +173,13 @@ class CleanerThread(threading.Thread):
         try:
             while self.running:
                 time.sleep(settings.CLEANING_PERIOD)
-                rrds=cm.utils.monia.RrdHandler().list()
+                rrds = cm.utils.monia.RrdHandler().get_list()
                 for vm in rrds:
-                    if time.time()-settings.TIME_TO_REMOVE > rrds[vm][1]:
+                    if time.time() - settings.TIME_TO_REMOVE > rrds[vm][1]:
                         cm.utils.monia.RrdHandler({'name': str(vm), 'data': None}).remove()
             log.info(0, "CleanerThread stopped")
         except Exception, e:
-            log.exception(0, 'CleanerThread: %s'%(e))
+            log.exception(0, 'CleanerThread: %s' % (e))
 
 
 class MonitorThread(threading.Thread):
@@ -191,16 +188,15 @@ class MonitorThread(threading.Thread):
         self.addr = data['conn_string']
         self.name = data['address']
         self.setDaemon(True)
-        self.t = threading.Timer(settings.TIMEOUT,self.kill)
-        self.t.name='timer-%s' %(self.name)
+        self.t = threading.Timer(settings.TIMEOUT, self.kill)
+        self.t.name = 'timer-%s' % (self.name)
 
     def run(self):
-        start = time.time()
         self.update()
         #log.debug(0, 'Checking node: %s'%(self.getName()))
 
     def update(self):
-        r=self.read_node()
+        r = self.read_node()
         if not r:
             return r
         vm_list = r[4]
@@ -216,21 +212,21 @@ class MonitorThread(threading.Thread):
             total_cpu = self.c.getInfo()[2]
             total_memory = self.c.getInfo()[1]
         except Exception, e:
-            log.error(0, 'libvirt getting info: %s'%(e))
+            log.error(0, 'libvirt getting info: %s' % (e))
             return None
-        vms=[]
+        vms = []
 
         try:
             domains = self.c.listDomainsID()
         except Exception, e:
-            log.exception(0, 'libvirt listDomainsID: %s'%(str(e)))
+            log.exception(0, 'libvirt listDomainsID: %s' % (str(e)))
             return None
 
-        for id in domains:
+        for domain_id in domains:
             try:
                 hostname = self.c.getHostname()
-                dom = self.c.lookupByID(id)
-                info = dom.info() #struct virDomainInfo
+                dom = self.c.lookupByID(domain_id)
+                info = dom.info()  # struct virDomainInfo
                 used_cpu += info[3]
                 used_memory += info[1]
                 self.xml_data = parseString(dom.XMLDesc(0))
@@ -247,7 +243,7 @@ class MonitorThread(threading.Thread):
                     net_stat = [0,0,0,0,0,0,0,0,0,0,0,0,0]
 
                 vms.append({'name': dom.name(),
-                            'id': id,
+                            'id': domain_id,
                             'state': info[0],
                             'cpu_time': info[4],
                             'cpu_count': info[3],
@@ -262,7 +258,7 @@ class MonitorThread(threading.Thread):
                             'tx_packets': net_stat[5]
                             })
             except Exception, e:
-                log.exception(0, 'libvirt lookup (%s id=%d): %s'%(hostname, id, str(e)))
+                log.exception(0, 'libvirt lookup (%s id=%d): %s' % (hostname, domain_id, str(e)))
                 return None
 
         dom = None
@@ -273,7 +269,6 @@ class MonitorThread(threading.Thread):
         return self.lv_data
 
     def kill(self):
-        ok = True
         log.info(0, 'killing MonitorThread...')
         try:
             sys.exit()

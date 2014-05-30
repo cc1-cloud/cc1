@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.settings
+
 @author Piotr Wójcik
 @author Krzysztof Danielowski
 @date 21.09.2010
@@ -47,7 +48,8 @@ CAPTCHA = True
 RECAPTCHA_PUBLIC_KEY = '6LenDtcSAAAAAJLrj1MBBAVGIaOjo3PNFZc7FDc4'
 RECAPTCHA_PRIVATE_KEY = '6LenDtcSAAAAAKisRsijUTTOEWAtr6yBNg1Cl_AL'
 
-VNC_VIEWER_JAR = 'tightvnc-jviewer.jar'
+# port on which NoVNC proxy is running
+NOVNC_PORT = 6080
 
 import json
 
@@ -120,7 +122,7 @@ LOGGING = {
 }
 
 # js states file
-from common.states import vm_states, farm_states, image_states, user_active_states as user_states
+from common.states import vm_states, farm_states, image_states, node_states, user_active_states as user_states
 
 JS_STATES_FILE = os.path.join(PROJECT_DIR, 'media/js/states.js').replace('\\', '/')
 file_js_states = open(JS_STATES_FILE, 'w')
@@ -128,6 +130,7 @@ file_js_states.write(''.join(('cc1.states.vm = ', json.dumps(vm_states), ';')))
 file_js_states.write(''.join(('cc1.states.farm = ', json.dumps(farm_states), ';')))
 file_js_states.write(''.join(('cc1.states.image = ', json.dumps(image_states), ';')))
 file_js_states.write(''.join(('cc1.states.user = ', json.dumps(user_states), ';')))
+file_js_states.write(''.join(('cc1.states.node = ', json.dumps(node_states), ';')))
 file_js_states.close()
 
 
@@ -231,6 +234,7 @@ INSTALLED_APPS = (
 # session settings
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

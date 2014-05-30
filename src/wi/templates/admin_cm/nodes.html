@@ -29,6 +29,7 @@
 
 {% block box_content %}
 <fieldset id="nodeResources" class="noBorder"></fieldset>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/states.js"></script>
 
 <script id="nodeResourcesTemplate" type="text/x-jquery-tmpl">
 	<div>
@@ -77,7 +78,8 @@ $(function() {
             	'details'	: {name: '<b>{% trans "Show details" %}</b>', icon: 'magnify'},
             	'sep1'		: '---------',
             	'createvm'	: {name: '{% trans "Create virtual machine" %}', icon: 'poweron'},
-            	'edit'		: {name: '{% trans "Edit" %}', icon: 'edit'},
+                'edit'      : {name: '{% trans "Edit" %}', icon: 'edit'},
+                'validate'  : {name: '{% trans "Validate" %}', icon: 'accept'},
             	/*'mount'		: {name: '{% trans "Mount storage" %}', icon: 'hdd'},*/
             	'delete'	: {name: '{% trans "Remove" %}', icon: 'delete'},
             };
@@ -99,9 +101,12 @@ $(function() {
                 		case 'details':
                 			cc1.sthTable.openDetails(itemData[localIdKey], itemData[localIdKey] === cc1.sthTable.getOpenedId() );
                 		break;
-                		case 'edit':
-                			cc1.sthTable.editNode(itemData[localIdKey]);
-                		break;
+                        case 'edit':
+                            cc1.sthTable.editNode(itemData[localIdKey]);
+                        break;
+                        case 'validate':
+                            cc1.sthTable.validateNode(itemData[localIdKey]);
+                        break;
                 		case 'lock':
                 			cc1.sthTable.lockNode(itemData[localIdKey]);
                 		break;
@@ -134,6 +139,39 @@ $(function() {
         idKey: localIdKey,
 	});
 
+    // group actions
+    $.contextMenu({
+        selector: '#group_action',
+        trigger: 'left',
+        ignoreRightClick: true,
+        build: function($trigger, e) {
+            return {
+                callback: function(key, options) {
+                    switch (key) {
+                        case 'lock':
+                            if ( cc1.utils.stateTest([cc1.states.node['ok']]) ) {
+                                cc1.sthTable.lockNode(null);
+                            }
+                        break;
+                        case 'unlock':
+                            if ( cc1.utils.stateTest([cc1.states.node['locked']]) ) {
+                                cc1.sthTable.unlockNode(null);
+                            }
+                        break;
+                        case 'validate':
+                            cc1.sthTable.validateNode(null);
+                        break;
+                    }
+                },
+                items: {
+                    'lock'		: {name: '{% trans "Lock" %}', icon: (cc1.utils.stateTest([cc1.states.node['ok']]))?'password':'password inactive'},
+                    'unlock'	: {name: '{% trans "Unlock" %}', icon: (cc1.utils.stateTest([cc1.states.node['locked']]))?'password':'password inactive'},
+                    'validate'	: {name: '{% trans "Validate" %}', icon: (cc1.sthTable.getListOfSelected().length)?'accept':'accept inactive'},
+                }
+            };
+        }
+    });
+
 	//  dialog tworzenia vmki na wybranym nodzie
 	cc1.sthTable.createVm = cc1.utils.createAction({
 		url: '{% url 'cma_ajax_create_vm' 0 %}',
@@ -143,13 +181,38 @@ $(function() {
 			return {'desc': cc1.sthTable.getItemById(id).address};
 		},
 	});
+	/*
 	cc1.sthTable.lockNode = cc1.utils.createAction({
-		url: '{% url 'cma_ajax_lock_node' 0 %}',
+		url: '{% url 'cma_ajax_lock_node' %}',
 		dialogTitle: '{% trans "Lock node" %}',
 		calculateParams: function(id) {
 			return {'desc': cc1.sthTable.getItemById(id).address};
 		},
-	});
+	});*/
+	cc1.sthTable.lockNode = cc1.utils.createAction({
+        url: '{% url 'cma_ajax_lock_node' %}',
+        calculatePostParams: function(id) {
+            return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+        },
+        calculateParams: function(id) {
+            return {'desc': cc1.sthTable.getListOfSelectedAddresses(id),
+                    'length': cc1.sthTable.getListOfSelected(id).length,};
+        },
+        dialogWidth: 600,
+        dialogClass: 'warning'
+    });
+    cc1.sthTable.validateNode = cc1.utils.createAction({
+        url: '{% url 'cma_ajax_check_node' %}',
+        calculatePostParams: function(id) {
+            return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+        },
+        calculateParams: function(id) {
+            return {'desc': cc1.sthTable.getListOfSelectedAddresses(id),
+                    'length': cc1.sthTable.getListOfSelected(id).length,};
+        },
+        dialogWidth: 600,
+        dialogClass: 'warning'
+    });
 	cc1.sthTable.hardlockNode = cc1.utils.createAction({
 		url: '{% url 'cma_ajax_hardlock_node' 0 %}',
 		dialogTitle: '{% trans "Hardlock node" %}',
@@ -157,13 +220,25 @@ $(function() {
 			return {'desc': cc1.sthTable.getItemById(id).address};
 		},
 	});
-	cc1.sthTable.unlockNode = cc1.utils.createAction({
-		url: '{% url 'cma_ajax_unlock_node' 0 %}',
+	/*cc1.sthTable.unlockNode = cc1.utils.createAction({
+		url: '{% url 'cma_ajax_unlock_node' %}',
 		dialogTitle: '{% trans "Unlock node" %}',
 		calculateParams: function(id) {
 			return {'desc': cc1.sthTable.getItemById(id).address};
 		},
-	});
+	});*/
+	cc1.sthTable.unlockNode = cc1.utils.createAction({
+        url: '{% url 'cma_ajax_unlock_node' %}',
+        calculatePostParams: function(id) {
+            return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+        },
+        calculateParams: function(id) {
+            return {'desc': cc1.sthTable.getListOfSelectedAddresses(id),
+                    'length': cc1.sthTable.getListOfSelected(id).length,};
+        },
+        dialogWidth: 600,
+        dialogClass: 'warning'
+    });
 	// usuwanie noda
 	cc1.sthTable.deleteNode = cc1.utils.createAction({
 		url: '{% url 'cma_ajax_delete_node' 0 %}',
@@ -196,13 +271,15 @@ $(function() {
 <table id="item-list" class="tab w100pc">
 	<thead class="thead">
 		<tr>
+            <td class="noSort">
+                <input id='select-all' type='checkbox' onclick="cc1.sthTable.toggleChecked(this.checked);" />
+            </td>
 			<td>{% trans "ID" %}</td>
 			<td>{% trans "Address" %}</td>
 			<td>{% trans "Free CPU" %}</td>
-			<td>{% trans "Total CPU" %}</td>
-			<td>{% trans "Free memory" %}</td>
-			<td>{% trans "Total memory" %}</td>
+			<td>{% trans "Free memory" %}</td>			
 			<td>{% trans "Comment" %}</td>
+			<td>{% trans "Errors" %}</td>
 			<td>{% trans "State" %}</td>
 			<td class="noSort">{% trans "Actions" %}</td>
 		</tr>
@@ -210,14 +287,16 @@ $(function() {
 	<tbody class="tbody">
 		<script id="rowTemplate" type="text/x-jquery-tmpl">
 		<tr data-id="${node_id}" class="rclick pointer">
+            <td class="selecting"><input data-id="${node_id}" type="checkbox"/></td>
 			<td> ${node_id} </td>
 			<td> ${address} </td>
-			<td> ${cpu_free} </td>
-			<td> ${cpu_total} </td>
-			<td> ${memory_free} </td>
-			<td> ${memory_total} </td>
+			<td> ${cpu_free} / ${cpu_total} </td>
+			<td> ${memory_free} / ${memory_total} </td>
 			<td class="text-justify">
-				{% include "snippets/resizable_description.js" %}
+				{% resizable_field "description" %}
+			</td>
+			<td class="text-justify">
+				{% resizable_field "errors" %}
 			</td>
 		   	<td> ${stateName} </td>
 			<td>
@@ -235,11 +314,12 @@ $(function() {
 		<tr>
 			<td colspan="9" class="table_bottom_actions">
 				<ul>
-				<!--
+                    <li id="group_action" class="icon_action">
+                        <a id="menu_all">{% trans "Perform for selected"%}</a>
+                    </li>
                     <li class="icon_add">
 						<a onclick="cc1.sthTable.addNode();">{% trans "Create a new node" %}</a>
 					</li>
-				-->
 				</ul>
 			</td>
 		</tr>

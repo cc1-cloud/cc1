@@ -28,9 +28,8 @@ from cm.utils.exception import CMException
 from common.states import node_states
 import datetime
 
-
 @ci_log(log=True)
-def update_state(remote_ip, state, comment=""):
+def update_state(remote_ip, state, comment="", error=""):
     try:
         node = Node.objects.get(address=remote_ip)
     except:
@@ -42,5 +41,7 @@ def update_state(remote_ip, state, comment=""):
     node.state = state
     if comment != "":
         date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        node.comment = "%s\nNode (%s): %s" % (node.comment, date, comment)
+        node.errors = "%s: %s" % (date, comment)
+    else:
+        node.errors = ""
     node.save()

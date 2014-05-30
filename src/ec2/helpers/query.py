@@ -74,7 +74,6 @@ def get_instance_tags(cluster_manager):
                  'value' : instance['name']})
     return tags
 
-
 def get_instance_name_tag(cluster_manager, id):
     instance = cluster_manager.user.vm.get_by_id({'vm_id':id})
 
@@ -105,3 +104,4 @@ def get_volume_tags(cluster_manager):
                  'resource-type' : 'volume',
                  'value' : volume['name']})
     return tags
+

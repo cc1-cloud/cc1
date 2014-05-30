@@ -38,6 +38,7 @@ from clm.utils.cm import CM
 from clm.utils.decorators import guest_log
 from clm.utils.exception import CLMException
 from clm.utils.tokens import default_token_generator as token_generator
+from common.signature import Signature
 from common.states import user_active_states, registration_states, \
     cluster_states
 
@@ -72,6 +73,34 @@ def check_password(login, password):
     else:
         return False
 
+
+@guest_log(log=True)
+def check_signature(parameters):
+    """
+    Authenticate S3 request by checking parameters passed by EC2
+
+    @parameter{parameters} dict with all S3 request headers
+    """
+
+    try:
+        auth_header = parameters['authorization']
+        space = auth_header.index(' ')
+        auth_header = auth_header[space + 1:]
+        login_and_signature = auth_header.split(':')
+
+        login = login_and_signature[0]
+        user_signature = login_and_signature[1]
+
+        user = User.objects.get(login=login)
+    except User.DoesNotExist, error:
+        print 'ERROR', error
+        raise CLMException('user_get')
+    except KeyError:
+        raise CLMException('user_parameter')
+
+    if not Signature.checkSignature(user.password, user_signature, parameters):
+        raise CLMException('user_get')
+    return True
 
 @guest_log(log=True)
 def register(first, last, login, email, new_password, organization, wi_data):

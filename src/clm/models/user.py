@@ -57,6 +57,8 @@ class User(models.Model):
     is_active = models.IntegerField()
     ## whether User has admin priviledges @field
     is_superuser = models.IntegerField(null=True, blank=True)
+    ## whether User has admin priviledges on any CM @field
+    is_superuser_cm = models.IntegerField(null=True, blank=True)
 
     ## @field
     activation_date = models.DateTimeField(null=True, blank=True)
@@ -101,6 +103,7 @@ class User(models.Model):
         d['organization'] = self.organization or ''
         d['is_active'] = self.is_active or 0
         d['is_superuser'] = self.is_superuser or 0
+        d['is_superuser_cm'] = self.is_superuser_cm or 0
         d['activation_date'] = self.activation_date or ''
         d['last_login_date'] = self.last_login_date or ''
         return d
@@ -129,7 +132,7 @@ class User(models.Model):
         return self.group_leader_set.all()
 
     @staticmethod
-    def get(id):
+    def get(user_id):
         """
         @parameter{id,int} primary index of the @type{User}
 
@@ -138,7 +141,7 @@ class User(models.Model):
         @raises{user_get,CLMException}
         """
         try:
-            u = User.objects.get(pk=id)
+            u = User.objects.get(pk=user_id)
         except:
             raise CLMException('user_get')
         return u

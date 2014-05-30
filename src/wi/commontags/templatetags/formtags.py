@@ -30,8 +30,7 @@ register = template.Library()
 @register.inclusion_tag('tags/fieldsetForm.html')
 def show_fieldsetform(form):
     """
-    Function returns dictionary where
-        @dictkey{form} field is the form
+    Renders given form without marking required fields.
     """
     return {'form': form, 'required_fields': True}
 
@@ -39,7 +38,6 @@ def show_fieldsetform(form):
 @register.inclusion_tag('tags/fieldsetForm.html')
 def show_fieldsetform_nrf(form):
     """
-    Function returns dictionary where
-        @dictkey{form} field is the form
+    Renders given form with required fields marked.
     """
     return {'form': form, 'required_fields': False}

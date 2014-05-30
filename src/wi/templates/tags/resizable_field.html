@@ -1,0 +1,14 @@
+{% load i18n %}
+{% load formtags %}
+
+{% templatetag openvariable %}if {{ field_name }}_shortened{% templatetag closevariable %}
+	<span class="short">
+		{% templatetag openvariable %}html {{ field_name }}_shortened.escapeHTML().wbrAndLb(){% templatetag closevariable %}
+	</span>				
+	<span class="full">
+		{% templatetag openvariable %}html {{ field_name }}.escapeHTML().wbrAndLb(){% templatetag closevariable %}
+	</span>
+	<a class="td-toggle small_arrow_right" title="{% trans "Click to expand." %}"></a>
+{% templatetag openvariable %}else{% templatetag closevariable %}
+	{% templatetag openvariable %}html {{ field_name }}.escapeHTML().wbrAndLb(){% templatetag closevariable %}
+{% templatetag openvariable %}/if{% templatetag closevariable %}

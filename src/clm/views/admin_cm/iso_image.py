@@ -26,7 +26,7 @@ from clm.utils.exception import CLMException
 from clm.models.user import User
 
 
-@admin_cm_log(log=True, pack=True)
+@admin_cm_log(log=False, pack=True)
 def get_list(cm_id, caller_id, cm_password):
     """
     Admin function to list images.

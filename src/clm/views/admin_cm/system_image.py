@@ -31,7 +31,7 @@ from clm.utils.exception import CLMException
 from common.states import image_access, group_states
 
 
-@admin_cm_log(log=True, pack=True)
+@admin_cm_log(log=False, pack=True)
 def get_list(cm_id, caller_id, **data):
     """
     Admin function to list images.

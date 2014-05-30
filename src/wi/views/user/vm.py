@@ -25,9 +25,7 @@
 """
 
 from colorsys import hsv_to_rgb
-import os
 
-from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
@@ -37,18 +35,18 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
 
 from common.states import vm_states
-from wi.utils.decorators import user_permission
 from wi.commontags.templatetags.templatetags import filesizeformatmb
+from wi.forms.vm import AssignIPForm, RevokeIPForm, RevokeDiskForm, \
+    AssignDiskForm
+from wi.settings import NOVNC_PORT
 from wi.utils import messages_ajax, parsing
 import wi.utils as utils
-from wi.utils.decorators import django_view
+from wi.utils.decorators import django_view, user_permission
 from wi.utils.exceptions import RestErrorException
 from wi.utils.formatters import time_from_sec
 from wi.utils.messages_ajax import ajax_request
 from wi.utils.states import vm_states_reversed, ec2names_reversed
 from wi.utils.views import prep_data, CustomWizardView
-from wi.forms.vm import AssignIPForm, RevokeIPForm, RevokeDiskForm, \
-    AssignDiskForm
 
 
 class CreateVMWizard(CustomWizardView):
@@ -103,6 +101,21 @@ class CreateVMWizard(CustomWizardView):
 
             context.update({'image_categories': categories})
 
+        elif self.steps.current == '1':
+            form_cleaned_data = self.get_all_cleaned_data()
+            rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']}),
+                                   }, self.request.session)
+
+            context.update({'steps_desc': [rest_data['image']['name'] if len(rest_data['image']['name']) <= 15 else rest_data['image']['name'][:15] + '...', _('Hardware'), _('Optional resources'), _('Summary')]})
+
+        elif self.steps.current == '2':
+            form_cleaned_data = self.get_all_cleaned_data()
+            rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']}),
+                                   'templates': 'user/template/get_list/',
+                                   }, self.request.session)
+            template = utils.get_dict_from_list(rest_data['templates'], form_cleaned_data['template_id'], key='template_id')
+            context.update({'steps_desc': [rest_data['image']['name'] if len(rest_data['image']['name']) <= 15 else rest_data['image']['name'][:15] + '...', str(template['cpu']) + '/' + str(template['memory']), _('Optional resources'), _('Summary')]})
+
         elif self.steps.current == '3':
             form_cleaned_data = self.get_all_cleaned_data()
             rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']}),
@@ -119,6 +132,9 @@ class CreateVMWizard(CustomWizardView):
                             'summary_iso': utils.get_dicts_from_list(rest_data['iso'], form_cleaned_data['iso_list'], key='iso_image_id'),
                             'summary_vnc': form_cleaned_data['vnc'],
                             }
+
+            template = utils.get_dict_from_list(rest_data['templates'], form_cleaned_data['template_id'], key='template_id')
+            context.update({'steps_desc': [rest_data['image']['name'] if len(rest_data['image']['name']) <= 15 else rest_data['image']['name'][:15] + '...', str(template['cpu']) + '/' + str(template['memory']), _('Optional resources'), _('Summary')]})
 
             context.update(summary_data)
 
@@ -180,36 +196,21 @@ def vms_ajax_vm_details(request, vm_id, template_name='vms/ajax/vm_details.html'
 
 @django_view
 @user_permission
-def vms_vnc(request, vm_id, template_name='vms/vnc.html'):
+def vms_vnc(request, vm_id, template_name='vms/novnc.html'):
     """
     VNC applet view.
     """
     if request.POST is None or request.POST.get('vnc_endpoint') is None or request.POST.get('vnc_passwd') is None:
-        vnc_host, vnc_port, vnc_pass = '', '', ''
+        vnc_host, vnc_pass = 'undefined', 'undefined'
     else:
         vnc_endpoint = request.POST['vnc_endpoint'].split(':')
-        vnc_host, vnc_port, vnc_pass = vnc_endpoint[0], vnc_endpoint[1], request.POST['vnc_passwd']
-
-    return render_to_response(template_name, {'vnc_viewer_jar': settings.VNC_VIEWER_JAR,
-                                              'vnc_host': vnc_host,
-                                              'vnc_port': vnc_port,
+        vnc_host, vnc_pass = vnc_endpoint[0], request.POST['vnc_passwd']
+        print vnc_endpoint[1]
+    return render_to_response(template_name, {'vnc_host': vnc_host,
+                                              'vnc_port': vnc_endpoint[1],
                                               'vnc_passwd': vnc_pass,
                                               'vmid': vm_id
                                              }, context_instance=RequestContext(request))
-
-
-@django_view
-@ajax_request
-@user_permission
-def vms_ajax_vnc_configured(request):
-    """
-    Ajax view checking if VNC applet is configured.
-    """
-    vnc_jar_file = os.path.join(settings.MEDIA_ROOT, 'applets/vnc', settings.VNC_VIEWER_JAR).replace('\\', '/')
-    if os.path.isfile(vnc_jar_file):
-        return messages_ajax.success('configured')
-
-    return messages_ajax.error(_('VNC Viewer applet is not configured. Please contact system administrator. Meantime you may use a standalone VNC client.'))
 
 
 @django_view

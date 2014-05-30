@@ -1,6 +1,7 @@
 {% extends "vms/base.html" %}
 {% load i18n %}
 {% load formtags %}
+{% load templatetags %}
 
 {% block title %}{% trans "New virtual machine" %} - {{ block.super }}{% endblock %}
 
@@ -45,9 +46,9 @@
 cc1.sthTable = null;
 
 $(function() {
-	var $form = $('#wizard-form'),		
+	var $form = $('#wizard-form'),
 		$template_id_input = $('#id_1-template_id');
-		
+
 	cc1.sthTable = cc1.makeSthTable({
 		destDiv: '#item-list',
 		template: '#rowTemplate',
@@ -56,7 +57,7 @@ $(function() {
 		enableSorting: false,
 		scrollableContent: true,
 	});
-	
+
 	// next step button
 	$('#item-list').on('click', 'a.selectButton', function() {
 		var $this = $(this),
@@ -64,7 +65,7 @@ $(function() {
 		$template_id_input.val(id);
 		cc1.sthTable.freeze();
 		$form.submit();
-	});	
+	});
 });
 /*]]>*/</script>
 
@@ -90,7 +91,7 @@ $(function() {
 			</tbody>
 		</table>
 	</div>
-	
+
 	<div class="tbody fixed-height">
 		<table>
 			<tbody>
@@ -123,7 +124,7 @@ $(function() {
 			</tbody>
 		</table>
 	</div>
-		
+
 	<div class="tfoot">
 		<table>
 			<tfoot>

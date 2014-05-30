@@ -25,7 +25,7 @@ EC2 actions for security groups
 """
 
 from ec2.base.action import Action
-from ec2.error import CannotDelete, InvalidGroup
+from ec2.error import CannotDelete, InvalidGroup, MissingParameter
 
 
 # We don't support security groups, but some scripts and applications

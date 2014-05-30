@@ -19,16 +19,17 @@
 
 """@package src.cm.manager.user
 @alldecoratedby{src.cm.utils.decorators.user_log}
+
 @author Tomek Wojtoń
 """
 
-from cm.utils.decorators import user_log
+from cm.utils.decorators import admin_cm_log
 from cm.utils.monia import RrdHandler
 from common.states import stat_resolutions, stat_names, stat_ranges
 from cm.models.vm import VM
 
 
-@user_log(log=False)
+@admin_cm_log(log=False)
 def vm_stats(caller_id, vm_id, stat_name, time, stat_range, resolution):
     """
     Function returns statistics for specific \c vmid.

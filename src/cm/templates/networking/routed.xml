@@ -2,6 +2,14 @@
   <name>net-{{ vm.id }}-{{ lease.id }}</name>
   <forward mode='route'/>
   <domain name="{{ lease.domain_name }}" />
+  <dns>
+    <host ip='169.254.169.254'>
+      <hostname>ctx</hostname>
+    </host>
+    <host ip='169.254.169.254'>
+      <hostname>instance-data.ec2.internal</hostname>
+    </host>
+  </dns>
   <bridge name='br-{{ vm.id }}-{{ lease.id }}' stp='on' delay='0' />
   <ip address='{{ lease.node_address }}' netmask='255.255.255.252'>
     <dhcp>

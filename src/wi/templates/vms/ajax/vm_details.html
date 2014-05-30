@@ -148,7 +148,7 @@
 							</li>
 						{% endif %}
 							<li class="icon_vnc {% if not item.vnc_enabled or item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}inactive{% endif %}">
-								<a onclick="{% if not item.vnc_enabled or item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}{% else %}cc1.sthTable.vnc('{{ item.vnc_endpoint }}', '{{ item.vnc_passwd }}', '{{ vm_id }}');{% endif %}" target="_blank">
+								<a onclick="{% if not item.vnc_enabled or item.state != states|getitem:'running' and item.state != states|getitem:'running ctx' %}{% else %}cc1.sthTable.vnc('{{ item.novnc_endpoint }}', '{{ item.vnc_passwd }}', '{{ vm_id }}');{% endif %}" target="_blank">
 									{% trans "Graphical console (VNC)" %}
 								</a>
 							</li>

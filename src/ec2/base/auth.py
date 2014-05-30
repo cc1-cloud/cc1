@@ -25,8 +25,6 @@ Signature generators for EC2 API requests
 @author Rafał Grzymkowski
 @author Miłosz Zdybał
 """
-
-
 import base64
 import hashlib
 import hmac
@@ -76,12 +74,12 @@ def _sign_parameters_ver2_milosz(parameters, aws_secret_key, **kwargs):
     Author: Miłosz Zdybał
     """
     params = {
-        'Action' : parameters.get('Action'),
-        'AWSAccessKeyId' : parameters.get('AWSAccessKeyId'),
-        'Timestamp' : parameters.get('Timestamp'),
+        'Action': parameters.get('Action'),
+        'AWSAccessKeyId': parameters.get('AWSAccessKeyId'),
+        'Timestamp': parameters.get('Timestamp'),
         'Version': parameters.get('Version'),
-        'SignatureMethod' : parameters.get('SignatureMethod'),
-        'SignatureVersion' : parameters.get('SignatureVersion')
+        'SignatureMethod': parameters.get('SignatureMethod'),
+        'SignatureVersion': parameters.get('SignatureVersion')
     }
     string_to_sign = '%s\n%s\n/\n' % (
         parameters.get('Method'), parameters.get('Endpoint')

@@ -17,15 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.utils.clm
-"""
+import sys
+sys.path.append('/usr/lib/cc1')
+from ec2.upload.main import application
 
-from django.conf import settings
-
-
-# TODO: it just returns clm address
-
-def clm():
-    """
-    """
-    return ('http://%s:%s' % settings.CLM_ADDRESS)

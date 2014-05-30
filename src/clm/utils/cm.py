@@ -22,17 +22,32 @@
 
 # from clm.utils import log
 from clm.models.cluster import Cluster
+from clm.utils.exception import CLMException
 from common.utils import ServerProxy
+from clm.utils import message
 
 
-def CM(cm_id):
-    """
-    Returns ServerProxy for specified Cluster.
+class CM:
+    def __init__(self, cm_id):
+        """
+        Create object representing CM.
 
-    @parameter{cm_id,int} id of the CM
+        @parameter{cm_id,int} id of the CM
 
-    @returns{common.utils.ServerProxy} instance of CM proxy server
-    """
-    cluster = Cluster.get(cm_id)
-    server = ServerProxy('http://%s:%s' % (cluster.address, cluster.port))
-    return server
+        @returns{common.utils.ServerProxy} instance of CM proxy server
+        """
+        cluster = Cluster.get(cm_id)
+        self.server = ServerProxy('http://%s:%s' % (cluster.address, cluster.port))
+
+    def send_request(self, *args, **kw):
+        """
+        Make request to particular CM.
+        """
+        resp = self.server.send_request(*args, **kw)
+        if resp['status'] != 'ok':
+            raise CLMException(resp['status'])
+        if 'messages' in resp:
+            for user_id, msgs in resp['messages'].iteritems():
+                for msg in msgs:
+                    message.add(user_id, msg)
+        return resp

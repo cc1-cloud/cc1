@@ -22,5 +22,5 @@
 
 from django.conf.urls import patterns, include, url
 from views.ec2ctx.latest import latest_patterns
-urlpatterns = patterns('',url(r'^latest/?',include(latest_patterns)))
-urlpatterns += patterns('',url(r'^(\d{4}-\d{2}-\d{2})/?',include(latest_patterns)))
+urlpatterns = patterns('',url(r'^latest/',include(latest_patterns)))
+urlpatterns += patterns('',url(r'^(\d{4}-\d{2}-\d{2})/',include(latest_patterns)))

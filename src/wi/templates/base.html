@@ -179,16 +179,10 @@ cc1.messages = cc1.initMessages({
 // common functions
 // open new tab with vnc applet
 openVnc = function(vnc_endpoint, passwd, vmid) {
-	$.post('{% url 'vms_ajax_vnc_configured' %}', function(response) {
-		if (response !== undefined && response.status < 8000) {
-			var url = '{% url 'vms_vnc' 0 %}'.replace('0', vmid);
-			$('#vnc-form').remove();
-			$('#message-div').append("<div id='vnc-form'><form action='" + url + "' method='POST' target='_blank'>{% csrf_token %}<input type='hidden' name='vnc_endpoint' value='" + vnc_endpoint + "'/><input type='hidden' name='vnc_passwd' value='" + passwd + "'/><input type='hidden' name='vmid' value='" + vmid + "'/></form></div>");
-			$('#vnc-form').find('form').submit();
-		} else {
-			cc1.messages.showAjaxResponseDialog(response);
-		}
-	});
+	var url = '{% url 'vms_vnc' 0 %}'.replace('0', vmid);
+	$('#vnc-form').remove();
+	$('#message-div').append("<div id='vnc-form'><form action='" + url + "' method='POST' target='_blank'>{% csrf_token %}<input type='hidden' name='vnc_endpoint' value='" + vnc_endpoint + "'/><input type='hidden' name='vnc_passwd' value='" + passwd + "'/><input type='hidden' name='vmid' value='" + vmid + "'/></form></div>");
+	$('#vnc-form').find('form').submit();
 };
 // monitoring
 monitoring = cc1.utils.createAction({

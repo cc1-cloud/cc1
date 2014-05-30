@@ -20,6 +20,7 @@
 """@package src.cm.views.admin_cm.template
 
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log}
+
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 """
 from cm.models.template import Template

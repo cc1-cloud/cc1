@@ -19,8 +19,6 @@
 """@package src.cm.models.disk_volume
 """
 
-import os
-
 from django.db import models
 
 from cm.models.image import Image
@@ -28,10 +26,9 @@ from cm.models.vm import VM
 from cm.utils import log
 from cm.utils.exception import CMException
 
+
 # from common.states import image_states, storage_states
 # from common.hardware import disk_controllers
-
-
 class StorageImage(Image):
     """
     @model{DISK_VOLUME}

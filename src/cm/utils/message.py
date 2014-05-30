@@ -1,0 +1,59 @@
+# -*- coding: utf-8 -*-
+# @cond LICENSE
+#
+# Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+# @endcond LICENSE
+
+"""@package src.cm.message
+"""
+from common.states import message_levels
+
+from cm.utils import log
+
+MESSAGES = {}
+
+def add(user_id, data):
+    try:
+        global MESSAGES
+        if user_id not in MESSAGES:
+            MESSAGES[user_id] = []
+        MESSAGES[user_id].append(data)
+    except Exception:
+        log.exception(user_id, 'Add message')
+
+def error(user_id, code, params={}):
+    d = {}
+    d['user_id'] = user_id
+    d['level'] = message_levels['error']
+    d['params'] = params
+    d['code'] = code
+    add(user_id, d)
+
+def info(user_id, code, params={}):
+    d = {}
+    d['user_id'] = user_id
+    d['level'] = message_levels['info']
+    d['params'] = params
+    d['code'] = code
+    add(user_id, d)
+
+def warn(user_id, code, params={}):
+    d = {}
+    d['user_id'] = user_id
+    d['level'] = message_levels['warn']
+    d['params'] = params
+    d['code'] = code
+    add(user_id, d)

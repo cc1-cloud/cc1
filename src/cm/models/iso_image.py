@@ -20,8 +20,6 @@
 """@package src.cm.models.iso_image
 """
 
-import os
-
 from django.db import models
 
 from cm.models.image import Image
@@ -63,10 +61,7 @@ class IsoImage(Image):
 
         d['iso_image_id'] = self.id
 
-        # TODO: to be tested
-        # set of vms which is using the cd volume
-        #d['vms'] = self.vm_set.values_list('id', flat=True) or ''
-        vms = self.vm_set.all()
+        vms = self.vm_set.filter(state__in=[vm_states['running'], vm_states['running_ctx']])
         vm_ids = []
         vm_names = []
         for vm in vms:
@@ -178,7 +173,6 @@ class IsoImage(Image):
               <alias name='%(bus)s-%(dev)s'/>
             </disk>""" % {
                 'path': self.path,
-                # disk_dev name will be in format sd+letter corresponding to the number (e.g: 2->sdb)
                 'dev':  'sd%s' % free_dev,
                 'bus':  disk_controller_name
                 }
@@ -191,9 +185,6 @@ class IsoImage(Image):
         # Update database information
         self.disk_dev = free_dev
         self.vm = vm
-        # self.vm_id = vm.id
-        # saved later by the view function which calls 'attach'
-        # self.save()
 
     def detach(self, vm):
         """

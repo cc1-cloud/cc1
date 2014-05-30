@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <ul class="over-menu-bar">	
-	{% if request.session.user.is_admin_cm %}
+	{% if request.session.user.is_logged_admin_cm %}
 		<li>{% trans "On CM" %}: <b>{{ admin_cm_name }}</b> | </li>
 		<li>{% trans "Logged as" %} {{ request.session.user.username }} | </li>
 		<li><a href="{% url 'cma_logout' %}">{% trans "Logout from CM" %}</a> |</li>

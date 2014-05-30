@@ -34,9 +34,13 @@ import rrdtool
 
 
 def check_stat_exists(vm):
-    if not os.path.isfile(get_path(vm)):
+    try:
+        rrdtool.info(get_path(vm))
+    except Exception, e:
+        log.error(0, 'stat_error %s %s' % (vm, e))
         return 0
     return 1
+
 
 # def get_user_vms(user_id):
 #     vms = [ "vm-%s-%s"%(vm.dict['id'], vm.dict['user_id']) for vm in Session.query(VM).filter(not_(VM.state.in_((vm_states['closed'], vm_states['erased'])))).filter(VM.user_id == user_id).filter(VM.farm == None)]
@@ -170,11 +174,13 @@ class RrdHandler():
 
         rrds = {}
         for rrd in f:
-            t = []
-            t.append(rrdtool.first(settings.PATH_TO_RRD + rrd))
-            t.append(rrdtool.last(settings.PATH_TO_RRD + rrd))
-            rrds.update({os.path.splitext(rrd)[0]: t})
-            # rrds[{os.path.splitext(rrd)[0]: t}]
+            try:
+                t = []
+                t.append(rrdtool.first(settings.PATH_TO_RRD + rrd))
+                t.append(rrdtool.last(settings.PATH_TO_RRD + rrd))
+                rrds.update({os.path.splitext(rrd)[0]: t})
+            except Exception, e:
+                log.error(0, 'stat_error %s %s' % (rrd, e))
         return rrds
 
     def get_vm_info(self, vm):

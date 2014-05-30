@@ -32,9 +32,7 @@ import json
 # from common import response
 
 
-@user_log(log=True, pack=False)  # false
-
-
+@user_log(log=False, pack=False)  # false
 @cm_request
 def get_list(cm_response, **data):
     """

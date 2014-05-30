@@ -37,19 +37,19 @@ def release(cm_response, **data):
     return cm_response
 
 
-@user_log(log=True, pack=False)
+@user_log(log=False, pack=False)
 @cm_request
 def list_available_networks(cm_response, **data):
     return cm_response
 
 
-@user_log(log=True, pack=False)
+@user_log(log=False, pack=False)
 @cm_request
 def list_user_networks(cm_response, **data):
     return cm_response
 
 
-@user_log(log=True, pack=False)
+@user_log(log=False, pack=False)
 @cm_request
 def list_leases(cm_response, **data):
     return cm_response

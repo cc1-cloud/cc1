@@ -17,6 +17,8 @@ if __name__ == '__main__':
         subprocess.call('chown cc1:libvirt /var/lib/cc1/storages/', shell=True)
         subprocess.call('update-rc.d cc1-node defaults', shell=True)
 
+        subprocess.call('/etc/init.d/cc1-node restart', shell=True)
+
         log.close()
         sys.exit(0)
     else:

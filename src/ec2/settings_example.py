@@ -21,3 +21,7 @@
 """
 
 CLM_ADDRESS = 'http://127.0.0.1:8000'
+BUCKETS_PATH = '/usr/lib/cc1/ec2/buckets/'
+EC2_PRIVATE_KEY = '/usr/lib/cc1/ec2/cert/test.key'
+EC2_CM_INTERFACE = 'http://127.0.0.1:8080'
+UPLOAD_IMAGES_PATH = '/usr/lib/cc1/ec2/storage/images'

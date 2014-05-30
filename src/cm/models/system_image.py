@@ -35,12 +35,12 @@ from cm.utils.exception import CMException
 from common.hardware import disk_controllers, video_devices, network_devices, \
     disk_filesystems_reversed, video_devices_reversed, network_devices_reversed
 from common.states import image_access, image_states, storage_states, vm_states
+from cm.utils import message
+
 
 # from cm.utils import message
 # import libvirt
 # Django templates
-
-
 class SystemImage(Image):
     """
     @model{SYSTEM_IMAGE} VM type image's class.
@@ -108,7 +108,7 @@ class SystemImage(Image):
 
         # TODO:
         # set of vms with this image attached
-        d['vms'] = list(self.vm_set.values_list('id', flat=True)) or []
+        d['vms'] = list(self.vm_set.filter(state__in=[vm_states['running'], vm_states['running_ctx']]).values_list('id', flat=True)) or []
 
         # groups image belongs (only one group for now)
         grouplist = self.systemimagegroup_set.values_list('group_id', flat=True)
@@ -277,13 +277,11 @@ class SystemImage(Image):
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp %s /images/%d' % (vm.system_image.path, vm.id)]))
 
         if subprocess.call(['ssh', vm.node.ssh_string, 'cp %s /images/%d' % (vm.system_image.path, vm.id)]):
-            # TODO:
-            # message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
             raise CMException('vm_create')
 
         if subprocess.call(['ssh', vm.node.ssh_string, 'chmod a+rw /images/%d' % vm.id]):
-            # TODO:
-            # message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
+            message.error(vm.user_id, 'vm_create', {'id': vm.id, 'name': vm.name})
             raise CMException('vm_create')
         return
 
