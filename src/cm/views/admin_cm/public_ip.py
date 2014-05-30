@@ -46,12 +46,12 @@ def add(caller_id, start_address, count):
 
     pool = netaddr.IPAddress(start_address)
     for i in xrange(count):
-        if str(pool+i) in ips:
-            log.debug(caller_id, 'Ip %s is a duplicate! Skipping' % str(pool+i))
-        elif not IPAddress(pool+1).is_unicast():
-            log.debug(caller_id, 'Ip %s is not an unicast address! Skipping' % str(pool+i))
+        if str(pool + i) in ips:
+            log.debug(caller_id, 'Ip %s is a duplicate! Skipping' % str(pool + i))
+        elif not IPAddress(pool + 1).is_unicast():
+            log.debug(caller_id, 'Ip %s is not an unicast address! Skipping' % str(pool + i))
         else:
-            log.debug(caller_id, 'Adding public ip %s' % str(pool+i))
+            log.debug(caller_id, 'Adding public ip %s' % str(pool + i))
             public_lease = PublicIP()
             public_lease.address = str(pool + i)
             public_lease.save()
