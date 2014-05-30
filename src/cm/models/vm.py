@@ -184,7 +184,7 @@ class VM(models.Model):
         d['platform'] = 0
         d['description'] = self.description or ''
         d['vnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.vnc_port)
-        d['vnc_port'] = self.vnc_port
+        d['novnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.novnc_port)
         d['vnc_enabled'] = self.vnc_enabled
         d['vnc_passwd'] = self.vnc_passwd or ''
         d['start_time'] = self.start_time
@@ -262,7 +262,7 @@ class VM(models.Model):
                 vm.farm = farm
 
             # Find first free vnc port
-            used_ports = VM.objects.exclude(state__exact=vm_states['closed']).values_list('vnc_port', flat=True)
+            used_ports = VM.objects.exclude(state__in=[vm_states['closed'], vm_states['erased']]).values_list('vnc_port', flat=True)
 
             for new_vnc_port in xrange(VNC_PORTS['START'], VNC_PORTS['END'] + 1):
                 if new_vnc_port not in used_ports and new_vnc_port not in VNC_PORTS['EXCLUDE']:
@@ -384,12 +384,12 @@ class VM(models.Model):
         """
         try:
             lv_template = loader.get_template("%s.xml" % self.node.driver)
-            c = Context({'vm':      self,
-                         'uuid':    uuid.uuid1(),
-                         'memory':  self.template.memory * 1024,
-                         'cpu':     self.template.cpu,
+            c = Context({'vm': self,
+                         'uuid': uuid.uuid1(),
+                         'memory': self.template.memory * 1024,
+                         'cpu': self.template.cpu,
                          'image_path': self.path
-                         })
+            })
             # and render it
             domain_template = lv_template.render(c)
         except Exception, e:
@@ -412,7 +412,7 @@ class VM(models.Model):
 
             # Create django template
             lv_template = loader.get_template_from_string(template)
-            c = Context({'vm':      self})
+            c = Context({'vm': self})
             lv_template = lv_template.render(c)
         except Exception, e:
             log.debug(self.user.id, str(e))
@@ -641,6 +641,7 @@ class VM(models.Model):
             raise CMException('vm_get_lv_domain')
         return domain
 
+
     @property
     def storage_images(self):
         """
@@ -686,21 +687,22 @@ class VM(models.Model):
         # Key - destination state
         # Values - actual available states
         states = {'init': (),
-            'running': ('init', 'turned off', 'restart',),
-            'running ctx': ('running', 'running ctx',),
-            'closing': ('turned off', 'running', 'running ctx', 'saving', 'turned off',),
-            'closed': ('saving', 'closing', 'erased'),
-            'saving': ('running', 'running ctx',),
-            'saving failed': ('saving',),
-            'failed': ('init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
-                       'turned off', 'suspend', 'restart', 'erased'),
-            'turned off': ('running', 'init',),
-            'suspend': ('running', 'running ctx',),
-            'restart': ('running', 'running ctx',),
-            'erasing': ('init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
-                        'turned off', 'suspend', 'restart', 'erased', 'erasing'),
-            'erased': ('erasing', 'erased')
-            }
+                  'running': ('init', 'turned off', 'restart',),
+                  'running ctx': ('running', 'running ctx',),
+                  'closing': ('turned off', 'running', 'running ctx', 'saving', 'turned off',),
+                  'closed': ('saving', 'closing', 'erased'),
+                  'saving': ('running', 'running ctx',),
+                  'saving failed': ('saving',),
+                  'failed': ('init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
+                             'turned off', 'suspend', 'restart', 'erased'),
+                  'turned off': ('running', 'init',),
+                  'suspend': ('running', 'running ctx',),
+                  'restart': ('running', 'running ctx',),
+                  'erasing': (
+                  'init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
+                  'turned off', 'suspend', 'restart', 'erased', 'erasing'),
+                  'erased': ('erasing', 'erased')
+        }
 
         # Find my state:
         my_state = False
@@ -721,13 +723,7 @@ class VM(models.Model):
             self.node.lock()
             # self.node.state = node_states['locked']
 
-        # TODO: farm state
 
-        # Update farm states
-        # if  self.is_head() and self.is_farm() and state == 'failed' and my_state != 'erasing':
-        #    # TODO: farm.set_state
-        #    log.exception(self.user_id, "Failing farm")
-        #    self.farm.state = farm_states['failed']
 
     @staticmethod
     def erase(vm):
@@ -844,8 +840,7 @@ class VM(models.Model):
             except Exception, e:
                 log.exception(vm.user.id, 'error destroying VM: %s' % str(e))
                 results.append({'status': 'vm_destroy', 'data': ''})
-                # TODO: message to clm
-                # message.error(vm.user_id, 'vm_destroy', {'id': vm.id, 'name': vm.name})
+                message.error(vm.user_id, 'vm_destroy', {'id': vm.id, 'name': vm.name})
                 continue
                 # raise CMException('vm_destroy')
 
