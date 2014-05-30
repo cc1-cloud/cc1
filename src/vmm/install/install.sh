@@ -1,6 +1,6 @@
 #! /bin/bash
 
-VMM_ADDR=http://cc1repo.ifj.edu.pl/vmm/vmm.tar.gz
+VMM_ADDR=http://cc1.ifj.edu.pl/vmm/vmm.tar.gz
 TEMP_DIR="cc1-$RANDOM.$RANDOM"
 
 function remove_old_ctx {
