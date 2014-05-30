@@ -187,10 +187,11 @@ class ServerProxy(object):
     def __init__(self, server_address):
         self.server_address = server_address
 
-    def send_request(self, url, **data):
+    def send_request(self, url, log=True, **data):
         logger = logging.getLogger('request')
         data = json.dumps(data, default=json_convert)
-        logger.info("called %s/%s   body: %s" % (self.server_address, url, data))
+        if log:
+            logger.info("called %s/%s   body: %s" % (self.server_address, url, data))
 
         response = requests.post("%s/%s" % (self.server_address, url), data=data)
 
@@ -198,7 +199,8 @@ class ServerProxy(object):
             logger.error("HTTP ERROR: code: %s data: %s" % (response.status_code, response.text[:100]))
             raise Exception("Status %s failed to call function" % response.status_code)
         response = json.loads(response.text)
-        logger.info("response from %s/%s is:\n%s" % (self.server_address, url, json.dumps(response, indent=4)))
+        if log:
+            logger.info("response from %s/%s is:\n%s" % (self.server_address, url, json.dumps(response, indent=4)))
         if not isinstance(response, dict):
             logger.error("Returned object is %s expected dict. Data: %s" % (type(response), response))
             raise Exception("Returned object is %s expected dict" % type(response))
