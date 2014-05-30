@@ -49,6 +49,8 @@ not_to_be_logged_urls = ['admin_cm/farm/get_list/',
 
 def make_request(url, data, user=None):
     """
+    Adds authorization-related information to data dictionary and makes a request to CLM
+    using given url and data dictionary.
     """
     if not url.startswith('guest'):
         data.update({'login': user.username, 'password': user.password, 'cm_id': user.cm_id})
@@ -61,7 +63,7 @@ def make_request(url, data, user=None):
 
 def prep_data(request_urls, session):
     """
-    Returns a dictionary of results of REST request.
+    Returns a dictionary with results of REST request.
     """
     data = None
     user = session.get('user')
@@ -77,10 +79,10 @@ def prep_data(request_urls, session):
                     url = val[0]
                     args = val[1]
                 data[key] = check_response_errors(make_request(url, args, user=user), session)['data']
-        # just a simple string without any params
+        # a simple string without any params
         elif isinstance(request_urls, str):
             data = check_response_errors(make_request(request_urls, {}, user=user), session)['data']
-        # just a simple string with params as a tuple
+        # a simple string with params as a tuple
         elif isinstance(request_urls, tuple):
             data = check_response_errors(make_request(request_urls[0], request_urls[1], user=user), session)['data']
 
