@@ -16,7 +16,6 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
-
 """@package src.wi.models.user
 
 @author Piotr Wójcik
@@ -77,12 +76,6 @@ class User:
 
     def __unicode__(self):
         return self.username
-
-    def __str__(self):
-        return ' '.join(['user_id=', str(self.user_id), 'username=', self.username, 'cm_id=', str(self.cm_id)])
-
-    def __repr__(self):
-        return 'user ' + str(self)
 
     def set_password(self, password):
         self.password = password
