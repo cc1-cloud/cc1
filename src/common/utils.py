@@ -16,6 +16,9 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
+import subprocess
+import sys
+import shlex
 
 """@package src.common.utils
 """

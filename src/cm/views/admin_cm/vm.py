@@ -25,14 +25,11 @@
 @author Miłosz Zdybał <milosz.zdybal@ifj.edu.pl>
 """
 
-from common.states import vm_states, vnc_states
+from common.states import vm_states
 from cm.utils.decorators import admin_cm_log
 from cm.utils.exception import CMException
 from cm.models.user import User
 from cm.models.vm import VM
-# from cm.utils import message
-from cm.utils import log
-# from cm.utils.rm import rm
 from cm.utils.threads.vm import VMThread
 
 

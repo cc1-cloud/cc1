@@ -25,8 +25,6 @@ Signature generators for EC2 API requests
 @author Rafał Grzymkowski
 @author Miłosz Zdybał
 """
-
-
 import base64
 import hashlib
 import hmac

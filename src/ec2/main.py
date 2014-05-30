@@ -25,11 +25,11 @@ WSGI application for EC2 API service
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
-import logging
 import os
 import sys
 import traceback
 import urlparse
+from ec2.base.s3action import S3Action
 
 sys.path.append(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..')
@@ -37,10 +37,9 @@ sys.path.append(
 from ec2.settings import CLM_ADDRESS
 from common.utils import ServerProxy
 from ec2 import (address, image, instance, key_pair, region,
-    security_group, volume, universal)
+    security_group, volume, universal, s3bucket, s3object)
 from ec2.base.action import Action, CLMException
 from ec2.error import AuthFailure, EC2Exception, InvalidZone
-# from restapi.ec2.settings import XMLRPCSERVER
 
 
 DEBUG = True

@@ -52,14 +52,12 @@ from functools import wraps
 import json
 from django.http import HttpResponse
 from django.db import transaction
-from cm.models.user import User
 from threading import Lock
 
 # # Set of functions decorated by actor decorators
 #  (cm.utils.decorators.guest_log(), src.cm.utils.decorators.user_log(),
 #  src.cm.utils.decorators.admin_cm_log())
 from common.utils import json_convert
-from cm.utils.message import MESSAGES
 
 global decorated_functions
 global ci_decorated_functions

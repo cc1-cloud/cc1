@@ -32,7 +32,7 @@ Module contains dictionaries: \c regexp and \c regext_text. Both dictionaries co
 
 import re
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 
 regexp = {'login':      re.compile(r'^[a-zA-Z0-9_]+$'),

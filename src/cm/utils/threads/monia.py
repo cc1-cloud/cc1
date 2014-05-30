@@ -26,9 +26,8 @@ import threading
 import libvirt
 import time
 import sys
-import os
 from cm.utils.monia import RrdHandler
-from xml.dom.minidom import parse, parseString
+from xml.dom.minidom import parseString
 import cm.utils.monia
 import rrdtool
 from cm.models.node import Node

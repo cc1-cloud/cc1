@@ -23,10 +23,9 @@
 """
 import threading
 import libvirt
-import time
 
 #from cm.utils import message
-from common.states import farm_states #,vm_states
+from common.states import farm_states  # ,vm_states
 from cm.models.vm import VM
 from cm.utils import log
 from django.db import transaction

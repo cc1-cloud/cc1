@@ -20,7 +20,7 @@ from common.states import ec2names, vm_states, image_access
 from ec2.base.action import Action, CLMException
 from ec2.error import InvalidAMIID, InvalidKeyPair, MissingParameter, \
     InvalidParameterValue, InvalidInstanceID, InvalidVolumeID, InternalError, \
-    UndefinedError, InvalidFilter
+    UndefinedError, InvalidFilter, ResourceLimitExceeded
 from ec2.helpers.entities import Entity
 from ec2.helpers.filters import applyEc2Filters, validateEc2Filters
 from ec2.helpers.parse import parseSequenceIntArguments, parseFilters, parseIDs, \
