@@ -20,7 +20,11 @@
 """@package src.clm.views.admin_cm.admin
 @alldecoratedby{src.clm.utils.decorators.admin_cm_log}
 """
+from clm.models.cluster import Cluster
+from clm.models.user import User
+from clm.utils.cm import CM
 from clm.utils.decorators import admin_cm_log, cm_request
+from clm.utils.exception import CLMException
 
 
 @admin_cm_log(log=True, pack=False)
@@ -48,6 +52,20 @@ def delete(cm_response, **data):
     @cmview_admin_clm
     @clm_view_transparent{admin.delete()}
     """
+    is_admin = False
+    for cm_id in [cluster.id for cluster in Cluster.objects.all()]:
+        resp = CM(cm_id).send_request('admin_cm/admin/am_i_admin/', caller_id=data['user_id'])
+        if resp['status'] == 'ok' and resp['data']:
+            is_admin = True
+            break
+    if not is_admin:
+        try:
+            user = User.get(data['user_id'])
+            user.is_superuser_cm = 0
+            user.save()
+        except:
+            CLMException('cm_admin_add')
+
     return cm_response
 
 
