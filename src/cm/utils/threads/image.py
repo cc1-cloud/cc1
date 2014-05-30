@@ -29,6 +29,8 @@ import os
 from cm.utils import log
 import random
 import hashlib
+from cm.utils import message
+
 
 class CreateImage(threading.Thread):
     image = None
