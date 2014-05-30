@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+    <Name>${bucket}</Name>
+    <Prefix/>
+    <Marker/>
+    ##<MaxKeys>${max_keys}</MaxKeys>
+    <IsTruncated>false</IsTruncated>
+    ##% for content in contents:
+    ##<Contents>
+    ##    <Key>${content['key']}</Key>
+    ##    <LastModified>${content['last_modified']}</LastModified>
+    ##    <ETag>${content['etag']}</ETag>
+    ##    <Size>${content['size']}</Size>
+    ##    <StorageClass>STANDARD</StorageClass>
+    ##    <Owner>
+    ##        <ID>${content['owner_id']}</ID>
+    ##        <DisplayName>${content['owner_name']}</DisplayName>
+    ##    </Owner>
+    ##</Contents>
+    ##% endfor
+</ListBucketResult>

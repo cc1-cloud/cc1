@@ -62,6 +62,9 @@ class InvalidAMIID(object):
     class Malformed(EC2Exception):
         code = "InvalidAMIID.Malformed"
         message = "Specified AMI ID is malformed"
+    class Unavailable(EC2Exception):
+        code = "InvalidAMIID.Unavailable"
+        message = "Specified AMI is temporarily unavailable"
 
 class InvalidInstanceID(object):
     class Malformed(EC2Exception):

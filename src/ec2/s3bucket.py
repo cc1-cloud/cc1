@@ -16,12 +16,25 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
+import os
+from ec2.base.s3action import S3Action
+from ec2.helpers.auth import authenticate
 
-"""@package src.ec2.settings
+"""@package src.s3bucket
+S3 base action
+
+@copyright Copyright (c) 2012 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
+@author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
-CLM_ADDRESS = 'http://127.0.0.1:8000'
-BUCKETS_PATH = '/usr/lib/cc1/ec2/buckets/'
-EC2_PRIVATE_KEY = '/usr/lib/cc1/ec2/cert/test.key'
-EC2_CM_INTERFACE = 'http://127.0.0.1:8080'
-UPLOAD_IMAGES_PATH = '/usr/lib/cc1/ec2/storage/images'
+
+class ListBucket(S3Action):
+    def _execute(self):
+        print 'ListBucket'
+        authenticate(self.parameters)
+        bucket = self.bucket_name
+        print self.path
+        if not os.path.exists(self.path):  # TODO przenieść to do innych funkcji
+            os.mkdir(self.path)
+
+        return {'body': {'bucket': bucket}}

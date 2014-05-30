@@ -69,6 +69,7 @@ STATE = {
     4: 'failed',     # unavailable
 }
 
+IMAGE_READ_BUFFER = 65536
 
 class DeregisterImage(Action):
     def _execute(self):
@@ -166,3 +167,117 @@ class DescribeImages(Action):
 # is-public
 
         return {'images': images}
+
+class RegisterImage(Action):
+    def _execute(self):
+        thread.start_new_thread( merge_and_upload, (self.cluster_manager, self.parameters))
+
+        return # TODO zależność od m2crypto i swig
+
+def merge_and_upload(cluster_manager, parameters):
+    try:
+        manifest_url = parameters['ImageLocation']
+    except KeyError, e:
+        raise MissingParameter(parameter=e.message)
+
+    image_name = parameters.get('Name')
+
+    # delete slash at the beginning, to join that to BUCKETS_PATH
+    if manifest_url.startswith('/'):
+        manifest_url = manifest_url[1:]
+
+    user_name = parameters.get('AWSAccessKeyId')
+
+    manifest_path = os.path.join(BUCKETS_PATH, user_name, manifest_url)
+
+    if os.path.abspath(manifest_path) != manifest_path:
+        raise InvalidParameter
+
+    parts_directory = os.path.dirname(manifest_path)
+
+    # parse manifest
+    dom = minidom.parse(manifest_path)
+    manifest_elem = dom.getElementsByTagName('manifest')[0]
+
+    parts = []
+
+    parts_list = manifest_elem.getElementsByTagName('filename')
+    for part_elem in parts_list:
+        nodes = part_elem.childNodes
+        for node in nodes:
+            if node.nodeType == node.TEXT_NODE:
+                parts.append(node.data)
+
+    encrypted_key_elem = manifest_elem.getElementsByTagName('ec2_encrypted_key')[0]
+    encrypted_iv_elem = manifest_elem.getElementsByTagName('ec2_encrypted_iv')[0]
+
+    encrypted_key = encrypted_key_elem.firstChild.nodeValue
+    encrypted_iv = encrypted_iv_elem.firstChild.nodeValue
+
+    # concatenate file =========================
+
+    encrypted_filename = manifest_path.replace('.manifest.xml', '.enc.tar.gz')
+
+    if len(parts) > 0:
+        encrypted_file = open(encrypted_filename, 'wb')
+        for part in parts:
+            part_filename = os.path.join(parts_directory, part)
+            if not part_filename.startswith(parts_directory):
+                raise InvalidManifest
+
+            part_file = open(part_filename, 'rb')
+            while 1:
+                data = part_file.read(IMAGE_READ_BUFFER)
+                if not data:
+                    break
+                encrypted_file.write(data)
+            part_file.close()
+        encrypted_file.close()
+
+    # decrypt KEY ==========================
+    user_priv_key = RSA.load_key(EC2_PRIVATE_KEY)
+    key = user_priv_key.private_decrypt(unhexlify(encrypted_key),
+            RSA.pkcs1_padding)
+    iv = user_priv_key.private_decrypt(unhexlify(encrypted_iv),
+            RSA.pkcs1_padding)
+    cipher = EVP.Cipher(alg='aes_128_cbc', key=unhexlify(key),
+                   iv=unhexlify(iv), op=0)
+
+    # decrypt image ==========================
+    decrypted_filename = encrypted_filename.replace('.enc', '')
+    decrypted_file = open(decrypted_filename, 'wb')
+    encrypted_file = open(encrypted_filename, 'rb')
+
+    while 1:
+        buf = encrypted_file.read(IMAGE_READ_BUFFER)
+        if not buf:
+            break
+        decrypted_file.write(cipher.update(buf))
+    decrypted_file.write(cipher.final())
+
+    encrypted_file.close()
+    decrypted_file.close()
+
+    # uncompress ======================
+    untarred_filename = decrypted_filename.replace('.tar.gz', '')
+    tar_file = tarfile.open(decrypted_filename, 'r|gz')
+    tar_file.extractall(path=os.path.dirname(untarred_filename))
+    tar_file.close()
+
+    link_name = user_name + str(uuid.uuid4())
+    link_path = os.path.join(UPLOAD_IMAGES_PATH, link_name)
+
+    # creating symbolic link for use by uploader
+    os.symlink(untarred_filename, link_path)
+
+    # generating link used by CM to download image
+    image_url = EC2_CM_INTERFACE + '?image_name=' + link_name
+
+    # request CM download =================
+    cluster_manager.user.system_image.download({'description': 'Uploaded by EC2',
+                                                     'name': image_name,
+                                                     'path': image_url,
+                                                     'disk_controller': disk_controllers['virtio'],
+                                                     'network_device': network_devices['rtl8139'],
+                                                     'platform': 0,
+                                                     'video_device': video_devices['vga']})

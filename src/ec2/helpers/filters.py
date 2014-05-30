@@ -46,7 +46,6 @@ prefixes = {
             'volume-id' : Entity.volume
             }
 
-
 def validateEc2Filters( filters, available_filters ):
     """
     Validates EC2 filters by checking if there is no unsupported filter provided by user
@@ -67,7 +66,6 @@ def validateEc2Filters( filters, available_filters ):
 #         translatedFilters[ available_filters[ec2filter] ] = filters[ec2filter]
 
     return True
-
 
 def applyEc2Filters( objects, filters ):
     """

@@ -53,7 +53,7 @@ class DescribeRegions(Action):
         try:
             filters = parseFilters(self.parameters)
 
-            endpoint = self.parameters.get('Endpoint')
+            endpoint = self.parameters['Endpoint']
         except KeyError:
             raise MissingParameter(parameter='Endpoint')
 
@@ -67,7 +67,7 @@ class DescribeRegions(Action):
 class DescribeAvailabilityZones(Action):
     def _execute(self):  # TODO wspieranie filtrów
         try:
-            endpoint = self.parameters.get('Endpoint')
+            endpoint = self.parameters['Endpoint']
         except KeyError:
             raise MissingParameter(parameter='Endpoint')
 

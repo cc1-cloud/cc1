@@ -199,7 +199,7 @@ class RunInstances(Action):
             image_id = self.parameters['ImageId']
             image_id = parseID(image_id, Entity.image)
             if not image_id:
-                raise InvalidParameterValue
+                raise InvalidAMIID.Malformed
 
             image_id = int(image_id)
         except KeyError:
@@ -280,7 +280,14 @@ class RunInstances(Action):
                 raise InternalError  # we have not enough information to determine what happened
             if error.status == 'image_get' or error.status == 'image_permission':
                 raise InvalidAMIID.NotFound(image_id=image_id)
-
+            if error.status == 'user_cpu_limit':
+                raise ResourceLimitExceeded(resource="CPU")
+            if error.status == 'user_memory_limit':
+                raise ResourceLimitExceeded(resource="RAM")
+            if error.status == 'user_storage_limit':
+                raise ResourceLimitExceeded(resource="Storage")
+            if error.status == 'image_unavailable':
+                raise InvalidAMIID.Unavailable
             print error.status  # TODO jak sie wyjasni to sie usunie
             raise UndefinedError
 
