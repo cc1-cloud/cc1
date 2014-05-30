@@ -90,11 +90,15 @@ class Signature:
         """
         Check, whether signature is correct (depending on the signature's version).
         """
-        version = int(parameters.get('SignatureVersion'))
-        correctSignature = None
-        if version == 1:
-            correctSignature = Signature.generateSignatureVer1(str(password), parameters)
-        elif version == 2:
-            correctSignature = Signature.generateSignatureVer2(str(password), parameters)
+        # first check for S3 request
+        if parameters.get('authorization'):
+            correctSignature = Signature.generateSignatureS3(str(password), parameters)
+        else:
+            version = int(parameters.get('SignatureVersion'))
+            correctSignature = None
+            if version == 1:
+                correctSignature = Signature.generateSignatureVer1(str(password), parameters)
+            elif version == 2:
+                correctSignature = Signature.generateSignatureVer2(str(password), parameters)
         return True if correctSignature == signatureToCheck else False
 
