@@ -81,28 +81,31 @@ class CreateImage(threading.Thread):
 
         if not os.path.exists(os.path.dirname(self.image.path)):
             os.makedirs(os.path.dirname(self.image.path))
-
-        if not os.path.exists(os.path.dirname('/var/lib/cc1/images-tmp/')):
-            os.makedirs(os.path.dirname('/var/lib/cc1/images-tmp/'))
-
-        tmp_path = os.path.join('/var/lib/cc1/images-tmp/', os.path.split(self.image.path)[1])
+        format_cmd = disk_format_commands[disk_filesystems_reversed[self.filesystem]].split()
+        if format_cmd:
+            tmp_dir = '/var/lib/cc1/images-tmp/'
+            tmp_path = os.path.join(tmp_dir, os.path.split(self.image.path)[1])
+            if not os.path.exists(os.path.dirname(tmp_dir)):
+                os.makedirs(os.path.dirname(tmp_dir))
+        else:
+            tmp_path = str(self.image.path)
 
         log.debug(self.image.user.id, 'stage [1/6] truncate partition file')
         if self.exec_cmd(['truncate', '-s', '%dM' % self.image.size, '%s' % tmp_path]):
             return 'failed'
-        self.set_progress(random.randint(0,15))
+        self.set_progress(random.randint(0, 15))
 
-        format_cmd = disk_format_commands[disk_filesystems_reversed[self.filesystem]].split()
-        format_cmd.append('%s' % tmp_path)
-        log.debug(self.image.user.id, 'stage [2/6] creating partition filesystem')
-        if self.exec_cmd(format_cmd):
-            return 'failed'
-        self.set_progress(random.randint(15,50))
+        if format_cmd:
+            format_cmd.append('%s' % tmp_path)
+            log.debug(self.image.user.id, 'stage [2/6] creating partition filesystem')
+            if self.exec_cmd(format_cmd):
+                return 'failed'
+            self.set_progress(random.randint(15, 50))
 
-        log.debug(self.image.user.id, 'stage [3/6] creating disk')
-        if self.exec_cmd(['/usr/bin/ddrescue', '-S', '-o', '1048576', '%s' % tmp_path, str(self.image.path)]):
-            return 'failed'
-        self.set_progress(random.randint(50,80))
+            log.debug(self.image.user.id, 'stage [3/6] creating disk')
+            if self.exec_cmd(['/usr/bin/ddrescue', '-S', '-o', '1048576', '%s' % tmp_path, str(self.image.path)]):
+                return 'failed'
+            self.set_progress(random.randint(50, 80))
 
         log.debug(self.image.user.id, 'stage [4/6] creating new partition table')
         if self.exec_cmd(['/sbin/parted', '-s', str(self.image.path), 'mklabel', 'msdos']):
