@@ -179,7 +179,7 @@ def edit(caller_id, storage_image_id, name, description, disk_controller):
 
     image = StorageImage.get(caller_id, storage_image_id)
 
-    if image.state != image_states['ok']:
+    if not image.state in [image_states['ok'], image_states['adding']]:
         raise CMException('image_edit')
 
     image.name = name
