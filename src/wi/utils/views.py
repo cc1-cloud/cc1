@@ -349,6 +349,13 @@ class CustomWizardView(CookieWizardView):
         # do redirect to the first step
         if self.request.POST[self.wizard_name + '-current_step'] != '0' and self.request.COOKIES.get('wizard_' + self.wizard_name).find("\"step_data\":{}") != -1:
             return redirect(self.url_start)
+
+        # not saving 2 first steps in wizard
+        # (avoiding problems with hidden_inputs)
+        if self.request.POST[self.wizard_name + '-current_step'] not in ['0', '1']:
+            form = self.get_form(data=self.request.POST, files=self.request.FILES)
+            self.storage.set_step_data(self.steps.current, self.process_step(form))
+
         return super(CustomWizardView, self).post(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
