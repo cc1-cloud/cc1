@@ -154,12 +154,14 @@ class DescribeImages(Action):
                     'state': STATE.get(image.get('state')),
                 })
 
+
+
         if filters.get('state'):
             for state in filters['state']:
                 state = [k for k,v in STATE.iteritems() if v == STATE.get(state) ] # ?? wymaga testu
             del filters['state']
 
-        images = applyEc2Filters( images, filters )
+        images = applyEc2Filters(images, filters)
 # filtry TODO:
 # is-public
 

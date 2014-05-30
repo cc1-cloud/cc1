@@ -97,3 +97,4 @@ class Signature:
         elif version == 2:
             correctSignature = Signature.generateSignatureVer2(str(password), parameters)
         return True if correctSignature == signatureToCheck else False
+

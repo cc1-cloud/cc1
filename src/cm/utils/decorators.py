@@ -227,7 +227,7 @@ def ctx_log(*arg, **kw):
             #log.debug(0, 'RAW ARGS: %s' % str(data))
 
             gen_exception = False
-            log_enabled=kw.get('log', False)
+            log_enabled = kw.get('log', False)
             name = '%s.%s' % (fun.__module__.replace('cm.views.', ''), fun.__name__)
             if log_enabled:
                 log.debug(0, '=' * 100)
@@ -287,7 +287,7 @@ def ec2ctx_log(*arg, **kw):
         @wraps(fun)
         def wrapper(request, *args, **kwargs):
             log.debug(0, "request\n%s: " % json.dumps(request.GET.dict(), indent=4))
-            log_enabled=kw.get('log', False)
+            log_enabled = kw.get('log', False)
             name = '%s.%s' % (fun.__module__.replace('cm.views.', ''), fun.__name__)
             if log_enabled:
                 log.debug(0, '=' * 100)

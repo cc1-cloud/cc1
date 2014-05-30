@@ -29,7 +29,6 @@ from ec2.error import InvalidKeyPair, MissingParameter, InvalidFilter
 from ec2.helpers.filters import applyEc2Filters, validateEc2Filters
 from ec2.helpers.parse import parseFilters, parseSequenceArguments
 
-
 class CreateKeyPair(Action):
     def _execute(self):
         try:
@@ -92,6 +91,7 @@ class DescribeKeyPairs(Action):
             result.append({'key-name' : key_pair['name'],
                        'fingerprint' : key_pair['fingerprint']
                        })
+
 
         result = applyEc2Filters( result, filters )
 

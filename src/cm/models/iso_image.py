@@ -173,7 +173,6 @@ class IsoImage(Image):
               <alias name='%(bus)s-%(dev)s'/>
             </disk>""" % {
                 'path': self.path,
-                # disk_dev name will be in format sd+letter corresponding to the number (e.g: 2->sdb)
                 'dev':  'sd%s' % free_dev,
                 'bus':  disk_controller_name
                 }
@@ -186,9 +185,6 @@ class IsoImage(Image):
         # Update database information
         self.disk_dev = free_dev
         self.vm = vm
-        # self.vm_id = vm.id
-        # saved later by the view function which calls 'attach'
-        # self.save()
 
     def detach(self, vm):
         """

@@ -22,26 +22,6 @@
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
-from cm.models.vm import VM
-from cm.utils import log
-from cm.utils.exception import CMException
-from time import sleep
-
 
 def get_vm_by_ip(vm_ip):
-#     vm = None
-#     counter = 0
-#     while (not vm and counter < 10):
-#         try:
-#             counter += 1
-#             vm = VM.get_by_ip(vm_ip)
-#         except CMException,error:
-#             log.error(0, "Couldn't get vm by it's ip: %s: %s. Retrying" % (vm_ip, error.message))
-#             sleep(2)
-#             vm = None
-#     if not vm:
-#         log.error(0, "Couldn't get vm by it's ip: %s: %s" % (vm_ip, error.message))
-#         raise cherrypy.HTTPError(500)
-#
-#     return vm
-    pass
+    raise Exception("Not implemented")

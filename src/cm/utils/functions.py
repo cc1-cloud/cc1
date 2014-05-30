@@ -27,12 +27,12 @@ from cm.utils import log
 
 def execute(command_list):
     try:
-        log.debug(0, "Execute command: %s"%str(command_list))
+        log.debug(0, "Execute command: %s" % str(command_list))
         log_file = file('/var/log/cc1/cm_thread.log', 'a')
         r = subprocess.call(command_list, stdout=log_file, stderr=log_file)
         log_file.close()
     except Exception, e:
-        log.error(0, "Execute command %s failed: %s"%(str(command_list), e))
+        log.error(0, "Execute command %s failed: %s" % (str(command_list), e))
     return r
 
 

@@ -20,6 +20,7 @@
 """@package src.cm.views.suer.network
 @author Maciej Nabożny <mn@mnabozny.pl>
 
+
 Functions to manage public leases in database for CM Administrator
 """
 
@@ -99,3 +100,4 @@ def unassign(caller_id, lease_id):
 
     public_ip.unassign()
     public_ip.save()
+

@@ -35,7 +35,6 @@ from cm.utils import message
 #threads = {}
 
 
-
 #class VMThread definition and its methods
 class VMThread(threading.Thread):
     def __init__(self, vm, action, shared=None):
@@ -155,7 +154,7 @@ class VMThread(threading.Thread):
             vm = VM.objects.get(pk=self.vm.id)
             #vm = Session.query(VM).get(self.vm_id)
         except Exception, e:
-            log.exception(0, 'Cannot find vm %d: %s'%(self.vm.id, e))
+            log.exception(0, 'Cannot find vm %d: %s' % (self.vm.id, e))
             return
         log.debug(vm.user_id, "VM Destroy")
 
@@ -214,10 +213,6 @@ class VMThread(threading.Thread):
         """
         Runs proper action depending on \ self.action.
         """
-        #TODO:
-        #global threads
-        #threads[self.vm_id] = self
-        #time.sleep(5)
         with transaction.commit_manually():
             try:
                 if self.action == 'create':
@@ -230,5 +225,3 @@ class VMThread(threading.Thread):
             except:
                 log.exception(0, 'thread_exception')
                 transaction.rollback()
-        #TODO:
-        #del threads[self.vm_id]

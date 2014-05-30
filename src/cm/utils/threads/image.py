@@ -35,6 +35,7 @@ from cm.utils import message
 class CreateImage(threading.Thread):
     image = None
     filesystem = None
+
     def __init__(self, image, filesystem):
         threading.Thread.__init__(self)
         self.image = image
@@ -106,20 +107,21 @@ class CreateImage(threading.Thread):
         log.debug(self.image.user.id, 'stage [4/6] creating new partition table')
         if self.exec_cmd(['/sbin/parted', '-s', str(self.image.path), 'mklabel', 'msdos']):
             return 'failed'
-        self.set_progress(random.randint(80,90))
+        self.set_progress(random.randint(80, 90))
 
         log.debug(self.image.user.id, 'stage [5/6] adding partition')
         if self.exec_cmd(['/sbin/parted', '-s', str(self.image.path), 'mkpart', 'primary', '1048576b', '100%']):
             return 'failed'
-        self.set_progress(random.randint(90,100))
-
+        self.set_progress(random.randint(90, 100))
 
         log.info(self.image.user.id, 'disk succesfully formatted')
+
 
 class DownloadImage(threading.Thread):
     image = None
     url = None
     size = 0
+
     def __init__(self, image, url, size):
         threading.Thread.__init__(self)
         self.image = image
@@ -151,10 +153,10 @@ class DownloadImage(threading.Thread):
             downloaded_size = 0
             md5sum = hashlib.md5()
             while downloaded_size < self.size:
-                buffer = src_image.read(1024*1024)
-                md5sum.update(buffer)
-                downloaded_size += len(buffer)
-                dest_image.write(buffer)
+                buff = src_image.read(1024 * 1024)
+                md5sum.update(buff)
+                downloaded_size += len(buff)
+                dest_image.write(buff)
 
                 progress = int(downloaded_size * 100 / self.size)
                 if progress != self.image.progress:
@@ -163,9 +165,9 @@ class DownloadImage(threading.Thread):
 
             dest_image.close()
 
-            log.info(self.image.user.id, "md5 hash of image %d is %s" % (self.image.id, md5sum.hexdigest()))
+            log.info(self.image.user.id, 'md5 hash of image %d is %s' % (self.image.id, md5sum.hexdigest()))
             self.image.state = image_states['ok']
-            self.image.size = downloaded_size / (1024*1024)
+            self.image.size = downloaded_size / (1024 * 1024)
             self.image.save(update_fields=['progress', 'state', 'size'])
             message.info(self.image.user.id, 'image_downloaded', {'name': self.image.name, 'md5sum': md5sum.hexdigest()})
         except Exception, e:

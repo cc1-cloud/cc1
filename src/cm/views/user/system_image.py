@@ -42,7 +42,6 @@ from common.hardware import disk_filesystems, disk_controllers, video_devices, \
 from common.states import image_access, image_states, image_types
 import subprocess
 
-
 @user_log(log=True)
 def download(caller_id, description, name, path, disk_controller, network_device, platform, video_device):
     """

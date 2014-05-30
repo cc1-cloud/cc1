@@ -25,7 +25,6 @@ import re
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
-
 def parseSequenceArguments(parameters, prefix = '', suffix = ''):
     """
     Przeszukuje parametry w poszukiwaniu kluczy <prefix><numer><suffix>
@@ -79,7 +78,6 @@ def parseFilters(parameters):
 
     return filters
 
-
 def parseSequenceIntArguments(parameters, prefix = '', suffix = ''):
     """
     Wywołuje funkcję parseSequenceArguments z takimi samymi argumentami,
@@ -90,7 +88,6 @@ def parseSequenceIntArguments(parameters, prefix = '', suffix = ''):
     result_params = [ int(argument) for argument in temp_arguments ]
 
     return result_params
-
 
 def parseID(entity, entity_type):
     """
@@ -110,7 +107,6 @@ def parseID(entity, entity_type):
 
     return None
 
-
 def parseIDs(entities, entity_type):
     result = []
     for entity in entities:
@@ -121,7 +117,6 @@ def parseIDs(entities, entity_type):
         print 'Entity:' ,entity
     print 'Entities:',result
     return result
-
 
 def parseClmDate(clm_date):
     # CLM date format: 16.02.2014, 21:32:54

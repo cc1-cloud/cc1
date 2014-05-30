@@ -85,7 +85,7 @@ def check_signature(parameters):
     try:
         auth_header = parameters['authorization']
         space = auth_header.index(' ')
-        auth_header = auth_header[space+1:]
+        auth_header = auth_header[space + 1:]
         login_and_signature = auth_header.split(':')
 
         login = login_and_signature[0]
