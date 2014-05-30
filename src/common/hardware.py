@@ -71,14 +71,15 @@ disk_filesystems = {
 }
 
 disk_format_commands = {
-    'ntfs': '/sbin/mkfs.ntfs -Q -F',
+    'raw': '',
     'ntfs-full': '/sbin/mkfs.ntfs -F',
-    'Fat32': '/sbin/mkfs.vfat',
+    'fat32': '/sbin/mkfs.vfat',
     'ext2': '/sbin/mkfs.ext2 -F',
     'ext3': '/sbin/mkfs.ext3 -F',
     'ext4': '/sbin/mkfs.ext4 -F',
     'reiserfs': '/sbin/mkfs.reiserfs -f -q',
-    'xfs': '/sbin/mkfs.xfs -f'
+    'xfs': '/sbin/mkfs.xfs -f',
+    'ntfs': '/sbin/mkfs.ntfs -Q -F',
 }
 
 video_devices_reversed = dict((v, k) for k, v in video_devices.iteritems())
