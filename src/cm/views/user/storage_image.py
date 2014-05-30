@@ -54,6 +54,9 @@ def create(caller_id, name, description, filesystem, size, disk_controller):
 
     @response{dict} Image's dictionary
     """
+    if size < 1:
+        raise CMException('image_invalid_size')
+
     user = User.get(caller_id)
     user.check_storage(size)
     image = StorageImage.create(user=user, disk_controller=disk_controller, description=description, name=name,
