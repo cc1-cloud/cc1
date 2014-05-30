@@ -60,14 +60,12 @@ live_attach_disk_controllers = ['virtio', 'usb']
 # - command - formatting program. %%s will be replaced with formatting filename
 # - enabled
 disk_filesystems = {
-    'ntfs': 0,
-    'ntfs-full': 1,
-    'Fat32': 2,
-    'ext2': 3,
-    'ext3': 4,
+    'raw': 0,
+    'fat32': 2,
     'ext4': 5,
     'reiserfs': 6,
-    'xfs': 7
+    'xfs': 7,
+    'ntfs': 8
 }
 
 disk_format_commands = {
