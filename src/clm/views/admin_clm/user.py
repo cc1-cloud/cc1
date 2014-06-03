@@ -31,6 +31,7 @@ from clm.utils.decorators import admin_clm_log
 from clm.utils.exception import CLMException
 from common.states import user_active_states
 from datetime import datetime
+from clm.utils import log
 
 
 @admin_clm_log(log=True)
@@ -123,7 +124,6 @@ def activate(cm_id, caller_id, user_id, wi_data):
 
     if settings.MAILER_ACTIVE:
         mail.send_activation_confirmation_email(user, wi_data)
-
     return cms
 
 
@@ -154,7 +154,10 @@ def block(cm_id, caller_id, user_id, wi_data, block):
         raise CLMException('user_block' if block else 'user_unblock')
 
     if settings.MAILER_ACTIVE:
-        mail.send_block_email(user, block, wi_data)
+        try:
+            mail.send_block_email(user, block, wi_data)
+        except Exception, e:
+            log.error(caller_id, "Cannot send block/unblock email: %s" % str(e))
 
     return user.dict
 
