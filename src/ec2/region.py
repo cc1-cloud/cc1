@@ -30,7 +30,7 @@ EC2 actions for regions
 """
 
 
-def getClusterManagers(endpoint , cluster_manager):
+def getClusterManagers(endpoint, cluster_manager):
     try:
         base_URL = endpoint.split('.', 1)[1]
     except IndexError:

@@ -228,7 +228,7 @@ class User(models.Model):
         pq = []
         pts = {}
         pt = []
-        vmn = 0  # vm number
+        vm_number = 0
         dt_now = datetime.datetime.now()
         start = datetime.datetime(dt_now.year, dt_now.month, 1)
         start_time = calendar.timegm(start.timetuple())
@@ -245,9 +245,9 @@ class User(models.Model):
                 start = vm.start_time
             stop = vm.stop_time or dt_now
 
-            pq.append([vmn, calendar.timegm(start.timetuple()), vm.template.points, "%s started" % (vm.name)])
-            pq.append([vmn, calendar.timegm(stop.timetuple()), vm.template.points, "%s stopped" % (vm.name)])
-            vmn += 1
+            pq.append([vm_number, calendar.timegm(start.timetuple()), vm.template.points, "%s started" % (vm.name)])
+            pq.append([vm_number, calendar.timegm(stop.timetuple()), vm.template.points, "%s stopped" % (vm.name)])
+            vm_number += 1
 
         pq = sorted(pq, key=lambda d: d[1])
 
@@ -333,6 +333,3 @@ class User(models.Model):
             log.exception(user_id, 'Cannot get user')
             raise CMException('user_get')
         return user
-
-
-    # Note: superuser method moved to Admin model

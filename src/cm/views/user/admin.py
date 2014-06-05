@@ -62,7 +62,7 @@ def first_admin_add(caller_id, new_password, clm_address):
         for line in config.readlines():
             if line.startswith('CLM_ADDRESS') and 'NOT_CONFIGURED' in line:
                 lines.append('CLM_ADDRESS = "https://%s:8000/"\n' % clm_address)
-            else:
+            else: 
                 lines.append(line)
         config.close()
 
