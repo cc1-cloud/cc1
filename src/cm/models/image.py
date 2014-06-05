@@ -98,6 +98,9 @@ class Image(TypedModel):
 
     def dictImg(self):
         """
+        Method is used by the subclasses, it puts into dict the fields common
+        to all Images
+
         @returns{dict} image's data
         \n fields:
         @dictkey{id}
@@ -168,7 +171,7 @@ class Image(TypedModel):
     @property
     def path(self):
         """
-        #@returns{string} path to image
+        @returns{string} path to image
         """
         img_path = '%d' % self.id
         log.info(self.user.id, 'Storage: %s, user_id: %d, image_id: %s' % (self.storage.path, self.user.id, img_path))

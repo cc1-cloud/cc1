@@ -74,7 +74,7 @@ def applyEc2Filters( objects, filters ):
     """
     try:
         for filter_name in filters.keys():
-            # tu by się przydał elegantszy sposób
+            # more elegant method required
             for filter_value in filters[filter_name]:
                 extra_prefix = ""
                 for prefix in prefixes.iteritems():

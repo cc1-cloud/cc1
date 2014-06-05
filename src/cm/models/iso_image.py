@@ -98,7 +98,6 @@ class IsoImage(Image):
         image.has_access(user_id)
         return image
 
-    # @returns CDmage instance for admin user
     @staticmethod
     def admin_get(iso_image_id):
         """
@@ -118,8 +117,6 @@ class IsoImage(Image):
 
         return image
 
-    # returns True, if user \c user_id (and optionally listed \c groups)
-    # has access to this image. Otherwise exception is thrown.
     def has_access(self, user_id):
         """
         @parameter{user_id,int}

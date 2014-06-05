@@ -117,9 +117,6 @@ class SystemImage(Image):
 
         return d
 
-    # returns image id if it belongs to user user_id
-    # (and optionally to listed groups, if any given)
-    # also check if user has permissions
     @staticmethod
     def get(user_id, sys_image_id, groups=None):
         """
@@ -143,15 +140,9 @@ class SystemImage(Image):
         except:
             raise CMException('image_get')
 
-        # TODO:
-        # should check on state and storage? it was in get image old code
-        # if image.state != image_states['ok'] and image.storage.state != storage_states['ok']:
-        #    raise CMException('image_unavailable')
-
         image.has_access(user_id, groups)
         return image
 
-    # @returns VMImage instance for admin user
     @staticmethod
     def admin_get(sys_image_id):
         """

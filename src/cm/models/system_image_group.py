@@ -37,6 +37,5 @@ class SystemImageGroup(models.Model):
         app_label = 'cm'
         unique_together = ("group_id", "image")
 
-    #method for printing object instance
     def __unicode__(self):
         return 'group: ' + str(self.group_id) + ' -  sys img: ' + str(self.image.id)

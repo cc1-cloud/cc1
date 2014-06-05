@@ -48,7 +48,6 @@ class Storage(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return self.name
 
@@ -72,7 +71,6 @@ class Storage(models.Model):
         d['name'] = self.name
         d['capacity'] = self.capacity
         d['used_space'] = self.used_space
-        # TODO: zmienic
         d['mountpoint'] = self.path
         d['dir'] = self.dir
         d['address'] = self.address

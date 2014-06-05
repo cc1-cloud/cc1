@@ -94,7 +94,6 @@ class VM(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return self.name
 
@@ -456,7 +455,6 @@ class VM(models.Model):
 
         return vm
 
-    # save the VM into a system image
     def save_image(self):
         """
         Method saves VM to image with VM's name, description and parameters.
@@ -469,7 +467,6 @@ class VM(models.Model):
             log.exception(self.user.id, 'save img')
             return
 
-        # Insert new image to database
         img = SystemImage.create(name=(self.name + "_autosave" if self.save_vm == 1 else self.name),
                                  description=self.description, user=self.user, platform=self.system_image.platform,
                                  disk_controller=self.system_image.disk_controller,

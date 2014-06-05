@@ -197,8 +197,6 @@ def edit(caller_id, vm_id, name, description):
     vm.save(update_fields=['name', 'description'])
 
 
-# TODO:
-# Attaches VNC redirection to VM.
 @user_log(log=True)
 def attach_vnc(caller_id, vm_id):
     """
@@ -218,8 +216,6 @@ def attach_vnc(caller_id, vm_id):
         raise CMException('vnc_attach')
 
 
-# TODO:
-# Detaches VNC redirection from VM.
 @user_log(log=True)
 def detach_vnc(caller_id, vm_id):
     """

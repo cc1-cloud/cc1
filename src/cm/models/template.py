@@ -52,7 +52,6 @@ class Template(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return self.name
 

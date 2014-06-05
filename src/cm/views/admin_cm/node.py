@@ -96,7 +96,6 @@ def check(caller_id, node_id_list):
         raise CMException(str(e))
 
 
-# returns list of added nodes
 @admin_cm_log(log=False)
 def get_list(caller_id):
     """
@@ -120,7 +119,7 @@ def get_by_id(caller_id, node_id):
 
     @response{dict} extended information about Node
     """
-    node = Node.get(caller_id, node_id)  # use static method get by Node
+    node = Node.get(caller_id, node_id)
     return node.long_dict
 
 
@@ -134,7 +133,7 @@ def get_by_id_details(caller_id, node_id):
 
     @response{dict} further extended information about Node
     """
-    node = Node.get(caller_id, node_id)  # use static method get by Node
+    node = Node.get(caller_id, node_id)
     return node.long_long_dict
 
 
@@ -241,7 +240,6 @@ def edit(caller_id, node_id, **node_info):
     """
     node = Node.get(caller_id, node_id)
 
-    # set the values sent in dictionary
     for k, v in node_info.iteritems():
         setattr(node, k, v)
 

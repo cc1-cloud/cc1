@@ -66,7 +66,6 @@ class User(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return str(self.id)
 
@@ -211,7 +210,6 @@ class User(models.Model):
             p += vm.template.points * (t.days * 24 + t.seconds / 3600.0)
         return int(p + 0.5)
 
-    # TODO: it works but what it does? and what it returns?
     def points_history(self):
         """
         Finds all User's VM's that have been working within current callendar

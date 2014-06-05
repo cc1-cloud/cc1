@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @cond LICENSE
+# @COPYRIGHT_begin
 #
 # Copyright [2010-2013] Institute of Nuclear Physics PAN, Krakow, Poland
 #
@@ -15,7 +15,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #
-# @endcond LICENSE
+# @COPYRIGHT_end
 
 """@package src.cm.message
 """

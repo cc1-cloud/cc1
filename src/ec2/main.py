@@ -61,7 +61,6 @@ if False:
 else:
     def validate(response):
         return response
-# musisz ustawiac cm_id w request
 
 
 class CloudManager(object):

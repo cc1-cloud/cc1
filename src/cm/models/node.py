@@ -59,7 +59,6 @@ class Node(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return str(self.id)
 
@@ -356,7 +355,7 @@ class Node(models.Model):
         """
         self.state = node_states['locked']
         self.save()
-        # TODO: send imejl
+        # TODO: send email
 
     # the funcion is called by vm utils create
     # finds first node (or with node_id, if given) that is sufficient enough for image and template and returns it.
