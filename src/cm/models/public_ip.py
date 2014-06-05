@@ -76,11 +76,6 @@ class PublicIP(models.Model):
             d['user_id'] = ''
         return d
 
-    @property
-    def mac(self):
-        # TODO where we use it?
-        return ''
-
     def assign(self, lease):
         if lease.vm == None:
             raise CMException('lease_not_attached')

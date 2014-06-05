@@ -21,7 +21,6 @@
 @author Tomek Wojtoń
 """
 
-import datetime
 import os.path
 import tarfile
 import time
@@ -29,7 +28,6 @@ import time
 from cm import settings
 from cm.utils import log
 from cm.utils.exception import CMException
-from common.states import node_states, vm_states
 import rrdtool
 
 
@@ -108,7 +106,6 @@ class RrdHandler():
         if(filesize == 0):
             self.create()
         else:  # appropriate updating
-            cpu_percent = int(self.vm['cpu_time'] / self.vm['cpu_count'] / 10000 / 1000)
             ret = rrdtool.update("%s" % (self.filepath), 'N:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d' % (int(self.vm['cpu_count']),
                 int(self.vm['cpu_time']) / 100000000 / 10.0 / self.vm['cpu_count'],
                 int(self.vm['rd_req']),

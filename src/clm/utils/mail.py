@@ -23,9 +23,7 @@
 """
 
 
-from email.mime.text import MIMEText
 from smtplib import SMTPRecipientsRefused
-import smtplib
 
 from django.conf import settings
 from django.core.mail.message import EmailMessage

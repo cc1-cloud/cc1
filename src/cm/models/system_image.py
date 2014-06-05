@@ -32,9 +32,9 @@ from django.template import loader, Context
 from cm.models.image import Image
 from cm.utils import log
 from cm.utils.exception import CMException
-from common.hardware import disk_controllers, video_devices, network_devices, \
-    disk_filesystems_reversed, video_devices_reversed, network_devices_reversed
-from common.states import image_access, image_states, storage_states, vm_states
+from common.hardware import video_devices, network_devices, \
+    video_devices_reversed, network_devices_reversed
+from common.states import image_access
 from cm.utils import message
 
 

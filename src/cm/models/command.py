@@ -194,8 +194,6 @@ class Command(models.Model):
             hosts = vm.farm.hosts()
             log.debug(vm.user_id, "vm: %d, host list to inject into WNs: %s" % (vm.id, str(hosts)))
 
-            id = 1
-
             Command.execute('add_ssh_key', vm.user_id, vm.id, user=vm.ssh_username, ssh_key=vm.ssh_key)
             Command.execute('update_hosts', vm.user_id, vm.id, hosts_list=hosts, user=vm.ssh_username)
             Command.execute('set_hostname', vm.user_id, vm.id, hostname=vm.name.replace(vm.farm.name, 'farm'))

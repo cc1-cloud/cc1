@@ -212,7 +212,6 @@ def check(caller_id, node_list):
     @dictkey{unmounted,list} list of storages not mounted to current node
     """
 
-    storage_ids = Storage.objects.values_list('id', flat=True)
     storage_names = Storage.objects.values_list('name', flat=True)
 
     result = {}

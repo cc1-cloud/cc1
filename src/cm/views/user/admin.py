@@ -72,17 +72,3 @@ def first_admin_add(caller_id, new_password, clm_address):
     except:
         log.exception(caller_id, 'config_update')
         raise CMException('config_update')
-
-
-# never used
-@admin_cm_log(log=True)
-def check_password(caller_id):
-    """
-    @parameter{caller_id}
-    @cmview_admin_cm
-
-    View's decorator checks password. Therefore check_password()
-    doesn't need to perform any further check.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
-    """
-    pass

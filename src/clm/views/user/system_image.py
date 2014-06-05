@@ -22,9 +22,7 @@
 """
 
 from clm.models.user import User
-from clm.models.group import Group
-from clm.models.user_group import UserGroup
-from common.states import image_access, image_types, group_states
+from common.states import image_access, group_states
 from clm.utils.decorators import user_log, cm_request
 from clm.utils.cm import CM
 from clm.utils.exception import CLMException

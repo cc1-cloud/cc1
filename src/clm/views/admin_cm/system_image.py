@@ -21,8 +21,6 @@
 @alldecoratedby{src.clm.utils.decorators.admin_cm_log}
 """
 
-import json
-
 from clm.models.group import Group
 from clm.models.user import User
 from clm.utils.cm import CM

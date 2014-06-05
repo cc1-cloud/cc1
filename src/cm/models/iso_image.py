@@ -20,8 +20,6 @@
 """@package src.cm.models.iso_image
 """
 
-from django.db import models
-
 from cm.models.image import Image
 from cm.utils import log
 from cm.utils.exception import CMException
