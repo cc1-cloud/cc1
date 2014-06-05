@@ -22,14 +22,8 @@
 @date Mar 18, 2013
 """
 
-# -*- coding: utf-8 -*-
-#from django.core import serializers
-#import json
-#from django.db.models.query import QuerySet
-
 import logging
 log = logging.getLogger(__name__)
-#from django.http import HttpResponse
 
 
 def response(status, data=''):

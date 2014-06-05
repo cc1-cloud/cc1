@@ -29,7 +29,6 @@ from clm.utils.decorators import user_log, cm_request
 from clm.utils.cm import CM
 from clm.utils.exception import CLMException
 import json
-# from common import response
 
 
 @user_log(log=False, pack=False)  # false

@@ -54,7 +54,6 @@ def authorize_ec2_request(parameters, aws_secret_key, **kwargs):
 
 def _sign_parameters_ver1(parameters, aws_secret_key, **kwargs):
     """Generate signature deoending on parameters and password (once again)."""
-    #password = self.server.unsafe_ec2_gethash(parameters.get('AWSAccessKeyId'))
     params = ''
     for key in sorted(parameters.iterkeys(), key=str.lower):
         if key == 'Signature' or key == 'Method' or key == 'Endpoint':

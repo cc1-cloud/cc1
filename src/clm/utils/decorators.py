@@ -205,20 +205,13 @@ def auth(is_user, is_clm_superuser, data):
         login = data.pop('login')
         password = data.get('password')
 
-#         password = data.pop('password')
         if password:
             del data['password']
         try:
             user = User.objects.get(login=login)
         except User.DoesNotExist:
             raise CLMException('user_get')
-    #         if isinstance(args[-1], dict) and 'Signature' in args[-1]:  # sigdata will be always the last argument
-    #                 if Signature.checkSignature(user.password, password, args[-1]):
-    #                     del args[-1]
-    #                 else:
-    #                     resp = response('user_get')
-    #             elif user.password != password:
-    #                 resp = response('user_get')
+
         if 'Signature' in data.keys():
             if not Signature.checkSignature(user.password, data.pop('Signature'), data['parameters']):
                 raise CLMException('user_get')
@@ -236,8 +229,7 @@ def auth(is_user, is_clm_superuser, data):
         if not data['cm_id']:
             if user.default_cluster_id is not None:
                 data['cm_id'] = user.default_cluster_id
-            # else:
-            #     raise CLMException('missing cm_id')
+
         return user.id
     else:
         return 0

@@ -75,7 +75,6 @@ def create(caller_id, name, address, directory, capacity):
         st.save()
     except Exception, e:
         log.debug(caller_id, 'Cannot save storage in database: %s' % str(e))
-        #Session.rollback()
         raise CMException('storage_create')
 
 

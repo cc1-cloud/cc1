@@ -80,7 +80,6 @@ def generate(cm_id, caller_id, name):
     if len(Key.objects.filter(user_id__exact=caller_id)) > 5:  # magic value, keys limit
         raise CLMException('ssh_key_limit')
     if Key.objects.filter(user_id__exact=caller_id).filter(name__exact=name).exists():
-    # if len(Session.query(Key).filter(Key.user_id == caller_id).filter(Key.name == name).all()) > 0:
         raise CLMException('ssh_key_already_exist')
     if subprocess.call(['ssh-keygen', '-q', '-f', '/tmp/' + str(caller_id) + '_' + name, '-N', '']) != 0:
         raise CLMException('ssh_key_generate')
@@ -116,7 +115,6 @@ def add(cm_id, caller_id, key, name):
     @response{None}
     """
     if len(Key.objects.filter(user_id__exact=caller_id)) > 5:  # magic value, keys limit
-    # if len(Session.query(Key).filter(Key.user_id == caller_id).all()) > 5: # magic value, keys limit
         raise CLMException('ssh_key_limit')
     k = Key()
     k.user_id = caller_id

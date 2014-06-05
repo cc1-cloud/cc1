@@ -155,8 +155,6 @@ def get_by_id(caller_id, vm_id):
     """
     vm = VM.get(caller_id, vm_id)
     vm_mod = vm.long_dict
-    # TODO: cpuload to be defined
-    # vm_mod['cpu_load'] = vm_utils.cpu_load(vm_mod)['data']
     return vm_mod
 
 

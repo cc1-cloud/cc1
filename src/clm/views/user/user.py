@@ -116,19 +116,3 @@ def send_issue(cm_id, caller_id, topic, issue):
         mail.send(settings.ISSUE_EMAIL, issue, topic)
     except Exception:
         raise CLMException('send_issue_error')
-
-
-# @todo: monia not defined in CM
-# @user_log(log=True, pack=False)
-# def stat_test(cm_id, caller_id, vm_name, stats, start_time, stop_time, resolution):
-# """
-#    @parameter{vm_name,string}
-#    @parameter{stats}
-#    @parameter{start_time}
-#    @parameter{stop_time}
-#    @parameter{resolution}
-#    @returns @asreturned{src.cm.views.user.user.stat_test()}
-# """
-#
-#
-#    return cm(cm_id).monia.user.vm_stats(caller_id, vm_name, stats, start_time, stop_time, resolution)

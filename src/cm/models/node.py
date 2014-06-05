@@ -342,12 +342,6 @@ class Node(models.Model):
 
         @raises{node_get,CMException} no such Node
         """
-
-        # entities.user.User.superuser(user_id)
-
-        # check on auth is performed by decorator
-        # Admin.superuser(user_id)
-
         try:
             n = Node.objects.get(pk=node_id)
         except:
@@ -401,8 +395,3 @@ class Node(models.Model):
             # Get best matching (most filled) node
             available_nodes.sort(key=lambda node: node.cpu_free)
             return available_nodes[0]
-
-    # TODO:
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    # define: get_lease(), get_vnc()
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

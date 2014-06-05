@@ -42,11 +42,6 @@ def check_stat_exists(vm):
     return 1
 
 
-# def get_user_vms(user_id):
-#     vms = [ "vm-%s-%s"%(vm.dict['id'], vm.dict['user_id']) for vm in Session.query(VM).filter(not_(VM.state.in_((vm_states['closed'], vm_states['erased'])))).filter(VM.user_id == user_id).filter(VM.farm == None)]
-#     return vms
-
-
 def get_path(vm):
     path = settings.PATH_TO_RRD + vm + '.rrd'
     return path
@@ -131,7 +126,6 @@ class RrdHandler():
     def create(self):
         if not self.vm:
             raise Exception('No VM specified')
-        # MonitorUtils.makefile(self.filepath)
         rarg = ["%s" % (self.filepath), "--step", "%d" % settings.PERIOD,
             "DS:cpu_count:GAUGE:%d:0:100000" % (settings.PERIOD * 2),
             "DS:cpu_time:COUNTER:%d:0:100000" % (settings.PERIOD * 2),
@@ -229,12 +223,6 @@ class RrdHandler():
         step = info[2]
         ts = start_rrd
         total = self.get_vm_total(vm, names)
-        # ponizsze petle while mozna usunac zeby przsylac puste wartosci dla nieistniejacych danych
-        # while data and None in data[-1]:
-        #    data.pop()
-        # while data and None in data[0]:
-        #    data.pop(0)
-        #    ts = ts + step
 
         now = int(time.time())
 
@@ -263,7 +251,6 @@ class RrdHandler():
                         val[ds_req[i]] = ''
                     else:
                         val[ds_req[i]] = row[i]
-            # val.insert(0, ts-time.timezone)
             val.insert(0, ts)
             res.append(val)
             ts = ts + step

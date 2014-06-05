@@ -205,7 +205,6 @@ class IsoImage(Image):
             <alias name='%(bus)s-%(dev)s'/>
             </disk>""" % {
             'path': self.path,
-            # 'dev':  self.disk_dev,
             'dev': 'sd%s' % chr(self.disk_dev + 96),
             'bus':  disk_controller_name
             }
@@ -215,8 +214,6 @@ class IsoImage(Image):
             raise CMException('iso_image_detach')
 
         self.vm = None
-        # saved later by the view function which calls 'detach'
-        # self.save()
 
     @classmethod
     def create(cls, name, description, user, disk_dev, disk_controller):

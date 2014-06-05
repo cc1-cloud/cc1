@@ -24,9 +24,6 @@ from django.db import models
 from clm.models.user import User
 from clm.models.group import Group
 
-#from cm.utils.exception import CMException
-#from common.states import template_states
-
 
 class UserGroup(models.Model):
     """

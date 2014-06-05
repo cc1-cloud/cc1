@@ -53,14 +53,6 @@ def update_state(remote_ip, vm_name, action, state):
         log.debug(user_id, "Not updating vm state: action is %s" % str(action))
         return ''
 
-#     try:
-#         conn = libvirt.open(node.conn_string)
-#         dom = conn.lookupByName(vm_name)
-#         log.error(user_id, 'Libvirt domain %s exists!' % vm_name)
-#         raise CMException('vm_exists')
-#     except:
-#         log.debug(user_id, 'Libvirt domain not found. Closing...')
-
     try:
         VM.objects.update()
         vm = VM.objects.get(id=vm_id)

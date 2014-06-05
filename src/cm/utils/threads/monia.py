@@ -91,7 +91,6 @@ def start_monia():
         r.append('cleaner started')
         log.info(0, 'Monitoring thread CleanerThread started')
 
-    #log.info(0, 'Monitoring threads %s started' % str(r))
     return r
 
 
@@ -131,7 +130,6 @@ class MonitorInitiator(threading.Thread):
         self.frequency = settings.PERIOD * 1.0 / len(nlist)
         for n in nlist:
             self.rb.add(n)
-        #self.start()
 
     def update_nodes(self, nlist):
         log.info(0, 'updating nodes list')
@@ -154,7 +152,6 @@ class MonitorInitiator(threading.Thread):
     def kill(self):
         log.info(0, "stopping MonitorInitiator... ")
         self.running = False
-        # sys.exit()
 
 
 class CleanerThread(threading.Thread):
@@ -167,7 +164,6 @@ class CleanerThread(threading.Thread):
     def kill(self):
         log.info(0, "stopping CleanerThread... ")
         self.running = False
-        # sys.exit()
 
     def run(self):
         try:
@@ -193,7 +189,6 @@ class MonitorThread(threading.Thread):
 
     def run(self):
         self.update()
-        #log.debug(0, 'Checking node: %s'%(self.getName()))
 
     def update(self):
         r = self.read_node()

@@ -210,8 +210,6 @@ def delete(caller_id, node_id):
 
     try:
         node.delete()
-        # TODO:
-        # start_monia()  # odswiezenie listy nodow w monitoringu
     except:
         raise CMException('node_delete')
 
@@ -245,12 +243,9 @@ def edit(caller_id, node_id, **node_info):
 
     # set the values sent in dictionary
     for k, v in node_info.iteritems():
-        # if hasattr(node, k):
         setattr(node, k, v)
 
     try:
         node.save()
-        # TODO:
-        # start_monia()  # odswiezenie listy nodow w monitoringu
     except:
         raise CMException('node_edit')

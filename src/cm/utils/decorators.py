@@ -75,7 +75,6 @@ locks = {
 # Every actor decorators add the decorated function to global decorated_functions and send it
 # to genericlog but with different arguments
 
-
 def guest_log(*arg, **kw):
     """
     Decorator for functions requiring only \b guest's privilidges.
@@ -224,7 +223,6 @@ def ctx_log(*arg, **kw):
         def wrapper(request, *args, **kwargs):
             data = request.GET.dict()
             data['remote_ip'] = request.META.get('REMOTE_ADDR')
-            #log.debug(0, 'RAW ARGS: %s' % str(data))
 
             gen_exception = False
             log_enabled = kw.get('log', False)
@@ -332,7 +330,6 @@ def genericlog(log_enabled, is_user, is_admin_cm, need_ip, fun, args):
     name = '%s.%s' % (fun.__module__.replace('cm.views.', ''), fun.__name__)
 
     request = args[0]
-    #log.debug(0, 'BODY: %s' % request.body)
     data = json.loads(request.body)
 
     lock_name = None

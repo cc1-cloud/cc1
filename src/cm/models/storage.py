@@ -83,22 +83,11 @@ class Storage(models.Model):
         """
         @returns{string} total mountpoint path to this Storage on the CM
         """
-        # TODO: zmienic/change
-        # try:
-        #    vol = pool.storageVolLookupByName('info')
-        # except:
-        #    template = loader.get_template("volumes/file.xml")
-        #    c = Context({'name': 'info',
-        #                 'size': 1})
-        #    vol = pool.createXML(template.render(c), 0)
-        #
-        # path = vol.path().replace('/info', '/')
         try:
             conn = libvirt.open('qemu:///system')
             conn.storagePoolLookupByName(self.name)
         except:
             pass
-            # raise CMException('storage_not_mounted')
         return '/var/lib/cc1/storages/%s/' % self.name
 
     @property
@@ -125,11 +114,9 @@ class Storage(models.Model):
 
         @raises{storage_no_storage,CMException} no Storages mounted
         """
-        # storages = Session.query(Storage).filter(Storage.state == storage_states['ok']).all()
 
         storages = Storage.objects.filter(state__exact=storage_states['ok'])
 
-        # if len(storages) == 0:
         if storages.count() == 0:
             raise CMException("storage_no_storage")
 

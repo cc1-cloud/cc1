@@ -94,12 +94,6 @@ def EVIOCGSW(len):
 def EVIOCGLED(len):
     return _IOC(_IOC_READ, 69, 0x19, len)   #  get all LEDs */
 
-#struct input_event {
-#        struct timeval time; = {long seconds, long microseconds}
-#        unsigned short type;
-#        unsigned short code;
-#        unsigned int value;
-#};
 
 EVFMT = "llHHi"
 EVsize = struct.calcsize(EVFMT)

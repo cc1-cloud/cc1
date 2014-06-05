@@ -74,7 +74,6 @@ class CloudManager(object):
         self._cluster_managers_data = None
         self._proxy_server = ServerProxy(uri)
 
-    # @memoize
     def cluster_managers(self):
         if not self._cluster_managers_data:
             self._cluster_managers_data = \

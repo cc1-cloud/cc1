@@ -93,12 +93,9 @@ class Image(TypedModel):
         image.access = image_access['private']
         return image
 
-    # method for printing object instance
     def __unicode__(self):
         return self.name
 
-    # @property
-    # method used by the subclasses, it put in dict the fields common to all images
     def dictImg(self):
         """
         @returns{dict} image's data
@@ -118,9 +115,6 @@ class Image(TypedModel):
         d['name'] = self.name
         d['description'] = self.description
         d['disk_controller'] = self.disk_controller
-
-        # disk_dev put in dict of subclasses
-        # d['disk_dev'] = self.disk_dev
 
         d['creation_date'] = self.creation_date
         d['progress'] = self.progress

@@ -24,18 +24,13 @@
 import threading
 import libvirt
 
-#from cm.utils import message
 from common.states import farm_states  # ,vm_states
 from cm.models.vm import VM
 from cm.utils import log
 from django.db import transaction
 from cm.utils import message
 
-#TODO:add global threads
-#threads = {}
 
-
-#class VMThread definition and its methods
 class VMThread(threading.Thread):
     def __init__(self, vm, action, shared=None):
         threading.Thread.__init__(self)
@@ -57,13 +52,6 @@ class VMThread(threading.Thread):
         -# Sets VM's state as *running*
         -# If VM is element of farm, it sets proper farm state.
         """
-        # TODO: Assign ip address from node ip addresses
-        # try:
-        #     vm = VM.objects.get(id=self.vm)
-        #     #vm = Session.query(VM).get(self.vm_id)
-        # except Exception, e:
-        #     log.exception(0, 'Cannot find vm %d: %s'%(self.vm, e))
-        #     return
         try:
             log.info(self.vm.user_id, "Copy image from %s to %s" % (self.vm.system_image.path, self.vm.path))
             self.vm.system_image.copy_to_node(self.vm)
@@ -122,12 +110,6 @@ class VMThread(threading.Thread):
                 #TODO: farm.set_state
                 self.vm.farm.state = farm_states['init_head']
                 self.vm.farm.save()
-            # elif self.vm.is_farm():
-            #     self.shared['lock'].acquire()
-            #     self.shared['counter'] = self.shared['counter'] - 1
-            #     if self.shared['counter'] == 0:
-            #         self.vm.farm.state = farm_states['nodes_copied']
-            #         self.shared['lock'].release()
         except Exception, e:
             self.vm.set_state('failed')
             self.vm.node.lock()
@@ -152,15 +134,10 @@ class VMThread(threading.Thread):
         try:
             VM.objects.update()
             vm = VM.objects.get(pk=self.vm.id)
-            #vm = Session.query(VM).get(self.vm_id)
         except Exception, e:
             log.exception(0, 'Cannot find vm %d: %s' % (self.vm.id, e))
             return
         log.debug(vm.user_id, "VM Destroy")
-
-        #TODO: Move to entites.vm release resources
-        #for lease in vm.public_leases:
-        #    lease.unassign()
 
         vm.delete()
         return

@@ -16,7 +16,6 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
-# from common.helper import find, memoize
 from ec2.base.action import Action
 from ec2.error import UndefinedError, MissingParameter
 from ec2.helpers.parse import parseFilters

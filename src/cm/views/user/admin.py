@@ -42,11 +42,6 @@ def first_admin_add(caller_id, new_password, clm_address):
 
     @parameter{password,string} first *CM admin password* to set
     """
-    # verify if the id caller exists and gets the instance
-    # try:
-    #    user = User.objects.get(pk=caller_id)
-    # except User.DoesNotExist:
-    #    raise CMException('admin_add')
     user = User.create(1)
     user.save()
 

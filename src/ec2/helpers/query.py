@@ -35,7 +35,6 @@ def query(parameters, aws_key=None, aws_secret=None, endpoint=None,
     parameters.setdefault('SignatureVersion', '2')
 
     parameters['AWSAccessKeyId'] = aws_key
-    #parameters['Expires'] = "2012-03-17T12:41:35Z"
     parameters['Timestamp'] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     parameters['Version'] = "2012-03-01"
 

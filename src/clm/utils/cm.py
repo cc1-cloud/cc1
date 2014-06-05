@@ -20,7 +20,6 @@
 """@package src.clm.utils.cm
 """
 
-# from clm.utils import log
 from clm.models.cluster import Cluster
 from clm.utils.exception import CLMException
 from common.utils import ServerProxy

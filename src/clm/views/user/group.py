@@ -206,18 +206,14 @@ def delete(cm_id, caller_id, group_id):
     log.debug(caller_id, 'groups %s' % resp)
 
     user = User.get(caller_id)
-    # # set private all the system images that belong to the group
+    # set private all the system images that belong to the group
     for img in resp['data']:
-    #     print img
         resp = CM(cm_id).sendRequest(cm_id, caller_id, "user/system_image/set_private/", system_image_id=img['image_id'], leader_groups=[g.group_id for g in user.own_groups])
-        # r = cm(cm_id).image.user.set_private(caller_id, img['id'], {'leader_groups': [g.id for g in user.own_groups]})
-    #     # unjson response to check status
-    #     resp = json.loads(r.content)
-    #
+
         log.debug(caller_id, 'image set private %s' % resp['data'])
         if resp['status'] != 'ok':
             return resp['data']
-    #
+
     try:
         group.delete()
     except:

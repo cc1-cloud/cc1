@@ -30,7 +30,6 @@ from clm.utils.exception import CLMException
 from common.states import image_access, image_types, group_states
 
 
-# from common import response
 @user_log(log=False, pack=False)
 @cm_request
 def get_list(cm_response, **data):

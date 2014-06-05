@@ -14,8 +14,6 @@ from common.states import vm_states
 vm_states_reversed = dict((v, k) for k, v in vm_states.iteritems())
 
 
-#nodes = [n.ssh_string for n in Node.objects.all()]
-
 cmds = {
     'n_images': 'ls /images',
     'n_nets': '/sbin/ifconfig | awk "/br-[0-9]+-[0-9]+/ {print \$1}"',
@@ -59,7 +57,6 @@ def check_images(db_vms, n_images):
 
 
 def print_diffs(db_vms, params):
-    #print params
     vms = { vm['id']: '%s' % (vm_states_reversed[vm['state']]) for vm in db_vms }
     for par in params:
         if params[par]:
@@ -85,7 +82,6 @@ def check_vms_2(lv_vms, db_vms, n_images):
     n_images_c = set(n_images) - common_images
 
     return {'VM in DB:': db_vms_c, 'VM in libvirt:': lv_vms_c, 'image on HD:': n_images_c}
-    #print_diffs({'VM in DB:': db_vms_c, 'VM in libvirt:': lv_vms_c, 'image on HD:': n_images_c})
 
 
 def check_networks(n_nets, n_bridge, n_public_ip, lv_nets, db_nets, db_public_ip):
@@ -101,7 +97,6 @@ def check_networks(n_nets, n_bridge, n_public_ip, lv_nets, db_nets, db_public_ip
     db_nets_c = [n.split('-')[0] for n in (set(db_nets_c) - common_net)]
 
     return {'ifconfig net:': n_nets_c, 'brctl net:': n_bridge_c, 'libvirt net:': lv_nets_c, 'DB net:': db_nets_c}
-    #print_diffs({'ifconfig net:': n_nets_c, 'brctl net:': n_bridge_c, 'libvirt net:': lv_nets_c, 'DB net:': db_nets_c})
 
 
 print 'getting all vms'
@@ -114,45 +109,36 @@ for node in [{'id': n.id, 'addr':n.ssh_string} for n in Node.objects.filter(stat
     n_images = ssh_exec(node['addr'], cmds['n_images'])
     n_images.remove('lost+found')
     n_images.remove('info')
-    # print 'n_images', n_images
 
     #['br-236-74:10.16.64.225', 'br-237-71:10.16.64.213']
     #['interface:ip_addr']
     n_nets = ssh_exec(node['addr'], cmds['n_nets'])
-    # print 'n_nets', n_nets
 
     #['br-236-74', 'br-237-71']
     #['interface']
     n_bridge = ssh_exec(node['addr'], cmds['n_bridge'])
-    # print 'n_bridge', n_bridge
 
     #['15804:192.245.169.39', '16771:192.245.169.88']
     #['vm_id:ip_addr']
     n_public_ip = ssh_exec(node['addr'], cmds['n_public_ip'])
-    # print 'n_public_ip', n_public_ip
 
     lv_c=libvirt.open('qemu+ssh://%s/system' % (node['addr']))
     #['vm-239-1', 'vm-243-1', 'vm-240-1']
     #['vm_name']
     lv_vms = [lv_c.lookupByID(x).name() for x in lv_c.listDomainsID()]
-    # print 'lv_vms', lv_vms
 
     #['net-236-74', 'net-237-71', 'net-238-72']
     #['net_name']
     lv_nets = lv_c.listNetworks()
-    # print 'lv_nets', lv_nets
 
     #[{'id': 28, 'state': 3, 'user_id': 2, 'vnc_port': 5907}, {'id': 32, 'state': 3, 'user_id': 2, 'vnc_port': 5907}]
     db_vms = [{'id': vm.id, 'user_id': vm.user_id, 'state': vm.state, 'vnc_port': vm.vnc_port} for vm in VM.objects.filter(node_id=node['id']).all()]
-    # print 'db_vms', db_vms
 
     #{'address': '10.16.64.26', 'lease_id': 6, 'public_ip': '', 'user_id': 1, 'user_network_id': 1, 'vm': None}
     db_nets = [lease.dict for lease in Lease.objects.filter(vm__node_id=node['id']).all()]
-    # print 'db_nets', db_nets
 
     #[{'lease': None, 'public_addr': '192.168.1.7'}, {'lease': None, 'public_addr': '192.245.169.63'}]
     db_public_ip = [{'lease': pub.lease, 'public_addr': pub.address} for pub in PublicIP.objects.all()]
-    # print 'db_public_ip', db_public_ip
 
     retr = check_vms_2(lv_vms, db_vms, n_images)
     print_diffs(db_all_vms, retr)

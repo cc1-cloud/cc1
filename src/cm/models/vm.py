@@ -286,7 +286,6 @@ class VM(models.Model):
 
             if vnc:
                 vm.attach_vnc()
-            # vm.vnc_passwd = hashlib.md5(str(datetime.now()) + str(random())).hexdigest()
             vm.vnc_passwd = password_gen(13, chars=['letters', 'digits'], extra_chars='!@#$%^&*()')
             vm.ssh_key = ssh_key
             vm.ssh_username = ssh_username
@@ -418,7 +417,6 @@ class VM(models.Model):
             log.debug(self.user.id, str(e))
         return lv_template
 
-    # returns{VM} requested VM, if it belongs to user \c user_id
     @staticmethod
     def get(user_id, vm_id):
         """
@@ -464,9 +462,6 @@ class VM(models.Model):
         Method saves VM to image with VM's name, description and parameters.
         """
         self.set_state('saving')
-        # TODO:
-        # if self.is_head():
-        #     self.farm.state = farm_states['saving head']
         try:
             self.save(update_fields=['state'])
             transaction.commit()
@@ -513,8 +508,6 @@ class VM(models.Model):
     def remove(self):
         """
         """
-        # if self.save != 0:
-        #     self.set_state('closing')
         if not self.state in (vm_states['closing'], vm_states['saving']):
             self.set_state('closing')
         try:
@@ -800,36 +793,12 @@ class VM(models.Model):
             log.debug(vm.user.id, "Killing VM id: %s, state: %s" % (vm.id, vm.state))
             # Check for VM state
             if vm.state in (vm_states['closing'], vm_states['saving']):
-                # raise CMException('vm_already_closing')
                 results.append({'status': 'vm_already_closing', 'data': ''})
                 continue
 
             if vm.state in (vm_states['erased'], vm_states['closed']):
-                # raise CMException('vm_wrong_state')
                 results.append({'status': 'vm_wrong_state', 'data': ''})
                 continue
-
-            # TODO: new implementation of destroy with reference to global threads
-            # global threads
-            # if vm.state in (vm_states['init'], vm_states['failed']):
-            #     try:
-            #         log.debug(vm.user_id, "Global threads: %s" % threads)
-            #         if vm.id in threads:
-            #             threads[vm.id].terminate()
-            #             del threads[vm.id]
-            #         erase(vm)
-            #         # vm.set_state('closed')
-            #
-            #         Session.commit()
-            #         results.append({'status': 'ok', 'data': ''})
-            #     except Exception:
-            #         log.exception(vm.user_id, 'error destroying VM')
-            #         results.append({'status': 'vm_destroy', 'data': ''})
-            #         message.error(vm.user_id, 'vm_destroy', {'id': vm.id, 'name': vm.name})
-            #         continue
-            # else:
-            #     vm.save = 0
-            #     vm.set_state('closing')
 
             vm.save_vm = 0
 
@@ -842,12 +811,10 @@ class VM(models.Model):
                 results.append({'status': 'vm_destroy', 'data': ''})
                 message.error(vm.user_id, 'vm_destroy', {'id': vm.id, 'name': vm.name})
                 continue
-                # raise CMException('vm_destroy')
 
             results.append({'status': 'ok', 'data': ''})
 
         return results
-        # return response('ok', results)
 
     @staticmethod
     def get_by_ip(ip):

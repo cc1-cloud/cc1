@@ -38,9 +38,6 @@ from common.states import image_access, image_states, storage_states, vm_states
 from cm.utils import message
 
 
-# from cm.utils import message
-# import libvirt
-# Django templates
 class SystemImage(Image):
     """
     @model{SYSTEM_IMAGE} VM type image's class.
@@ -190,8 +187,6 @@ class SystemImage(Image):
         if self.user.id != user_id:
             if self.access == image_access['private']:
                 raise CMException('image_permission')
-                # if image has a groups access we need to check if image belongs to users groups or is group leader
-            # elif self.access == image_access['group'] and (groups is None or self.image2group.group_id not in groups):
             elif self.access == image_access['group'] and ((groups is None) or (not(self.systemimagegroup_set.filter(group_id__in=groups).exists()))):
                 raise CMException('image_permission')
         return True
@@ -270,8 +265,6 @@ class SystemImage(Image):
         @raises{vm_create,CMException}
         """
         r = subprocess.call(['ssh', vm.node.ssh_string, 'chmod a+rw %s' % (vm.system_image.path)])
-        # log.debug(vm.user.id, "Preparing temporary storage pool")
-        # user_pool_xml = self.prepare_temporary_pool_xml(vm.image)
 
         log.debug(vm.user.id, "Copy image by ssh")
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp %s /images/%d' % (vm.system_image.path, vm.id)]))
@@ -291,8 +284,6 @@ class SystemImage(Image):
         entity should be createt before calling this function
         """
         log.debug(vm.user.id, "Preparing temporary storage pool")
-        # destination_storage = self.storage
-        # user_pool_xml = self.prepare_temporary_pool_xml(self)
         if not os.path.exists(os.path.dirname(image.path)):
             os.makedirs(os.path.dirname(image.path))
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)]))
