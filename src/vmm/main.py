@@ -123,7 +123,6 @@ class HelloCommand(Thread):
                     fails -= 1
                     if fails < 1:
                         exit(1)
-                    #exit(1)
                 else:
                     ok = True
             except Exception, e:

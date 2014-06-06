@@ -27,8 +27,6 @@ from cm.utils import log
 from cm.utils.exception import CMException
 
 
-# from common.states import image_states, storage_states
-# from common.hardware import disk_controllers
 class StorageImage(Image):
     """
     @model{DISK_VOLUME}
@@ -102,10 +100,6 @@ class StorageImage(Image):
 
         image.has_access(user_id)
 
-        # check on state and storage?
-        # if image.state != image_states['ok'] and image.storage.state != storage_states['ok']:
-        #    raise CMException('image_unavailable')
-
         return image
 
     # returns True, if user_id is the owner of the storage image
@@ -124,7 +118,6 @@ class StorageImage(Image):
             raise CMException('image_permission')
         return True
 
-    # @returns VMImage instance for admin user
     @staticmethod
     def admin_get(disk_image_id):
         """
@@ -163,7 +156,6 @@ class StorageImage(Image):
         attached_devices = [d.disk_dev for d in StorageImage.objects.filter(vm_id__exact=vm.id)]
 
         free_dev = None
-        # for i in range(98, 122):
         # find the first free numbers to be given to disk volume (sda is now integer)
         for i in range(2, 12):
             if not i in attached_devices:
@@ -194,9 +186,6 @@ class StorageImage(Image):
         # Update database information
         self.disk_dev = free_dev
         self.vm = vm
-        # self.vm_id = vm.id
-        # saved later by the view function which calls 'attach'
-        # self.save()
 
     def detach(self, vm):
         """
@@ -215,7 +204,6 @@ class StorageImage(Image):
             <alias name='%(bus)s-%(dev)s'/>
             </disk>""" % {
             'path': self.path,
-            # 'dev':  self.disk_dev,
             'dev': 'sd%s' % chr(self.disk_dev + 98),
             'bus':  self.disk_controller_name
             }
@@ -225,8 +213,6 @@ class StorageImage(Image):
             raise CMException('storage_image_detach')
 
         self.vm = None
-        # saved later by the view function which calls 'detach'
-        # self.save()
 
     def check_attached(self):
         if self.vm:

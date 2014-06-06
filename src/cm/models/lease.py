@@ -135,7 +135,6 @@ class Lease(models.Model):
                 lv_network.undefine()
             except Exception, e:  # it's sad that network is missing, but if it was WN from init_head state farm, it's ok
                 log.error(self.user_network.user_id, "Cannot destroy or undefine libvirt network: %s" % str(e))
-                # raise CMException('lease_detach')
 
         # Detach public ip
         for public_lease in self.publicip_set.all():

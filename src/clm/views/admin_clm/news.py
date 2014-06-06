@@ -43,7 +43,6 @@ def get_by_id(cm_id, caller_id, news_id):
 def add(cm_id, caller_id, topic='', content='', sticky=False):
     """
     @clmview_admin_clm
-
     @parameter{topic,string}
     @parameter{content,string}
     @parameter{sticky,bool} Whether should be kept displayed long-term
@@ -68,7 +67,6 @@ def delete(cm_id, caller_id, news_id):
     """
     Deletes specified News.
     @clmview_admin_clm
-
     @parameter{news_id,int} id of the News to delete
     """
     news = News.get(news_id)
@@ -85,7 +83,6 @@ def edit(cm_id, caller_id, news_id, topic='', content='', sticky=False):
     """
     Edits specified News.
     @clmview_admin_clm
-
     @parameter{news_id,int} id of the News to edit
     @parameter{topic,string} new topic of the News
     @parameter{content,string} new content of the News

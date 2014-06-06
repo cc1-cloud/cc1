@@ -48,10 +48,6 @@ def check_response_errors(response, session):
         error_code = response['status']
         error_msg = get_error(error_code)
 
-#         if response['status'] == 'user_auth':
-#             logout(session)
-#             error_msg = auth_error_text
-
         raise RestErrorException(error_msg)
 
     return response

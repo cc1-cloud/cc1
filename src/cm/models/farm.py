@@ -129,7 +129,6 @@ class Farm(models.Model):
                 log.debug(farm.user_id, "killing wn: %s" % farm.vms)
                 r = VM.destroy(farm.vms.all())
 
-            #if r['status'] != 'ok':
             if True in [x['status'] != 'ok' for x in r]:
                 farm.state = farm_states['failed']
                 try:

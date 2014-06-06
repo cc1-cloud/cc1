@@ -50,7 +50,6 @@ def start():
     return 0
     # Restore saved vms
     conn = libvirt.open(node_config.lv_conn_string)
-    #defined_vms = conn.listDefinedDomains()
 
     for vol in images_pool.listVolumes():
         if vol.endswith('-dump'):

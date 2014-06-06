@@ -82,24 +82,17 @@ class Queue(deque):
 
 
 # these take parameters.
-def EVIOCGBIT(evtype, len=255):
-    return _IOC(_IOC_READ, 69, 0x20 + evtype, len)  # get event bits */
+def EVIOCGBIT(evtype, length=255):
+    return _IOC(_IOC_READ, 69, 0x20 + evtype, length)  # get event bits */
 
 def EVIOCGABS(abs):
     return _IOR(69, 0x40 + abs, INT5)       # get abs value/limits */
 
-def EVIOCGSW(len):
-    return _IOC(_IOC_READ, 69, 0x1b, len)   # get all switch states */
+def EVIOCGSW(length):
+    return _IOC(_IOC_READ, 69, 0x1b, length)   # get all switch states */
 
-def EVIOCGLED(len):
-    return _IOC(_IOC_READ, 69, 0x19, len)   #  get all LEDs */
-
-#struct input_event {
-#        struct timeval time; = {long seconds, long microseconds}
-#        unsigned short type;
-#        unsigned short code;
-#        unsigned int value;
-#};
+def EVIOCGLED(length):
+    return _IOC(_IOC_READ, 69, 0x19, length)   #  get all LEDs */
 
 EVFMT = "llHHi"
 EVsize = struct.calcsize(EVFMT)

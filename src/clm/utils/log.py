@@ -25,7 +25,7 @@ import logging
 import os
 from django.conf import settings
 
-# # Set of active loggers - ones currently writing to logs.
+## Set of active loggers - ones currently writing to logs.
 active_loggers = set([])
 
 

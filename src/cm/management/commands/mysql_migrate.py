@@ -17,7 +17,6 @@
 #
 # @COPYRIGHT_end
 
-# -*- coding: utf-8 -*-
 from datetime import datetime
 from django.core.management.base import BaseCommand
 import sys
@@ -73,13 +72,11 @@ PCURSOR = None
 
 
 def mselect(query):
-    # print "MYSQL: %s" % query
     MCURSOR.execute(query)
     return MCURSOR.fetchall()
 
 
 def pinsert(query):
-    # print "POSTGRESQL: %s" % query
     PCURSOR.execute(query)
 
 

@@ -32,15 +32,12 @@ from django.template import loader, Context
 from cm.models.image import Image
 from cm.utils import log
 from cm.utils.exception import CMException
-from common.hardware import disk_controllers, video_devices, network_devices, \
-    disk_filesystems_reversed, video_devices_reversed, network_devices_reversed
-from common.states import image_access, image_states, storage_states, vm_states
+from common.hardware import video_devices, network_devices, \
+    video_devices_reversed, network_devices_reversed
+from common.states import image_access
 from cm.utils import message
 
 
-# from cm.utils import message
-# import libvirt
-# Django templates
 class SystemImage(Image):
     """
     @model{SYSTEM_IMAGE} VM type image's class.
@@ -120,9 +117,6 @@ class SystemImage(Image):
 
         return d
 
-    # returns image id if it belongs to user user_id
-    # (and optionally to listed groups, if any given)
-    # also check if user has permissions
     @staticmethod
     def get(user_id, sys_image_id, groups=None):
         """
@@ -146,15 +140,9 @@ class SystemImage(Image):
         except:
             raise CMException('image_get')
 
-        # TODO:
-        # should check on state and storage? it was in get image old code
-        # if image.state != image_states['ok'] and image.storage.state != storage_states['ok']:
-        #    raise CMException('image_unavailable')
-
         image.has_access(user_id, groups)
         return image
 
-    # @returns VMImage instance for admin user
     @staticmethod
     def admin_get(sys_image_id):
         """
@@ -190,8 +178,6 @@ class SystemImage(Image):
         if self.user.id != user_id:
             if self.access == image_access['private']:
                 raise CMException('image_permission')
-                # if image has a groups access we need to check if image belongs to users groups or is group leader
-            # elif self.access == image_access['group'] and (groups is None or self.image2group.group_id not in groups):
             elif self.access == image_access['group'] and ((groups is None) or (not(self.systemimagegroup_set.filter(group_id__in=groups).exists()))):
                 raise CMException('image_permission')
         return True
@@ -270,8 +256,6 @@ class SystemImage(Image):
         @raises{vm_create,CMException}
         """
         r = subprocess.call(['ssh', vm.node.ssh_string, 'chmod a+rw %s' % (vm.system_image.path)])
-        # log.debug(vm.user.id, "Preparing temporary storage pool")
-        # user_pool_xml = self.prepare_temporary_pool_xml(vm.image)
 
         log.debug(vm.user.id, "Copy image by ssh")
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp %s /images/%d' % (vm.system_image.path, vm.id)]))
@@ -291,8 +275,6 @@ class SystemImage(Image):
         entity should be createt before calling this function
         """
         log.debug(vm.user.id, "Preparing temporary storage pool")
-        # destination_storage = self.storage
-        # user_pool_xml = self.prepare_temporary_pool_xml(self)
         if not os.path.exists(os.path.dirname(image.path)):
             os.makedirs(os.path.dirname(image.path))
         log.debug(vm.user.id, str(['ssh', vm.node.ssh_string, 'cp /images/%d %s' % (vm.id, image.path)]))

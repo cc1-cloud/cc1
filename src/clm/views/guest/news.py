@@ -23,7 +23,6 @@
 """
 
 from clm.models.news import News
-# from common import response
 from clm.utils.decorators import guest_log
 
 
@@ -35,5 +34,4 @@ def get_list():
     @response{list(dict)} dicts describing news
     """
     news = [n.dict for n in News.objects.order_by('-date')]
-    # news = [n.dict for n in Session.query(News).order_by(News.date.desc()).all()]
     return news

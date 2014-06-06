@@ -29,13 +29,13 @@ def get_exposed_methods(exposed_class):
     return command_list
 
 
-def remove_index(list):
-    del list[ list.index('index') ]
-    return list
+def remove_index(lista):
+    del lista[ lista.index('index') ]
+    return lista
 
 
-def switch_to_hyphens(list):
-    return [sub_method.replace("_", "-") for sub_method in list]
+def switch_to_hyphens(lista):
+    return [sub_method.replace("_", "-") for sub_method in lista]
 
 
 def get_submethods(exposed_class):

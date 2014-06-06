@@ -42,8 +42,6 @@ def add(user_id, data):
     try:
         m = Message.create(data)
         m.save()
-        #Session.add(m)
-        #Session.commit()
     except:
         log.exception('Add message')
 

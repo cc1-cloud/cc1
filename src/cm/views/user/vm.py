@@ -155,8 +155,6 @@ def get_by_id(caller_id, vm_id):
     """
     vm = VM.get(caller_id, vm_id)
     vm_mod = vm.long_dict
-    # TODO: cpuload to be defined
-    # vm_mod['cpu_load'] = vm_utils.cpu_load(vm_mod)['data']
     return vm_mod
 
 
@@ -199,8 +197,6 @@ def edit(caller_id, vm_id, name, description):
     vm.save(update_fields=['name', 'description'])
 
 
-# TODO:
-# Attaches VNC redirection to VM.
 @user_log(log=True)
 def attach_vnc(caller_id, vm_id):
     """
@@ -220,8 +216,6 @@ def attach_vnc(caller_id, vm_id):
         raise CMException('vnc_attach')
 
 
-# TODO:
-# Detaches VNC redirection from VM.
 @user_log(log=True)
 def detach_vnc(caller_id, vm_id):
     """

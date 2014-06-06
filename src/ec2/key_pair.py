@@ -81,13 +81,10 @@ class DescribeKeyPairs(Action):
                 key_pairs.append( self.cluster_manager.user.key.get({'name':key_name}) )
         else:
             key_pairs = self.cluster_manager.user.key.get_list();
-#             key_pairs = self.cluster_manager.send_request("/user/key/get_list/")
-#             key_pairs = self.cluster_manager.key.user.list()
 
         result = []
 
         for key_pair in key_pairs:
-#             if not key_names or key_pair in key_names:
             result.append({'key-name' : key_pair['name'],
                        'fingerprint' : key_pair['fingerprint']
                        })

@@ -173,7 +173,6 @@ class DescribeInstances(Action):
         reservationsIds = []
         for ec2_instance in ec2_instances:
             reservationId = int(ec2_instance['reservation-id'])
-#             reservationId = int(ec2_instance['instance-id'])
             if reservationId not in reservationsIds:
                 reservationsIds.append(reservationId)
 
@@ -182,16 +181,12 @@ class DescribeInstances(Action):
             reservations.append({ 'reservation-id' : reservation,
                                  'ownerId' : owner_id,
                             'instances' : [instance for instance in ec2_instances if instance['reservation-id'] == reservation]
-#                               'instances' : [instance for instance in ec2_instances if instance['instance-id'] == reservation]
                               })
-#
+
         if reservation_filter:
             reservations = applyEc2Filters(reservations , reservation_filter)
 
         return {'reservations' : reservations}
-
-#         return {'instances': ec2_instances}
-
 
 class RunInstances(Action):
     def _execute(self):
@@ -206,7 +201,6 @@ class RunInstances(Action):
             raise MissingParameter(parameter='ImageId')
         except ValueError:
             raise InvalidAMIID.Malformed
-            # raise InvalidAMIID.NotFound(image_id=image_id)
 
         instance_type = self.parameters.get('InstanceType', 'm1.small')
         key_name = self.parameters.get('KeyName')
@@ -274,7 +268,6 @@ class RunInstances(Action):
         # TODO load volumes from CLM and check on EC2 server if specified volume exists
         try:
             instances = self.cluster_manager.user.vm.create(machine)
-#             instances = self.cluster_manager.vm.user.create(machine)
         except CLMException, error:
             if error.status == 'vm_create':
                 raise InternalError  # we have not enough information to determine what happened
@@ -296,10 +289,6 @@ class RunInstances(Action):
         print 'instance_ids:', instance_ids
 
         for instance_id in instance_ids:
-#             vm_desc = {
-#                 'name' : 'i-' + str(instance_id),
-#                 'description' : 'created by EC2 API'
-#             }
             print 'editing'
             edit_response = self.cluster_manager.user.vm.edit({'vm_id': instance_id,
                                                                 'name':'i-' + str(instance_id),

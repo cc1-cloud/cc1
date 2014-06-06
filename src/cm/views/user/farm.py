@@ -38,8 +38,6 @@ from common.states import farm_states, node_states
 from cm.utils import message
 
 
-# from cm.utils import message
-# from cm.utils.rm import rm
 @user_log(log=True)
 def get_by_id(caller_id, farm_id):
     """
@@ -132,9 +130,6 @@ def get_list(caller_id):
     @response{list(dict)} data of the requested Farms
     """
     farms = [farm.dict for farm in Farm.objects.exclude(state=farm_states['closed']).filter(user__id__exact=caller_id).order_by('-id')]
-    # for farm in farms:
-    #     for vm in farm['vms']:
-    #         vm['cpu_load'] = VM.cpu_load(vm)['data']
 
     return farms
 

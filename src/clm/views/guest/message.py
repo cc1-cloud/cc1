@@ -21,13 +21,10 @@
 @alldecoratedby{src.clm.utils.decorators.guest_log}
 """
 
-# from common import response
 from clm.models.message import Message
 from clm.models.user import User
 from clm.utils.exception import CLMException
-# from clm.database import Session
 from clm.utils.decorators import guest_log
-# from django.conf import settings as settings
 from clm.utils import mail
 
 
@@ -42,10 +39,7 @@ def add(request):
 
     data = request.data
 
-    # if message is about failing call the admin
     if data['code'] in ['farm_create', 'vm_create', 'vm_save', 'vm_destroy']:
-        # mail.send(settings.FROM_EMAIL, 'VM failed, do something!', 'VM failed')
-        # for admin in Session.query(User).filter(User.is_superuser == True).all():
         for admin in User.objects.filter(is_superuser__gte=1):
             mail.send(admin.email, 'VM failed, do something!', 'VM failed')
 

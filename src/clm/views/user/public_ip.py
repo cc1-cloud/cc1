@@ -31,7 +31,6 @@ def get_list(cm_response, **data):
     """
     Returns list of caller's public IPs.
     @clmview_user
-
     @cm_request{get_list()}
     """
     return cm_response
@@ -44,7 +43,6 @@ def request(cm_response, **data):
     Sends request to grant new public IP for caller. If caller's quota allowes,
     user will obtain new public IP.
     @clmview_user
-
     @cm_request{request()}
     """
     return cm_response
@@ -56,7 +54,6 @@ def assign(cm_response, **data):
     """
     Assigns public IP to caller's VM with id \c vm_id
     @clmview_user
-
     @cm_request{assign()}
     """
     return cm_response
@@ -69,7 +66,6 @@ def unassign(cm_response, **data):
     Unassigns public IP from VM with given id. Unassigned public IP may be assigned
     to any of his VMs.
     @clmview_user
-
     @cm_request{unassign()}
     """
     return cm_response
@@ -83,7 +79,6 @@ def release(cm_response, **data):
     for other users to be further requested. Caller doesn't dispose this IP
     any more. He'll have to send another request if he needs more IPs.
     @clmview_user
-
     @cm_request{release()}
     """
     return cm_response

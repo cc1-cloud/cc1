@@ -24,7 +24,6 @@
 """
 from django.db import models
 from django.db.models import Sum
-# from django.utils import timezone
 
 from django.conf import settings
 from cm.utils.exception import CMException
@@ -67,7 +66,6 @@ class User(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return str(self.id)
 
@@ -197,10 +195,6 @@ class User(models.Model):
         dt_now = datetime.datetime.now()
         start = datetime.datetime(dt_now.year, dt_now.month, 1)
 
-        # for making it timezone aware if USE_TZ is True
-        # start=timezone.make_aware(start,timezone.get_default_timezone())
-        # start=timezone.now().  #for comparing with datetime django field
-
         # next query should return all vms objects related to user (exluding vms failed, saving failed, erased)
         # with stop time>start or stop_time=none (so excluding stop_time<=start should work)
         # TODO:TEST
@@ -216,8 +210,6 @@ class User(models.Model):
             p += vm.template.points * (t.days * 24 + t.seconds / 3600.0)
         return int(p + 0.5)
 
-    # TODO: it works but what it does? and what it returns?
-    # @property
     def points_history(self):
         """
         Finds all User's VM's that have been working within current callendar
@@ -234,7 +226,7 @@ class User(models.Model):
         pq = []
         pts = {}
         pt = []
-        vmn = 0  # vm number
+        vm_number = 0
         dt_now = datetime.datetime.now()
         start = datetime.datetime(dt_now.year, dt_now.month, 1)
         start_time = calendar.timegm(start.timetuple())
@@ -251,9 +243,9 @@ class User(models.Model):
                 start = vm.start_time
             stop = vm.stop_time or dt_now
 
-            pq.append([vmn, calendar.timegm(start.timetuple()), vm.template.points, "%s started" % (vm.name)])
-            pq.append([vmn, calendar.timegm(stop.timetuple()), vm.template.points, "%s stopped" % (vm.name)])
-            vmn += 1
+            pq.append([vm_number, calendar.timegm(start.timetuple()), vm.template.points, "%s started" % (vm.name)])
+            pq.append([vm_number, calendar.timegm(stop.timetuple()), vm.template.points, "%s stopped" % (vm.name)])
+            vm_number += 1
 
         pq = sorted(pq, key=lambda d: d[1])
 
@@ -339,6 +331,3 @@ class User(models.Model):
             log.exception(user_id, 'Cannot get user')
             raise CMException('user_get')
         return user
-
-
-    # Note: superuser method moved to Admin model

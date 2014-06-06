@@ -157,8 +157,6 @@ def reset_password(user=None):
     if p.returncode != 0:
         build_in_command_failed('openssl', p.returncode)
 
-    # r = subprocess.call(['usermod', '-p', shadow_password, user])
-    # kompatybilniejsza metoda:
     p = subprocess.Popen(['chpasswd', '-e'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     r = p.communicate('%s:%s\n' % (user, shadow_password))
     if r[1]:

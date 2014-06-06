@@ -42,11 +42,6 @@ def first_admin_add(caller_id, new_password, clm_address):
 
     @parameter{password,string} first *CM admin password* to set
     """
-    # verify if the id caller exists and gets the instance
-    # try:
-    #    user = User.objects.get(pk=caller_id)
-    # except User.DoesNotExist:
-    #    raise CMException('admin_add')
     user = User.create(1)
     user.save()
 
@@ -67,7 +62,7 @@ def first_admin_add(caller_id, new_password, clm_address):
         for line in config.readlines():
             if line.startswith('CLM_ADDRESS') and 'NOT_CONFIGURED' in line:
                 lines.append('CLM_ADDRESS = "https://%s:8000/"\n' % clm_address)
-            else:
+            else: 
                 lines.append(line)
         config.close()
 
@@ -77,17 +72,3 @@ def first_admin_add(caller_id, new_password, clm_address):
     except:
         log.exception(caller_id, 'config_update')
         raise CMException('config_update')
-
-
-# never used
-@admin_cm_log(log=True)
-def check_password(caller_id):
-    """
-    @parameter{caller_id}
-    @cmview_admin_cm
-
-    View's decorator checks password. Therefore check_password()
-    doesn't need to perform any further check.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
-    """
-    pass

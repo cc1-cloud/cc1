@@ -24,7 +24,6 @@
 from django.db import models
 from clm.models.cluster import Cluster
 from clm.utils.exception import CLMException
-# from common.states import template_states
 
 
 class User(models.Model):
@@ -157,17 +156,8 @@ class User(models.Model):
         @raises{user_permission,CLMException} User isn't the leader of the given Group
         """
 
-        # No good, because i should import Group and there would be cross import
-        #
-        # g = Group.objects.get(pk=group_id)
-        # if g.leader_id == user_id:
-        #    return True
-        # else:
-        #    raise CLMException('user_permission')
-
         user = User.get(user_id)
 
-        # user.group_leader_set.all() returns all the groups where the user is leader
         if user.group_leader_set.filter(id__exact=group_id).exists():
             return True
         else:

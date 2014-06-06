@@ -22,14 +22,11 @@
 """
 
 from clm.models.user import User
-from clm.models.group import Group
-from clm.models.user_group import UserGroup
-from common.states import image_access, image_types, group_states
+from common.states import image_access, group_states
 from clm.utils.decorators import user_log, cm_request
 from clm.utils.cm import CM
 from clm.utils.exception import CLMException
 import json
-# from common import response
 
 
 @user_log(log=False)
@@ -47,7 +44,6 @@ def get_list(cm_id, caller_id, **data):
 
     # creation of information in data['gid']: group ids the caller belongs to
     if data['access'] == image_access['group']:
-        # groups = Session.query(Group).join(User2Group).filter(User2Group.user_id == caller_id).filter(User2Group.status == group_states['ok']).all()
         groups = User.get(caller_id).group_set.filter(usergroup__status__exact=group_states['ok'])
         data['group_id'] = []
         for g in groups:
@@ -69,7 +65,6 @@ def get_list(cm_id, caller_id, **data):
 
             if img['user_id'] not in d:
                 try:
-                    # u = Session.query(User).filter(User.id==i['user_id']).one()
                     u = User.objects.get(pk=img['user_id'])
                     d[img['user_id']] = u.first + " " + u.last
                 except:

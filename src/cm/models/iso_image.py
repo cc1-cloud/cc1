@@ -20,8 +20,6 @@
 """@package src.cm.models.iso_image
 """
 
-from django.db import models
-
 from cm.models.image import Image
 from cm.utils import log
 from cm.utils.exception import CMException
@@ -100,7 +98,6 @@ class IsoImage(Image):
         image.has_access(user_id)
         return image
 
-    # @returns CDmage instance for admin user
     @staticmethod
     def admin_get(iso_image_id):
         """
@@ -120,8 +117,6 @@ class IsoImage(Image):
 
         return image
 
-    # returns True, if user \c user_id (and optionally listed \c groups)
-    # has access to this image. Otherwise exception is thrown.
     def has_access(self, user_id):
         """
         @parameter{user_id,int}
@@ -205,7 +200,6 @@ class IsoImage(Image):
             <alias name='%(bus)s-%(dev)s'/>
             </disk>""" % {
             'path': self.path,
-            # 'dev':  self.disk_dev,
             'dev': 'sd%s' % chr(self.disk_dev + 96),
             'bus':  disk_controller_name
             }
@@ -215,8 +209,6 @@ class IsoImage(Image):
             raise CMException('iso_image_detach')
 
         self.vm = None
-        # saved later by the view function which calls 'detach'
-        # self.save()
 
     @classmethod
     def create(cls, name, description, user, disk_dev, disk_controller):
