@@ -3,6 +3,8 @@ Cracow Cloud One
 
 **Cracow Cloud One - free private computing cloud**
 
+![Image](https://github.com/cc1-cloud/cc1/blob/master/src/wi/media/img/logo.png?raw=true)
+
 The CC1 system provides a complete solution for Private Cloud Computing. An
 intuitive web access interface with an administration module and simple
 installation procedure make it easy to benefit from Cloud Computing technology.
