@@ -30,7 +30,7 @@ from django.http import HttpResponseRedirect
 from django.utils.http import urlquote
 
 from wi.utils import REDIRECT_FIELD_NAME
-from wi.utils.errors import auth_error_text
+from wi.utils.messages_codes import auth_error_text
 from wi.utils.messages_ajax import success
 
 
@@ -103,7 +103,7 @@ def admin_cm_permission(view_func):
         """
         Returned decorated function.
         """
-        if 'user' in request.session and request.session['user'].is_admin_cm:
+        if 'user' in request.session and request.session['user'].is_logged_admin_cm:
             return view_func(request, *args, **kwds)
         if request.is_ajax():
             return success(auth_error_text, status=8004)

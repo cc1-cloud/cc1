@@ -43,7 +43,6 @@ vm_patterns = patterns('wi.views.user.vm',
     url(r'^show_vm/$', user_permission(direct_to_template), {'template_name': 'vms/show_vm.html'}, name='vms_show_vm'),
 
     url(r'^vnc/(?P<vm_id>\d+)/$', 'vms_vnc', name='vms_vnc'),
-    url(r'^ajax/vnc_configured/$', 'vms_ajax_vnc_configured', name='vms_ajax_vnc_configured'),
 
     url(r'^ajax/vm_details/(?P<vm_id>\d+)/$', 'vms_ajax_vm_details', name='vms_ajax_vm_details'),
     url(r'^ajax/get_table/$', 'vms_ajax_get_table', name='vms_ajax_get_table'),

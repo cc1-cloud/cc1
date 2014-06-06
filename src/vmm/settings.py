@@ -28,14 +28,3 @@ CTX_ADDRESS = 'https://ctx:8002'
 LOG_FILE = '/var/log/cc1/vmm/log'
 LOG_DIR = '/var/log/cc1/vmm/'
 LOG_LEVEL = logging.ERROR
-
-#This section is not used
-#SSL_DIR = 'res'
-#SSL_CERT = "vm.crt"
-#SSL_KEY = "vm.key"
-
-#This section may be used in the future to specify files that should be downloaded at startup
-#FILES_TO_DOWNLOAD = {
-#    '/path/to/file': 'url'
-#}
-

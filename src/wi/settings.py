@@ -18,6 +18,7 @@
 # @COPYRIGHT_end
 
 """@package src.wi.settings
+
 @author Piotr Wójcik
 @author Krzysztof Danielowski
 @date 21.09.2010
@@ -47,7 +48,8 @@ CAPTCHA = True
 RECAPTCHA_PUBLIC_KEY = '6LenDtcSAAAAAJLrj1MBBAVGIaOjo3PNFZc7FDc4'
 RECAPTCHA_PRIVATE_KEY = '6LenDtcSAAAAAKisRsijUTTOEWAtr6yBNg1Cl_AL'
 
-VNC_VIEWER_JAR = 'tightvnc-jviewer.jar'
+# port on which NoVNC proxy is running
+NOVNC_PORT = 6080
 
 import json
 
@@ -120,7 +122,7 @@ LOGGING = {
 }
 
 # js states file
-from common.states import vm_states, farm_states, image_states, user_active_states as user_states
+from common.states import vm_states, farm_states, image_states, node_states, user_active_states as user_states
 
 JS_STATES_FILE = os.path.join(PROJECT_DIR, 'media/js/states.js').replace('\\', '/')
 file_js_states = open(JS_STATES_FILE, 'w')
@@ -128,6 +130,7 @@ file_js_states.write(''.join(('cc1.states.vm = ', json.dumps(vm_states), ';')))
 file_js_states.write(''.join(('cc1.states.farm = ', json.dumps(farm_states), ';')))
 file_js_states.write(''.join(('cc1.states.image = ', json.dumps(image_states), ';')))
 file_js_states.write(''.join(('cc1.states.user = ', json.dumps(user_states), ';')))
+file_js_states.write(''.join(('cc1.states.node = ', json.dumps(node_states), ';')))
 file_js_states.close()
 
 
@@ -147,13 +150,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
+## Local time zone for this installation. Choices can be found here:
+#  http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+#  although not all choices may be available on all operating systems.
+#  On Unix systems, a value of None will cause Django to use the same
+#  timezone as the operating system.
+#  If running in a Windows environment this must be set to the same as your
+#  system time zone.
 TIME_ZONE = 'Europe/Warsaw'
 
 LANGUAGE_CODE = 'pl'
@@ -169,29 +172,29 @@ SITE_ID = 1
 
 TEMPLATE_STRING_IF_INVALID = 'empty'
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
+## If you set this to False, Django will make some optimizations so as not
+#  to load the internationalization machinery.
 USE_I18N = True
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
+## If you set this to False, Django will not format dates, numbers and
+#  calendars according to the current locale
 USE_L10N = True
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
+## Absolute path to the directory that holds media.
+#  Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
+## URL that handles the media served from MEDIA_ROOT. Make sure to use a
+#  trailing slash if there is a path component (optional in other cases).
+#  Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
+## URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+#  trailing slash.
+#  Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 
-# List of callables that know how to import templates from various sources.
+## List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -228,9 +231,10 @@ INSTALLED_APPS = (
     'wi.utils',
 )
 
-# session settings
+## Session settings
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

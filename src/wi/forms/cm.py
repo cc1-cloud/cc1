@@ -36,10 +36,10 @@ class EditCMForm(forms.Form):
     """
 
     name = forms.RegexField(regex=regexp['dev_name'],
-                            max_length=40,
-                            label=_("Name"),
-                            widget=forms.TextInput(attrs=attrs_dict),
-                            error_messages={'invalid': regexp_text['dev_name']})
+                                max_length=40,
+                                label=_("Name"),
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                error_messages={'invalid': regexp_text['dev_name']})
     address = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
                               label=_("Address"))
     port = forms.IntegerField(label=_("Port"))

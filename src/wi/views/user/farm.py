@@ -30,10 +30,9 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 
-from wi.utils.decorators import user_permission
 from wi.utils import messages_ajax, parsing
 import wi.utils as utils
-from wi.utils.decorators import django_view
+from wi.utils.decorators import django_view, user_permission
 from wi.utils.exceptions import RestErrorException
 from wi.utils.formatters import time_from_sec
 from wi.utils.messages_ajax import ajax_request
@@ -101,6 +100,21 @@ class CreateFarmWizard(CustomWizardView):
 
             context.update({'image_categories': categories})
 
+        elif self.steps.current == '1':
+            form_cleaned_data = self.get_all_cleaned_data()
+            rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']}),
+                                   }, self.request.session)
+
+            context.update({'steps_desc': [rest_data['image']['name'] if len(rest_data['image']['name']) <= 15 else rest_data['image']['name'][:15] + '...', _('Hardware'), _('Optional resources'), _('Summary')]})
+
+        elif self.steps.current == '2':
+            form_cleaned_data = self.get_all_cleaned_data()
+            rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']}),
+                                   'templates': 'user/template/get_list/',
+                                   }, self.request.session)
+            template = utils.get_dict_from_list(rest_data['templates'], form_cleaned_data['worker_template_id'], key='template_id')
+            context.update({'steps_desc': [rest_data['image']['name'] if len(rest_data['image']['name']) <= 15 else rest_data['image']['name'][:15] + '...', str(form_cleaned_data['count']) + ' * ' + str(template['cpu']) + '/' + str(template['memory']), _('Optional resources'), _('Summary')]})
+
         elif self.steps.current == '3':
             form_cleaned_data = self.get_all_cleaned_data()
             rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']}),
@@ -118,6 +132,9 @@ class CreateFarmWizard(CustomWizardView):
                             'summary_iso': utils.get_dicts_from_list(rest_data['iso'], form_cleaned_data['iso_list'], key='iso_image_id'),
                             'summary_vnc': form_cleaned_data['vnc'],
                             }
+
+            template = utils.get_dict_from_list(rest_data['templates'], form_cleaned_data['worker_template_id'], key='template_id')
+            context.update({'steps_desc': [rest_data['image']['name'] if len(rest_data['image']['name']) <= 15 else rest_data['image']['name'][:15] + '...', str(form_cleaned_data['count']) + ' * ' + str(template['cpu']) + '/' + str(template['memory']), _('Optional resources'), _('Summary')]})
 
             context.update(summary_data)
 

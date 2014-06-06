@@ -24,11 +24,11 @@
 """
 
 from django.conf.urls import url, patterns, include
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext, ugettext_lazy as _
 
 from wi.forms.system_image import EditImageForm
 from wi.utils.decorators import admin_cm_permission
-from wi.utils.views import form_generic_id, simple_generic_id, \
+from wi.utils.views import generic_multiple_id, form_generic_id, simple_generic_id, \
     direct_to_template
 
 
@@ -49,12 +49,14 @@ image_patterns = patterns('wi.views.admin_cm.system_image',
                               'network_devices': 'user/system_image/get_network_devices/'}
         },
         name='cma_ajax_edit_image'),
-    url(r'^ajax/delete_image/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
-        {'template_name':   'generic/simple.html',
-         'success_msg':     (lambda desc: _('You have successfully deleted image <b>%(desc)s</b>.') % {'desc': desc}),
-         'ask_msg':         (lambda desc: _('Do you want to delete image <b>%(desc)s</b>?') % {'desc': desc}),
-         'request_url':     'admin_cm/system_image/delete/',
-         'id_key':          'system_image_id', },
+
+    url(r'^ajax/cm/delete_image/$', admin_cm_permission(generic_multiple_id),
+        {'template_name':       'generic/simple.html',
+         'success_msg':         (lambda desc, count: ungettext('You have successfully deleted image <b>%(desc)s</b>.', 'You have successfully deleted %(count)d images (<b>%(desc)s</b>).', count) % {'desc': desc, 'count': count}),
+         'ask_msg':             (lambda desc, count: ungettext('Do you want to delete image <b>%(desc)s</b>?', 'Do you want to delete %(count)d images <b>%(desc)s</b>?', count) % {'desc': desc, 'count': count}),
+         'request_url':         'admin_cm/system_image/delete/',
+         'id_key':              'system_image_id_list'
+         },
         name='cma_ajax_delete_image'),
     url(r'^ajax/private_image/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
         {'template_name':   'generic/simple.html',

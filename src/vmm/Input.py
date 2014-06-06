@@ -82,24 +82,17 @@ class Queue(deque):
 
 
 # these take parameters.
-def EVIOCGBIT(evtype, len=255):
-    return _IOC(_IOC_READ, 69, 0x20 + evtype, len)  # get event bits */
+def EVIOCGBIT(evtype, length=255):
+    return _IOC(_IOC_READ, 69, 0x20 + evtype, length)  # get event bits */
 
 def EVIOCGABS(abs):
     return _IOR(69, 0x40 + abs, INT5)       # get abs value/limits */
 
-def EVIOCGSW(len):
-    return _IOC(_IOC_READ, 69, 0x1b, len)   # get all switch states */
+def EVIOCGSW(length):
+    return _IOC(_IOC_READ, 69, 0x1b, length)   # get all switch states */
 
-def EVIOCGLED(len):
-    return _IOC(_IOC_READ, 69, 0x19, len)   #  get all LEDs */
-
-#struct input_event {
-#        struct timeval time; = {long seconds, long microseconds}
-#        unsigned short type;
-#        unsigned short code;
-#        unsigned int value;
-#};
+def EVIOCGLED(length):
+    return _IOC(_IOC_READ, 69, 0x19, length)   #  get all LEDs */
 
 EVFMT = "llHHi"
 EVsize = struct.calcsize(EVFMT)
@@ -182,7 +175,7 @@ class Features(object):
         return featureset
 
     def match(self, other):
-        pass #XXX
+        pass
 
     def __str__(self):
         s = []
@@ -199,10 +192,10 @@ class Event(object):
     the event device using a subclass of the EventDevice object you will get one of these.
     """
     def __init__(self, time=0.0, evtype=0, code=0, value=0):
-        self.time = time # timestamp of the event in Unix time.
-        self.evtype = evtype # even type (one of EV_* constants)
-        self.code = code     # a code related to the event type
-        self.value = value   # custom data - meaning depends on type above
+        self.time = time  # timestamp of the event in Unix time.
+        self.evtype = evtype  # even type (one of EV_* constants)
+        self.code = code      # a code related to the event type
+        self.value = value    # custom data - meaning depends on type above
 
     def __str__(self):
         return "Event:\n   time: %f\n evtype: 0x%x\n   code: 0x%x\n  value: 0x%x\n" % \
@@ -210,11 +203,11 @@ class Event(object):
 
     def encode(self):
         tv_sec, tv_usec = divmod(self.time, 1.0)
-        return struct.pack(EVFMT, long(tv_sec), long(tv_usec*1000000.0), self.evtype, self.code, self.value)
+        return struct.pack(EVFMT, long(tv_sec), long(tv_usec * 1000000.0), self.evtype, self.code, self.value)
 
     def decode(self, ev):
         tv_sec, tv_usec, self.evtype, self.code, self.value = struct.unpack(EVFMT, ev)
-        self.time = float(tv_sec) + float(tv_usec)/1000000.0
+        self.time = float(tv_sec) + float(tv_usec) / 1000000.0
 
     def set(self, evtype, code, value):
         self.time = time.time()
@@ -229,7 +222,7 @@ class EventFile(object):
         self._fo = open(fname, mode)
         self._eventq = Queue()
 
-    def read(self, amt=None): # amt not used, provided for compatibility.
+    def read(self, amt=None):  # amt not used, provided for compatibility.
         """Read a single Event object from stream."""
         if not self._eventq:
             if not self._fill():
@@ -245,9 +238,9 @@ class EventFile(object):
     def _fill(self):
         raw = self._fo.read(EVsize * 32)
         if raw:
-            for i in xrange(len(raw)/EVsize):
+            for i in xrange(len(raw) / EVsize):
                 ev = Event()
-                ev.decode(raw[i*EVsize:(i+1)*EVsize])
+                ev.decode(raw[i * EVsize:(i + 1) * EVsize])
                 self._eventq.push(ev)
             return True
         else:
@@ -256,7 +249,8 @@ class EventFile(object):
 
 # base class for event devices. Subclass this for your specific device.
 class EventDevice(object):
-    DEVNAME = None # must match name string of device
+    DEVNAME = None  # must match name string of device
+
     def __init__(self, fname=None):
         self._fd = None
         self.name = ""
@@ -280,9 +274,9 @@ class EventDevice(object):
             self.close()
         else:
             if raw:
-                for i in range(len(raw)/EVsize):
+                for i in range(len(raw) / EVsize):
                     ev = Event()
-                    ev.decode(raw[i*EVsize:(i+1)*EVsize])
+                    ev.decode(raw[i * EVsize:(i + 1) * EVsize])
                     self._eventq.push(ev)
 
     def find(self, start=0, name=None):
@@ -293,7 +287,7 @@ class EventDevice(object):
             if os.path.exists(filename):
                 try:
                     self.open(filename)
-                except (OSError, IOError): # probably no permissions
+                except (OSError, IOError):  # probably no permissions
                     pass
                 else:
                     if name in self.name:
@@ -383,7 +377,7 @@ def get_device_names(start=0):
                     finally:
                         os.close(fd)
                     name = name.replace(chr(0), '')
-            except (OSError, IOError): # probably no permissions
+            except (OSError, IOError):  # probably no permissions
                 continue
             else:
                 names.append((d, name))
@@ -397,4 +391,3 @@ def get_devices(start=0):
         if os.path.exists(filename):
             devs.append(EventDevice(filename))
     return devs
-

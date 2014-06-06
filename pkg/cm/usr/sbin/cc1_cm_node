@@ -33,6 +33,7 @@ try:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cm.settings")
 
     from cm.models.node import Node
+    from cm.tools import node as node_tools
     from common.states import node_states
 except:
     print "Cannot import CM database model. Probably unconfigured!"
@@ -50,6 +51,7 @@ def start():
         if node.state != node_states['locked']:
             subprocess.call(['ssh', '%s@%s' % (node.username, node.address), 'sudo /etc/init.d/cc1-node start'])
 
+
 def node_exec(cmd, state="all"):
     nodes = []
     if state == "all":
@@ -60,6 +62,48 @@ def node_exec(cmd, state="all"):
     for node in nodes:
         if node.state != node_states['locked']:
             subprocess.call(['ssh', '%s@%s' % (node.username, node.address), cmd])
+
+
+def add(address, username, transport, driver, suffix, cpu, memory, disk):
+    return node_tools.add(address, username, transport, driver, suffix, cpu, memory, disk)
+
+
+def install(node_address, distribution):
+    try:
+        node = Node.objects.get(address = node_address)
+    except:
+        raise Exception('node_not_found')
+
+    return node_tools.install(node.id, distribution)
+
+
+def configure(node_address, interfaces):
+    try:
+        node = Node.objects.get(address = node_address)
+    except:
+        raise Exception('node_not_found')
+
+    return node_tools.configure(node.id, interfaces.split(','))
+
+
+def check(node_address):
+    try:
+        node = Node.objects.get(address = node_address)
+    except:
+        raise Exception('node_not_found')
+
+    return node_tools.check(node.id)
+
+
+def remove():
+    print "Not implemented!"
+    return 0
+
+
+def purge():
+    print "Not implemented!"
+    return 0
+
 
 if __name__ == "__main__":
     uid_cc1 = pwd.getpwnam('cc1').pw_uid
@@ -77,15 +121,63 @@ if __name__ == "__main__":
         print "Run this tool as cc1 or root user!"
         sys.exit(1)
 
+
     if len(sys.argv) == 2 and sys.argv[1] == "start":
         sys.exit(start())
     elif len(sys.argv) >= 4 and sys.argv[1] == "node_exec":
         sys.exit(node_exec(" ".join(sys.argv[3:]), sys.argv[2]))
+    elif len(sys.argv) == 10 and sys.argv[1] == 'add':
+        sys.exit(add(sys.argv[2],
+                     sys.argv[3],
+                     sys.argv[4],
+                     sys.argv[5],
+                     sys.argv[6],
+                     sys.argv[7],
+                     sys.argv[8],
+                     sys.argv[9]))
+    elif len(sys.argv) == 4 and sys.argv[1] == 'install':
+        sys.exit(install(sys.argv[2],
+                         sys.argv[3]))
+    elif len(sys.argv) == 4 and sys.argv[1] == 'configure':
+        sys.exit(configure(sys.argv[2],
+                           sys.argv[3]))
+    elif len(sys.argv) == 4 and sys.argv[1] == 'check':
+        sys.exit(check(sys.argv[2]))
+    elif len(sys.argv) == 2 and sys.argv[1] == 'remove':
+        sys.exit(remove())
+    elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
+        sys.exit(purge())
     else:
-        print "Usage: %s [start]" % sys.argv[0]
+        print "Usage:"
+        print "       %s [add] node_address username transport driver suffix cpu memory disk" % sys.argv[0]
+        print "           - add node to database with given parameters."
+        print "             * username - cc1 user on node (default is cc1)"
+        print "             * transport - libvirt connection tranport (default is ssh)"
+        print "             * driver - libvirt driver (e.g. qemu), used to obtain"
+        print "               libvirt xml template"
+        print "             * suffix - libvirt connection suffix (/system for qemu)"
+        print "             * cpu, memory, disk - resources from node which could be"
+        print "               added to cloud"
+        print ""
+        print "       %s [install] node_address distribution" % sys.argv[0]
+        print "           - installs required packages on node"
+        print "             (depends on distribution, e.g. debian, redhat)"
+        print ""
+        print "       %s [configure] node_address interface1,interface2" % sys.argv[0]
+        print "           - configures all daemons and services on node"
+        print ""
+        print "       %s [check] node_address" % sys.argv[0]
+        print "           - configures all daemons and services on node"
+        print ""
+        print "       %s [remove|purge]" % sys.argv[0]
+        print "           - remove packages (and configs)"
+        print ""
+        print "       %s [start]" % sys.argv[0]
+        print "          - starts node"
+        print ""
         print "       %s [node_exec] [node_state] command..." % sys.argv[0]
-        print "       node_exec executes command on all nodes in given state."
-        print "       Available states:"
+        print "          - executes command on all nodes in given state."
+        print "            Available states:"
         for state in node_states.keys():
-            print "        * %s" % state
+            print "            * %s" % state
         sys.exit(1)

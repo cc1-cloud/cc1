@@ -25,7 +25,7 @@
 from clm.utils.decorators import admin_cm_log, cm_request
 
 
-@admin_cm_log(log=True, pack=False)
+@admin_cm_log(log=False, pack=False)
 @cm_request
 def get_list(cm_response, **data):
     """
@@ -62,4 +62,10 @@ def unassign(cm_response, **data):
     @clmview_admin_cm
     @clm_view_transparent{public_ip.unassign()}
     """
+    return cm_response
+
+
+@admin_cm_log(log=True, pack=False)
+@cm_request
+def release(cm_response, **data):
     return cm_response

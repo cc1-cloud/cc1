@@ -46,7 +46,6 @@ prefixes = {
             'volume-id' : Entity.volume
             }
 
-
 def validateEc2Filters( filters, available_filters ):
     """
     Validates EC2 filters by checking if there is no unsupported filter provided by user
@@ -64,10 +63,8 @@ def validateEc2Filters( filters, available_filters ):
     for ec2filter in filters.keys():
         if ec2filter not in available_filters:
             return False
-#         translatedFilters[ available_filters[ec2filter] ] = filters[ec2filter]
 
     return True
-
 
 def applyEc2Filters( objects, filters ):
     """
@@ -77,7 +74,7 @@ def applyEc2Filters( objects, filters ):
     """
     try:
         for filter_name in filters.keys():
-            # tu by się przydał elegantszy sposób
+            # more elegant method required
             for filter_value in filters[filter_name]:
                 extra_prefix = ""
                 for prefix in prefixes.iteritems():
@@ -86,7 +83,6 @@ def applyEc2Filters( objects, filters ):
                         break
 
                 objects =  [item for item in objects if fnmatch( extra_prefix + str(item[filter_name]), filter_value) ]
-#             objects =  [item for item in objects if str(item[ filtersTranslation[ filter_name ] ]) in filters[ filter_name] ]
     except KeyError, error:
         raise InvalidFilter
 

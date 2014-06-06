@@ -75,14 +75,13 @@ def cm_authenticate(user, password, cm_id):
     return True if rest_data['status'] == 'ok' else False
 
 
-def cm_login(session, cm_password, admin_cm_id):
+def cm_login(session, cm_password, cm_id):
     """
     Stores CM admin specific data in session.
     """
     session['user'].cm_password = cm_password
-    session['user'].admin_cm_id = admin_cm_id
-    session['user'].is_admin_cm = True
-    session['user'].cm_id = int(admin_cm_id)
+    session['user'].cm_id = int(cm_id)
+    session['user'].is_logged_admin_cm = True
     session.modified = True
 
 
@@ -90,5 +89,5 @@ def cm_logout(session):
     """
     Cleans CM admin specific data from session.
     """
-    session['user'].is_admin_cm = False
+    session['user'].is_logged_admin_cm = False
     session.modified = True

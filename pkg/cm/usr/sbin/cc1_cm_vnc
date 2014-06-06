@@ -80,7 +80,7 @@ def start():
             vm.save()
             print "CM: Vnc for vm %d is attached" % vm.id
         except Exception, e:
-            print "CM: VM %d will have no VNC: %s" % (vm.id, str(e))
+            pass
 
 
 def stop():

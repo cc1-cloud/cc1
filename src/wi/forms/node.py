@@ -51,7 +51,7 @@ class NodeForm(BetterForm):
         """
         Fieldset names definition.
         """
-        fieldsets = (('libvirt', {'fields': ('username', 'comment', 'address', 'transport', 'driver', 'suffix'), 'legend': _('Libvirt configuration')}),
+        fieldsets = (('libvirt', {'fields': ('address',), 'legend': _('Libvirt configuration')}),
                      ('resources', {'fields': ('hdd_total', 'cpu_total', 'memory_total'), 'legend': _('Node capacity')}),)
 
         def __init__(self):
@@ -59,35 +59,41 @@ class NodeForm(BetterForm):
 
     def __init__(self, *args, **kwargs):
         super(NodeForm, self).__init__(*args, **kwargs)
-        self.fields['username'] = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=30)),
-                                                  label=_('Username'),
-                                                  help_text=_('Username - Unix user responsible for libvirt administration (created during Node configuration) DEFAULT: cc1'))
 
-        self.fields['comment'] = forms.CharField(required=False,
-                                  widget=forms.Textarea(attrs=dict(attrs_dict,
-                                                                   maxlength=256,
-                                                                   rows=4, cols=20)),
-                                  label=_('Comment'))
 
         self.fields['address'] = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
                                                  label=_('Node address'),
                                                  help_text=_('Node address - IP or DNS name'))
-        self.fields['transport'] = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
-                                                   label=_('Network transport'),
-                                                   help_text=_('Libvirt transport protocol - for example: ssh, tcp'))
-        self.fields['driver'] = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
-                                                label=_('Libvirt driver'),
-                                                help_text=_('Virtualizator - for example: qemu(kvm), xen'))
         self.fields['hdd_total'] = forms.IntegerField(min_value=1,
                                                       label=_('HDD Total [MB]'),
                                                       help_text=_(' - total amount of storage for virtual machine images'))
         self.fields['cpu_total'] = forms.IntegerField(min_value=1,
                                                       label=_('Cpu Total'),
                                                       help_text=_(' - total amount of CPU\'s for libvirt'))
-        self.fields['memory_total'] = forms.IntegerField(min_value=512,
+        self.fields['memory_total'] = forms.IntegerField(min_value=1,
                                                          label=_('Memory Total [MB]'),
                                                          help_text=_(' - total amount of RAM'))
-        self.fields['suffix'] = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=20)),
-                                                label=_('Libvirt path (suffix)'),
-                                                required=False,
-                                                help_text=_(' - <pre>/system</pre> for kvm driver or empty for xen'))
+
+
+class EditNodeForm(NodeForm, BetterForm):
+    """
+    Class for <b>editing a node</b> form.
+    """
+
+    class Meta:
+        """
+        Fieldset names definition.
+        """
+        fieldsets = (('libvirt', {'fields': ('address', 'comment'), 'legend': _('Libvirt configuration')}),
+                     ('resources', {'fields': ('hdd_total', 'cpu_total', 'memory_total'), 'legend': _('Node capacity')}),)
+
+        def __init__(self):
+            pass
+
+    def __init__(self, *args, **kwargs):
+            super(EditNodeForm, self).__init__(*args, **kwargs)
+            self.fields['comment'] = forms.CharField(required=False,
+                                  widget=forms.Textarea(attrs=dict(attrs_dict,
+                                                                   maxlength=256,
+                                                                   rows=4, cols=20)),
+                                  label=_('Comment'))

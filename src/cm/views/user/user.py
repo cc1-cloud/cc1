@@ -42,7 +42,6 @@ def check_quota(caller_id):
     return User.get(caller_id).long_dict
 
 
-# TODO: point_history returns a dict? It must be JSONED and like this does not work
 @user_log(log=True)
 def points_history(caller_id):
     """

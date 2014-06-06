@@ -213,7 +213,7 @@ cc1.makeSthTable = function(settings) {
 			tableHeader.on('click', 'td:not(.noSort)', function() {
 				var that = this;
 				$(this).parent().children('td').each(function(index) {
-					$this = $(this);
+					var $this = $(this);
 					if (!$this.hasClass('noSort')) {
 						$this.removeClass('sorting_asc sorting_desc').addClass('sorting');
 					}
@@ -233,7 +233,6 @@ cc1.makeSthTable = function(settings) {
 				checkSelectAll();
 			});
 		}
-
 		// separator-checkboxes click
 		if (separatorCheckbox) {
 			tableTbody.on('click', 'input.separator_check', function() {
@@ -241,11 +240,16 @@ cc1.makeSthTable = function(settings) {
 				renderTable();
 			});
 		}
+		// resizable fields (i.e. descriptions)
+		tableTbody.on('click', '.td-toggle', function() {
+			cc1.utils.toggleRowHeight(this);
+			return false;
+		});
 	},
 	// checks whether selectAllCheckbox should be checked
 	checkSelectAll = function() {
 		if (selectAllCheckbox) {
-			var cbList = tableTbody.find('input:checkbox'),
+			var cbList = tableTbody.find('input:checkbox:not(.separator_check)'),
 			checkedCount = 0;
 
 			cbList.each(function() {
@@ -287,7 +291,7 @@ cc1.makeSthTable = function(settings) {
 		openedId = null;
 	},
 	setAutoRefresh = function() {
-		var autoRefreshCB = $('#auto-refresh input');
+		var autoRefreshCB = $('#auto-refresh').find('input');
 		autoRefreshCB.click(function() {
 			if (this.checked) {
 				autoRefresh = setInterval(loadData, settings.autoRefreshTime);
@@ -303,22 +307,28 @@ cc1.makeSthTable = function(settings) {
 		settings.urlGetData = newUrl;
 	},
 	getListOfSelected = function(itemId) {
-		var ret = new Array();
+		var ret = [];
 		if (itemId) {
 			ret.push(itemId);
 		} else {
-			tableTbody.find('tr:visible').find('input:checked').each(function() {
+			tableTbody.find('tr:visible').find('input:checked:not(.separator_check)').each(function() {
 				ret.push( $(this).data('id') );
 			});
 		}
 		return ret;
 	},
-	getListOfSelectedNames = function(itemId) {
-		 return $.map( cc1.sthTable.getListOfSelected(itemId), function(val) {
+	getListOfSelectedNames = function(itemId, name) {
+        if (name !== undefined) {
+            return $.map( cc1.sthTable.getListOfSelected(itemId), function(val) {
+                return cc1.sthTable.getItemById(val, name).name;
+            }).join(', ');
+        } else {
+		    return $.map( cc1.sthTable.getListOfSelected(itemId), function(val) {
 				return cc1.sthTable.getItemById(val).name;
 			}).join(', ');
+		}
 	},
-	getListOfSelectedAdresses = function(itemId) {
+	getListOfSelectedAddresses = function(itemId) {
 		 return $.map( cc1.sthTable.getListOfSelected(itemId), function(val) {
 				return cc1.sthTable.getItemById(val).address;
 			}).join(', ');
@@ -330,7 +340,7 @@ cc1.makeSthTable = function(settings) {
 		if (name !== undefined) {
 			return getItemByIdInName(id, name);
 		} else {
-			var i, j;
+			var i;
 			for (i=0; i<data.length; i++) {
 				if (data[i][settings.idKey] === id) {
 					return data[i];
@@ -340,6 +350,7 @@ cc1.makeSthTable = function(settings) {
 		}
 	},
 	getItemByIdInName = function(id, name) {
+        var i, j;
 		for (i=0; i<data.length; i++) {
 			if (data[i][name] !== undefined) {
 				for (j=0; j<data[i][name].length; j++) {
@@ -367,8 +378,8 @@ cc1.makeSthTable = function(settings) {
 		}
 	},
 	toggleChecked = function(checked) {
-		tableTbody.find('tr:visible').find('input:checkbox').each(function() {
-			$(this).attr('checked', checked)
+		tableTbody.find('tr:visible').find('input:checkbox:not(.separator_check)').each(function() {
+			$(this).attr('checked', checked);
 			checkboxStates[$(this).data('id')] = checked;
 		});
 
@@ -393,7 +404,7 @@ cc1.makeSthTable = function(settings) {
 				}
 				return false;
 			};
-		tableTbody.find('tr').hide().each( function(index){
+		tableTbody.find('tr').hide().each( function(){
 			if ((searchInTr( this ) || this.children[0].className === "tab_separator" ) && !$(this).hasClass("sep_hidden")) {
 				$(this).show();
 				resultCount++;
@@ -410,34 +421,46 @@ cc1.makeSthTable = function(settings) {
 	addSortingData = function(renderDataRaw) {
 		// adding sorting data (text and numeric)
 		var parseElement = function(node) {
-				var parsed = $.trim(node.textContent),
-					datePatt = /^\d{1,2}\.\d{1,2}\.\d{4}\, \d{1,2}:\d{2}:\d{2}$/,
-					sizePatt = /^\d{1,4}(\.\d)? (KB|MB|GB|TB)$/;
+            var data, j;
+            var parsed = $.trim(node.textContent),
+                datePatt = /^\d{1,2}\.\d{1,2}\.\d{4}\, \d{1,2}:\d{2}:\d{2}$/,
+                sizePatt = /^\d{1,4}(\.\d)? (KB|MB|GB|TB)$/,
+                ipPatt = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(\/\d{1,2})?$/;
 
-				// for Date
-				if (datePatt.test(parsed)) {
-					var data = parsed.split(/\.|, |:/);
-					for ( j = 0; j < 6; j++)
-						if (isDecimal(data[j]) === false)
-							return parsed;
-					return [3, new Date(data[2], data[1]-1, data[0], data[3], data[4], data[5])];
-				}
+            // for Date
+            if (datePatt.test(parsed)) {
+                data = parsed.split(/\.|, |:/);
+                for ( j = 0; j < 6; j++)
+                    if (isDecimal(data[j]) === false)
+                        return parsed;
+                return [3, new Date(data[2], data[1]-1, data[0], data[3], data[4], data[5])];
+            }
 
-				// for size (KB, MB, ...)
-				if (sizePatt.test(parsed)) {
-					var data = parsed.split(" "),
-						multiplier = 1;
-					switch (data[1]) {
-					case "TB": multiplier *= 1024;
-					case "GB": multiplier *= 1024;
-					case "MB": multiplier *= 1024;
-					}
-					return [2, parseFloat(data[0]) * multiplier];
-				}
+            // for size (KB, MB, ...)
+            if (sizePatt.test(parsed)) {
+                var	multiplier = 1;
+                data = parsed.split(" ");
+                switch (data[1]) {
+                case "TB": multiplier *= 1024;
+                case "GB": multiplier *= 1024;
+                case "MB": multiplier *= 1024;
+                }
+                return [2, parseFloat(data[0]) * multiplier];
+            }
 
-				// for numbers and strings
-				return isDecimal(parsed)? [1, parseFloat(parsed)] : [0, parsed.toLowerCase()];
-			};
+            // for ip addresses with or without a mask
+            if (ipPatt.test(parsed)) {
+                data = parsed.split(/\.|\//).map(Number);
+                if (data[0] < 256 && data[1] < 256 && data[2] < 256 && data[3] < 256) {
+                    if (data.length == 5 && data[4] < 32 || data.length == 4) {
+                        return (((data[0] * 256 + data[1]) * 256 + data[2]) * 256 + data[3]) * 32 + (data.length == 5? data[4] : 0);
+                    }
+                }
+            }
+
+            // for numbers and strings
+            return isDecimal(parsed)? [1, parseFloat(parsed)] : [0, parsed.toLowerCase()];
+        };
 
 		renderDataRaw.each(function(i) {
 			if (!this.children) {
@@ -445,7 +468,7 @@ cc1.makeSthTable = function(settings) {
 			}
 		});
 
-		renderDataRaw.each(function(i) {
+		renderDataRaw.each(function() {
 			var trData = [];
 			for (var j=0; j<this.children.length; j++) {
 				trData.push(parseElement(this.children[j]));
@@ -476,7 +499,7 @@ cc1.makeSthTable = function(settings) {
 			return sData.sort(sortFunction);
 		}
 		// @TODO: better way to sort than using 'push'
-		sData.each(function(i) {
+		sData.each(function() {
 			if (this.className === sep) {
 				tempData.sort(sortFunction);
 				sDataCopy = sDataCopy.concat(tempData);
@@ -505,13 +528,13 @@ cc1.makeSthTable = function(settings) {
 		if (settings.autoRefreshTime) {
 			setAutoRefresh();
 		}
-		if (typeof settings.idKey === undefined) {
+		if (settings.idKey === undefined) {
 			settings.idKey = 'id';
 		}
 		if (settings.showSearchBox && destElement.hasClass('tab')) {
 			searchBoxInput = $('<input/>', {
 				type: 'text',
-				title: gettext('Enter comma separated strings to search for.'),
+				title: gettext('Enter comma separated strings to search for.')
 			})[0];
 			searchBox = $('<div/>', {
 				id: 'searchBox',
@@ -523,7 +546,7 @@ cc1.makeSthTable = function(settings) {
 			$.each(tableHeader.find('td'), function(index) {
 				var $this = $(this);
 				if (!$this.hasClass('noSort')) {
-					$this.attr('title', gettext('Click to sort by column'))
+					$this.attr('title', gettext('Click to sort by column'));
 					$this.addClass('sorting pointer');
 					if (sortingColumn === index) {
 						$this.removeClass('sorting').addClass(sortingAsc ? 'sorting_asc' : 'sorting_desc');
@@ -537,14 +560,14 @@ cc1.makeSthTable = function(settings) {
 		bindActions();
 	};
 
-	sthTable = {
+	var sthTable = {
 		loadData: loadData,
 		closeDetails: closeDetails,
 		openDetails: openDetails,
 		getOpenedId: getOpenedId,
 		getListOfSelected: getListOfSelected,
         getListOfSelectedNames: getListOfSelectedNames,
-        getListOfSelectedAdresses: getListOfSelectedAdresses,
+        getListOfSelectedAddresses: getListOfSelectedAddresses,
 		setUrlGetData: setUrlGetData,
 		toggleChecked: toggleChecked,
 		getData: getData,

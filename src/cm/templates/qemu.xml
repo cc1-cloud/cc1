@@ -56,7 +56,7 @@
 	    <source path='/dev/pts/6'/>
 	    <target port='0'/>
 	  </console>
-	  <graphics type='vnc' port='{{ vm.vnc_port }}' listen="0.0.0.0" passwd="{{ vm.vnc_passwd }}" />
+	  <graphics type='vnc' port="{{ vm.vnc_port }}" websocket='{{ vm.novnc_port }}' listen="0.0.0.0" passwd="{{ vm.vnc_passwd }}" />
 	  <video>
 	    <model type='{{ vm.system_image.video_device_name }}' vram='9216' heads='1'/>
 	  </video>

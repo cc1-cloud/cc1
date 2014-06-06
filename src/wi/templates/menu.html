@@ -37,9 +37,19 @@
 			{% include "groups/menu.html" %}
         </ul>
     </li>
+    {% if request.session.user.is_admin_clm %}
+    <li class="menu-item">
+        <a href="{% url 'admin_clm' %}">{% trans "Admin CLM" %}</a>
+    </li>
+    {% endif %}
+    {% if request.session.user.is_admin_cm %}
+    <li class="menu-item">
+        <a href="{% url 'cma_admin' %}">{% trans "Admin CM" %}</a>
+    </li>
+    {% endif %}
 {% else %}
 	<li class="menu-item">
-		<a href="{% url 'reg_register' %}">{% trans "Registration" %}</a>	
-	</li>	
+		<a href="{% url 'reg_register' %}">{% trans "Registration" %}</a>
+	</li>
 {% endif %}
 </ul>

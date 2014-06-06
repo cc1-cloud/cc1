@@ -26,6 +26,7 @@ import os
 import sys
 import shutil
 
+
 def configure():
     shutil.copyfile('/usr/lib/cc1/ec2/settings_example.py', '/etc/cc1/ec2/settings_example.py')
     if os.path.exists('/etc/cc1/ec2/settings.py'):
@@ -41,10 +42,12 @@ def configure():
 
     return 0
 
+
 def remove():
     if os.path.exists('/usr/lib/cc1/ec2/settings.py'):
         os.unlink('/usr/lib/cc1/ec2/settings.py')
     return 0
+
 
 def purge():
     remove()

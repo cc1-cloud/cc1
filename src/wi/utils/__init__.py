@@ -31,7 +31,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from common.utils import ServerProxy
-from wi.utils.errors import get_error, auth_error_text
+from wi.utils.messages_codes import get_error, auth_error_text
 from wi.utils.exceptions import RestErrorException
 from wi.utils.messages_ajax import error, success
 
@@ -47,10 +47,6 @@ def check_response_errors(response, session):
         from wi.utils.auth import logout
         error_code = response['status']
         error_msg = get_error(error_code)
-
-#         if response['status'] == 'user_auth':
-#             logout(session)
-#             error_msg = auth_error_text
 
         raise RestErrorException(error_msg)
 

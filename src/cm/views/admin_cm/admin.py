@@ -25,11 +25,11 @@
 """
 
 from cm.utils.exception import CMException
+from cm.utils.decorators import admin_cm_log, guest_log
 from cm.models.admin import Admin
 from cm.models.user import User
 
-from cm.utils.decorators import admin_cm_log
-
+import subprocess
 
 @admin_cm_log(log=True)
 def add(caller_id, user_id, new_password):
@@ -96,11 +96,31 @@ def list_admins(caller_id):
     Method returns list of the admins.
     @cmview_admin_cm
 
-    @parameter{caller_id}
-
     @response{list(dict)} admins
     """
     admins = []
     for admin in Admin.objects.all():
         admins.append(admin.user.id)
     return admins
+
+@admin_cm_log(log=True)
+def restart(caller_id):
+    """
+    @cmview_admin_cm
+    """
+    if subprocess.call(['/usr/sbin/cc1_cm_storage', 'mount']) != 0:
+        raise CMException('cm_restart')
+
+    if subprocess.call(['/usr/sbin/cc1_cm_node', 'start']) != 0:
+        raise CMException('cm_restart')
+
+    if subprocess.call(['/usr/sbin/cc1_cm_monitoring', 'start']) != 0:
+        raise CMException('cm_restart')
+
+    if subprocess.call(['/usr/sbin/cc1_cm_vnc', 'start']) != 0:
+        raise CMException('cm_restart')
+
+
+@guest_log(log=True)
+def am_i_admin(caller_id):
+    return caller_id in [admin.user.id for admin in Admin.objects.all()]

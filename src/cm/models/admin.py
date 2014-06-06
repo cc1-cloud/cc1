@@ -38,7 +38,6 @@ class Admin(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return str(self.user)
 
@@ -56,7 +55,6 @@ class Admin(models.Model):
         """
         try:
             Admin.objects.get(pk=user_id)
-            # if get find no instance throws exception
         except:
             raise CMException('user_permission')
         return 1

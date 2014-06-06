@@ -18,24 +18,25 @@
 # @COPYRIGHT_end
 
 """@package src.cm.manager.ec2ctx.helpers.getters
+
 @copyright Copyright (c) 2013 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
 
 
 def get_exposed_methods(exposed_class):
-    command_list = [ command for command in dir( exposed_class ) if hasattr(getattr( exposed_class ,command), "exposed") and getattr( exposed_class , command).exposed == True ]
+    command_list = [command for command in dir(exposed_class) if hasattr(getattr(exposed_class, command), "exposed") and getattr(exposed_class, command).exposed == True]
     return command_list
 
 
-def remove_index(list):
-    del list[ list.index('index') ]
-    return list
+def remove_index(lista):
+    del lista[ lista.index('index') ]
+    return lista
 
 
-def switch_to_hyphens(list):
-    return [ sub_method.replace("_","-") for sub_method in list ]
+def switch_to_hyphens(lista):
+    return [sub_method.replace("_", "-") for sub_method in lista]
 
 
 def get_submethods(exposed_class):
-    return switch_to_hyphens( remove_index( get_exposed_methods(exposed_class) ) )
+    return switch_to_hyphens(remove_index(get_exposed_methods(exposed_class)))

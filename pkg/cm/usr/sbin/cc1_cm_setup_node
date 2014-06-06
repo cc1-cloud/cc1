@@ -42,7 +42,7 @@ def install(lv_conn_string):
     public_key = open('/var/lib/cc1/.ssh/id_rsa.pub').read()
     script = '''
     if [ -e /etc/apt/sources.list ] ; then
-        echo 'deb http://cc1.ifj.edu.pl/packages/ wheezy main #CC1' >> /etc/apt/sources.list
+        echo 'deb http://10.16.4.223:83/repo/ wheezy main #CC1' >> /etc/apt/sources.list
         apt-get update
         apt-get --yes --force-yes install cc1-node cc1-common cc1-common-networking
     fi

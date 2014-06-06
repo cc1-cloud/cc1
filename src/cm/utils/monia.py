@@ -21,7 +21,6 @@
 @author Tomek Wojtoń
 """
 
-import datetime
 import os.path
 import tarfile
 import time
@@ -29,18 +28,16 @@ import time
 from cm import settings
 from cm.utils import log
 from cm.utils.exception import CMException
-from common.states import node_states, vm_states
 import rrdtool
 
 
 def check_stat_exists(vm):
-    if not os.path.isfile(get_path(vm)):
+    try:
+        rrdtool.info(get_path(vm))
+    except Exception, e:
+        log.error(0, 'stat_error %s %s' % (vm, e))
         return 0
     return 1
-
-# def get_user_vms(user_id):
-#     vms = [ "vm-%s-%s"%(vm.dict['id'], vm.dict['user_id']) for vm in Session.query(VM).filter(not_(VM.state.in_((vm_states['closed'], vm_states['erased'])))).filter(VM.user_id == user_id).filter(VM.farm == None)]
-#     return vms
 
 
 def get_path(vm):
@@ -109,7 +106,6 @@ class RrdHandler():
         if(filesize == 0):
             self.create()
         else:  # appropriate updating
-            cpu_percent = int(self.vm['cpu_time'] / self.vm['cpu_count'] / 10000 / 1000)
             ret = rrdtool.update("%s" % (self.filepath), 'N:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d' % (int(self.vm['cpu_count']),
                 int(self.vm['cpu_time']) / 100000000 / 10.0 / self.vm['cpu_count'],
                 int(self.vm['rd_req']),
@@ -127,7 +123,6 @@ class RrdHandler():
     def create(self):
         if not self.vm:
             raise Exception('No VM specified')
-        # MonitorUtils.makefile(self.filepath)
         rarg = ["%s" % (self.filepath), "--step", "%d" % settings.PERIOD,
             "DS:cpu_count:GAUGE:%d:0:100000" % (settings.PERIOD * 2),
             "DS:cpu_time:COUNTER:%d:0:100000" % (settings.PERIOD * 2),
@@ -170,11 +165,13 @@ class RrdHandler():
 
         rrds = {}
         for rrd in f:
-            t = []
-            t.append(rrdtool.first(settings.PATH_TO_RRD + rrd))
-            t.append(rrdtool.last(settings.PATH_TO_RRD + rrd))
-            rrds.update({os.path.splitext(rrd)[0]: t})
-            # rrds[{os.path.splitext(rrd)[0]: t}]
+            try:
+                t = []
+                t.append(rrdtool.first(settings.PATH_TO_RRD + rrd))
+                t.append(rrdtool.last(settings.PATH_TO_RRD + rrd))
+                rrds.update({os.path.splitext(rrd)[0]: t})
+            except Exception, e:
+                log.error(0, 'stat_error %s %s' % (rrd, e))
         return rrds
 
     def get_vm_info(self, vm):
@@ -223,12 +220,6 @@ class RrdHandler():
         step = info[2]
         ts = start_rrd
         total = self.get_vm_total(vm, names)
-        # ponizsze petle while mozna usunac zeby przsylac puste wartosci dla nieistniejacych danych
-        # while data and None in data[-1]:
-        #    data.pop()
-        # while data and None in data[0]:
-        #    data.pop(0)
-        #    ts = ts + step
 
         now = int(time.time())
 
@@ -257,7 +248,6 @@ class RrdHandler():
                         val[ds_req[i]] = ''
                     else:
                         val[ds_req[i]] = row[i]
-            # val.insert(0, ts-time.timezone)
             val.insert(0, ts)
             res.append(val)
             ts = ts + step

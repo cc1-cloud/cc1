@@ -20,6 +20,7 @@
 """@package src.cm.models.node
 """
 
+
 import socket
 
 from django.db import models
@@ -53,11 +54,11 @@ class Node(models.Model):
     hdd_total = models.IntegerField()
     state = models.IntegerField()
     comment = models.TextField(null=True, blank=True)
+    errors = models.TextField(null=True, blank=True)
 
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return str(self.id)
 
@@ -78,15 +79,16 @@ class Node(models.Model):
         """
         d = {}
         d['node_id'] = self.id
-        d['address'] = self.address
+        d['address'] = self.address  or ''
         d['cpu_total'] = self.cpu_total
         d['cpu_free'] = self.cpu_free
         d['memory_total'] = self.memory_total
         d['memory_free'] = self.memory_free
         d['hdd_total'] = self.hdd_total
         d['hdd_free'] = self.hdd_free
-        d['state'] = self.state
-        d['comment'] = self.comment
+        d['state'] = self.state or ''
+        d['comment'] = self.comment or ''
+        d['errors'] = self.errors or ''
 
         return d
 
@@ -111,19 +113,20 @@ class Node(models.Model):
         """
         d = {}
         d['node_id'] = self.id
-        d['username'] = self.username
-        d['address'] = self.address
-        d['transport'] = self.transport
-        d['driver'] = self.driver
+        d['username'] = self.username or ''
+        d['address'] = self.address or ''
+        d['transport'] = self.transport or ''
+        d['driver'] = self.driver or ''
         d['cpu_total'] = self.cpu_total
         d['cpu_free'] = self.cpu_free
         d['memory_total'] = self.memory_total
         d['memory_free'] = self.memory_free
         d['hdd_total'] = self.hdd_total
         d['hdd_free'] = self.hdd_free
-        d['state'] = self.state
-        d['suffix'] = self.suffix
-        d['comment'] = self.comment
+        d['state'] = self.state or ''
+        d['suffix'] = self.suffix or ''
+        d['comment'] = self.comment or ''
+        d['errors'] = self.errors or ''
 
         return d
 
@@ -154,18 +157,18 @@ class Node(models.Model):
         """
         d = {}
         d['node_id'] = self.id
-        d['username'] = self.username
-        d['address'] = self.address
-        d['transport'] = self.transport
-        d['driver'] = self.driver
+        d['username'] = self.username or ''
+        d['address'] = self.address or ''
+        d['transport'] = self.transport or ''
+        d['driver'] = self.driver or ''
         d['cpu_total'] = self.cpu_total
         d['cpu_free'] = self.cpu_free
         d['memory_total'] = self.memory_total
         d['memory_free'] = self.memory_free
         d['hdd_total'] = self.hdd_total
         d['hdd_free'] = self.hdd_free
-        d['state'] = self.state
-        d['suffix'] = self.suffix
+        d['state'] = self.state or ''
+        d['suffix'] = self.suffix or ''
         d['real_memory_total'] = self.real_memory_total
         d['real_memory_free'] = self.real_memory_free
         d['real_hdd_total'] = self.real_hdd_total
@@ -174,7 +177,8 @@ class Node(models.Model):
         d['lv_memory_free'] = self.lv_memory_free
         d['lv_cpu_total'] = self.lv_cpu_total
         d['lv_cpu_free'] = self.lv_cpu_free
-        d['comment'] = self.comment
+        d['comment'] = self.comment or ''
+        d['errors'] = self.errors or ''
 
         return d
 
@@ -327,21 +331,6 @@ class Node(models.Model):
         r = self.read_lv_data[6] / 1024 / 1024
         return r
 
-    @property
-    def get_cm_ip(self):
-        """
-        Method
-        """
-        try:
-            conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-            conn.connect(('192.245.169.43', 22))
-        except:
-            raise CMException('node_connect')
-        ip = conn.getsockname()[0]
-        conn.close()
-
-        return ip
-
     @staticmethod
     def get(user_id, node_id):
         """
@@ -352,12 +341,6 @@ class Node(models.Model):
 
         @raises{node_get,CMException} no such Node
         """
-
-        # entities.user.User.superuser(user_id)
-
-        # check on auth is performed by decorator
-        # Admin.superuser(user_id)
-
         try:
             n = Node.objects.get(pk=node_id)
         except:
@@ -372,7 +355,7 @@ class Node(models.Model):
         """
         self.state = node_states['locked']
         self.save()
-        # TODO: send imejl
+        # TODO: send email
 
     # the funcion is called by vm utils create
     # finds first node (or with node_id, if given) that is sufficient enough for image and template and returns it.
@@ -401,7 +384,7 @@ class Node(models.Model):
             available_nodes = []
 
             # Get all nodes, which fit this VM
-            for node in Node.objects.filter(state__exact=node_states['ok']):
+            for node in Node.objects.filter(state__exact=node_states['ok']).order_by('id'):
                 if node.cpu_free >= template.cpu and node.memory_free >= template.memory and node.hdd_free >= image.size:
                     available_nodes.append(node)
 
@@ -411,8 +394,3 @@ class Node(models.Model):
             # Get best matching (most filled) node
             available_nodes.sort(key=lambda node: node.cpu_free)
             return available_nodes[0]
-
-    # TODO:
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    # define: get_lease(), get_vnc()
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -86,14 +86,62 @@ class Signature:
         return signature
 
     @staticmethod
+    def generateSignatureS3(password, parameters):
+        """
+        Method for generating signature of parameters using password
+        It is mainly used for Amazon S3, because EC2 doesn't support
+        this version is signature
+
+        Parameters should have:
+        - Method
+        - Content-MD5
+        - Content-Type
+        - Date
+        - Resource - path including buckets, object and subresource e.g. /bucket/object?acl
+        - X_Amz_Headers - dictionary with x_amz_* headers passed by client
+        """
+        bucket = parameters.get('Bucket')
+
+        CanonicalizedResource = parameters.get('path_info') + parameters.get('query_string')
+
+        CanonicalizedAmdHeaders = u''
+
+        for header in sorted(parameters.iterkeys(), key=unicode.lower):
+            if header.startswith('x_amz_'):
+                header_string = str(header) + ':' + ','.join([parameters[header]]) + '\n'
+                header_string = header_string.replace('_', '-')
+                CanonicalizedAmdHeaders += header_string
+
+        print CanonicalizedAmdHeaders.__class__
+        print CanonicalizedAmdHeaders, CanonicalizedResource
+        toSign = parameters.get('request_method') + \
+                 '\n' + parameters.get('content_md5') + \
+                 '\n' + parameters.get('content_type') + \
+                 '\n' + parameters.get('date') + \
+                 '\n' + CanonicalizedAmdHeaders + CanonicalizedResource
+
+        print 'StringToSign',toSign
+
+        h = hmac.new(password, toSign, hashlib.sha1)
+        signature = h.digest()
+        signature = base64.b64encode(signature)
+        print 'Signature:', signature
+        return signature
+
+    @staticmethod
     def checkSignature(password, signatureToCheck, parameters):
         """
         Check, whether signature is correct (depending on the signature's version).
         """
-        version = int(parameters.get('SignatureVersion'))
-        correctSignature = None
-        if version == 1:
-            correctSignature = Signature.generateSignatureVer1(str(password), parameters)
-        elif version == 2:
-            correctSignature = Signature.generateSignatureVer2(str(password), parameters)
+        # first check for S3 request
+        if parameters.get('authorization'):
+            correctSignature = Signature.generateSignatureS3(str(password), parameters)
+        else:
+            version = int(parameters.get('SignatureVersion'))
+            correctSignature = None
+            if version == 1:
+                correctSignature = Signature.generateSignatureVer1(str(password), parameters)
+            elif version == 2:
+                correctSignature = Signature.generateSignatureVer2(str(password), parameters)
         return True if correctSignature == signatureToCheck else False
+

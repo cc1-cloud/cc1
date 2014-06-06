@@ -35,9 +35,7 @@ from cm.utils.decorators import user_log
 from cm.utils.exception import CMException
 from cm.utils.threads.vm import VMThread
 from common.states import farm_states, node_states
-
-# from cm.utils import message
-# from cm.utils.rm import rm
+from cm.utils import message
 
 
 @user_log(log=True)
@@ -83,9 +81,7 @@ def create(caller_id, name, description, image_id, head_template_id, worker_temp
     try:
         user.check_points()
     except:
-        pass  # delete pass
-        # TODO: message to CLM
-        # message.warn(caller_id, 'point_limit', {'used_points': user.used_points, 'point_limit': user.points})
+        message.warn(caller_id, 'point_limit', {'used_points': user.used_points, 'point_limit': user.points})
 
     farm = Farm.create(user=user, name=name, description=description)
 
@@ -134,9 +130,6 @@ def get_list(caller_id):
     @response{list(dict)} data of the requested Farms
     """
     farms = [farm.dict for farm in Farm.objects.exclude(state=farm_states['closed']).filter(user__id__exact=caller_id).order_by('-id')]
-    # for farm in farms:
-    #     for vm in farm['vms']:
-    #         vm['cpu_load'] = VM.cpu_load(vm)['data']
 
     return farms
 

@@ -25,8 +25,6 @@ Signature generators for EC2 API requests
 @author Rafał Grzymkowski
 @author Miłosz Zdybał
 """
-
-
 import base64
 import hashlib
 import hmac
@@ -56,7 +54,6 @@ def authorize_ec2_request(parameters, aws_secret_key, **kwargs):
 
 def _sign_parameters_ver1(parameters, aws_secret_key, **kwargs):
     """Generate signature deoending on parameters and password (once again)."""
-    #password = self.server.unsafe_ec2_gethash(parameters.get('AWSAccessKeyId'))
     params = ''
     for key in sorted(parameters.iterkeys(), key=str.lower):
         if key == 'Signature' or key == 'Method' or key == 'Endpoint':
@@ -76,12 +73,12 @@ def _sign_parameters_ver2_milosz(parameters, aws_secret_key, **kwargs):
     Author: Miłosz Zdybał
     """
     params = {
-        'Action' : parameters.get('Action'),
-        'AWSAccessKeyId' : parameters.get('AWSAccessKeyId'),
-        'Timestamp' : parameters.get('Timestamp'),
+        'Action': parameters.get('Action'),
+        'AWSAccessKeyId': parameters.get('AWSAccessKeyId'),
+        'Timestamp': parameters.get('Timestamp'),
         'Version': parameters.get('Version'),
-        'SignatureMethod' : parameters.get('SignatureMethod'),
-        'SignatureVersion' : parameters.get('SignatureVersion')
+        'SignatureMethod': parameters.get('SignatureMethod'),
+        'SignatureVersion': parameters.get('SignatureVersion')
     }
     string_to_sign = '%s\n%s\n/\n' % (
         parameters.get('Method'), parameters.get('Endpoint')

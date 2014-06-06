@@ -20,6 +20,7 @@
 """@package src.cm.views.admin_cm.storage
 
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log}
+
 @author Maciej Nabożny <di.dijo@gmail.com>
 """
 
@@ -74,7 +75,6 @@ def create(caller_id, name, address, directory, capacity):
         st.save()
     except Exception, e:
         log.debug(caller_id, 'Cannot save storage in database: %s' % str(e))
-        #Session.rollback()
         raise CMException('storage_create')
 
 
@@ -212,7 +212,6 @@ def check(caller_id, node_list):
     @dictkey{unmounted,list} list of storages not mounted to current node
     """
 
-    storage_ids = Storage.objects.values_list('id', flat=True)
     storage_names = Storage.objects.values_list('name', flat=True)
 
     result = {}

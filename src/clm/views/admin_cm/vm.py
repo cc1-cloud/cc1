@@ -109,3 +109,15 @@ def erase(cm_response, **data):
     @clm_view_transparent{vm.erase()}
     """
     return cm_response
+
+
+@admin_cm_log(log=True, pack=False)
+@cm_request
+def attach_vnc(cm_response, **data):
+    return cm_response
+
+
+@admin_cm_log(log=True, pack=False)
+@cm_request
+def detach_vnc(cm_response, **data):
+    return cm_response

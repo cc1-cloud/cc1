@@ -35,7 +35,6 @@ def query(parameters, aws_key=None, aws_secret=None, endpoint=None,
     parameters.setdefault('SignatureVersion', '2')
 
     parameters['AWSAccessKeyId'] = aws_key
-    #parameters['Expires'] = "2012-03-17T12:41:35Z"
     parameters['Timestamp'] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     parameters['Version'] = "2012-03-01"
 
@@ -74,7 +73,6 @@ def get_instance_tags(cluster_manager):
                  'value' : instance['name']})
     return tags
 
-
 def get_instance_name_tag(cluster_manager, id):
     instance = cluster_manager.user.vm.get_by_id({'vm_id':id})
 
@@ -105,3 +103,4 @@ def get_volume_tags(cluster_manager):
                  'resource-type' : 'volume',
                  'value' : volume['name']})
     return tags
+

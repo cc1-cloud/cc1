@@ -68,6 +68,24 @@ vm_patterns = patterns('wi.views.admin_cm.vm',
          'id_key':               'vm_id',
          'form_class':           EditVMForm},
         name='cma_vms_ajax_save_and_shutdown'),
+
+    url(r'^ajax/cm/set_vnc/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
+        {'template_name':   'generic/simple.html',
+         'success_msg':     (lambda desc: _('You have successfully enabled VNC.') % {'desc': desc}),
+         'ask_msg':         (lambda desc: _('Do you want to enable VNC?') % {'desc': desc}),
+         'request_url':     'admin_cm/vm/attach_vnc/',
+         'id_key':          'vm_id'
+         },
+        name='cma_vms_ajax_set_vnc'),
+    url(r'^ajax/cm/unset_vnc/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
+        {'template_name':   'generic/simple.html',
+         'success_msg':     (lambda desc: _('You have successfully disabled VNC.') % {'desc': desc}),
+         'ask_msg':         (lambda desc: _('Do you want to disable VNC?') % {'desc': desc}),
+         'request_url':     'admin_cm/vm/detach_vnc/',
+         'id_key':          'vm_id'
+        },
+        name='cma_vms_ajax_unset_vnc'),
+
 )
 
 urlpatterns = patterns('',

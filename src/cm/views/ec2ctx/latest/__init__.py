@@ -46,7 +46,7 @@ def user_data(request):
 
 @ec2ctx_log(log=True)
 def latest(request):
-    # na razie zahardkodowane, ale to sie zmieni
+    # temporarily hardcoded
     return 'user-data\nmeta-data'
 
 latest_patterns = patterns('',

@@ -1,8 +1,9 @@
 Listen 8080
 <VirtualHost *:8080>
     DocumentRoot "/usr/lib/cc1/ec2"
-    WSGIDaemonProcess ec2 user=www-data group=www-data processes=1 threads=10
+    WSGIDaemonProcess ec2 user=cc1 group=cc1 processes=1 threads=10
     WSGIScriptAlias / /usr/lib/cc1/ec2/wsgi.py
+    WSGIPassAuthorization On
     ErrorLog /var/log/cc1/ec2/ec2-error.log
     LogLevel debug
     <Directory /usr/lib/cc1/ec2>
@@ -18,13 +19,30 @@ Listen 8080
         SSLCertificateFile /etc/apache2/apache-ec2.pem
         SSLCertificateKeyFile /etc/apache2/apache-ec2.pem
     DocumentRoot "/usr/lib/cc1/ec2"
-    WSGIDaemonProcess ec2ssl user=www-data group=www-data processes=1 threads=10
+    WSGIDaemonProcess ec2ssl user=cc1 group=cc1 processes=1 threads=10
     WSGIScriptAlias / /usr/lib/cc1/ec2/wsgi.py
+    WSGIPassAuthorization On
     ErrorLog /var/log/cc1/ec2/ec2-error.log
     <Directory /opr/cc1/ec2>
         WSGIProcessGroup ec2
         WSGIApplicationGroup %{GLOBAL}
         Order deny,allow
         Allow from all
+    </Directory>
+</VirtualHost>
+
+Listen 8081
+<VirtualHost *:8081>
+    DocumentRoot "/usr/lib/cc1/ec2"
+    WSGIDaemonProcess ec2-upload user=cc1 group=cc1 processes=1 threads=10
+    WSGIScriptAlias / /usr/lib/cc1/ec2/upload/wsgi.py
+    ErrorLog /var/log/cc1/ec2/ec2-upload-error.log
+    LogLevel debug
+    <Directory /usr/lib/cc1/ec2>
+        WSGIProcessGroup ec2-upload
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.1
     </Directory>
 </VirtualHost>

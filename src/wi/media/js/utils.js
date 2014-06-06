@@ -46,7 +46,7 @@ Date.prototype.toShortStringUTC = function() {
     		this.getUTCFullYear() + ', ' +
     		this.getUTCHours() + ':' +
     		(this.getUTCMinutes() < 10 ? '0' : '') +
-    		this.getUTCMinutes() + ':' + 
+    		this.getUTCMinutes() + ':' +
     		(this.getUTCSeconds() < 10 ? '0' : '') +
     		this.getUTCSeconds();
 };
@@ -63,10 +63,10 @@ cc1.utils = {
 		ajaxLoader: function(num) {
 			var loader = $('<div/>', {
 				 'class': 'ajax_loader' + num,
-				 html: '&nbsp;',
+				 html: '&nbsp;'
 			});
 			return loader;
-		},
+		}
 	},
 	createAction: function(settings) {
 		return function() {
@@ -173,7 +173,7 @@ cc1.utils = {
 		dialogDiv.remove();
 		$('<div/>', {
 			id: dialogId.substring(1),
-			title: settings.dialogTitle,
+			title: settings.dialogTitle
 		}).appendTo(messagesDiv);
 
 		dialogDiv = $(dialogId);
@@ -192,7 +192,7 @@ cc1.utils = {
 			show: 'fade',
 			position: 'center',
 			minWidth: 300,
-			minHeight: 300,
+			minHeight: 300
 		});
 
 		if (settings.content) {
@@ -214,7 +214,7 @@ cc1.utils = {
 		dialogDiv.remove();
 		$('<div/>', {
 			id: dialogId.substring(1),
-			title: gettext("Copy to clipboard:"),
+			title: gettext("Copy to clipboard:")
 		}).appendTo(messagesDiv);
 
 		dialogDiv = $(dialogId);
@@ -273,7 +273,7 @@ cc1.utils = {
 
 		// position ajaxLoader div in the middle
 		overlayDiv.find('div').css({
-			'margin-top': Math.max(0, divToOverlay.height()/2 - 10),
+			'margin-top': Math.max(0, divToOverlay.height()/2 - 10)
 		});
 		divToOverlay.prepend(overlayDiv);
 

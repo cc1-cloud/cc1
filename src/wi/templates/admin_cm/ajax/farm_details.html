@@ -126,7 +126,7 @@
 	                	<span>{% trans "Access" %}</span>
 	                    <ul>
 							<li class="icon_vnc {% if item.vms.0.state != vm_states|getitem:'running' and item.vms.0.state != vm_states|getitem:'running ctx' %}inactive{% endif %}">
-								<a onclick="{% if item.vms.0.state == vm_states|getitem:'running' or item.vms.0.state == vm_states|getitem:'running ctx' %}cc1.sthTable.vnc('{{ item.vms.0.vnc_endpoint }}', '{{ item.vms.0.vnc_passwd }}', '{{ item.vms.0.id }}');{% endif %}" target="_blank">
+								<a onclick="{% if item.vms.0.state == vm_states|getitem:'running' or item.vms.0.state == vm_states|getitem:'running ctx' %}cc1.sthTable.vnc('{{ item.vms.0.novnc_endpoint }}', '{{ item.vms.0.vnc_passwd }}', '{{ item.vms.0.id }}');{% endif %}" target="_blank">
 									{% trans "Graphical console (VNC)" %}
 								</a>
 							</li>

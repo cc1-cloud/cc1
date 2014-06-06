@@ -147,7 +147,7 @@ ul.topnav {
 ul.topnav li.menu-item {
   float: left;
   margin: 0;
-  padding: 0 20px 0 20px;
+  padding: 0 18px 0 18px;
   position: relative; /*--Declare X and Y axis base--*/
 }
 ul.topnav li.menu-item a {
@@ -518,7 +518,7 @@ fieldset .errorlist {
   clear: both;
 }
 ul.errorlist li {
-  padding: 5px 8px 5px 25px;
+  padding: 5px 5px 5px 25px;
   color: #533;
   background: url("../../media/img/icons/error.png") no-repeat scroll 7px 7px transparent;
 }

@@ -26,7 +26,6 @@ from clm.models.user import User
 import json
 from clm.utils.exception import CLMException
 from datetime import datetime
-#from common.states import template_states
 
 
 class Message(models.Model):

@@ -16,7 +16,6 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
-
 """@package src.wi.models.user
 
 @author Piotr Wójcik
@@ -36,7 +35,7 @@ def parse_user(user):
     """
     return User(user_id=user['user_id'], firstname=user['first'], lastname=user['last'], username=user['login'],
                 password='', email=user['email'], organization=user['organization'], is_active=user['is_active'],
-                is_admin_clm=user['is_superuser'], cm_id=user['default_cluster_id'],
+                is_admin_clm=user['is_superuser'], is_admin_cm=user['is_superuser_cm'], cm_id=user['default_cluster_id'],
                 default_cluster_id=user['default_cluster_id'])
 
 
@@ -54,12 +53,12 @@ class User:
     is_active = models.IntegerField('active', default=0)
     is_admin_clm = models.BooleanField('admin clm', default=False)
     is_admin_cm = models.BooleanField('admin cm', default=False)
+    is_logged_admin_cm = models.BooleanField('admin cm', default=False)
     cm_id = models.IntegerField('cm_id', default=0)
-    admin_cm_id = models.IntegerField('admin_cm_id', default=0)
     default_cluster_id = models.IntegerField('default_cluster_id', default=0)
 
     def __init__(self, user_id, cm_id, firstname, lastname, username, organization, password, email, is_active=0,
-                 is_admin_clm=False, is_admin_cm=False, default_cluster_id=0):
+                 is_admin_clm=False, is_admin_cm=False, is_logged_admin_cm=False, default_cluster_id=0):
         self.user_id = user_id
         self.cm_id = cm_id
         self.firstname = firstname
@@ -69,20 +68,14 @@ class User:
         self.email = email
         self.password = password
         self.cm_password = None
-        self.admin_cm_id = None
         self.is_active = is_active
         self.is_admin_clm = is_admin_clm
         self.is_admin_cm = is_admin_cm
+        self.is_logged_admin_cm = is_logged_admin_cm
         self.default_cluster_id = default_cluster_id
 
     def __unicode__(self):
         return self.username
-
-    def __str__(self):
-        return ' '.join(['user_id=', str(self.user_id), 'username=', self.username, 'cm_id=', str(self.cm_id)])
-
-    def __repr__(self):
-        return 'user ' + str(self)
 
     def set_password(self, password):
         self.password = password

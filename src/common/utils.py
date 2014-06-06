@@ -16,6 +16,9 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
+import subprocess
+import sys
+import shlex
 
 """@package src.common.utils
 """
@@ -184,10 +187,11 @@ class ServerProxy(object):
     def __init__(self, server_address):
         self.server_address = server_address
 
-    def send_request(self, url, **data):
+    def send_request(self, url, log=True, **data):
         logger = logging.getLogger('request')
         data = json.dumps(data, default=json_convert)
-        logger.info("called %s/%s   body: %s" % (self.server_address, url, data))
+        if log:
+            logger.info("called %s/%s   body: %s" % (self.server_address, url, data))
 
         response = requests.post("%s/%s" % (self.server_address, url), data=data)
 
@@ -195,7 +199,8 @@ class ServerProxy(object):
             logger.error("HTTP ERROR: code: %s data: %s" % (response.status_code, response.text[:100]))
             raise Exception("Status %s failed to call function" % response.status_code)
         response = json.loads(response.text)
-        logger.info("response from %s/%s is:\n%s" % (self.server_address, url, json.dumps(response, indent=4)))
+        if log:
+            logger.info("response from %s/%s is:\n%s" % (self.server_address, url, json.dumps(response, indent=4)))
         if not isinstance(response, dict):
             logger.error("Returned object is %s expected dict. Data: %s" % (type(response), response))
             raise Exception("Returned object is %s expected dict" % type(response))
@@ -203,3 +208,18 @@ class ServerProxy(object):
             logger.error("Returned object is malformatted: %s" % response)
             raise Exception("Returned object is malformatted: %s" % response)
         return response
+
+
+def subcall(command, log=None, err_log=None, std_log=None, err_msg=None, err_exit=True):
+    if not (std_log or err_log):
+        std_log = log
+        err_log = log
+    r = subprocess.call(command, shell=True, stdout=std_log, stderr=err_log)
+    if r > 0:
+        if err_msg:
+            START_MSG = '\033[91m' if err_exit else '\033[93m'
+            END_MSG = '\033[0m'
+            print "%s%s%s" % (START_MSG, err_msg, END_MSG)
+        if err_exit:
+            sys.exit(1)
+    return r

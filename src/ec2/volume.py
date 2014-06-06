@@ -79,6 +79,7 @@ class CreateVolume(Action):
                 raise UndefinedError
             if error.status == 'user_storage_limit':
                 raise DiskImageSizeTooLarge
+            raise UndefinedError
 
         try:
             edit_dict = {'storage_image_id' : volume['storage_image_id'],

@@ -107,6 +107,7 @@ def parse_ips(data, select_flag=True):
     Returns list of the IPs.
 
     @parameter{data,dict}
+    @parameter{select_flag,boolean}
 
     @returns{list} IPs.
     """
@@ -383,7 +384,7 @@ def parse_generic(data, key):
     Returns a list of (potentially disabled) choices from a dictionary.
     """
     choices = []
-    for k, v in data[key].iteritems():
+    for k, v in sorted(data[key].iteritems(), key=lambda item: item[1]):
             choices.append([v, k])
     return choices
 

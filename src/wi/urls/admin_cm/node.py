@@ -23,15 +23,14 @@
 @date 17.03.2011
 """
 
-from django.conf.urls import url, patterns, include
-from django.utils.translation import ugettext_lazy as _
-
 from common.states import image_access
-from wi.forms.node import NodeForm
+from django.conf.urls import url, patterns, include
+from django.utils.translation import ungettext, ugettext_lazy as _
+from wi.forms.node import NodeForm, EditNodeForm
 from wi.forms.vm import CreateVMOnNodeForm
 from wi.utils.decorators import admin_cm_permission
-from wi.utils.views import form_generic_id, direct_to_template, \
-    simple_generic_id, form_generic
+from wi.utils.views import generic_multiple_id, form_generic_id, \
+    direct_to_template, simple_generic_id, form_generic
 
 
 node_patterns = patterns('wi.views.admin_cm.node',
@@ -45,13 +44,25 @@ node_patterns = patterns('wi.views.admin_cm.node',
          'request_url':     'admin_cm/node/delete/',
          'id_key':          'node_id', },
         name='cma_ajax_delete_node'),
-    url(r'^ajax/lock_node/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
-        {'template_name':   'generic/simple.html',
-         'success_msg':     (lambda desc: _('You have successfully locked node <b>%(desc)s</b>.') % {'desc': desc}),
-         'ask_msg':         (lambda desc: _('Do you want to lock node <b>%(desc)s</b>?') % {'desc': desc}),
-         'request_url':     'admin_cm/node/lock/',
-         'id_key':          'node_id', },
+
+    url(r'^ajax/cm/lock_node/$', admin_cm_permission(generic_multiple_id),
+        {'template_name':       'generic/simple.html',
+         'success_msg':         (lambda desc, count: ungettext('You have successfully locked node <b>%(desc)s</b>.', 'You have successfully locked %(count)d nodes (<b>%(desc)s</b>).', count) % {'desc': desc, 'count': count}),
+         'ask_msg':             (lambda desc, count: ungettext('Do you want to lock node <b>%(desc)s</b>?', 'Do you want to lock %(count)d nodes <b>%(desc)s</b>?', count) % {'desc': desc, 'count': count}),
+         'request_url':         'admin_cm/node/lock/',
+         'id_key':              'node_id_list'
+         },
         name='cma_ajax_lock_node'),
+
+    url(r'^ajax/cm/check_node/$', admin_cm_permission(generic_multiple_id),
+        {'template_name':       'generic/simple.html',
+         'success_msg':         (lambda desc, count: ungettext('Node <b>%(desc)s</b> queued for validation.', '%(count)d nodes (<b>%(desc)s</b>) queued for validation.', count) % {'desc': desc, 'count': count}),
+         'ask_msg':             (lambda desc, count: ungettext('Do you want to validate node <b>%(desc)s</b>?', 'Do you want to validate %(count)d nodes <b>%(desc)s</b>?', count) % {'desc': desc, 'count': count}),
+         'request_url':         'admin_cm/node/check/',
+         'id_key':              'node_id_list'
+         },
+        name='cma_ajax_check_node'),
+
     url(r'^ajax/hardlock_node/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
         {'template_name':   'generic/simple.html',
          'success_msg':     (lambda desc: _('You have successfully hardlocked node <b>%(desc)s</b>.') % {'desc': desc}),
@@ -59,13 +70,16 @@ node_patterns = patterns('wi.views.admin_cm.node',
          'request_url':     'admin_cm/node/hardlock/',
          'id_key':          'node_id', },
         name='cma_ajax_hardlock_node'),
-    url(r'^ajax/unlock_node/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
-        {'template_name':   'generic/simple.html',
-         'success_msg':     (lambda desc: _('You have successfully unlocked node <b>%(desc)s</b>.') % {'desc': desc}),
-         'ask_msg':         (lambda desc: _('Do you want to unlock node <b>%(desc)s</b>?') % {'desc': desc}),
-         'request_url':     'admin_cm/node/unlock/',
-         'id_key':          'node_id', },
+
+    url(r'^ajax/cm/unlock_node/$', admin_cm_permission(generic_multiple_id),
+        {'template_name':       'generic/simple.html',
+         'success_msg':         (lambda desc, count: ungettext('You have successfully unlocked node <b>%(desc)s</b>.', 'You have successfully unlocked %(count)d nodes (<b>%(desc)s</b>).', count) % {'desc': desc, 'count': count}),
+         'ask_msg':             (lambda desc, count: ungettext('Do you want to unlock node <b>%(desc)s</b>?', 'Do you want to unlock %(count)d nodes <b>%(desc)s</b>?', count) % {'desc': desc, 'count': count}),
+         'request_url':         'admin_cm/node/unlock/',
+         'id_key':              'node_id_list'
+         },
         name='cma_ajax_unlock_node'),
+
     url(r'^ajax/add_node/$', admin_cm_permission(form_generic),
         {'template_name':       'generic/form.html',
          'success_msg':         (lambda desc, data: _('You have successfully created a node.') % {'desc': desc}),
@@ -80,7 +94,7 @@ node_patterns = patterns('wi.views.admin_cm.node',
          'request_url_post':    'admin_cm/node/edit/',
          'request_url_get':     'admin_cm/node/get_by_id/',
          'id_key':              'node_id',
-         'form_class':          NodeForm},
+         'form_class':          EditNodeForm},
         name='cma_ajax_edit_node'),
     url(r'^ajax/create_vm/(?P<id1>\d+)/$', admin_cm_permission(form_generic_id),
         {'template_name':       'generic/form.html',

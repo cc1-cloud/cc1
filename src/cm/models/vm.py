@@ -4,7 +4,7 @@
 # Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
+# you may not use this file except in compliance with the License.
 #    You may obtain a copy of the License at
 #
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -18,7 +18,7 @@
 # @COPYRIGHT_end
 """@package src.cm.models.vm
 """
-from cm.settings import VNC_PORTS
+from cm.settings import VNC_PORTS, NOVNC_PORTS
 
 from cm.models.node import Node
 from cm.models.public_ip import PublicIP
@@ -48,6 +48,7 @@ import libvirt
 import subprocess
 
 from netaddr import IPNetwork
+from cm.utils import message
 
 
 class VM(models.Model):
@@ -85,6 +86,7 @@ class VM(models.Model):
     farm = models.ForeignKey(Farm, related_name='vms', null=True)
     hostname = models.CharField(max_length=256, null=True, blank=True)
     vnc_port = models.IntegerField()
+    novnc_port = models.IntegerField(default=0)
     vnc_enabled = models.IntegerField(default=0)
     reservation_id = models.IntegerField(default=0)
     user_data = models.CharField(max_length=32768, null=True, blank=True)
@@ -92,7 +94,6 @@ class VM(models.Model):
     class Meta:
         app_label = 'cm'
 
-    # method for printing object instance
     def __unicode__(self):
         return self.name
 
@@ -129,6 +130,7 @@ class VM(models.Model):
         d['platform'] = 0
         d['description'] = self.description or ''
         d['vnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.vnc_port)
+        d['novnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.novnc_port)
         d['vnc_enabled'] = self.vnc_enabled
         d['vnc_passwd'] = self.vnc_passwd or ''
 
@@ -181,7 +183,7 @@ class VM(models.Model):
         d['platform'] = 0
         d['description'] = self.description or ''
         d['vnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.vnc_port)
-        d['vnc_port'] = self.vnc_port
+        d['novnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.novnc_port)
         d['vnc_enabled'] = self.vnc_enabled
         d['vnc_passwd'] = self.vnc_passwd or ''
         d['start_time'] = self.start_time
@@ -259,22 +261,30 @@ class VM(models.Model):
                 vm.farm = farm
 
             # Find first free vnc port
-            used_ports = VM.objects.exclude(state__exact=vm_states['closed']).values_list('vnc_port', flat=True)
+            used_ports = VM.objects.exclude(state__in=[vm_states['closed'], vm_states['erased']]).values_list('vnc_port', flat=True)
 
-            new_vnc_port = VNC_PORTS['START']
-            while True:
-                if (new_vnc_port in used_ports) or (new_vnc_port in VNC_PORTS['EXCLUDE']):
-                    new_vnc_port = new_vnc_port + 1
-                else:
+            for new_vnc_port in xrange(VNC_PORTS['START'], VNC_PORTS['END'] + 1):
+                if new_vnc_port not in used_ports and new_vnc_port not in VNC_PORTS['EXCLUDE']:
                     break
+            else:
+                raise CMException('vm_vnc_not_found')
 
             log.debug(user.id, "Found vnc port: %d" % new_vnc_port)
-
             vm.vnc_port = new_vnc_port
+
+            # Find first free novnc port
+            used_ports = VM.objects.exclude(state__in=[vm_states['closed'], vm_states['erased']]).values_list('novnc_port', flat=True)
+            for new_novnc_port in xrange(NOVNC_PORTS['START'], NOVNC_PORTS['END'] + 1):
+                if new_novnc_port not in used_ports and new_novnc_port not in NOVNC_PORTS['EXCLUDE']:
+                    break
+            else:
+                raise CMException('vm_novnc_not_found')
+
+            log.debug(user.id, "Found novnc port: %d" % new_novnc_port)
+            vm.novnc_port = new_novnc_port
 
             if vnc:
                 vm.attach_vnc()
-            # vm.vnc_passwd = hashlib.md5(str(datetime.now()) + str(random())).hexdigest()
             vm.vnc_passwd = password_gen(13, chars=['letters', 'digits'], extra_chars='!@#$%^&*()')
             vm.ssh_key = ssh_key
             vm.ssh_username = ssh_username
@@ -372,12 +382,12 @@ class VM(models.Model):
         """
         try:
             lv_template = loader.get_template("%s.xml" % self.node.driver)
-            c = Context({'vm':      self,
-                         'uuid':    uuid.uuid1(),
-                         'memory':  self.template.memory * 1024,
-                         'cpu':     self.template.cpu,
+            c = Context({'vm': self,
+                         'uuid': uuid.uuid1(),
+                         'memory': self.template.memory * 1024,
+                         'cpu': self.template.cpu,
                          'image_path': self.path
-                         })
+            })
             # and render it
             domain_template = lv_template.render(c)
         except Exception, e:
@@ -400,13 +410,12 @@ class VM(models.Model):
 
             # Create django template
             lv_template = loader.get_template_from_string(template)
-            c = Context({'vm':      self})
+            c = Context({'vm': self})
             lv_template = lv_template.render(c)
         except Exception, e:
             log.debug(self.user.id, str(e))
         return lv_template
 
-    # returns{VM} requested VM, if it belongs to user \c user_id
     @staticmethod
     def get(user_id, vm_id):
         """
@@ -446,15 +455,11 @@ class VM(models.Model):
 
         return vm
 
-    # save the VM into a system image
     def save_image(self):
         """
         Method saves VM to image with VM's name, description and parameters.
         """
         self.set_state('saving')
-        # TODO:
-        # if self.is_head():
-        #     self.farm.state = farm_states['saving head']
         try:
             self.save(update_fields=['state'])
             transaction.commit()
@@ -462,7 +467,6 @@ class VM(models.Model):
             log.exception(self.user.id, 'save img')
             return
 
-        # Insert new image to database
         img = SystemImage.create(name=(self.name + "_autosave" if self.save_vm == 1 else self.name),
                                  description=self.description, user=self.user, platform=self.system_image.platform,
                                  disk_controller=self.system_image.disk_controller,
@@ -477,8 +481,7 @@ class VM(models.Model):
             self.set_state('saving failed')
             self.save()
             self.node.lock()
-            # TODO:
-            # message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
+            message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
             try:
                 img.delete()
                 transaction.commit()
@@ -492,20 +495,16 @@ class VM(models.Model):
             img.save()
         except Exception, e:
             log.error(self.user.id, "Cannot commit changes: %s" % e)
-            # TODO:
-            # message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
+            message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
 
-        # TODO:
-        # if self.is_head():
-        #     message.info(self.user_id, 'farm_saved', {'farm_name': self.vm.farm.name})
-        # else:
-        #     message.info(self.user_id, 'vm_saved', {'vm_name': self.name})
+        if self.is_head():
+            message.info(self.user_id, 'farm_saved', {'farm_name': self.vm.farm.name})
+        else:
+            message.info(self.user_id, 'vm_saved', {'vm_name': self.name})
 
     def remove(self):
         """
         """
-        # if self.save != 0:
-        #     self.set_state('closing')
         if not self.state in (vm_states['closing'], vm_states['saving']):
             self.set_state('closing')
         try:
@@ -528,8 +527,7 @@ class VM(models.Model):
             self.node.lock()
             self.set_state('failed')
 
-            # TODO
-            # message.error(self.user.id, 'vm_destroy', {'id': self.id, 'name': self.name})
+            message.error(self.user.id, 'vm_destroy', {'id': self.id, 'name': self.name})
             try:
                 self.save()
             except Exception, e:
@@ -633,6 +631,7 @@ class VM(models.Model):
             raise CMException('vm_get_lv_domain')
         return domain
 
+
     @property
     def storage_images(self):
         """
@@ -678,21 +677,22 @@ class VM(models.Model):
         # Key - destination state
         # Values - actual available states
         states = {'init': (),
-            'running': ('init', 'turned off', 'restart',),
-            'running ctx': ('running', 'running ctx',),
-            'closing': ('turned off', 'running', 'running ctx', 'saving', 'turned off',),
-            'closed': ('saving', 'closing', 'erased'),
-            'saving': ('running', 'running ctx',),
-            'saving failed': ('saving',),
-            'failed': ('init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
-                       'turned off', 'suspend', 'restart', 'erased'),
-            'turned off': ('running', 'init',),
-            'suspend': ('running', 'running ctx',),
-            'restart': ('running', 'running ctx',),
-            'erasing': ('init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
-                        'turned off', 'suspend', 'restart', 'erased', 'erasing'),
-            'erased': ('erasing', 'erased')
-            }
+                  'running': ('init', 'turned off', 'restart',),
+                  'running ctx': ('running', 'running ctx',),
+                  'closing': ('turned off', 'running', 'running ctx', 'saving', 'turned off',),
+                  'closed': ('saving', 'closing', 'erased'),
+                  'saving': ('running', 'running ctx',),
+                  'saving failed': ('saving',),
+                  'failed': ('init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
+                             'turned off', 'suspend', 'restart', 'erased'),
+                  'turned off': ('running', 'init',),
+                  'suspend': ('running', 'running ctx',),
+                  'restart': ('running', 'running ctx',),
+                  'erasing': (
+                  'init', 'running', 'running ctx', 'closing', 'closed', 'saving', 'saving failed', 'failed',
+                  'turned off', 'suspend', 'restart', 'erased', 'erasing'),
+                  'erased': ('erasing', 'erased')
+        }
 
         # Find my state:
         my_state = False
@@ -713,13 +713,7 @@ class VM(models.Model):
             self.node.lock()
             # self.node.state = node_states['locked']
 
-        # TODO: farm state
 
-        # Update farm states
-        # if  self.is_head() and self.is_farm() and state == 'failed' and my_state != 'erasing':
-        #    # TODO: farm.set_state
-        #    log.exception(self.user_id, "Failing farm")
-        #    self.farm.state = farm_states['failed']
 
     @staticmethod
     def erase(vm):
@@ -796,36 +790,12 @@ class VM(models.Model):
             log.debug(vm.user.id, "Killing VM id: %s, state: %s" % (vm.id, vm.state))
             # Check for VM state
             if vm.state in (vm_states['closing'], vm_states['saving']):
-                # raise CMException('vm_already_closing')
                 results.append({'status': 'vm_already_closing', 'data': ''})
                 continue
 
             if vm.state in (vm_states['erased'], vm_states['closed']):
-                # raise CMException('vm_wrong_state')
                 results.append({'status': 'vm_wrong_state', 'data': ''})
                 continue
-
-            # TODO: new implementation of destroy with reference to global threads
-            # global threads
-            # if vm.state in (vm_states['init'], vm_states['failed']):
-            #     try:
-            #         log.debug(vm.user_id, "Global threads: %s" % threads)
-            #         if vm.id in threads:
-            #             threads[vm.id].terminate()
-            #             del threads[vm.id]
-            #         erase(vm)
-            #         # vm.set_state('closed')
-            #
-            #         Session.commit()
-            #         results.append({'status': 'ok', 'data': ''})
-            #     except Exception:
-            #         log.exception(vm.user_id, 'error destroying VM')
-            #         results.append({'status': 'vm_destroy', 'data': ''})
-            #         message.error(vm.user_id, 'vm_destroy', {'id': vm.id, 'name': vm.name})
-            #         continue
-            # else:
-            #     vm.save = 0
-            #     vm.set_state('closing')
 
             vm.save_vm = 0
 
@@ -836,15 +806,12 @@ class VM(models.Model):
             except Exception, e:
                 log.exception(vm.user.id, 'error destroying VM: %s' % str(e))
                 results.append({'status': 'vm_destroy', 'data': ''})
-                # TODO: message to clm
-                # message.error(vm.user_id, 'vm_destroy', {'id': vm.id, 'name': vm.name})
+                message.error(vm.user_id, 'vm_destroy', {'id': vm.id, 'name': vm.name})
                 continue
-                # raise CMException('vm_destroy')
 
             results.append({'status': 'ok', 'data': ''})
 
         return results
-        # return response('ok', results)
 
     @staticmethod
     def get_by_ip(ip):
@@ -859,6 +826,7 @@ class VM(models.Model):
     @staticmethod
     def reset(vms):
         from cm.utils.threads.vm import VMThread
+
         results = []
         for vm in vms:
             if vm.state in (vm_states['running'], vm_states['running ctx']):
@@ -877,14 +845,39 @@ class VM(models.Model):
         if self.vnc_enabled == vnc_states['attached'] and reattach == False:
             raise CMException('vm_vnc_attached')
 
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination", "%s:%s" % (self.node.address, str(self.vnc_port))])
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.vnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.novnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-A", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "MASQUERADE"])
 
         self.vnc_enabled = vnc_states['attached']
 
     def detach_vnc(self):
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination", "%s:%s" % (self.node.address, str(self.vnc_port))])
-        subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp", "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.vnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.vnc_port), "-j", "MASQUERADE"])
+
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_REDIRECT", "-d", settings.VNC_ADDRESS, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "DNAT", "--to-destination",
+             "%s:%s" % (self.node.address, str(self.novnc_port))])
+        subprocess.call(
+            ["sudo", "/sbin/iptables", "-t", "nat", "-D", "CC1_VNC_MASQUERADE", "-d", self.node.address, "-p", "tcp",
+             "--dport", str(self.novnc_port), "-j", "MASQUERADE"])
 
         self.vnc_enabled = vnc_states['detached']
 
@@ -903,6 +896,7 @@ class VM(models.Model):
 
         try:
             from cm.models.command import Command
+
             Command.execute('shutdown', user_id, vm.id)
         except:
             raise CMException('vm_ctx_connect')

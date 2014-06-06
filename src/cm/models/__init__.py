@@ -22,9 +22,8 @@
 @author Maciej Nabozny
 @date Mar 6, 2013
 
-Each new model in database should be imported by this file. Also each model
+Each new entity model should be imported by this file. Also each model
 should have subclass Meta with app_label='cm':
-
 
 class Meta:
     app_label = 'cm'

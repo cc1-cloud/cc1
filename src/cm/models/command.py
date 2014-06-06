@@ -31,6 +31,7 @@ from cm.utils.exception import CMException
 from cm.utils.threads.vm import VMThread
 from common import response
 from common.states import command_states, vm_states, farm_states
+from cm.utils import message
 
 
 class Command(models.Model):
@@ -104,7 +105,6 @@ class Command(models.Model):
             log.debug(user_id, "Command state %s for machine %s" % (cmd.state, vm_id))
 
             dom = vm.lv_domain()
-            # sendKey(codeset, holdtime, keycodes, nkeycodes, flags)
             dom.sendKey(0, 500, [113], 1, 0)
 
             retry = 3
@@ -113,15 +113,11 @@ class Command(models.Model):
             try:
                 while retry > 0:
                     log.debug(user_id, "Check if command %s is finished for machine %s" % (cmd.id, vm_id))
-                    # conn = engine.connect()
-                    # state, response = conn.execute("select state, response from command where id = %s" % cmd.id).fetchone()
-                    # conn.close()
                     Command.objects.update()
                     cmd = Command.objects.get(id=cmd.id)
                     log.debug(user_id, "Checked command status: %s, %s, %s" % (cmd.state, command_states['finished'], bool(cmd.state == command_states['finished'])))
                     if cmd.state == command_states['finished']:
                         log.debug(user_id, "Response %s from machine %s" % (cmd.response, vm_id))
-                        # r = response[1:-1] if response else ''
                         break
                     elif cmd.state == command_states['failed']:
                         raise CMException('ctx_' + name)
@@ -194,13 +190,9 @@ class Command(models.Model):
         """
         log.debug(vm.user_id, "machine %d: registered as worker node" % vm.id)
 
-        #    farm_counts[vm.farm_id] = farm_counts[vm.farm_id] - 1
-
         try:
             hosts = vm.farm.hosts()
             log.debug(vm.user_id, "vm: %d, host list to inject into WNs: %s" % (vm.id, str(hosts)))
-
-            id = 1
 
             Command.execute('add_ssh_key', vm.user_id, vm.id, user=vm.ssh_username, ssh_key=vm.ssh_key)
             Command.execute('update_hosts', vm.user_id, vm.id, hosts_list=hosts, user=vm.ssh_username)
@@ -226,7 +218,6 @@ class Command(models.Model):
         log.debug(vm.user_id, "machine %d: registered as head" % vm.id)
 
         log.debug(vm.user_id, "creating lock for machine %d in farm %d" % (vm.id, vm.farm_id))
-        #    farm_counts[vm.farm_id] = len(vm.farm.vms) - 1  # substract head
         # skip if farm is already configured - reboot head
         if vm.is_head() == True and vm.farm.state == farm_states['running']:
             return
@@ -242,7 +233,6 @@ class Command(models.Model):
                 r = Command.execute('generate_key', vm.user_id, vm.id)
                 r = json.loads(r)
                 log.info(vm.user_id, 'generated key: %s for machine %d' % (r, vm.id))
-                # r = self.vm_request_command(vm.user, vm.id, Command(command_names['generate_key']))
                 for wn in vm.farm.vms.all():
                     wn.ssh_username = 'root'
                     wn.ssh_key = r
@@ -260,7 +250,7 @@ class Command(models.Model):
             except Exception:
                 log.exception(vm.user_id, '')
                 vm.farm.state = farm_states['unconfigured']
-                # message.warn(vm.id, 'farm_create', {'id': vm.farm.id, 'name': vm.farm.name})
+                message.error(vm.id, 'farm_create', {'id': vm.farm.id, 'name': vm.farm.name})
         log.info(vm.user_id, 'Head %d registered' % vm.id)
         shared = {"counter": len(vms), "lock": threading.Lock()}
         for vm in vms:

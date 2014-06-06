@@ -170,7 +170,7 @@ $(function() {
 								</li>
 							{{/if}}
 								<li class="icon_vnc {{if vms[0].state !== cc1.states.vm['running'] && vms[0].state !== cc1.states.vm['running ctx'] }} inactive {{/if}}">
-									<a onclick="{{if vms[0].state === cc1.states.vm['running'] || vms[0].state === cc1.states.vm['running ctx'] }} cc1.sthTable.vnc('${ vms[0].vnc_endpoint }', '${ vms[0].vnc_passwd }', '${ vms[0].vm_id }'); {{/if}}">
+									<a onclick="{{if vms[0].state === cc1.states.vm['running'] || vms[0].state === cc1.states.vm['running ctx'] }} cc1.sthTable.vnc('${ vms[0].novnc_endpoint }', '${ vms[0].vnc_passwd }', '${ vms[0].vm_id }'); {{/if}}">
 										{% trans "Graphical console (VNC)" %}
 									</a>
 								</li>

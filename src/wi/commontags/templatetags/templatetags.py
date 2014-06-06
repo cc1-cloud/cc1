@@ -29,6 +29,14 @@ from django.utils.translation import ugettext
 register = template.Library()
 
 
+@register.inclusion_tag('tags/resizable_field.html')
+def resizable_field(field_name):
+    """
+    Renders a resizable field.
+    """
+    return {'field_name': field_name}
+
+
 @register.filter
 def getitem(item, string):
     """

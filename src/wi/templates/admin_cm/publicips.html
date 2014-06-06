@@ -26,7 +26,27 @@ $(function() {
 		destDiv : '#item-list',
 		template : '#rowTemplate',
 		urlGetData : '{% url 'cma_ajax_get_publicips_table' %}',
+		contextFun : function(itemData) {
+            var items = {
+                'release'        : {name: '{% trans "Release" %}', icon: 'copy'},
+                'destroy'        : {name: '{% trans "Delete" %}', icon: 'destroy'},
+            };
+            return {
+                callback: function(key, options) {
+                    switch (key) {
+                        case 'release':
+                            cc1.sthTable.release(itemData[localIdKey]);
+                        break;
+                        case 'destroy':
+                            cc1.sthTable.destroy(itemData[localIdKey]);
+                        break;
+                    }
+                },
+                items: items
+            };
+        },
 		overTable: '#over-table',
+        leftClickMenu : '.action_button',
 		enableSorting: true,
 		showSearchBox: true,
 		overTable: '#over-table',
@@ -42,15 +62,21 @@ $(function() {
             return {
                 callback: function(key, options) {
                     switch (key) {
-                    	case 'destroy':
-                    		if (cc1.sthTable.getListOfSelected().length) {
-                				cc1.sthTable.destroy(null);
-                			}
-                		break;
+                        case 'destroy':
+                            if (cc1.sthTable.getListOfSelected().length) {
+                                cc1.sthTable.destroy(null);
+                            }
+                        break;
+                        case 'release':
+                            if (cc1.sthTable.getListOfSelected().length) {
+                                cc1.sthTable.release(null);
+                            }
+                        break;
                 	}
                 },
                 items: {
-                    'destroy'	: {name: '{% trans "Delete" %}', icon: (cc1.sthTable.getListOfSelected().length)?'delete':'delete inactive'},
+                    'destroy'   : {name: '{% trans "Delete" %}', icon: (cc1.sthTable.getListOfSelected().length)?'delete':'delete inactive'},
+                    'release'   : {name: '{% trans "Release" %}', icon: (cc1.sthTable.getListOfSelected().length)?'copy':'copy inactive'},
                 }
             };
         }
@@ -62,10 +88,22 @@ $(function() {
 			return {'ids[]': cc1.sthTable.getListOfSelected(id)};
 		},
 		calculateParams: function(id) {
-			return {'desc': cc1.sthTable.getListOfSelectedAdresses(id),
+			return {'desc': cc1.sthTable.getListOfSelectedAddresses(id),
 			        'length': cc1.sthTable.getListOfSelected(id).length};
 		},
 		dialogClass: 'warning'
+    });
+    // zwalnianie publicznego IP / wielu
+    cc1.sthTable.release = cc1.utils.createAction({
+        url: '{% url 'cma_ajax_release_publicips' %}',
+        calculatePostParams: function(id) {
+            return {'ids[]': cc1.sthTable.getListOfSelected(id)};
+        },
+        calculateParams: function(id) {
+            return {'desc': cc1.sthTable.getListOfSelectedAddresses(id),
+                    'length': cc1.sthTable.getListOfSelected(id).length};
+        },
+        dialogClass: 'warning'
     });
     // dodanie publiczneog IP
 	cc1.sthTable.addPublicIP = cc1.utils.createAction({
@@ -89,6 +127,7 @@ $(function() {
 			<td>{% trans "Address" %}</td>
 			<td>{% trans "VM" %}</td>
 			<td>{% trans "Name and surname" %}</td>
+            <td class="noSort"> {% trans "Actions" %} </td>
 		</tr>
 	</thead>
 	<tbody class="tbody">
@@ -99,17 +138,20 @@ $(function() {
 		   	<td> ${address} </td>
 		   	<td> ${vm_name}</td>
 		   	<td> ${owner}</td>
+            <td>
+                <div id="action${public_ip_id}" class="action_button"></div>
+            </td>
 		</tr>
 		</script>
 		<tr>
-			<td colspan="5">
+			<td colspan="6">
 				<div class="ajax_loader1">&nbsp;</div>
 			</td>
 		</tr>
 	</tbody>
 	<tfoot class="tfoot">
 		<tr>
-			<td colspan="5" class="table_bottom_actions">
+			<td colspan="6" class="table_bottom_actions">
 				<ul>
 					<li id="group_action" class="icon_action">
 						<a id="menu_all">{% trans "Perform for selected"%}</a>

@@ -32,17 +32,15 @@ Module contains dictionaries: \c regexp and \c regext_text. Both dictionaries co
 
 import re
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 
 regexp = {'login':      re.compile(r'^[a-zA-Z0-9_]+$'),
           'password':   re.compile(r'^[ -~]+$'),
           'dev_name':   re.compile(r'^[0-9a-z]([0-9a-z\-]{0,38}[0-9a-z])?$')
-          # 'text':       re.compile(r'^[ -~]+$'),
 }
 
 regexp_text = {'login':     _('This value must contain only letters, numbers and underscores.'),
                'password':  _('This value must not contain any diacritic marks.'),
                'dev_name':  _('This value must contain only small letters, numbers and dashes.'),
-           #    'text':      _('This value must contain only letters, numbers and keyboard special characters.'),
 }

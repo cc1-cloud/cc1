@@ -76,16 +76,8 @@ block_device_mapping.func_dict['meta_data'] = True
 
 @ec2ctx_log(log=True)
 def hostname(request):
-#     vm_ip = request.META.get('REMOTE_ADDR')
-#
-#     vm = VM.get_by_ip( vm_ip )
-#
-#     instance = vm.dict['name']
-#     instance = instance.replace(" " , "_")
-#
-#
-#     return instance
     return "" # TODO !!!
+
 hostname.func_dict['meta_data'] = True
 
 

@@ -25,8 +25,6 @@
 from clm.utils.decorators import user_log, cm_request
 
 
-# returns list of templates (as user)
-# it calls the method registered in cm(cm_id) which is the XMLServerProxy for that cm
 @user_log(log=False, pack=False)
 @cm_request
 def get_list(cm_response, **data):
@@ -36,7 +34,6 @@ def get_list(cm_response, **data):
     return cm_response
 
 
-# returns the template by id (as user)
 @user_log(log=False, pack=False)
 @cm_request
 def get_by_id(cm_response, **data):

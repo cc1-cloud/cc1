@@ -35,27 +35,35 @@ from django.views.decorators.csrf import csrf_protect
 
 from wi.utils import CLM, check_response_errors, messages_ajax
 from wi.utils.decorators import django_view
-from wi.utils.errors import get_error
+from wi.utils.messages_codes import get_error
 from wi.utils.messages_ajax import ajax_request
+
+not_to_be_logged_urls = ['admin_cm/farm/get_list/',
+                         'admin_cm/vm/get_list/',
+                         'admin_cm/monia/vm_stats/',
+
+                         'user/farm/get_list/',
+                         'user/vm/get_list/',
+                         'user/monia/vm_stats/']
 
 
 def make_request(url, data, user=None):
     """
+    Adds authorization-related information to data dictionary and makes a request to CLM
+    using given url and data dictionary.
     """
     if not url.startswith('guest'):
-        data.update({'login': user.username, 'password': user.password})
+        data.update({'login': user.username, 'password': user.password, 'cm_id': user.cm_id})
 
-    if url.startswith('user') or url.startswith('admin_clm'):
-        data.update({'cm_id': user.cm_id})
-    elif url.startswith('admin_cm'):
-        data.update({'cm_id': user.admin_cm_id, 'cm_password': user.cm_password})
+    if url.startswith('admin_cm'):
+        data.update({'cm_password': user.cm_password})
 
-    return CLM.send_request(url, **data)
+    return CLM.send_request(url, False if url in not_to_be_logged_urls else True, **data)
 
 
 def prep_data(request_urls, session):
     """
-    Returns a dictionary of results of REST request.
+    Returns a dictionary with results of REST request.
     """
     data = None
     user = session.get('user')
@@ -71,10 +79,10 @@ def prep_data(request_urls, session):
                     url = val[0]
                     args = val[1]
                 data[key] = check_response_errors(make_request(url, args, user=user), session)['data']
-        # just a simple string without any params
+        # a simple string without any params
         elif isinstance(request_urls, str):
             data = check_response_errors(make_request(request_urls, {}, user=user), session)['data']
-        # just a simple string with params as a tuple
+        # a simple string with params as a tuple
         elif isinstance(request_urls, tuple):
             data = check_response_errors(make_request(request_urls[0], request_urls[1], user=user), session)['data']
 
@@ -349,6 +357,13 @@ class CustomWizardView(CookieWizardView):
         # do redirect to the first step
         if self.request.POST[self.wizard_name + '-current_step'] != '0' and self.request.COOKIES.get('wizard_' + self.wizard_name).find("\"step_data\":{}") != -1:
             return redirect(self.url_start)
+
+        # not saving 2 first steps in wizard
+        # (avoiding problems with hidden_inputs)
+        if self.request.POST[self.wizard_name + '-current_step'] not in ['0', '1']:
+            form = self.get_form(data=self.request.POST, files=self.request.FILES)
+            self.storage.set_step_data(self.steps.current, self.process_step(form))
+
         return super(CustomWizardView, self).post(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):

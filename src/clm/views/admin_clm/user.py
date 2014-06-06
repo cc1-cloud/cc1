@@ -31,6 +31,7 @@ from clm.utils.decorators import admin_clm_log
 from clm.utils.exception import CLMException
 from common.states import user_active_states
 from datetime import datetime
+from clm.utils import log
 
 
 @admin_clm_log(log=True)
@@ -38,7 +39,6 @@ def edit(cm_id, caller_id, user_id, first, last, organization, email):
     """
     Function for editing user's data.
     @clmview_admin_clm
-
     @parameter{id,int}
     @parameter{data,dict}
     \n fields:
@@ -84,7 +84,6 @@ def get_by_id(cm_id, caller_id, user_id):
 def get_list(cm_id, caller_id):
     """
     @clmview_admin_clm
-
     @response{list(dict)} dict's describing users
     """
     return [u.dict for u in User.objects.all()]
@@ -95,7 +94,6 @@ def activate(cm_id, caller_id, user_id, wi_data):
     """
     Activates User in manner specified in settings
     @clmview_admin_clm
-
     @parameter{user_id,int}
     @parameter{wi_data,dict}
 
@@ -123,7 +121,6 @@ def activate(cm_id, caller_id, user_id, wi_data):
 
     if settings.MAILER_ACTIVE:
         mail.send_activation_confirmation_email(user, wi_data)
-
     return cms
 
 
@@ -131,7 +128,6 @@ def activate(cm_id, caller_id, user_id, wi_data):
 def block(cm_id, caller_id, user_id, wi_data, block):
     """
     @clmview_admin_clm
-
     @parameter{wi_data,dict} fields: 'site_name'
     @parameter{block,bool} whether to block or unblock.
     """
@@ -154,7 +150,10 @@ def block(cm_id, caller_id, user_id, wi_data, block):
         raise CLMException('user_block' if block else 'user_unblock')
 
     if settings.MAILER_ACTIVE:
-        mail.send_block_email(user, block, wi_data)
+        try:
+            mail.send_block_email(user, block, wi_data)
+        except Exception, e:
+            log.error(caller_id, "Cannot send block/unblock email: %s" % str(e))
 
     return user.dict
 
@@ -164,7 +163,6 @@ def set_admin(cm_id, caller_id, user_id, admin):
     """
     Sets/unsets User as superuser.
     @clmview_admin_clm
-
     @parameter{user_id,int} id of the User to set superuser
     @parameter{admin,bool} if true - User becomes admin, if false - User
     loses admin priviledges
@@ -186,7 +184,6 @@ def delete(cm_id, caller_id, user_id):
     Deletes User. For technical and legal reasons only inactive User may
     be deleted. Other users may only be blocked.
     @clmview_admin_clm
-
     @parameter{user_id,int} id of the user to delete
     """
     user = User.get(user_id)
@@ -207,7 +204,6 @@ def set_password(cm_id, caller_id, user_id, new_password):
     """
     Changes User's password.
     @clmview_admin_clm
-
     @parameter{user_id,int} User id
     @parameter{new_password,string} new password
     """

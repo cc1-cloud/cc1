@@ -35,7 +35,6 @@ from cm.utils.exception import CMException
 from cm.utils import log
 from cm.settings import DNS_DOMAIN
 
-
 class Lease(models.Model):
     address = models.CharField(max_length=20)
     user_network = models.ForeignKey('UserNetwork')
@@ -93,8 +92,8 @@ class Lease(models.Model):
 
     @property
     def mac(self):
-        ip_hex = '%x' % IPAddress(self.address).value
-        return '00:02:%s:%s:%s:%s' % (ip_hex[0:1], ip_hex[2:3], ip_hex[4:5], ip_hex[6:7])
+        ip_hex = '%08x' % IPAddress(self.address).value
+        return '00:02:%s:%s:%s:%s' % (ip_hex[0:2], ip_hex[2:4], ip_hex[4:6], ip_hex[6:8])
 
     def attach_node(self):
         template = loader.get_template('networking/routed.xml')
@@ -136,7 +135,6 @@ class Lease(models.Model):
                 lv_network.undefine()
             except Exception, e:  # it's sad that network is missing, but if it was WN from init_head state farm, it's ok
                 log.error(self.user_network.user_id, "Cannot destroy or undefine libvirt network: %s" % str(e))
-                # raise CMException('lease_detach')
 
         # Detach public ip
         for public_lease in self.publicip_set.all():
