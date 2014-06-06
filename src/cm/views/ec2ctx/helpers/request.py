@@ -28,7 +28,6 @@ from cm.utils.exception import CMException
 from time import sleep
 
 
-
 def get_vm_by_ip(vm_ip):
 #     vm = None
 #     counter = 0
@@ -43,7 +42,6 @@ def get_vm_by_ip(vm_ip):
 #     if not vm:
 #         log.error(0, "Couldn't get vm by it's ip: %s: %s" % (vm_ip, error.message))
 #         raise cherrypy.HTTPError(500)
-#     
+#
 #     return vm
     pass
-

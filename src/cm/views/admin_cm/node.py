@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -30,13 +30,6 @@ from cm.utils.exception import CMException
 from common.states import node_states  # , lease_states
 
 
-# from cm.database.entities.user_network import UserNetwork
-# from cm.database.entities.available_network import AvailableNetwork
-# from cm.database.entities.lease import Lease
-# from common import response, vnc_states
-# from common.utils import xml2dict, ip_stoi, ip_itos
-# from ..monia.threads import start_monia
-# import libvirt
 @admin_cm_log(log=True)
 def add(caller_id, **node_info):
     """

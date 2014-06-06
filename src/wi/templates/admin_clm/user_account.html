@@ -25,13 +25,13 @@ cc1.sthTable = null;
 
 $(function() {
 	cc1.sthTable = cc1.makeSthTable({
-		destDiv : '#user-data', 
-		template : '#rowTemplate', 
+		destDiv : '#user-data',
+		template : '#rowTemplate',
 		urlGetData : '{% url 'clm_ajax_get_user_data' 0 %}'.replace('0', {{ user_id }}),
 	});
 	// dialog zmiany hasla CM admina
 	cc1.sthTable.accountDataEdit =  cc1.utils.createAction({
-		url: '{% url 'clm_ajax_edit_user_data' 0 %}', 
+		url: '{% url 'clm_ajax_edit_user_data' 0 %}',
 		dialogTitle: '{% trans "Edit data" %}',
 	});
 });

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -90,7 +90,7 @@ class KeyPairTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <DeleteKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2012-04-01/">
-              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
               <return>true</return>
             </DeleteKeyPairResponse>
             """
@@ -118,7 +118,7 @@ class KeyPairTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2012-04-01/">
-              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
               <keySet>
                 <item>
                   <keyName>key01</keyName>

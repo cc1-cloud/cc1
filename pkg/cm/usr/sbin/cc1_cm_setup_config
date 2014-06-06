@@ -38,7 +38,7 @@ def configure():
 
         print "WARNING: CM alredy configured"
         return 0
-    
+
     example = open('/etc/cc1/cm/config.example', 'r')
     config = ''
     for line in example.readlines():
@@ -50,11 +50,11 @@ def configure():
     conf_file = open('/etc/cc1/cm/config.py', 'w')
     conf_file.write(config)
     conf_file.close()
-    
+
     os.symlink('/etc/cc1/cm/config.py', '/usr/lib/cc1/cm/config.py')
-    
+
     return 0
-    
+
 def remove():
     if os.path.exists('/usr/lib/cc1/cm/config.py'):
         os.unlink('/usr/lib/cc1/cm/config.py')

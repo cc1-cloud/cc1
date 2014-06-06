@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ class AddressTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <AllocateAddressResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
-               <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+               <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
                <publicIp>1.1.0.1</publicIp>
                <domain>standard</domain>
             </AllocateAddressResponse>
@@ -169,7 +169,7 @@ class AddressTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <ReleaseAddressResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
-              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
               <return>true</return>
             </ReleaseAddressResponse>
             """

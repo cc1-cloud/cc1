@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -35,9 +35,6 @@ EC2 actions for instances
 @author Miłosz Zdybał
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
 """
-
-
-
 
 CLM_STATES = {
   0: (0, 'pending'),  # pending
@@ -96,11 +93,11 @@ class DescribeInstances(Action):
                 clm_instance = self.cluster_manager.user.vm.get_by_id({'vm_id': clm_instance['vm_id']})
                 if clm_instance['state'] == vm_states['closed']:
                     raise InvalidInstanceID.NotFound(image_id=clm_instance['vm_id'])
-                
+
                 privateIpAddress = None
                 if clm_instance['leases']:
                     privateIpAddress = clm_instance['leases'][0].get('address')
-                
+
                 ec2_instance = {
                     'image-id': clm_instance['image_id'],
                     'instance-id': clm_instance['vm_id'],
@@ -165,8 +162,6 @@ class DescribeInstances(Action):
 
 # association.public-ip - nie wiem?
 
-
-
         reservation_filter = None
         if filters and filters.get('reservation-id'):
             reservation_filter = {'reservation-id' : filters['reservation-id'] }
@@ -192,8 +187,6 @@ class DescribeInstances(Action):
 #
         if reservation_filter:
             reservations = applyEc2Filters(reservations , reservation_filter)
-
-
 
         return {'reservations' : reservations}
 
@@ -277,8 +270,6 @@ class RunInstances(Action):
 
         instances = []
 
-
-
         # as far as I know here we have problem detecting if image_get regard volume or AMI
         # TODO load volumes from CLM and check on EC2 server if specified volume exists
         try:
@@ -292,8 +283,6 @@ class RunInstances(Action):
 
             print error.status  # TODO jak sie wyjasni to sie usunie
             raise UndefinedError
-
-
 
         reservation_id = instances[0]['vm_id']
         instance_ids = [instance['vm_id'] for instance in instances]
@@ -350,6 +339,7 @@ class TerminateInstances(Action):
                 'id': instance_id,
             } for instance_id in instance_ids],
         }
+
 
 class RebootInstances(Action):
     def _execute(self):

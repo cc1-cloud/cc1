@@ -6,7 +6,7 @@
 {% block title %}{% trans "Account quotas" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="#">{% trans "Account quotas" %}</a></li>
 {% endblock %}
@@ -23,14 +23,14 @@ cc1.sthTable = null;
 
 $(function() {
 	cc1.sthTable = cc1.makeSthTable({
-		destDiv : '#user-data', 
-		template : '#rowTemplate', 
+		destDiv : '#user-data',
+		template : '#rowTemplate',
 		urlGetData : '{% url 'acc_ajax_get_user_quotas' %}'
 	});
 		
 	// dialog z wykresami
 	cc1.sthTable.showCharts = cc1.utils.createAction({
-		url: '{% url 'acc_ajax_account_charts' %}', 
+		url: '{% url 'acc_ajax_account_charts' %}',
 		dialogTitle: '{% trans "Point usage" %}',
 		dialogWidth: 700,
 		dialogClass: 'info',
@@ -59,9 +59,9 @@ $(function() {
 		</div>
 		<div>
 			<span class="labels"> <label>{% trans "Points:" %}</label> </span>
-			<span class="inputs text"> 
+			<span class="inputs text">
 				${used_points} / ${points}
-				<span class="tooltip" title="{% trans "Point count / point limit - Point count is set to 0 at the beginning of each month. Should you exceed the point limit a warning box will be generated and you will not be able to create new virtual machine instaces."%}"></span> 
+				<span class="tooltip" title="{% trans "Point count / point limit - Point count is set to 0 at the beginning of each month. Should you exceed the point limit a warning box will be generated and you will not be able to create new virtual machine instaces."%}"></span>
 			</span>
 		</div>
 	</fieldset>

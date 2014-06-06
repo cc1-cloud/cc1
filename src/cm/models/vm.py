@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -181,6 +181,7 @@ class VM(models.Model):
         d['platform'] = 0
         d['description'] = self.description or ''
         d['vnc_endpoint'] = '%s:%d' % (settings.VNC_ADDRESS, self.vnc_port)
+        d['vnc_port'] = self.vnc_port
         d['vnc_enabled'] = self.vnc_enabled
         d['vnc_passwd'] = self.vnc_passwd or ''
         d['start_time'] = self.start_time
@@ -455,8 +456,8 @@ class VM(models.Model):
         # if self.is_head():
         #     self.farm.state = farm_states['saving head']
         try:
-            self.save()
-            # Session.commit()
+            self.save(update_fields=['state'])
+            transaction.commit()
         except Exception, e:
             log.exception(self.user.id, 'save img')
             return
@@ -474,11 +475,13 @@ class VM(models.Model):
             img.copy_to_storage(self, img)
         except Exception, e:
             self.set_state('saving failed')
+            self.save()
             self.node.lock()
             # TODO:
             # message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
             try:
                 img.delete()
+                transaction.commit()
             except Exception, e:
                 log.exception(self.user.id, "Cannot commit changes: %s" % e)
             log.exception(self.user.id, "Cannot move image - error code: %s" % e)
@@ -506,7 +509,6 @@ class VM(models.Model):
         if not self.state in (vm_states['closing'], vm_states['saving']):
             self.set_state('closing')
         try:
-            # Session.commit()
             self.save()
         except Exception, e:
             log.exception(self.user.id, 'closing img')
@@ -566,9 +568,7 @@ class VM(models.Model):
 
         try:
             self.save()
-            # Session.commit()
         except Exception, e:
-            # Session.rollback()
             log.exception(self.user_id, "Cannot update resurce information: %s", str(e))
             self.node.lock()
             return
@@ -607,9 +607,7 @@ class VM(models.Model):
         self.stop_time = datetime.now()
         try:
             self.save()
-            # Session.commit()
         except Exception, e:
-            # Session.rollback()
             log.exception(self.user.id, "Cannot commit changes: %s" % e)
 
     def lv_domain(self):
@@ -634,7 +632,6 @@ class VM(models.Model):
             log.exception(self.user.id, str(e))
             raise CMException('vm_get_lv_domain')
         return domain
-
 
     @property
     def storage_images(self):
@@ -733,6 +730,7 @@ class VM(models.Model):
         vm.set_state('erasing')
         try:
             vm.save()
+            transaction.commit()
         except:
             log.error(vm.user.id, 'Cannot set save=0')
 

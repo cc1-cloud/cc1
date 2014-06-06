@@ -5,7 +5,7 @@
 {% block title %}{% trans "New farm" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="#">{% trans "Potatoes:)" %}</a></li>
 {% endblock %}
@@ -30,7 +30,7 @@
 
 <script>
 $(function(){
-	$('.div0').draggable({ containment: "#div-1", 
+	$('.div0').draggable({ containment: "#div-1",
 							scroll: false,
 							revert: "invalid",
 							cursor: "move" });
@@ -56,7 +56,7 @@ $(function(){
 function create(){
 	var size = Math.random()*150+40;
 	$('#div-1').append('<img class="div0" src="../../media/img/potato.jpg" style="width:'+size+'px;height:'+size+'px;margin:3px;" />');
-	$('#div-1 > .div0').draggable({ containment: "#div-1", 
+	$('#div-1 > .div0').draggable({ containment: "#div-1",
 							scroll: false,
 							revert: "invalid",
 							cursor: "move" });

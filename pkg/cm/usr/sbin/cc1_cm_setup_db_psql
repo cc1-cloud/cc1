@@ -40,7 +40,7 @@ def remove():
     return 0
 
 def purge():
-    remove()    
+    remove()
     subprocess.call(['su', 'postgres', '-c', "psql -c \"DROP DATABASE cm;\""])
     return 0
 

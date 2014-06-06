@@ -4,7 +4,7 @@
 {% block title %}{% trans "CM admin panel" %} - {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ block.super }} 
+	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="{% url 'cma_admin' %}">{% trans "CM-Admin panel" %}</a></li>
 {% endblock %}
@@ -19,13 +19,13 @@ cc1.sthTable = null;
 
 $(function() {
 	cc1.sthTable = cc1.makeSthTable({
-		destDiv : '#cm-data', 
-		template : '#rowTemplate', 
+		destDiv : '#cm-data',
+		template : '#rowTemplate',
 		urlGetData : '{% url 'cma_ajax_get_cm_data' %}'
 	});
 	// dialog przesuniecia danych do bazy historycznej
 	cc1.sthTable.moveDatabase = cc1.utils.createAction({
-		url: '{% url 'cma_ajax_move_database' %}', 
+		url: '{% url 'cma_ajax_move_database' %}',
 		dialogTitle: '{% trans "Move data to archival database." %}',
 	});
 });
@@ -57,7 +57,7 @@ $(function() {
 		<!--
 		<div class="fieldset align_center">
 			<a class="big_button" onclick="cc1.sthTable.moveDatabase();">{% trans "Move to archive" %}</a>
-		</div>  
+		</div>
 		-->
 	</fieldset>
 	<div class="clear"></div>

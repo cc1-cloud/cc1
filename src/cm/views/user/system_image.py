@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ from common.hardware import disk_filesystems, disk_controllers, video_devices, \
 from common.states import image_access, image_states, image_types
 import subprocess
 
+
 @user_log(log=True)
 def download(caller_id, description, name, path, disk_controller, network_device, platform, video_device):
     """
@@ -69,7 +70,7 @@ def download(caller_id, description, name, path, disk_controller, network_device
         connection = urllib.urlopen(path)
         size = int(connection.info()["Content-Length"])
     except IOError:
-        log.exception('Cannot find image')
+        log.exception(caller_id, 'Cannot find image')
         raise CMException('image_not_found')
     except KeyError:
         log.exception(caller_id, 'Cannot calculate size')
@@ -143,7 +144,6 @@ def delete(caller_id, system_image_id):
     if image.state != image_states['ok']:
         raise CMException('image_delete')
 
-    image.check_attached()
     try:
         subprocess.call(['rm', image.path])
     except Exception, e:

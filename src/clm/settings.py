@@ -29,7 +29,7 @@ except Exception, ex:
     print "Error importing CLM configuration file: config.py\nReason: %s" % str(ex)
     exit()
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 

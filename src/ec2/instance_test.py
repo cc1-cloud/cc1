@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ class InstanceTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-06-01/">
-              <requestId>00000000-0000-0000-0000-000000000000</requestId> 
+              <requestId>00000000-0000-0000-0000-000000000000</requestId>
               <reservationSet>
                 <item>
                   <reservationId>r-00000000</reservationId>
@@ -98,7 +98,7 @@ class InstanceTestCase(TestCase):
             response,
             """<?xml version="1.0" encoding="UTF-8"?>
             <TerminateInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-06-01/">
-              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId> 
+              <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
               <instancesSet>
                 <item>
                   <instanceId>1</instanceId>

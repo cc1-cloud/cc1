@@ -34,13 +34,13 @@ def configure():
 
         print "WARNING: EC2 already configured"
         return 0
-    
+
     shutil.copyfile('/etc/cc1/ec2/settings_example.py', '/etc/cc1/ec2/settings.py')
-    
+
     os.symlink('/etc/cc1/ec2/settings.py', '/usr/lib/cc1/ec2/settings.py')
-    
+
     return 0
-    
+
 def remove():
     if os.path.exists('/usr/lib/cc1/ec2/settings.py'):
         os.unlink('/usr/lib/cc1/ec2/settings.py')
@@ -50,7 +50,7 @@ def purge():
     remove()
     if os.path.exists('/etc/cc1/ec2/settings.py'):
         os.remove('/etc/cc1/ec2/settings.py')
-        
+
     if os.path.exists('/etc/cc1/ec2/settings_example.py'):
         os.remove('/etc/cc1/ec2/settings_example.py')
     return 0

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -51,8 +51,6 @@ except Exception:
 print dev
 logger.info('Setting keyboard to %s bus=0x%x, vendor=0x%x, product=0x%x, version=0x%x' % (dev.name, dev.idbus, dev.idvendor, dev.idproduct, dev.idversion))
 
-
-
 verify = os.path.isdir(settings.CA_DIR)
 
 VERSION = 0
@@ -94,7 +92,7 @@ def rpc(cmd, params=None):
         if 'actions' in sys.modules:
             reload(actions)
         else:
-            
+
             actions = __import__('actions')
             VERSION = actions.VERSION
     return r

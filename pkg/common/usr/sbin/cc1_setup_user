@@ -30,7 +30,7 @@ import grp
 
 def create():
     dev_null = open('/dev/null', 'w')
-    
+
     print "COMMON: Adding user..."
     try:
         g = grp.getgrnam('cc1')
@@ -59,7 +59,7 @@ def create():
     os.chmod('/var/lib/cc1/', 0755)
     os.chmod('/var/lib/cc1/.ssh', 0700)
     os.chmod('/var/lib/cc1/.ssh/config', 0600)
-    
+
     print "COMMON: Generating ssh keys..."
     if not os.path.exists("/var/lib/cc1/.ssh/id_rsa"):
         subprocess.call("ssh-keygen -t rsa -f /var/lib/cc1/.ssh/id_rsa -N ''", shell=True)
@@ -68,13 +68,13 @@ def create():
     subprocess.call("cat /var/lib/cc1/.ssh/id_rsa.pub >> /var/lib/cc1/.ssh/authorized_keys", shell=True)
     os.chown('/var/lib/cc1/.ssh/id_rsa.pub', 331, 331)
     os.chown('/var/lib/cc1/.ssh/id_rsa', 331, 331)
-    
+
     return 0
 
 def remove():
     subprocess.call('userdel cc1', shell=True)
     subprocess.call('groupdel cc1', shell=True)
-    
+
     return 0
 
 def purge():
@@ -83,12 +83,12 @@ def purge():
         os.remove('/var/lib/cc1/.ssh/id_rsa')
     except:
         print "COMMON: Private key doesnt exists"
-        
+
     try:
         os.remove('/var/lib/cc1/.ssh/id_rsa.pub')
     except:
         print "COMMON: Public key doesnt exists"
-    
+
     return 0
 
 

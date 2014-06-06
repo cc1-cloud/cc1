@@ -22,3 +22,11 @@ within the grant POIG 02.03.03-00-033/09-04 funded by the European Commission
 and the Polish Ministry of Science and Education (Innovative Economy, National
 Cohesion Strategy).
 
+Find out more about project at [CC1 website](http://cc1.ifj.edu.pl/).
+
+Installation and documentation.
+------------
+
+System's documentation may be found at [CC1 subpage](http://cc1.ifj.edu.pl/documentation/)
+
+Check system installation procedure at [installation's documentation](http://cc1.ifj.edu.pl/docs/en/Installation/index.html)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -45,10 +45,12 @@ STATE = {
 
 SIZE_RATIO = 1024;  # EC2 uses GiB, we use MiB
 
+
 def get_volume_status(clm_volume_state):
     if clm_volume_state == 0:
         return 'available'
     return 'failed'
+
 
 class CreateVolume(Action):
     def _execute(self):
@@ -84,8 +86,8 @@ class CreateVolume(Action):
                          'description' : 'Storage created by EC2 API',
                          'disk_controller' : disk_controllers['virtio']}
 
-            # TODO
-#             self.cluster_manager.user.storage_image.edit( edit_dict )
+
+            self.cluster_manager.user.storage_image.edit( edit_dict )
         except:
             print 'Changing name for newly created storage image failed!'
             pass  # we can ignore error here, because it's not an essential operation
@@ -120,7 +122,7 @@ class DescribeVolumes(Action):
         volumes = []
 
         filters = parseFilters(self.parameters)
-        if not validateEc2Filters(filters, self.translation_filters):
+        if not validateEc2Filters(filters, self.available_filters):
             raise InvalidFilter
 
 
@@ -230,7 +232,6 @@ class AttachVolume(Action):
                 'status' : 'attaching'}
 
 
-
 class DetachVolume(Action):
     def _execute(self):
         try:
@@ -281,6 +282,7 @@ class DetachVolume(Action):
         return {'volume_id':volume_id,
                 'instance_id' : instance_id}
 
+
 class DeleteVolume(Action):
     def _execute(self):
         try:
@@ -304,5 +306,3 @@ class DeleteVolume(Action):
             raise UndefinedError
 
         return None
-
-

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ def get_list(remote_ip):
             if lease.publicip_set.count() != 0:
                 d = {}
                 d['vm_id'] = vm.id
-                d['private_lease'] = lease.address
+                d['private_lease'] = lease.vm_address
                 d['public_lease'] = lease.publicip_set.all()[0].address
                 public_leases.append(d)
     return public_leases

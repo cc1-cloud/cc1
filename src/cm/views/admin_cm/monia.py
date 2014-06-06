@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
 """@package src.cm.manager.user
 @alldecoratedby{src.cm.utils.decorators.user_log}
-
 @author Tomek Wojtoń
 """
 
@@ -27,6 +26,7 @@ from cm.utils.decorators import user_log
 from cm.utils.monia import RrdHandler
 from common.states import stat_resolutions, stat_names, stat_ranges
 from cm.models.vm import VM
+
 
 @user_log(log=False)
 def vm_stats(caller_id, vm_id, stat_name, time, stat_range, resolution):
@@ -54,5 +54,3 @@ def vm_stats(caller_id, vm_id, stat_name, time, stat_range, resolution):
     r = int(stat_resolutions.keys()[stat_resolutions.values().index(resolution)])
 
     return RrdHandler().get_vm_stats('vm-%d-%d' % (vm_id, vm_u), n, int(time) - p, time, r)
-
-

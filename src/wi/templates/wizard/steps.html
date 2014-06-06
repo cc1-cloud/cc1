@@ -16,7 +16,7 @@ $(function() {
 
 <div id="wizard-steps">
 	{% for item in steps_desc %}
-		<div data-step="{{ forloop.counter0 }}" 
+		<div data-step="{{ forloop.counter0 }}"
 			 class="normal {% if forloop.counter0 == wizard.steps.step0 %}current{% endif %} {% if forloop.counter <= wizard.steps.step0 %}done{% endif %}"
 			 {% if forloop.counter <= wizard.steps.step0 %}title="{% trans "Click to go to this step." %}"{% endif %}
 			 >

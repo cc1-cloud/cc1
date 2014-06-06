@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ def hello(remote_ip, **kw):
         f.close()
     return r
 
+
 @ctx_log(log=True)
 def get_command(remote_ip, **kw):
     """
@@ -76,6 +77,7 @@ def get_command(remote_ip, **kw):
         r['actions_file'] = f.read()
         f.close()
     return r
+
 
 @ctx_log(log=True)
 def finish_command(remote_ip, command_id, status, returns=None, **kw):

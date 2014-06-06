@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ class DeregisterImage(Action):
             raise MissingParameter(parameter='ImageId')
         except ValueError:
             raise InvalidAMIID.Malformed
-        
+
         try:
             none = self.cluster_manager.user.system_image.delete({'system_image_id':image_id})
         except CLMException, error:
@@ -79,12 +79,12 @@ class DeregisterImage(Action):
             if error.status == 'image_delete':
                 raise InternalError
             raise UndefinedError
-        
+
         return {'result': 'true'}
 
 
 class DescribeImages(Action):
-    
+
     available_filters = ['description', 'image-id', 'name', 'state']
 
     def _execute(self):
@@ -106,7 +106,7 @@ class DescribeImages(Action):
 
         images = []
         for access in (PRIVATE_ACCESS, PUBLIC_ACCESS):
-            
+
             access_images = self.cluster_manager.user.system_image.get_list({
                 'access': access,
             })
@@ -128,7 +128,7 @@ class DescribeImages(Action):
         # listowanie obrazów grupowych - one są zwracane w innej strukturze
         access_images = self.cluster_manager.user.system_image.get_list({'access': GROUP_ACCESS})
 
-        
+
         for images_dict in access_images:
             for image in images_dict['images']:
                 if image_ids and str(image.get('image_id')) not in image_ids:
@@ -143,13 +143,11 @@ class DescribeImages(Action):
                     'state': STATE.get(image.get('state')),
                 })
 
-
-        
         if filters.get('state'):
             for state in filters['state']:
                 state = [k for k,v in STATE.iteritems() if v == STATE.get(state) ] # ?? wymaga testu
             del filters['state']
-                
+
         images = applyEc2Filters( images, filters )
 # filtry TODO:
 # is-public

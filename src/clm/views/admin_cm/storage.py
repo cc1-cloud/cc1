@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -70,16 +70,6 @@ def mount(cm_response, **data):
     """
     @clmview_admin_cm
     @clm_view_transparent{storage.mount()}
-    """
-    return cm_response
-
-
-@admin_cm_log(log=True, pack=False)
-@cm_request
-def mount_rm(cm_response, **data):
-    """
-    @clmview_admin_cm
-    @clm_view_transparent{storage.mount_rm()}
     """
     return cm_response
 

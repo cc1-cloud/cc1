@@ -10,37 +10,37 @@ import shutil
 import logging
 # logging.basicConfig(filename='/var/log/cc1/restapi/ec2/install.log', level=logging.INFO)
 # log = logging.getLogger()
-# 
+#
 # log_file = file('/var/log/cc1/restapi/ec2/install.log', 'a')
 
 
 # class PreRm:
-# 
+#
 #     def prepare_config(self):
 #         subprocess.call("a2dissite ec2", shell=True, stderr=log_file, stdout=log_file)
 #         subprocess.call("unlink /etc/apache2/sites-available/ec2", shell=True, stderr=log_file, stdout=log_file)
 #         subprocess.call("apachectl restart", shell=True, stderr=log_file, stdout=log_file)
-# 
+#
 #     def main(self):
 #         # this script can get called multiple times
 #         # so we only set up the frontend once
 #         # thanks to the mailman developers for this section
 #         try:
-#             os.environ['DEBIAN_HAS_FRONTEND'] 
+#             os.environ['DEBIAN_HAS_FRONTEND']
 #         except:
 #             # we need to invoke the frontend ourselves as
 #             # the debconf module does not strip the python cruft off
 #             os.execv(debconf._frontEndProgram, [debconf._frontEndProgram] + sys.argv)
-# 
+#
 #         self.db = debconf.Debconf()
-# 
+#
 #         if len(sys.argv) > 1:
 #             if sys.argv[1] == 'configure':
 #                 # Create default settings file or check it
 #                 self.prepare_config()
-# 
+#
 #                 self.db.stop()
-# 
+#
 #             elif sys.argv[1] == "reconfigure":
 #                 previous_version = sys.argv[2]
 #                 # we're in reconfigure mode
@@ -50,12 +50,12 @@ if __name__ == "__main__":
         log = open('/var/log/cc1/ec2_install.log', 'a')
 
         r = subprocess.call('cc1_ec2_setup_config remove', shell=True, stdout=log)
-        r = subprocess.call('cc1_ec2_setup_apache disable', shell=True, stdout=log) 
+        r = subprocess.call('cc1_ec2_setup_apache disable', shell=True, stdout=log)
 
         log.close()
         sys.exit(0)
     elif 'purge' in sys.argv:
-        
+
         r = subprocess.call('cc1_ec2_setup_config purge', shell=True, stdout=log)
         r = subprocess.call('cc1_ec2_setup_apache purge', shell=True, stdout=log)
 

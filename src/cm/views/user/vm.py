@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import subprocess
 
 
 @user_log(log=True)
-def create(caller_id, name, description, image_id, template_id, public_ip_id, iso_list, disk_list, vnc, groups, count=1, user_data=None, 
+def create(caller_id, name, description, image_id, template_id, public_ip_id, iso_list, disk_list, vnc, groups, count=1, user_data=None,
            ssh_key=None, ssh_username=None):
     """
     Creates virtual machines.
@@ -56,7 +56,7 @@ def create(caller_id, name, description, image_id, template_id, public_ip_id, is
     @parameter{user_data} data accessible via ec2ctx
     @parameter{ssh_key}
     @parameter{ssh_username}
-    
+
     @returns @asreturned{src.cm.views.utils.vm.create()}
     """
     user = User.get(caller_id)
@@ -164,7 +164,6 @@ def get_by_id(caller_id, vm_id):
     # TODO: cpuload to be defined
     # vm_mod['cpu_load'] = vm_utils.cpu_load(vm_mod)['data']
     return vm_mod
-
 
 
 @user_log(log=True)

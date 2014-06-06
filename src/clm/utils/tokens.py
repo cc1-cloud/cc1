@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -37,10 +37,10 @@ class PasswordResetTokenGenerator(object):
 
         @returns{string} Token with timestamp generated for specified User
         """
-        from django.utils.hashcompat import sha_constructor
-        h = sha_constructor(user.password +
-                            unicode(user.last_login_date) +
-                            unicode(user.id)).hexdigest()[::2]
+        import hashlib
+        h = hashlib.sha1(user.password +
+                         unicode(user.last_login_date) +
+                         unicode(user.id)).hexdigest()[::2]
         return "%s-%s" % (int_to_base36(user.id), h)
 
     def check_token(self, user, token):

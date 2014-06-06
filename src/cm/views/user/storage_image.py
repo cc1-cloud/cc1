@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -95,7 +95,7 @@ def download(caller_id, name, description, path, disk_controller):
             connection = urllib.urlopen(path)
             size = int(connection.info()["Content-Length"])
         except IOError:
-            log.exception('Cannot find image')
+            log.exception(caller_id, 'Cannot find image')
             raise CMException('image_not_found')
         except KeyError:
             log.exception(caller_id, 'Cannot calculate size')

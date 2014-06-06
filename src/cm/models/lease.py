@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @COPYRIGHT_begin
 #
-# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland 
+# Copyright [2010-2014] Institute of Nuclear Physics PAN, Krakow, Poland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import libvirt
 
 from cm.utils.exception import CMException
 from cm.utils import log
+from cm.settings import DNS_DOMAIN
 
 
 class Lease(models.Model):
@@ -84,7 +85,7 @@ class Lease(models.Model):
 
     @property
     def domain_name(self):
-        return 'abc'
+        return DNS_DOMAIN
 
     @property
     def hostname(self):
