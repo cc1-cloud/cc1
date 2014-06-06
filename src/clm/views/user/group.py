@@ -39,7 +39,6 @@ def create(cm_id, caller_id, name, description):
     Method creates new users Group. Sets caller as leader of that group.
     Sets membership's state to 'ok'.
     @clmview_user
-
     @parameter{name,string}
     @parameter{description,string}
     """
@@ -69,7 +68,6 @@ def join_request(cm_id, caller_id, group_id):
     Method sends request for acceptation in group @prm{group_id} for caller.
     Adds caller to members  with 'waiting' state.
     @clmview_user
-
     @parameter{group_id,int} id of the Group, which caller wants to become member of
     """
     group = Group.get(group_id)
@@ -94,7 +92,6 @@ def get_list(cm_id, caller_id):
     Group there is info about membership status appended - 'ok', 'waiting'
     or 'not member'.
     @clmview_user
-
     @response{list(dict)} all Groups
     """
     user = User.get(caller_id)
@@ -125,7 +122,6 @@ def list_groups(cm_id, caller_id):
     """
     Method returns list of the groups caller belongs to with 'ok' state.
     @clmview_user
-
     @response{list(dict)} caller's Groups
     """
     user = User.get(caller_id)
@@ -143,7 +139,6 @@ def list_members(cm_id, caller_id, group_id):
     """
     Method returns members of the group with id @prm{group_id}.
     @clmview_user
-
     @parameter{group_id,int} id of the Group that we get list of
 
     @response{list(dict)} dicts describing users belonging to specifie group.
@@ -160,7 +155,6 @@ def list_own_groups(cm_id, caller_id):
     """
     Method returns list of the groups caller is leader of.
     @clmview_user
-
     @response{list(dict)} dicts describing groups led by caller
     """
     user = User.get(caller_id)
@@ -175,7 +169,6 @@ def list_requests(cm_id, caller_id, group_id):
     Function returns list of the users requesting acceptation
     in group with id @prm{group_id}.
     @clmview_user
-
     @parameter{group_id,int} id of the group which we check membership
     requests for
 
@@ -193,7 +186,6 @@ def delete(cm_id, caller_id, group_id):
     """
     Method deletes specified Group.
     @clmview_user
-
     @parameter{group_id,int} id of the Group to delete
     """
 

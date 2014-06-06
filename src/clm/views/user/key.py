@@ -37,7 +37,6 @@ def get(cm_id, caller_id, name):
     """
     Returns content of the requested Key's. Key must belong to caller.
     @clmview_user
-
     @parameter{name,string} Key's name
 
     @response{dict} key's data
@@ -61,7 +60,6 @@ def get_list(cm_id, caller_id):
     """
     Returns caller's keys.
     @clmview_user
-
     @response{list(dict)} caller's Keys
     """
     return [k.dict for k in Key.objects.filter(user_id__exact=caller_id)]
@@ -72,7 +70,6 @@ def generate(cm_id, caller_id, name):
     """
     Generates Key pair named @prm{name} for caller.
     @clmview_user
-
     @parameter{name,string} Key's name
 
     @response{string} content of private Key's file
@@ -108,7 +105,6 @@ def add(cm_id, caller_id, key, name):
     """
     Adds given key named @prm{name} with content @prm{key} to caller's keys list.
     @clmview_user
-
     @parameter{key,string} key's content
     @parameter{name,string} key's name
 
@@ -136,7 +132,6 @@ def delete(cm_id, caller_id, name):
     """
     Method deletes specified key named @prm{name}.
     @clmview_user
-
     @parameter{name,string} name of the Key to delete
     @response{None}
     """
@@ -151,7 +146,6 @@ def delete_by_id(cm_id, caller_id, key_id):
     """
     Method removes key with id \c id.
     @clmview_user
-
     @parameter{id,int} id of the key to delete
     @response{None}
     """

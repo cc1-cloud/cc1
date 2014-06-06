@@ -38,7 +38,6 @@ def add(cm_id, caller_id, name, address, port, new_password):
     Adds new Cluster and makes caller its admin.
     There should dedicated and configured CM server exist.
     @clmview_admin_clm
-
     @parameter{name} human-friendly name of the new CM (shown in Web Interface)
     @parameter{address} address of the new CM
     @parameter{port} port on which CM is configured to be running
@@ -109,7 +108,6 @@ def delete(cm_id, caller_id, cluster_id):
     run on that Cluster. It's not available from CLM anymore. To bring it back
     to Cloud resources one needs to add this Cluster once again ground up.
     @clmview_admin_clm
-
     @parameter{cluster_id,int} id of the CM to delete
     """
     try:
@@ -125,7 +123,6 @@ def edit(cm_id, caller_id, cluster_id, name, address, port,):
     Modifies data of the Cluster with id @prm{cluster_id} as described by
     dictionary @prm{data}.
     @clmview_admin_clm
-
     @parameter{cluster_id,int} id of the CM to edit
     @parameter{name,string} new name for edited CM
     @parameter{address,string} new adress of the edited CM
@@ -147,7 +144,6 @@ def lock(cm_id, caller_id, cluster_id):
     Locks specified Cluster. Since called, no VMs can be run on that Cluster,
     until unlock() is called.
     @clmview_admin_clm
-
     @parameter{cluster_id,int} id of the CM to lock
     """
     cluster = Cluster.objects.get(pk=cluster_id)
@@ -163,7 +159,6 @@ def unlock(cm_id, caller_id, cluster_id):
     """
     Unlocks specified Cluster. Now VMs can be run on that Cluster.
     @clmview_admin_clm
-
     @parameter{cluster_id,int} id of the CM to unlock
     """
     try:

@@ -67,7 +67,6 @@ def edit(cm_id, caller_id, email, default_cluster_id):
     """
     Function for editing user's data.
     @clmview_user
-
     @dictkey{email,string}
     @dictkey{default_cluster_id}
 
@@ -108,7 +107,6 @@ def send_issue(cm_id, caller_id, topic, issue):
     """
     Send issue email
     @clmview_user
-
     @parameter{topic,string} topic of the issue email
     @parameter{issue,string} content of the issue email
     """
