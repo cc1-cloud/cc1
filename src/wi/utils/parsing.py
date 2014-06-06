@@ -107,6 +107,7 @@ def parse_ips(data, select_flag=True):
     Returns list of the IPs.
 
     @parameter{data,dict}
+    @parameter{select_flag,boolean}
 
     @returns{list} IPs.
     """

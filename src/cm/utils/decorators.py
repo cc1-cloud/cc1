@@ -54,11 +54,11 @@ from django.http import HttpResponse
 from django.db import transaction
 from threading import Lock
 
-# # Set of functions decorated by actor decorators
-#  (cm.utils.decorators.guest_log(), src.cm.utils.decorators.user_log(),
-#  src.cm.utils.decorators.admin_cm_log())
 from common.utils import json_convert
 
+## Set of functions decorated by actor decorators
+#  (cm.utils.decorators.guest_log(), src.cm.utils.decorators.user_log(),
+#  src.cm.utils.decorators.admin_cm_log())global decorated_functions
 global decorated_functions
 global ci_decorated_functions
 global ctx_decorated_functions

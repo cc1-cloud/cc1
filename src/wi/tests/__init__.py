@@ -206,14 +206,12 @@ class WiTestCase:
                     path_body_trs="//table[@id='item-list']/tbody/tr"):
         """
         @parameter{col_name,string} name of column which together with text describe row
+        @parameter{check_data,dict}
         @parameter{text,string} text
         @parameter{action_name,string} name of column which together with row describes cell
         @parameter{element,string} element in cell which sholud be clicked
-        @parameter{path_body_trs,string} xpath for searching rows of table
         @parameter{path_head_tds,string} xpath for searching head's cells of table
-        @parameter{max_time,int} describes how long method should search for text
-        @parameter{sleep_time,double} describes gaps between consecutive searches
-        @parameter{check_data,dict}
+        @parameter{path_body_trs,string} xpath for searching rows of table
         \n fields:
         @dictkey{path,string} path of table
         @dictkey{dict,dict} contains pairs: *col name* and *text* which are additional requirements for searched row
