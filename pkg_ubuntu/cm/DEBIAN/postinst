@@ -77,10 +77,10 @@ if __name__ == '__main__':
         except:
             print "ERROR: Cannot import CM config!"
             sys.exit(1)
-
+        
         ifaces = netifaces.interfaces()
         ifaces.remove('lo')
-
+        
         r = subprocess.call(['cc1_network_setup',
                              'configure',
                              '127.0.0.1',
@@ -107,7 +107,6 @@ if __name__ == '__main__':
 
         print "CM: Restarting quagga"
         subprocess.call('/etc/init.d/quagga restart', shell=True)
-
 
         sys.exit(0)
     else:

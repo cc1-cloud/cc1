@@ -24,7 +24,6 @@
 
 import os
 import sys
-import subprocess
 
 
 def configure(public_key):
@@ -38,45 +37,60 @@ def configure(public_key):
     os.chown('/var/lib/cc1/.ssh/authorized_keys', 331, 331)
 
     print "NODE: Adding sudo permissions for cc1"
-    sudoers = open('/etc/sudoers', 'a')
-    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_public_ip #CC1\n')
-    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_network_setup #CC1\n')
-    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_storage #CC1\n')
-    sudoers.write('cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_setup_libvirt #CC1\n')
-    sudoers.write('cc1 ALL=NOPASSWD: /etc/init.d/cc1-node #CC1\n')
-    sudoers.close()
+
+    sudoers_lines = []
+    with open('/etc/sudoers', 'r') as sudoers:
+        sudoers_lines = sudoers.readlines()
+
+
+    lines_to_add = [
+        'cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_public_ip #CC1\n',
+        'cc1 ALL=NOPASSWD: /usr/sbin/cc1_network_setup #CC1\n',
+        'cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_storage #CC1\n',
+        'cc1 ALL=NOPASSWD: /usr/sbin/cc1_node_setup_libvirt #CC1\n',
+        'cc1 ALL=NOPASSWD: /etc/init.d/cc1-node #CC1\n'
+    ]
+    with open('/etc/sudoers', 'a') as sudoers:
+        for line_to_add in lines_to_add:
+            if line_to_add not in sudoers_lines:
+                sudoers.write(line_to_add)
 
     return 0
+
 
 def remove():
-    sudoers = open('/etc/sudoers', 'r')
-    lines = sudoers.readlines()
-    sudoers.close()
+    with open('/etc/sudoers', 'r') as sudoers:
+        lines = sudoers.readlines()
 
-    sudoers = open('/etc/sudoers', 'w')
-    for line in lines:
-        if not '#CC1' in line:
-            sudoers.write(line)
-    sudoers.close()
+    with open('/etc/sudoers', 'w') as sudoers:
+        for line in lines:
+            if not '#CC1' in line:
+                sudoers.write(line)
 
     return 0
+
 
 def purge():
     return 0
 
 
 if __name__ == "__main__":
-    if os.getuid() != 0:
-        print "ERROR: Run this tool as root!"
-        sys.exit(1)
+    try:
+        if os.getuid() != 0:
+            print >> sys.stderr, "ERROR: Run this tool as root!"
+            sys.exit(1)
 
-    if len(sys.argv) == 3 and sys.argv[1] == 'configure':
-        sys.exit(configure(sys.argv[2]))
-    elif len(sys.argv) == 2 and sys.argv[1] == 'remove':
-        sys.exit(remove())
-    elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
-        sys.exit(purge())
-    else:
-        print "Usage: %s [configure] public_key" % sys.argv[0]
-        print "       %s [remove|purge]" % sys.argv[0]
-        sys.exit(1)
+        if len(sys.argv) == 3 and sys.argv[1] == 'configure':
+            sys.exit(configure(sys.argv[2]))
+        elif len(sys.argv) == 2 and sys.argv[1] == 'remove':
+            sys.exit(remove())
+        elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
+            sys.exit(purge())
+        else:
+            print "Usage: %s configure public_key" % sys.argv[0]
+            print "       %s remove|purge" % sys.argv[0]
+            sys.exit(1)
+
+    except Exception as e:
+        print >> sys.stderr, "ERROR: %s" % str(e)
+        sys.exit(10)

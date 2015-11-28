@@ -24,6 +24,8 @@ if __name__ == '__main__':
 
         print "WI: Adding apache vhost"
         r = subprocess.call('cc1_setup_apache enable wi', shell=True, stdout=log)
+        subprocess.call('a2dissite 000-default', shell=True)
+        subprocess.call('apachectl restart', shell=True)
 
         log.close()
         sys.exit(0)

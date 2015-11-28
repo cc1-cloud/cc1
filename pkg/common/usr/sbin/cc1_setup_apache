@@ -22,32 +22,17 @@
 @author Maciej Nabozny <mn@mnabozny.pl>
 """
 
-import subprocess
-import os
 import sys
+sys.path.append('/usr/lib/cc1/')
+from common.tools.apache import *
 
-def enable():
-    subprocess.call('a2enmod ssl', shell=True)
-    subprocess.call('a2dissite default', shell=True)
-    subprocess.call('a2ensite wi', shell=True)
-    subprocess.call('service apache2 restart', shell=True)
-    return 0
-
-def disable():
-    subprocess.call('a2dissite wi', shell=True)
-    subprocess.call('service apache2 restart', shell=True)
-    return 0
-
-def purge():
-    disable()
-    os.remove('/etc/apache2/sites-available/wi')
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2 and sys.argv[1] == 'enable':
-        sys.exit(enable())
-    elif len(sys.argv) == 2 and sys.argv[1] == 'disable':
-        sys.exit(disable())
-    elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
-        sys.exit(purge())
+    if len(sys.argv) == 3 and sys.argv[1] == 'enable':
+        sys.exit(enable(sys.argv[2]))
+    elif len(sys.argv) == 3 and sys.argv[1] == 'disable':
+        sys.exit(disable(sys.argv[2]))
+    elif len(sys.argv) == 3 and sys.argv[1] == 'purge':
+        sys.exit(purge(sys.argv[2]))
     else:
-        print "Usage: %s [enable|disable|purge]" % sys.argv[0]
+        print "Usage: %s enable|disable|purge site" % sys.argv[0]

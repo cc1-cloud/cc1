@@ -47,25 +47,23 @@ cm = utils.ServerProxy(cm_address)
 
 
 def start():
-    null = open('/dev/null', 'w')
-    # Remove (if exists) redirection to SNAT and DNAT
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PREROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'POSTROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+    with open('/dev/null', 'w') as null:
+        # Remove (if exists) redirection to SNAT and DNAT
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PREROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'POSTROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
 
-    # Remove old redirections (if exists)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+        # Remove old redirections (if exists)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
 
-    # If iptables returned error code (chains were not found), setup all chains and rules
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-N', 'PUBLIC_IP_SNAT'])
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-N', 'PUBLIC_IP_DNAT'])
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-A', 'PREROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_DNAT'])
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-A', 'POSTROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_SNAT'])
+        # If iptables returned error code (chains were not found), setup all chains and rules
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-N', 'PUBLIC_IP_SNAT'])
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-N', 'PUBLIC_IP_DNAT'])
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-A', 'PREROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_DNAT'])
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-A', 'POSTROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_SNAT'])
 
-    subprocess.call(['sysctl', '-w', 'net.ipv4.ip_forward=1'])
-    subprocess.call(['sysctl', '-w', 'net.ipv4.conf.all.promote_secondaries=1'])
-
-    null.close()
+        subprocess.call(['sysctl', '-w', 'net.ipv4.ip_forward=1'])
+        subprocess.call(['sysctl', '-w', 'net.ipv4.conf.all.promote_secondaries=1'])
 
     ips = cm.send_request('ci/public_ip/get_list/')['data']
     for ip in ips:
@@ -73,25 +71,22 @@ def start():
 
 
 def stop():
-    null = open('/dev/null', 'w')
-
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PREROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'POSTROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-X', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
-    subprocess.call(['/sbin/iptables', '-t', 'nat', '-X', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
-
-    null.close()
+    with open('/dev/null', 'w') as null:
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PREROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'POSTROUTING', '!', '-d', cm_ip, '-j', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-F', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-X', 'PUBLIC_IP_SNAT'], stdout=null, stderr=null)
+        subprocess.call(['/sbin/iptables', '-t', 'nat', '-X', 'PUBLIC_IP_DNAT'], stdout=null, stderr=null)
 
 
 def get_interface():
-    routes = open('/proc/net/route', 'r')
-    lines = routes.readlines()
-    for line in lines:
-        fields = line.split('\t')
-        if fields[1] == '00000000':
-            return fields[0]
+    with open('/proc/net/route', 'r') as routes:
+        lines = routes.readlines()
+        for line in lines:
+            fields = line.split('\t')
+            if fields[1] == '00000000':
+                return fields[0]
 
 
 def attach(vm_id, private_ip, public_ip):
@@ -100,7 +95,6 @@ def attach(vm_id, private_ip, public_ip):
     r = 0
     r = r+subprocess.call(['/sbin/ifconfig',  '%s:%s' % (get_interface(), vm_id),  public_ip,  'up'])
     r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-I', 'PUBLIC_IP_DNAT', '-d', public_ip, '-j', 'DNAT', '--to-destination', private_ip])
-    #r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-I', 'PUBLIC_IP_SNAT', '-s', private_ip, '!', '-d', node.SNAT_DISABLE, '-j', 'SNAT', '--to-source', public_ip])
     r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-I', 'PUBLIC_IP_SNAT', '-s', private_ip, '-j', 'SNAT', '--to-source', public_ip])
 
     if r != 0:
@@ -114,7 +108,6 @@ def detach(vm_id, private_ip, public_ip):
     r = 0
     r = r+subprocess.call(['/sbin/ifconfig',  '%s:%s' % (get_interface(), vm_id),  public_ip,  'down'])
     r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PUBLIC_IP_DNAT', '-d', public_ip, '-j', 'DNAT', '--to-destination', private_ip])
-    #r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PUBLIC_IP_SNAT', '-s', private_ip, '!', '-d', node.SNAT_DISABLE, '-j', 'SNAT', '--to-source', public_ip])
     r = r+subprocess.call(['/sbin/iptables', '-t', 'nat', '-D', 'PUBLIC_IP_SNAT', '-s', private_ip, '-j', 'SNAT', '--to-source', public_ip])
 
     return r
@@ -187,27 +180,32 @@ def check():
 
 
 if __name__ == "__main__":
-    if os.getuid() != 0:
-        print "Run this tool as root!"
-        sys.exit(0)
+    try:
+        if os.getuid() != 0:
+            print "Run this tool as root!"
+            sys.exit(0)
 
-    if len(sys.argv) == 2 and sys.argv[1] == 'start':
-        sys.exit(start())
-    elif len(sys.argv) == 2 and sys.argv[1] == 'stop':
-        sys.exit(stop())
-    elif len(sys.argv) == 5 and sys.argv[1] == 'attach':
-        exit(attach(sys.argv[2], sys.argv[3], sys.argv[4]))
-    elif len(sys.argv) == 5 and sys.argv[1] == 'detach':
-        exit(detach(sys.argv[2], sys.argv[3], sys.argv[4]))
-    elif len(sys.argv) == 2 and sys.argv[1] == 'list_redirections':
-        exit(list_redirections())
-    elif len(sys.argv) == 2 and sys.argv[1] == 'check':
-        exit(check())
-    else:
-        print "Usage: %s [attach|detach] vm_id private_ip public_ip" % sys.argv[0]
-        print "       %s [start|stop]" % sys.argv[0]
-        print "       %s [list_redirections]" % sys.argv[0]
-        print "Attach/detach adds new redirection. Start/stop creates/destroys"
-        print "iptables chains"
-        exit(1)
+        if len(sys.argv) == 2 and sys.argv[1] == 'start':
+            sys.exit(start())
+        elif len(sys.argv) == 2 and sys.argv[1] == 'stop':
+            sys.exit(stop())
+        elif len(sys.argv) == 5 and sys.argv[1] == 'attach':
+            exit(attach(sys.argv[2], sys.argv[3], sys.argv[4]))
+        elif len(sys.argv) == 5 and sys.argv[1] == 'detach':
+            exit(detach(sys.argv[2], sys.argv[3], sys.argv[4]))
+        elif len(sys.argv) == 2 and sys.argv[1] == 'list_redirections':
+            exit(list_redirections())
+        elif len(sys.argv) == 2 and sys.argv[1] == 'check':
+            exit(check())
+        else:
+            print "Usage: %s [attach|detach] vm_id private_ip public_ip" % sys.argv[0]
+            print "       %s [start|stop]" % sys.argv[0]
+            print "       %s [list_redirections]" % sys.argv[0]
+            print "Attach/detach adds new redirection. Start/stop creates/destroys"
+            print "iptables chains"
+            exit(1)
+
+    except Exception as e:
+        print >> sys.stderr, "ERROR: %s" % str(e)
+        sys.exit(10)
 

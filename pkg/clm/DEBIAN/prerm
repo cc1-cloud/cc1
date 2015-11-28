@@ -2,24 +2,23 @@
 
 import sys
 import subprocess
-import netifaces
 
 if __name__ == '__main__':
     if 'remove' in sys.argv:
         log = open('/var/log/cc1/cm_install.log', 'a')
 
-        r = subprocess.call('cc1_clm_setup_config remove', shell=True, stdout=log)
-        r = subprocess.call('cc1_clm_setup_db_psql remove', shell=True, stdout=log)
-        r = subprocess.call('cc1_clm_setup_apache disable', shell=True, stdout=log)
+        r = subprocess.call('cc1_setup_config remove clm', shell=True, stdout=log)
+        r = subprocess.call('cc1_setup_db_psql remove clm', shell=True, stdout=log)
+        r = subprocess.call('cc1_setup_apache disable clm', shell=True, stdout=log)
 
         log.close()
         sys.exit(0)
     elif 'purge' in sys.argv:
         log = open('/var/log/cc1/cm_install.log', 'a')
 
-        r = subprocess.call('cc1_clm_setup_config purge', shell=True, stdout=log)
-        r = subprocess.call('cc1_clm_setup_db_psql purge', shell=True, stdout=log)
-        r = subprocess.call('cc1_clm_setup_apache purge', shell=True, stdout=log)
+        r = subprocess.call('cc1_setup_config purge clm', shell=True, stdout=log)
+        r = subprocess.call('cc1_setup_db_psql purge clm', shell=True, stdout=log)
+        r = subprocess.call('cc1_setup_apache purge clm', shell=True, stdout=log)
 
         log.close()
         sys.exit(0)

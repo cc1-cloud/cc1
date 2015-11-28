@@ -22,78 +22,33 @@
 @author Maciej Nabozny <mn@mnabozny.pl>
 """
 
-import os
 import sys
-import subprocess
-import imp
-import stat
-update_config = imp.load_source('update_config', '/usr/sbin/cc1_node_update_config')
-
-def configure(lv_conn_string):
-    print "NODE: Updating libvirt config"
-    qemu = open('/etc/libvirt/qemu.conf', 'r')
-    qemu_conf = qemu.readlines()
-    qemu.close()
-
-    qemu = open('/etc/libvirt/qemu.conf', 'w')
-    for line in qemu_conf:
-        if '#user = "root"' in line:
-            qemu.write('user = "root"\n')
-        elif '#group = "root"' in line:
-            qemu.write('group = "root"\n')
-        elif '#dynamic_ownership = 1' in line:
-            qemu.write('dynamic_ownership = 0')
-        else:
-            qemu.write(line)
-    qemu.close()
-    os.chmod('/etc/libvirt/qemu.conf', stat.S_IROTH | stat.S_IRUSR | stat.S_IRGRP | stat.S_IWUSR)
-
-    update_config.set_value('lv_conn_string', lv_conn_string)
-
-    print "NODE: Adding cc1 user to libvirt groups"
-    subprocess.call("usermod -a -G libvirt,kvm cc1", shell=True)
-
-    print "NODE: Restarting libvirt"
-    subprocess.call('/etc/init.d/libvirt-bin restart', shell=True)
-
-    return 0
-
-
-def remove():
-    print "NODE: Removing package changes from libvirt config"
-    qemu = open('/etc/libvirt/qemu.conf', 'r')
-    qemu_conf = qemu.readlines()
-    qemu.close()
-
-    qemu = open('/etc/libvirt/qemu.conf', 'w')
-    for line in qemu_conf:
-        if 'user = "root"' in line:
-            qemu.write('#user = "root"\n')
-        elif 'group = "root"' in line:
-            qemu.write('#group = "root"\n')
-        elif 'dynamic_ownership = 0' in line:
-            qemu.write('#dynamic_ownership = 1')
-        else:
-            qemu.write(line)
-    qemu.close()
-
-def purge():
-    remove()
-    return 0
-
+sys.path.append('/usr/lib/cc1')
+from node.tools import libvirt_tools
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3 and sys.argv[1] == 'configure':
-        sys.exit(configure(sys.argv[2]))
-    elif len(sys.argv) == 2 and sys.argv[1] == 'remove':
-        sys.exit(remove())
-    elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
-        sys.exit(purge())
-    else:
-        print "Usage: %s [configure] libvirt_connection_string" % sys.argv[0]
-        print "       %s [remove|purge] " % sys.argv[0]
-        print "       Where:"
-        print "       - libvirt_connection_string is full url. E.g.:"
-        print "         qemu+ssh://cc1@my_hostname/system"
-        sys.exit(1)
+    try:
+        if len(sys.argv) == 7 and sys.argv[1] == 'configure':
+            # driver, transport, username, address, suffix
+            sys.exit(libvirt_tools.configure(sys.argv[2],
+                                             sys.argv[3],
+                                             sys.argv[4],
+                                             sys.argv[5],
+                                             sys.argv[6]))
+        elif len(sys.argv) == 2 and sys.argv[1] == 'remove':
+            sys.exit(libvirt_tools.remove())
+        elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
+            sys.exit(libvirt_tools.purge())
+        else:
+            print "Usage: %s configure " % sys.argv[0]
+            print "       %s remove|purge " % sys.argv[0]
+            print "       Where:"
+            print "       - libvirt_connection_string is full url. E.g.:"
+            print "         qemu+ssh://cc1@my_hostname/system"
+            sys.exit(1)
+
+    except Exception as e:
+        print >> sys.stderr, "ERROR: %s" % str(e)
+        sys.exit(10)
+
 

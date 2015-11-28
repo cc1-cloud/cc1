@@ -45,7 +45,7 @@ log.flush()
 try:
     network_config = imp.load_source('network_config', '/etc/cc1/common-networking/config.py')
     cm_address = network_config.cm_cluster_address
-except:
+except Exception as e:
     log.write('ERROR: Node is not configured. Configure this node from CM!\n')
     sys.exit(1)
 

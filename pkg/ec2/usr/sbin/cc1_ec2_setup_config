@@ -28,18 +28,15 @@ import shutil
 
 
 def configure():
-    shutil.copyfile('/usr/lib/cc1/ec2/settings_example.py', '/etc/cc1/ec2/settings_example.py')
-    if os.path.exists('/etc/cc1/ec2/settings.py'):
-        if not os.path.exists('/usr/lib/cc1/ec2/settings.py'):
-                os.symlink('/etc/cc1/ec2/settings.py', '/usr/lib/cc1/ec2/settings.py')
+    shutil.copyfile('/usr/lib/cc1/ec2/config_example.py', '/etc/cc1/ec2/config_example.py')
+    if os.path.exists('/etc/cc1/ec2/config.py'):
+        if not os.path.exists('/usr/lib/cc1/ec2/config.py'):
+                os.symlink('/etc/cc1/ec2/config.py', '/usr/lib/cc1/ec2/config.py')
 
         print "WARNING: EC2 already configured"
         return 0
-
-    shutil.copyfile('/etc/cc1/ec2/settings_example.py', '/etc/cc1/ec2/settings.py')
-
-    os.symlink('/etc/cc1/ec2/settings.py', '/usr/lib/cc1/ec2/settings.py')
-
+    shutil.copyfile('/etc/cc1/ec2/config_example.py', '/etc/cc1/ec2/config.py')
+    os.symlink('/etc/cc1/ec2/config.py', '/usr/lib/cc1/ec2/config.py')
     return 0
 
 

@@ -3,7 +3,7 @@ Version: BUILD_NUMBER
 Architecture: amd64
 Bugs: mailto:cc1@cloud.ifj.edu.pl
 Maintainer: Maciej Nabozny <mn@mnabozny.pl>
-Depends: python-yaml, python-recaptcha, python-pip, apache2, libapache2-mod-wsgi, apache2-threaded-dev, cc1-common, python-simplejson, python-django, python-django-typed-models
+Depends: python-yaml, python-recaptcha, apache2, libapache2-mod-wsgi, apache2-threaded-dev, cc1-common, python-simplejson, python-django, python-django-typed-models
 Conflicts: cc1-system-wi-v1.7
 Section: cc1
 Priority: optional

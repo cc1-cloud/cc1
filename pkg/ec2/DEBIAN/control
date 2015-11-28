@@ -3,7 +3,7 @@ Version: BUILD_NUMBER
 Architecture: amd64
 Bugs: mailto:cc1@cloud.ifj.edu.pl
 Maintainer: Lukasz Chrzaszcz <l.chrzaszcz@gmail.com>
-Depends: cc1-common, sudo, python
+Depends: cc1-common, sudo, python, openssl, tar, gzip, fabric, python-mako, libapache2-mod-wsgi
 Conflicts: cc1-system-ec2-v1.7, cc1-system-restapi-v1.7
 Section: cc1
 Priority: optional

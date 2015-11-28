@@ -24,6 +24,7 @@
 
 import sys
 
+
 def set_value(key, value):
     print "NODE: Updating config: %s:%s" % (key, value)
     config = open('/etc/cc1/node/config.py', 'r')
@@ -43,9 +44,15 @@ def set_value(key, value):
     config.close()
     return 0
 
+
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
-        sys.exit(set_value(sys.argv[1], sys.argv[2]))
-    else:
-        print "Usage: %s [key] new_value" % sys.argv[0]
-        sys.exit(1)
+    try:
+        if len(sys.argv) == 3:
+            sys.exit(set_value(sys.argv[1], sys.argv[2]))
+        else:
+            print "Usage: %s [key] new_value" % sys.argv[0]
+            sys.exit(1)
+
+    except Exception as e:
+        print >> sys.stderr, "ERROR: %s" % str(e)
+        sys.exit(10)

@@ -22,18 +22,16 @@
 @author Maciej Nabozny <mn@mnabozny.pl>
 """
 
-import subprocess
-import libvirt
-import stat
-import imp
 import sys
 import pwd
 import grp
-import os
+import imp
+
 
 sys.path.append('/usr/lib/cc1/')
 from common import utils
 from common.states import node_states
+from node.tools.check import *
 
 storage_utils = imp.load_source('storage_utils', '/usr/sbin/cc1_node_storage')
 
@@ -50,167 +48,11 @@ except:
 cm = utils.ServerProxy(cm_address)
 
 
-def check_cm_connection():
-    print "Checking cm connection..."
-    try:
-        cm.send_request('/ci/storage/get_list/')
-    except:
-        raise Exception('cm_cannot_connect')
-
-def check_storage():
-    print "Checking images pool..."
-    try:
-        print "\t...could be accessed through libvirt"
-        conn = libvirt.open(lv_address)
-    except:
-        raise Exception('libvirt_error')
-
-    try:
-        print "\t...exists"
-        pool = conn.storagePoolLookupByName('images')
-    except:
-        raise Exception('images_pool_not_found')
-
-    try:
-        print "\t...has images pool"
-        vol = pool.storageVolLookupByName('info')
-    except:
-        raise Exception('images_pool_has_no_info')
-
-    try:
-        print "\t...is writable"
-        f = open(vol.path().replace('/info', '/write_test'), 'w')
-        f.close()
-        os.remove(vol.path().replace('/info', '/write_test'))
-    except:
-        raise Exception('images_pool_not_writable')
-    print "\t...ok"
-
-def check_cc_user():
-    print "Checking cc1 user..."
-    try:
-        print "\t...exists"
-        u = pwd.getpwnam('cc1')
-    except:
-        raise Exception('cc1_user_not_exists')
-
-    print "\t...has 331 uid"
-    if u.pw_uid != 331:
-        raise Exception('cc1_user_is_not_331_uid')
-
-    print "\t...has 331 gid"
-    if u.pw_gid != 331:
-        raise Exception('cc1_user_is_not_331_gid')
-
-    print "\t...could connect with him self"
-    if subprocess.call(['ssh', '-o', 'PasswordAuthentication=no', 'cc1@localhost', '/bin/true']) != 0:
-        raise Exception('cc1_ssh_error')
-
-    print "\t...ok"
-
-def check_permissions():
-    print "Checking permissions..."
-
-    if ('%o' % os.stat('/var/lib/cc1/.ssh/id_rsa').st_mode)[-3:] != '600':
-        raise Exception('ssh_key_wrong_permission')
-
-    if os.stat('/etc/cc1/node/config.py').st_uid != 331:
-        raise Exception('node_config_wrong_owner')
-
-    print '\t...ok'
-
-
-def check_qemu_conf():
-    print "Checking qemu.conf file..."
-
-    qemu = open('/etc/libvirt/qemu.conf', 'r').readlines()
-    user = False
-    group = False
-    dynamic_ownership = False
-
-    for line in qemu:
-        if 'user' in line and 'root' in line and not line.startswith('#'):
-            user = True
-        if 'group' in line and 'root' in line and not line.startswith('#'):
-            user = True
-        if 'dynamic_ownership' in line and '0' in line and not line.startswith('#'):
-            user = True
-
-    if not user and not group and not dynamic_ownership:
-        raise Exception('qemu_not_configured')
-
-    print "\t...ok"
-
-def check_libvirt_conf():
-    print "Libvirt check is not implemented"
-
-
-def check_hooks():
-    print "Checking hooks..."
-    if not os.path.exists('/usr/sbin/cc1_node_hook'):
-        print "\t...script exists"
-        raise Exception('script_not_exists')
-
-    mode = os.stat('/usr/sbin/cc1_node_hook').st_mode
-    if mode & stat.S_IXUSR and mode & stat.S_IXGRP and mode & stat.S_IXOTH:
-        print "\t...script is executable"
-    else:
-        raise Exception('script_not_executable')
-
-    if not os.path.exists('/etc/libvirt/hooks/qemu'):
-        print "\t...exists"
-        raise Exception('hook_not_exists')
-
-    mode = os.stat('/etc/libvirt/hooks/qemu').st_mode
-    if mode & stat.S_IXUSR and mode & stat.S_IXGRP and mode & stat.S_IXOTH:
-        print "\t...is executable"
-    else:
-        raise Exception('hook_not_executable')
-
-    print "\t...ok"
-
-
-def check_remote_storages():
-    print "Checking storages..."
-    conn = libvirt.open(lv_address)
-
-    print "\t...retreive storage list from libvirt"
-    lv_storages = []
-    for storage_name in conn.listStoragePools():
-        lv_storages.append(conn.storagePoolLookupByName(storage_name))
-
-    print "\t...retreive storage list from cm"
-    cm_storages = cm.send_request('/ci/storage/get_list/')['data']
-
-    for storage in cm_storages:
-        print "\t...if storage %s exists" % storage
-        lv_storage_names = [s.name() for s in lv_storages]
-        if not storage in lv_storage_names:
-            raise Exception('storage_not_mounted')
-
-    for storage in lv_storages:
-        print "\t...if storage %s is running" % storage.name()
-        if storage.name == 'images':
-            continue
-        elif storage.name() in cm_storages and storage.info()[0] != libvirt.VIR_STORAGE_POOL_RUNNING:
-            raise Exception('storage_not_running')
-
-    print "\t...ok"
-
-
-def check_public_ip():
-    print "Checking public ip redirections..."
-    r = subprocess.call('sudo /usr/sbin/cc1_node_public_ip check', shell=True)
-    if r != 0:
-        raise Exception('public_ip_failed')
-    print "\t...ok"
-
-
 if __name__ == "__main__":
     uid_cc1 = pwd.getpwnam('cc1').pw_uid
     gid_cc1 = grp.getgrnam('cc1').gr_gid
     gid_kvm = grp.getgrnam('kvm').gr_gid
-    gid_libvirt = grp.getgrnam('libvirt').gr_gid
+    gid_libvirt = utils.get_gid('libvirt') or utils.get_gid('libvirtd')
 
     if os.getuid() == 0:
         os.environ['HOME'] = '/var/lib/cc1/'

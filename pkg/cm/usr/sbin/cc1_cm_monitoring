@@ -18,10 +18,16 @@
 #
 # @endcond LICENSE
 
+import traceback
 import os
 import sys
 import time
-import pwd, grp
+import pwd
+import grp
+
+sys.path.append('/usr/lib/cc1/')
+from common import utils
+
 
 try:
     sys.path.append('/usr/lib/cc1/')
@@ -30,7 +36,9 @@ try:
     from cm.utils.threads.monia import start_monia
     from cm.utils.threads.daemon import Daemon
 
-except:
+except Exception, e:
+    print str(e)
+    traceback.print_exc()
     print "Cannot import CM Monitoring thread. Probably unconfigured!"
     sys.exit(1)
 
@@ -47,7 +55,7 @@ if __name__ == "__main__":
     uid_cc1 = pwd.getpwnam('cc1').pw_uid
     gid_cc1 = grp.getgrnam('cc1').gr_gid
     gid_kvm = grp.getgrnam('kvm').gr_gid
-    gid_libvirt = grp.getgrnam('libvirt').gr_gid
+    gid_libvirt = utils.get_gid('libvirt') or utils.get_gid('libvirtd')
 
     if os.getuid() == 0:
         os.environ['HOME'] = '/var/lib/cc1/'
@@ -64,6 +72,5 @@ if __name__ == "__main__":
     elif len(sys.argv) == 2 and sys.argv[1] == "stop":
         monitor.stop()
     else:
-        print "Usage: %s [start]" % sys.argv[0]
-        print "       %s [stop]" % sys.argv[0]
+        print "Usage: %s start|stop" % sys.argv[0]
         sys.exit(1)

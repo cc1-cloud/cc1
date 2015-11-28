@@ -5,7 +5,7 @@
     DocumentRoot "/usr/lib/cc1/cm/"
     WSGIDaemonProcess cm-ctx user=cc1 group=cc1 processes=1 threads=10
     WSGIScriptAlias / /usr/lib/cc1/cm/wsgi_ctx.py
-    ErrorLog /var/log/cc1/cm/cm-ctx-error.log
+    ErrorLog /var/log/cc1/cm/apache-ctx.log
     <Directory /usr/lib/cc1/cm>
         WSGIProcessGroup cm-ctx
         WSGIApplicationGroup %{GLOBAL}

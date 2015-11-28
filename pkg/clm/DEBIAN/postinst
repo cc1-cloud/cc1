@@ -1,10 +1,9 @@
 #!/usr/bin/python
 
 import sys
-import subprocess
 
-sys.path.append("/usr/lib/cc1/common")
-from utils import subcall
+sys.path.append("/usr/lib/cc1")
+from common.utils import subcall
 
 if __name__ == '__main__':
     if 'configure' in sys.argv:
@@ -24,10 +23,10 @@ if __name__ == '__main__':
         subcall("chown -R cc1:cc1 /etc/cc1/clm/clm/", std_log=log, err_log=log, err_exit=False)
 
         print "CLM: Creating default config"
-        r = subcall('cc1_clm_setup_config configure', std_log=log, err_log=log, err_exit=False)
+        r = subcall('cc1_setup_config configure clm', std_log=log, err_log=log, err_exit=False)
 
         print "CLM: Configuring database"
-        r = subcall('cc1_clm_setup_db_psql create', std_log=log, err_log=log, err_exit=False)
+        r = subcall('cc1_setup_db_psql create clm', std_log=log, err_log=log, err_exit=False)
         if r > 0:
             print "ERROR: Cannot create database. Migrate it manually"
             sys.exit(0)
@@ -51,7 +50,7 @@ if __name__ == '__main__':
             print "CLM: Database already installed"
 
         print "CLM: Adding apache vhost"
-        r = subcall('cc1_clm_setup_apache enable', std_log=log, err_log=log)
+        r = subcall('cc1_setup_apache enable clm', std_log=log, err_log=log)
         log.close()
         sys.exit(0)
 

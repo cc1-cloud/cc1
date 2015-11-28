@@ -18,42 +18,44 @@
 #
 # @endcond LICENSE
 
-"""
-@author Maciej Nabozny <mn@mnabozny.pl>
-"""
+#TODO zaleznosc od python-crontab
 
-import subprocess
-import os
+"""
+@author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>
+"""
 import sys
+from crontab import CronTab
+
+cmd = '/usr/lib/cc1/ec2/cleaner.py'
+comment = 'CC1 Cleaner'
 
 def enable():
-    subprocess.call('a2enmod ssl', shell=True)
-    subprocess.call('a2dissite default', shell=True)
-    subprocess.call('a2ensite cm', shell=True)
-    subprocess.call('a2ensite cm-ci', shell=True)
-    subprocess.call('a2ensite cm-ctx', shell=True)
-    subprocess.call('a2ensite cm-ec2ctx', shell=True)
-    subprocess.call('service apache2 restart', shell=True)
-    return 0
+    cc1_crontab = CronTab(user='cc1')
+    cmds = [comm for comm in cc1_crontab.find_command(cmd)]
+
+    if not len(cmds):
+        print "EC2: Adding CRON job"
+        cc1_cleaner_job = cc1_crontab.new(command=cmd, comment=comment)
+        cc1_cleaner_job.every().day()
+        cc1_cleaner_job.enable()
+        cc1_crontab.write()
+    else:
+        print "EC2: Job already in CRON"
 
 def disable():
-    subprocess.call('a2dissite cm', shell=True)
-    subprocess.call('a2dissite cm-ci', shell=True)
-    subprocess.call('a2dissite cm-ctx', shell=True)
-    subprocess.call('a2dissite cm-ec2ctx', shell=True)
-    subprocess.call('service apache2 restart', shell=True)
-    return 0
+    cc1_crontab = CronTab(user='cc1')
+    cmds = [comm for comm in cc1_crontab.find_command(cmd)]
+    for comm in cmds:
+        cc1_crontab.remove(comm)
 
-def purge():
-    disable()
-    os.remove('/etc/apache2/sites-available/cm')
+    cc1_crontab.write()
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == 'enable':
         sys.exit(enable())
     elif len(sys.argv) == 2 and sys.argv[1] == 'disable':
         sys.exit(disable())
-    elif len(sys.argv) == 2 and sys.argv[1] == 'purge':
-        sys.exit(purge())
     else:
-        print "Usage: %s [enable|disable|purge]" % sys.argv[0]
+        print "Usage:   %s [enable|disable]" % sys.argv[0]
+        sys.exit(1)
+
