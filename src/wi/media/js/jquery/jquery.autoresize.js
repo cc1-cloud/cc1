@@ -7,7 +7,7 @@
  * the extent permitted by applicable law. You can redistribute it
  * and/or modify it under the terms of the Do What The Fuck You Want
  * To Public License, Version 2, as published by Sam Hocevar. See
- * http://sam.zoy.org/wtfpl/COPYING for more details. */ 
+ * http://sam.zoy.org/wtfpl/COPYING for more details. */
 
 (function($){
 
@@ -68,7 +68,7 @@
 		if (el.data('AutoResizer')) {
 			el.data('AutoResizer').destroy();
 		}
-		
+
 		config = this.config = $.extend(true, {}, autoResize.defaults, config);
 		this.el = el;
 
@@ -123,7 +123,7 @@
 				.bind('paste.autoResize', function() {
 					setTimeout(function() { check(); }, 0);
 				});
-			
+
 			if (!this.el.is(':hidden')) {
 				this.check(null, true);
 			}
@@ -216,18 +216,18 @@
 			}
 
 			// TEXTAREA
-			
+
 			clone.width(el.width()).height(0).val(value).scrollTop(10000);
-			
+
 			var scrollTop = clone[0].scrollTop;
-				
+
 			// Don't do anything if scrollTop hasen't changed:
 			if (this.previousScrollTop === scrollTop) {
 				return;
 			}
 
 			this.previousScrollTop = scrollTop;
-			
+
 			if (scrollTop + config.extraSpace >= config.maxHeight) {
 				el.css('overflowY', '');
 				scrollTop = config.maxHeight;
@@ -270,5 +270,5 @@
 		}
 
 	};
-	
+
 })(jQuery);

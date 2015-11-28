@@ -27,13 +27,13 @@
 from django.conf.urls import patterns, url, include
 from django.utils.translation import ungettext, ugettext_lazy as _
 
+from wi.forms.vm import ChangeVMPasswordForm, EditVMForm, SetSshKeyForm, \
+    AssignChosenIPForm, CreateVMForm1, CreateVMForm2, CreateVMForm3, CreateVMForm4, \
+    MonitoringVMForm
 from wi.utils.decorators import user_permission
 from wi.utils.views import direct_to_template, simple_generic_id, \
     form_generic_id, generic_multiple_id, generic_multiple_id_form
 from wi.views.user.vm import CreateVMWizard
-from wi.forms.vm import ChangeVMPasswordForm, EditVMForm, SetSshKeyForm, \
-    AssignChosenIPForm, CreateVMForm1, CreateVMForm2, CreateVMForm3, CreateVMForm4, \
-    MonitoringVMForm
 
 
 vm_patterns = patterns('wi.views.user.vm',

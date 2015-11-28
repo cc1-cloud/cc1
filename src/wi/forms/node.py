@@ -26,6 +26,7 @@
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from wi.utils import parsing
 from wi.utils.forms import attrs_dict, BetterForm
 
@@ -59,8 +60,6 @@ class NodeForm(BetterForm):
 
     def __init__(self, *args, **kwargs):
         super(NodeForm, self).__init__(*args, **kwargs)
-
-
         self.fields['address'] = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
                                                  label=_('Node address'),
                                                  help_text=_('Node address - IP or DNS name'))
@@ -91,9 +90,10 @@ class EditNodeForm(NodeForm, BetterForm):
             pass
 
     def __init__(self, *args, **kwargs):
-            super(EditNodeForm, self).__init__(*args, **kwargs)
-            self.fields['comment'] = forms.CharField(required=False,
-                                  widget=forms.Textarea(attrs=dict(attrs_dict,
-                                                                   maxlength=256,
-                                                                   rows=4, cols=20)),
-                                  label=_('Comment'))
+        super(EditNodeForm, self).__init__(*args, **kwargs)
+        self.fields['comment'] = forms.CharField(required=False,
+                                                 widget=forms.Textarea(attrs=dict(attrs_dict,
+                                                                                  maxlength=256,
+                                                                                  rows=4,
+                                                                                  cols=20)),
+                                                 label=_('Comment'))

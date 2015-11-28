@@ -26,8 +26,8 @@
 from django.conf.urls import url, patterns, include
 from django.utils.translation import ugettext_lazy as _
 
-from wi.utils.decorators import user_permission, admin_clm_permission
 from wi.forms.news import NewsForm
+from wi.utils.decorators import user_permission, admin_clm_permission
 from wi.utils.views import form_generic, simple_generic_id
 
 

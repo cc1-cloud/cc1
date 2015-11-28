@@ -85,8 +85,7 @@ class AuthenticationForm(forms.Form):
         elif self.user_cache.is_active == user_active_states['email_confirmed']:
             raise forms.ValidationError(_("This account is inactive. Please wait for system operator to activate your account."))
 
-        if self.request:
-            if not self.request.session.test_cookie_worked():
+        if self.request and not self.request.session.test_cookie_worked():
                 raise forms.ValidationError(_("Your Web browser doesn't appear to have cookies enabled. Cookies are required for logging in."))
 
         return self.cleaned_data
@@ -354,7 +353,7 @@ class CMAuthenticationForm(forms.Form):
         cm = self.cleaned_data['cm']
 
         if password and not cm_authenticate(self.request.session['user'], password, cm):
-                raise forms.ValidationError(_('Please enter a correct password. Note that password field is case-sensitive.'))
+            raise forms.ValidationError(_('Please enter a correct password. Note that password field is case-sensitive.'))
 
         return self.cleaned_data
 
@@ -389,5 +388,5 @@ class CopyToUserForm(forms.Form):
         rest_data = kwargs.pop('rest_data')
         super(CopyToUserForm, self).__init__(*args, **kwargs)
         self.fields['dest_user_id'] = forms.ChoiceField(choices=parsing.parse_cm_users(rest_data),
-                                                       initial=0,
-                                                       label=_("User"))
+                                                        initial=0,
+                                                        label=_("User"))

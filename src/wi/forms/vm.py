@@ -36,10 +36,8 @@ from django.utils.translation import ugettext_lazy as _
 from wi.utils import parsing
 from wi.utils.forms import attrs_dict, RequiredSelectValidation
 from wi.utils.regexp import regexp, regexp_text
-from wi.utils.states import stat_names_reversed, stat_short_names_reversed, \
-    stat_resolutions_reversed, stat_ranges_reversed
-from wi.utils.widgets import SelectWithDisabled, \
-    CheckboxSelectMultipleWithDisabled
+from wi.utils.states import stat_names_reversed, stat_short_names_reversed, stat_resolutions_reversed, stat_ranges_reversed
+from wi.utils.widgets import SelectWithDisabled, CheckboxSelectMultipleWithDisabled
 
 
 class My2CheckboxSelectMultiple(forms.CheckboxSelectMultiple):
@@ -85,7 +83,6 @@ class SetSshKeyForm(forms.Form):
     """
     Form for <b>setting SSH key</b>.
     """
-
     vm_username = forms.RegexField(regex=regexp['login'],
                                    initial="root",
                                    widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=35)),
@@ -109,7 +106,6 @@ class ChangeVMPasswordForm(forms.Form):
     """
     Form for <b>changing VM password</b>.
     """
-
     vm_username = forms.RegexField(regex=regexp['login'],
                                    initial="root",
                                    widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=35)),
@@ -146,12 +142,12 @@ class AssignIPForm(RequiredSelectValidation):
         rest_data = kwargs.pop('rest_data')
         super(AssignIPForm, self).__init__(*args, **kwargs)
         self.fields['public_ip_id'] = forms.ChoiceField(choices=parsing.parse_ips(rest_data, False), initial=0,
-                                              widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
-                                              label=_("IP address"))
+                                                        widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
+                                                        label=_("IP address"))
         self.fields['public_ip_id'].widget.attrs['class'] = 'medium'
         self.fields['lease_id'] = forms.ChoiceField(choices=parsing.parse_leases(rest_data), initial=0,
-                                              widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
-                                              label=_("Lease"))
+                                                    widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
+                                                    label=_("Lease"))
         self.fields['lease_id'].widget.attrs['class'] = 'medium'
 
     def clean_lease_id(self):
@@ -176,8 +172,8 @@ class RevokeIPForm(RequiredSelectValidation):
         rest_data = kwargs.pop('rest_data')
         super(RevokeIPForm, self).__init__(*args, **kwargs)
         self.fields['public_ip_id'] = forms.ChoiceField(choices=parsing.parse_ips_from_vm(rest_data), initial=0,
-                                              widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
-                                              label=_("IP address"))
+                                                        widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
+                                                        label=_("IP address"))
         self.fields['public_ip_id'].widget.attrs['class'] = 'medium'
 
     def clean_public_ip_id(self):
@@ -196,8 +192,8 @@ class AssignDiskForm(RequiredSelectValidation):
         rest_data = kwargs.pop('rest_data')
         super(AssignDiskForm, self).__init__(*args, **kwargs)
         self.fields['storage_image_id'] = forms.ChoiceField(choices=parsing.parse_disks(rest_data, False), initial=0,
-                                                  widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
-                                                  label=_("Disk"))
+                                                            widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
+                                                            label=_("Disk"))
         self.fields['storage_image_id'].widget.attrs['class'] = 'medium'
 
     def clean_storage_image_id(self):
@@ -216,8 +212,8 @@ class RevokeDiskForm(RequiredSelectValidation):
         rest_data = kwargs.pop('rest_data')
         super(RevokeDiskForm, self).__init__(*args, **kwargs)
         self.fields['storage_image_id'] = forms.ChoiceField(choices=parsing.parse_disks_from_vm(rest_data), initial=0,
-                                                  widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
-                                                  label=_('Disk'))
+                                                            widget=SelectWithDisabled(attrs=dict({'class': 'medium'})),
+                                                            label=_('Disk'))
         self.fields['storage_image_id'].widget.attrs['class'] = 'medium'
 
     def clean_storage_image_id(self):
@@ -277,21 +273,21 @@ class CreateVMForm3(forms.Form):
         super(CreateVMForm3, self).__init__(*args, **kwargs)
 
         self.fields['public_ip_id'] = forms.ChoiceField(choices=parsing.parse_ips(rest_data),
-                                                 required=False,
-                                                 widget=SelectWithDisabled(attrs=dict()),
-                                                 label=_('Assign IP address'),
-                                                 help_text=_('Public IP address - To get a new IP address go to: VM Resources -&gt; Elastic IP addresses'))
+                                                        required=False,
+                                                        widget=SelectWithDisabled(attrs=dict()),
+                                                        label=_('Assign IP address'),
+                                                        help_text=_('Public IP address - To get a new IP address go to: VM Resources -&gt; Elastic IP addresses'))
 
         self.fields['disk_list'] = forms.MultipleChoiceField(choices=parsing.parse_disks(rest_data, True),
-                                                            required=False,
-                                                            widget=CheckboxSelectMultipleWithDisabled,
-                                                            label=_('Attach disk volume'),
-                                                            help_text=_('Virtual disk - '))
+                                                             required=False,
+                                                             widget=CheckboxSelectMultipleWithDisabled,
+                                                             label=_('Attach disk volume'),
+                                                             help_text=_('Virtual disk - '))
 
         self.fields['iso_list'] = forms.ChoiceField(choices=parsing.parse_iso(rest_data),
-                                                   required=False,
-                                                   widget=SelectWithDisabled(attrs=dict()),
-                                                   label=_("Attach ISO image"))
+                                                    required=False,
+                                                    widget=SelectWithDisabled(attrs=dict()),
+                                                    label=_("Attach ISO image"))
 
         self.fields['vnc'] = forms.BooleanField(required=False,
                                                 label=_("VNC"),
@@ -346,15 +342,15 @@ class MonitoringVMForm(forms.Form):
         super(MonitoringVMForm, self).__init__(*args, **kwargs)
 
         self.fields['stat_name'] = forms.MultipleChoiceField(choices=stat_names_reversed.items(),
-                                                            widget=My2CheckboxSelectMultiple,
-                                                            label=_('Statistic'),
-                                                            initial=['0'])
+                                                             widget=My2CheckboxSelectMultiple,
+                                                             label=_('Statistic'),
+                                                             initial=['0'])
         self.fields['resolution'] = forms.ChoiceField(choices=stat_resolutions_reversed.items(),
                                                       label=_('Time range'))
         self.fields['resolution'].widget.attrs['class'] = 'small'
 
         self.fields['stat_range'] = forms.ChoiceField(choices=stat_ranges_reversed.items(),
-                                                 label=_('Period'))
+                                                      label=_('Period'))
         self.fields['stat_range'].widget.attrs['class'] = 'small'
 
     def clean_vm_id(self):
@@ -393,14 +389,14 @@ class CreateVMOnNodeForm(EditVMForm, CreateVMForm3):
         super(CreateVMOnNodeForm, self).__init__(*args, **kwargs)
 
         self.fields['image_id'] = forms.ChoiceField(choices=parsing.parse_image_names(rest_data),
-                                                  widget=SelectWithDisabled(attrs=dict()),
-                                                  label=_("Image"),
-                                                  help_text=_('Image file - From your public, private or group image pool'))
+                                                    widget=SelectWithDisabled(attrs=dict()),
+                                                    label=_("Image"),
+                                                    help_text=_('Image file - From your public, private or group image pool'))
 
         self.fields['template_id'] = forms.ChoiceField(choices=parsing.parse_template_names(rest_data),
-                                                     widget=forms.Select(attrs=dict()),
-                                                     label=_("Template"),
-                                                     help_text=_('Template of machine - Virtual machine parameters'))
+                                                       widget=forms.Select(attrs=dict()),
+                                                       label=_("Template"),
+                                                       help_text=_('Template of machine - Virtual machine parameters'))
 
         self.fields.keyOrder = ['image_id', 'name', 'description',
                                 'template_id', 'public_ip_id', 'disk_list',

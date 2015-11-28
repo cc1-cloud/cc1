@@ -28,8 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from wi.forms.storage_image import EditDiskForm
 from wi.utils.decorators import admin_cm_permission
-from wi.utils.views import form_generic_id, simple_generic_id, \
-    direct_to_template
+from wi.utils.views import form_generic_id, simple_generic_id, direct_to_template
 
 
 disk_patterns = patterns('wi.views.admin_cm.storage_image',
@@ -48,11 +47,18 @@ disk_patterns = patterns('wi.views.admin_cm.storage_image',
         name='cma_ajax_edit_disk'),
     url(r'^ajax/delete_disk/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
         {'template_name':   'generic/simple.html',
-         'success_msg':     (lambda desc: _('You have successfully removed disk volume <b>%(desc)s</b>.') % {'desc': desc}),
+         'success_msg':     (lambda desc: _('You have successfully deleted disk volume <b>%(desc)s</b>.') % {'desc': desc}),
          'ask_msg':         (lambda desc: _('Do you want to delete disk volume <b>%(desc)s</b>?') % {'desc': desc}),
          'request_url':     'admin_cm/storage_image/delete/',
          'id_key':          'storage_image_id', },
         name='cma_ajax_delete_disk'),
+    url(r'^ajax/cm/revoke_disk/(?P<id1>\d+)/$', admin_cm_permission(simple_generic_id),
+        {'template_name':   'generic/simple.html',
+         'success_msg':     (lambda desc: _('You have successfully revoked disk volume <b>%(desc)s</b>.') % {'desc': desc}),
+         'ask_msg':         (lambda desc: _('Do you want to revoke disk volume <b>%(desc)s</b>?') % {'desc': desc}),
+         'request_url':     'admin_cm/storage_image/revoke/',
+         'id_key':          'storage_image_id', },
+        name='cma_ajax_revoke_disk'),
 
     url(r'^ajax/copy_disk/(?P<id1>\d+)/$', 'cma_ajax_copy_disk', name='cma_ajax_copy_disk'),
 )

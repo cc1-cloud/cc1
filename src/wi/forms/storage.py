@@ -26,6 +26,7 @@
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from wi.utils import parsing
 from wi.utils.forms import attrs_dict
 
@@ -37,14 +38,14 @@ class StorageForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
                            label=_("Name"))
     capacity = forms.IntegerField(min_value=1,
-                             label=_("Maximum capacity [MB]"),
-                             help_text=_('Maximum capacity - amount of usable space'))
+                                  label=_("Maximum capacity [MB]"),
+                                  help_text=_('Maximum capacity - amount of usable space'))
     address = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
-                               label=_("Address"),
-                               help_text=_('Storage address - IP or DNS name'))
+                              label=_("Address"),
+                              help_text=_('Storage address - IP or DNS name'))
     directory = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
-                               label=_("Directory"),
-                               help_text=_('Directory - nfs export directory'))
+                                label=_("Directory"),
+                                help_text=_('Directory - nfs export directory'))
 
 
 class MountStorageForm(forms.Form):

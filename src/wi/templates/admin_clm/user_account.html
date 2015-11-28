@@ -8,7 +8,7 @@
 	{{ block.super }}
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="{% url 'clm_users' %}">{% trans "Users" %}</a></li>
-	
+
 	<li><span class="bc-arrow"></span></li>
 	<li><a href="#">{% trans "User's account data" %}</a></li>
 {% endblock %}
@@ -71,13 +71,13 @@ $(function() {
 			<span class="inputs text">
 				${organization}
 			</span>
-		</div>		
+		</div>
 	</fieldset>
-	
+
 	<fieldset class="noBorder align_center">
 		<a class="big_button" onclick="cc1.sthTable.accountDataEdit( ${user_id} );">{% trans "Edit account data" %}</a>
 	</fieldset>
-	
+
 	<div class="clear"></div>
 	</script>
 	<div class="ajax_loader1">&nbsp;</div>

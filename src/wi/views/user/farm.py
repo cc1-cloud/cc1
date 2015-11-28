@@ -102,8 +102,8 @@ class CreateFarmWizard(CustomWizardView):
 
         elif self.steps.current == '1':
             form_cleaned_data = self.get_all_cleaned_data()
-            rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']}),
-                                   }, self.request.session)
+            rest_data = prep_data({'image': ('user/system_image/get_by_id/', {'system_image_id': form_cleaned_data['image_id']})},
+                                  self.request.session)
 
             context.update({'steps_desc': [rest_data['image']['name'] if len(rest_data['image']['name']) <= 15 else rest_data['image']['name'][:15] + '...', _('Hardware'), _('Optional resources'), _('Summary')]})
 
@@ -121,8 +121,8 @@ class CreateFarmWizard(CustomWizardView):
                                    'templates': 'user/template/get_list/',
                                    'ips': 'user/public_ip/get_list/',
                                    'disks': 'user/storage_image/get_list/',
-                                   'iso': 'user/iso_image/get_list/',
-                                   }, self.request.session)
+                                   'iso': 'user/iso_image/get_list/'},
+                                  self.request.session)
             summary_data = {'summary_image': rest_data['image'],
                             'summary_head_template': utils.get_dict_from_list(rest_data['templates'], form_cleaned_data['head_template_id'], key='template_id'),
                             'summary_template': utils.get_dict_from_list(rest_data['templates'], form_cleaned_data['worker_template_id'], key='template_id'),

@@ -28,8 +28,7 @@ from django.utils.translation import ungettext, ugettext_lazy as _
 
 from wi.forms.vm import EditVMForm
 from wi.utils.decorators import admin_cm_permission
-from wi.utils.views import generic_multiple_id, simple_generic_id, \
-    form_generic_id
+from wi.utils.views import generic_multiple_id, simple_generic_id, form_generic_id
 
 
 vm_patterns = patterns('wi.views.admin_cm.vm',

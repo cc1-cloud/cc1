@@ -5,12 +5,12 @@
 
 <form method="post" action="">
 	{% csrf_token %}
-	<div class="center">	
+	<div class="center">
 	</div>
-	
+
 	<div class="clear"></div>
 	<div class="dialog_button_area">
 		<button type="submit" class="ok-button mid_button">{{ confirmation|safe }}</button>
 		<button type="button" class="cancel-button mid_button">{% trans "Cancel" %}</button>
-	</div>		
+	</div>
 </form>

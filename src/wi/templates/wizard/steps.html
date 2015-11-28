@@ -2,9 +2,9 @@
 
 <script type="text/javascript">/*<![CDATA[*/
 $(function() {
-	var $form = $('#wizard-form');	
+	var $form = $('#wizard-form');
 	// powrot do poprzednich krokow
-	$('#wizard-steps').on('click', 'div.done', function() {		
+	$('#wizard-steps').on('click', 'div.done', function() {
 		$('#wizard_goto_step').val( $(this).data('step') );
 		cc1.utils.createOverlay($('#wizard-form > div:last-child'));
 		$form.submit();

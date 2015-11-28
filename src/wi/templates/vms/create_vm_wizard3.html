@@ -31,7 +31,7 @@
 $(function() {
 	var submitDiv = $('#submit-div'),
 		$form = $('#wizard-form');
-		
+
 	submitDiv.on('click', 'input.big_button', function() {
 		submitDiv.html('');
 		cc1.utils.createOverlay(submitDiv.parent());
@@ -41,9 +41,9 @@ $(function() {
 
 /*]]>*/</script>
 
-<form id="wizard-form" action="" method="post">	
+<form id="wizard-form" action="" method="post">
 	{% include "wizard/steps.html" %}
-	
+
 	<div>
 		{% csrf_token %}
 		{{ wizard.management_form }}
@@ -51,27 +51,27 @@ $(function() {
 
 		<fieldset>
 			<legend>{% trans "Virtual machine settings summary" %}</legend>
-		
+
 			<div>
 				<span class="labels"><label>{% trans "Image" %}:</label></span>
 				<span class="inputs text">{{ summary_image|getitem:'name' }}</span>
 			</div>
-		
+
 			<div>
 				<span class="labels"><label>{% trans "Image description" %}:</label></span>
 				<span class="inputs text">{{ summary_image|getitem:'description' }}</span>
 			</div>
-		
+
 			<div>
 				<span class="labels"><label>{% trans "Template" %}:</label></span>
 				<span class="inputs text">{{ summary_template|getitem:'name' }}</span>
 			</div>
-		
+
 			<div>
 				<span class="labels"><label>{% trans "IP address" %}:</label></span>
 				<span class="inputs text">{% if summary_ip %} {{ summary_ip|getitem:'address'}} {% else %} {% trans "not attached" %} {% endif %}</span>
 			</div>
-		
+
 			<div>
 				<span class="labels"><label>{% trans "Disk volumes" %}:</label></span>
 				<span class="inputs text">
@@ -82,7 +82,7 @@ $(function() {
 				{% endfor %}
 				</span>
 			</div>
-		
+
 			<div>
 				<span class="labels"><label>{% trans "ISO images" %}:</label></span>
 				<span class="inputs text">
@@ -93,14 +93,14 @@ $(function() {
 				{% endfor %}
 				</span>
 			</div>
-		
+
 			<div>
 				<span class="labels"><label>{% trans "VNC" %}:</label></span>
 				<span class="inputs text">
 				{% if summary_vnc %} {% trans "attached" %} {% else %} {% trans "not attached" %} {% endif %}
 				</span>
 			</div>
-		
+
 			<div class="clear"></div>
 		</fieldset>
 

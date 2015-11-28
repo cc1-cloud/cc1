@@ -4,7 +4,7 @@
 {% templatetag openvariable %}if {{ field_name }}_shortened{% templatetag closevariable %}
 	<span class="short">
 		{% templatetag openvariable %}html {{ field_name }}_shortened.escapeHTML().wbrAndLb(){% templatetag closevariable %}
-	</span>				
+	</span>
 	<span class="full">
 		{% templatetag openvariable %}html {{ field_name }}.escapeHTML().wbrAndLb(){% templatetag closevariable %}
 	</span>

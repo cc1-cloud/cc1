@@ -30,8 +30,7 @@ from wi.forms.vm import EditVMForm
 from wi.utils import parsing
 from wi.utils.forms import NumberChoice
 from wi.utils.views import make_request
-from wi.utils.widgets import SelectWithDisabled, \
-    CheckboxSelectMultipleWithDisabled
+from wi.utils.widgets import SelectWithDisabled, CheckboxSelectMultipleWithDisabled
 
 
 class CreateFarmForm1(forms.Form):

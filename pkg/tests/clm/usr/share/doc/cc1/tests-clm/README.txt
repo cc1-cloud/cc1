@@ -35,7 +35,7 @@ Install packages:
 	- qemu-common
 	- python-qt (in case of use graphical interface)
 	- python-django (in case of use html results)
-	
+
 Add test user with group membership:
 	- kvm
 	- libvirtd

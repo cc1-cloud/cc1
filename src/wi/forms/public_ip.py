@@ -26,6 +26,7 @@
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from wi.utils.forms import attrs_dict
 
 
@@ -36,4 +37,4 @@ class AddPublicIPForm(forms.Form):
     start_address = forms.CharField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=45)),
                                                  label=_('First IP address'))
     count = forms.IntegerField(min_value=1, initial=1,
-                              label=_('Number of IP'))
+                               label=_('Number of IP'))

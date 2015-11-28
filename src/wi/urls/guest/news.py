@@ -24,6 +24,7 @@
 """
 
 from django.conf.urls import url, patterns, include
+
 from wi.utils.views import direct_to_template
 
 

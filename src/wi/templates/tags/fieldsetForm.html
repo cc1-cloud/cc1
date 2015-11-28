@@ -5,7 +5,7 @@
 {% endif %}
 
 {% if form.fieldsets %}
-	{% for fieldset in form.fieldsets %}	
+	{% for fieldset in form.fieldsets %}
 	<fieldset {% if fieldset.description %} id="fs_{{ fieldset.description }}" {% endif %}>
 		{% if fieldset.legend %}
 			<legend>{{ fieldset.legend }}</legend>
@@ -22,14 +22,14 @@
 					{% endif %}
 				{% endif %}
 				</span>
-			
+
 				<span class="inputs">
 					{{ field|safe }}
 				{% if field.help_text %}
 					<span class="tooltip" title="{{ field.help_text }}"></span>
 				{% endif %}
-				</span>		
-		
+				</span>
+
 				{% if field.errors %}
 					{{ field.errors }}
 				{% endif %}
@@ -55,14 +55,14 @@
 					{{ fieldset.description }}Div.slideToggle('fast');
 				},
 			});
-		
+
 		{{ fieldset.description }}Div.before( advancedButton ).hide();
 	});
 	/*]]>*/</script>
-	{% endif %}	
+	{% endif %}
 	{% endfor %}
 {% else %}
 
 	{% include 'tags/form.html' %}
-	
+
 {% endif %}

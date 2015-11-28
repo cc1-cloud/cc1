@@ -27,7 +27,7 @@ $(function() {
 		template : '#rowTemplate',
 		urlGetData : '{% url 'acc_ajax_get_user_data' %}'
 	});
-	
+
 	// edycja swojego emaila
 	cc1.sthTable.editAccountData = cc1.utils.createAction({
 		url: '{% url 'acc_ajax_account_data_edit' %}',
@@ -63,9 +63,9 @@ $(function() {
 	<fieldset class="noBorder align_center">
 		<a class="big_button" onclick="cc1.sthTable.editAccountData();">{% trans "Edit account data" %}</a>
 	</fieldset>
-	
+
 	<div class="box_separator"> {% trans "EC2 data" %} </div>
-	
+
 	<fieldset class="noBorder">
 		<div>
 			<span class="labels"> <label>{% trans "AWS Access Key ID" %}:</label> </span>
@@ -79,15 +79,15 @@ $(function() {
 		</div>
 		<div>
 			<span class="labels"> <label>{% trans "EC2 endpoints" %}:</label> </span>
-			<span class="inputs text">				
+			<span class="inputs text">
 			{% verbatim2 %}
 				{{each ec2_endpoints}}
 					${this}
 					<br>
-				{{/each}}	
-			{% endverbatim2 %}	
+				{{/each}}
+			{% endverbatim2 %}
 			 </span>
-			
+
 		</div>
 	</fieldset>
 	<div class="clear"></div>

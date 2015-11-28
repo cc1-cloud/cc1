@@ -22,18 +22,20 @@
 @author Krzysztof Danielowski
 @author Piotr Wójcik
 """
+import urllib
+
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
+
 from wi.forms.key import GenerateKeyForm
 from wi.utils import messages_ajax
 from wi.utils.decorators import django_view, user_permission
 from wi.utils.messages_ajax import ajax_request
 from wi.utils.views import prep_data
-import urllib
 
 
 @django_view

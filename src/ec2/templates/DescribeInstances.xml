@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
-  <requestId>00000000-0000-0000-0000-000000000000</requestId> 
+  <requestId>00000000-0000-0000-0000-000000000000</requestId>
   % if reservations:
   <reservationSet>
     % for reservation in reservations:

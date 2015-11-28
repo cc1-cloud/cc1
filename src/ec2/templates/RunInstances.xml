@@ -1,6 +1,6 @@
-<RunInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/"> 
+<RunInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
   <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
-  <reservationId>r-${reservationId}</reservationId> 
+  <reservationId>r-${reservationId}</reservationId>
 ##  <ownerId>111122223333</ownerId>
 ##  <groupSet>
 ##    <item>

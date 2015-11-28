@@ -28,8 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from wi.forms.template import TemplateForm
 from wi.utils.decorators import admin_cm_permission
-from wi.utils.views import form_generic_id, direct_to_template, \
-    simple_generic_id, form_generic
+from wi.utils.views import form_generic_id, direct_to_template, simple_generic_id, form_generic
 
 
 template_patterns = patterns('wi.views.admin_cm.template',

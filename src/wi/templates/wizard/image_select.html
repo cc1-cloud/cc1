@@ -23,7 +23,7 @@ $(function() {
 	var $form = $('#wizard-form'),
 		$filter = $('#over-table select'),
 		$image_id_input = $('#id_0-image_id');
-		
+
 	cc1.sthTable = cc1.makeSthTable({
 		destDiv: '#item-list',
 		template: '#rowTemplate',
@@ -34,13 +34,13 @@ $(function() {
 		scrollableContent: true,
 		sortingColumnIndex: 2,
 		sortingDescending: true,
-	});	
-	
+	});
+
 	$filter.change(function() {
 		cc1.sthTable.setUrlGetData( '{% url 'img_ajax_get_all_table' 0 %}'.replace('0', $filter.val()) );
 		cc1.sthTable.loadData();
 	});
-	
+
 	// next step button
 	$('#item-list').on('click', 'a.selectButton', function() {
 		var $this = $(this),
@@ -48,7 +48,7 @@ $(function() {
 		$image_id_input.val(id);
 		cc1.sthTable.freeze();
 		$form.submit();
-	});	
+	});
 });
 /*]]>*/</script>
 
@@ -80,7 +80,7 @@ $(function() {
 			</tbody>
 		</table>
 	</div>
-	
+
 	<div class="tbody fixed-height">
 		<table>
 			<tbody>
@@ -91,7 +91,7 @@ $(function() {
 						${name}
 						<br />
 						<small>${type}</small>
-					</td>					
+					</td>
 					<td class="td2 text-justify">
 						{% resizable_field "description" %}
 						<br />
@@ -102,7 +102,7 @@ $(function() {
 				   				${size}
 				   			{{/if}}
 				   		</small>
-					</td>			
+					</td>
 					<td class="td3">
 					${creation_date}
 					</td>
@@ -120,7 +120,7 @@ $(function() {
 			</tbody>
 		</table>
 	</div>
-		
+
 	<div class="tfoot">
 		<table>
 			<tfoot>

@@ -26,6 +26,7 @@
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from wi.utils.forms import attrs_dict
 from wi.utils.states import ec2names_reversed
 
@@ -43,8 +44,8 @@ class TemplateForm(forms.Form):
                                 initial=2048,
                                 label=_("Memory [MB]"))
     points = forms.IntegerField(max_value=1000000,
-                             min_value=1,
-                             label=_("Points per hour"))
+                                min_value=1,
+                                label=_("Points per hour"))
     description = forms.CharField(required=False,
                                   widget=forms.Textarea(attrs=dict(attrs_dict, maxlength=512, rows=3, cols=20)),
                                   label=_("Description"))

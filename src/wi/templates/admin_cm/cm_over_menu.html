@@ -1,16 +1,16 @@
 {% load i18n %}
 
-<ul class="over-menu-bar">	
+<ul class="over-menu-bar">
 	{% if request.session.user.is_logged_admin_cm %}
 		<li>{% trans "On CM" %}: <b>{{ admin_cm_name }}</b> | </li>
 		<li>{% trans "Logged as" %} {{ request.session.user.username }} | </li>
 		<li><a href="{% url 'cma_logout' %}">{% trans "Logout from CM" %}</a> |</li>
-		<li><a href="{% url 'cma_user_account' request.session.user.user_id %}">{% trans "My CM account" %}</a></li> 		
+		<li><a href="{% url 'cma_user_account' request.session.user.user_id %}">{% trans "My CM account" %}</a></li> 
 	{% else %}
 		{% if request.session.user %}
 			<li>{% trans "Logged as" %} {{ request.session.user.username }} | </li>
 			<li><a href="{% url 'logout' %}">{% trans "Logout" %}</a> | </li>
-		{% endif %}	
+		{% endif %}
 		<li><a href="{% url 'cma_login' %}">{% trans "Login to CM" %}</a></li>
 	{% endif %}
 </ul>

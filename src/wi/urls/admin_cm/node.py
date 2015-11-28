@@ -23,9 +23,10 @@
 @date 17.03.2011
 """
 
-from common.states import image_access
 from django.conf.urls import url, patterns, include
 from django.utils.translation import ungettext, ugettext_lazy as _
+
+from common.states import image_access
 from wi.forms.node import NodeForm, EditNodeForm
 from wi.forms.vm import CreateVMOnNodeForm
 from wi.utils.decorators import admin_cm_permission

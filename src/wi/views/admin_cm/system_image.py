@@ -102,8 +102,7 @@ def cma_ajax_add_image(request, template_name='generic/form.html', form_class=Ad
         form = form_class(rest_data=rest_data)
     return messages_ajax.success(render_to_string(template_name, {'form': form,
                                                                   'confirmation': _('Create'),
-                                                                  'text': '',
-                                                                  },
+                                                                  'text': ''},
                                                    context_instance=RequestContext(request)),
                                 status=1)
 
@@ -132,7 +131,6 @@ def cma_ajax_copy_image(request, id1, template_name='generic/form.html', form_cl
         form = form_class(rest_data=rest_data)
     return messages_ajax.success(render_to_string(template_name, {'form': form,
                                                                   'confirmation': _('Copy'),
-                                                                  'text': _('Select user:')
-                                                                  },
+                                                                  'text': _('Select user:')},
                                                   context_instance=RequestContext(request)),
                                 status=1)

@@ -6,7 +6,7 @@
 $(function() {
 	var submitDiv = $('#submit-div'),
 		$form = $('#wizard-form');
-		
+
 	submitDiv.on('click', 'input.big_button', function() {
 		submitDiv.html('');
 		cc1.utils.createOverlay(submitDiv.parent());
@@ -16,14 +16,14 @@ $(function() {
 
 /*]]>*/</script>
 
-<form id="wizard-form" action="" method="post">	
+<form id="wizard-form" action="" method="post">
 	{% include "wizard/steps.html" %}
-	
+
 	<div>
 		{% csrf_token %}
 		{{ wizard.management_form }}
 		{% show_fieldsetform wizard.form %}
-	
+
 		<div class="clear"></div>
 		<div id="submit-div" class="fieldset align_center">
 			<input type="button" class="big_button" value="{% if wizard.steps.step1 == wizard.steps.count %}{%trans "Create" %}{% else %}{% trans "Next" %}{% endif %}" />

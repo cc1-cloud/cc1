@@ -28,8 +28,7 @@ from django.utils.translation import ungettext, ugettext_lazy as _
 
 from wi.forms.system_image import EditImageForm
 from wi.utils.decorators import admin_cm_permission
-from wi.utils.views import generic_multiple_id, form_generic_id, simple_generic_id, \
-    direct_to_template
+from wi.utils.views import generic_multiple_id, form_generic_id, simple_generic_id, direct_to_template
 
 
 image_patterns = patterns('wi.views.admin_cm.system_image',

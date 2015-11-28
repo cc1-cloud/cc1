@@ -3,7 +3,7 @@
 	<li class="menu-item">
 		<a href="{% url 'admin_clm' %}">{% trans "CLM administrator panel" %}</a>
 	</li>
-{% if request.session.user.is_admin_clm %}	
+{% if request.session.user.is_admin_clm %}
 	<li class="menu-item">
 		<a href="{% url 'clm_users' %}">{% trans "Users" %}</a>
 	</li>
@@ -12,7 +12,7 @@
 	</li>
 {% else %}
 	<li class="menu-item">
-		<a href="{% url 'mai_main' %}">{% trans "CC1 home page" %}</a>	
+		<a href="{% url 'mai_main' %}">{% trans "CC1 home page" %}</a>
 	</li>
 {% endif %}
 </ul>

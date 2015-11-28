@@ -28,8 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from wi.forms.iso_image import EditISOForm
 from wi.utils.decorators import admin_cm_permission
-from wi.utils.views import form_generic_id, simple_generic_id, \
-    direct_to_template
+from wi.utils.views import form_generic_id, simple_generic_id, direct_to_template
 
 
 iso_patterns = patterns('wi.views.admin_cm.iso_image',

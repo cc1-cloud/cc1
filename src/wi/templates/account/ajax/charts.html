@@ -5,9 +5,9 @@
 
 	<div id="flotChart"></div>
 	<div id="overviewChart"></div>
-	
+
 	<div class="clear"></div>
-	<div class="dialog_button_area">		
+	<div class="dialog_button_area">
 		<button type="button" class="cancel-button mid_button">{% trans "Close" %}</button>
 	</div>
 </form>
@@ -21,13 +21,13 @@ $(function () {
 			threshold = response.data['limit'],
 			data = null,
 			plot = null,
-			options = null,			
+			options = null,
 			dateStart, dateEnd,
 			drawAnnotations = function(xpos) {
 				var o = plot.pointOffset({ x: xpos, y: threshold});
 				chartDiv.append('<div style="position:absolute;left:' + (o.left + 5) + 'px;top:' + (o.top - 19) + 'px;color:#a44;font-size:smaller">{% trans "monthly point limit" %}</div>');
 			};
-			
+
 		for (var i=0; i<points.length; i++) {
 			points[i][0] = points[i][0] * 1000;
 		}
@@ -41,20 +41,20 @@ $(function () {
 			dateEnd = new Date(1900 + dateStart.getYear(), dateStart.getMonth() + 1, 1);
 		}
 		dateEnd = (new Date(dateEnd.setHours(0))).setMinutes(0);
-		
+
 		data = [{
 	    	data: points,
 	    	color: '#0f0',
 	        //threshold: { below: threshold + 0.001, color: '#f00'},
 	    }];
-		
+
 	    options = {
 	        lines: { show: true },
 	        points: { show: true },
 	        xaxis: {
 	        	max: dateEnd,
 	        	mode: 'time',
-	        	monthNames: [gettext('Jan'), gettext('Feb'), gettext('Mar'), gettext('Apr'), gettext('May'), gettext('Jun'), gettext('Jul'), gettext('Aug'), gettext('Sep'), gettext('Oct'), gettext('Nov'), gettext('Dec')], 
+	        	monthNames: [gettext('Jan'), gettext('Feb'), gettext('Mar'), gettext('Apr'), gettext('May'), gettext('Jun'), gettext('Jul'), gettext('Aug'), gettext('Sep'), gettext('Oct'), gettext('Nov'), gettext('Dec')],
 	        },
 	        yaxis: { min: 0, max: Math.max( 1.06*threshold, 1.06*points[points.length-1][1]), autoscaleMargin: 0.1 },
 	        grid: {
@@ -70,12 +70,12 @@ $(function () {
 	        	show: false
 	        }
 	    };
-	    
+
 	 	// threshold not reached?
 		if (points[points.length-1][1] < threshold) {
 		    data.push({
-		    	data: [ 
-		    	        points[points.length-1], 
+		    	data: [
+		    	        points[points.length-1],
 		    	        [ isNaN(a)? dateEnd : (threshold - b)/a, isNaN(a)? points[points.length-1][1] : threshold]
 		    	      ],
 		    	color: '#ccf',
@@ -87,10 +87,10 @@ $(function () {
 		    });
 		    options.grid.markings.splice(0,0,{ color: '#e6e6f6', xaxis: { from: points[points.length-1][0], to: dateEnd } });
 		}
-	    
+
 	    plot = $.plot(chartDiv, data, options);
 	    drawAnnotations(points[0][0]);
-	    
+
 	    // overview chart
 	    var overview = $.plot(overviewDiv, [{data: points, color: '#0f0'}], {
 	        series: {
@@ -101,7 +101,7 @@ $(function () {
 	        yaxis: { ticks: [], min: 0, autoscaleMargin: 0.1 },
 	        selection: { mode: 'x' }
 	    });
-	
+
 	    // now connect the two
 	    chartDiv.bind('plotselected', function (event, ranges) {
 	        plot = $.plot(chartDiv, data,
@@ -112,21 +112,21 @@ $(function () {
 	        // don't fire event on the overview to prevent eternal loop
 	        overview.setSelection(ranges, true);
 	    });
-	    
+
 	    overviewDiv.bind('plotselected', function (event, ranges) {
 	        plot.setSelection(ranges);
 	        drawAnnotations(ranges.xaxis.from);
 	    });
-	    
+
 	    // tooltips
 	    var previousPoint = null;
 	    chartDiv.bind('plothover', function (event, pos, item) {
             if (item) {
                 if (previousPoint != item.dataIndex) {
                     previousPoint = item.dataIndex;
-                    
+
                     $('#chartTooltip').remove();
-        			
+        
                     $('<div id="chartTooltip">' + points[item.dataIndex][2] + '</div>').css( {
                         top: item.pageY + 5,
                         left: item.pageX + 8,
@@ -138,7 +138,7 @@ $(function () {
             }
 	    });
 	};
-	
-    $.ajax({ type: 'GET', url: '{% url 'acc_ajax_charts_points' %}', success: fetchData });    
+
+    $.ajax({ type: 'GET', url: '{% url 'acc_ajax_charts_points' %}', success: fetchData });
 });
 </script>

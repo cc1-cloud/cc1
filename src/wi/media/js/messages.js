@@ -1,7 +1,7 @@
 cc1.initMessages = function(settings) {
 	var messagesCount = 1,
 		topMessagesDiv = $('#top-messages'),
-	
+
 	// pobiera i wyswietla komunikaty usera
 	get = function() {
 		$.post(settings.urlGetMessages, function(response) {
@@ -10,7 +10,7 @@ cc1.initMessages = function(settings) {
 				for (i in response.data) {
 					message = response.data[i];
 					add(message.message_id , message.creation_date, message.level, message.text);
-				}			
+				}
 			}
 		});
 	},
@@ -29,7 +29,7 @@ cc1.initMessages = function(settings) {
 			fromCLM = false;
 		}
 		topMessagesDiv.append('<div id="message' + id + '" class="' + class_name + '"><span class="date">' + date + '</span><span class="content">'+content+'</span><span class="remove-button" onclick="cc1.messages.remove('+id+');" title="' + gettext('Remove message') + '"></span><div class="clear"></div></div>');
-		
+
 		messageDiv = $('#message'+id);
 		messageDiv.show('fade', 600);
 		if (class_name == 'success' && !fromCLM) {
@@ -70,13 +70,13 @@ cc1.initMessages = function(settings) {
 			html = '<ul>';
 			for (i in response.data) {
 				if (response.data[i].type == 'vm'){
-					html += '<li class="' + (response.data[i].status === 'ok' ? 'msg_response_ok' : 'msg_response_error') + '">' 
+					html += '<li class="' + (response.data[i].status === 'ok' ? 'msg_response_ok' : 'msg_response_error') + '">'
 						  + 'VM (id:' + response.data[i].vmid + '): ' + response.data[i].status_text + '</li>';
 				}
 				if (response.data[i].type == 'storage-node'){
-					html += '<li class="' + (response.data[i].status === 'ok' ? 'msg_response_ok' : 'msg_response_error') + '">' 
+					html += '<li class="' + (response.data[i].status === 'ok' ? 'msg_response_ok' : 'msg_response_error') + '">'
 						  + 'Storage (id:' + response.data[i].sid + '), ' + 'Node (id:' + response.data[i].nid + '): ' + response.data[i].status_text + '</li>';
-				}					  
+				}
 			}
 			html += '</ul>';
 			response.data = html;
@@ -92,5 +92,5 @@ cc1.initMessages = function(settings) {
 	if (settings.autoRefreshTime) {
 		setAutoRefresh();
 	}
-	return messages; 
+	return messages;
 };

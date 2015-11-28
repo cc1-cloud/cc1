@@ -33,7 +33,7 @@ $(function() {
 		vmImg  = $('#id_image_id');
 
 	$('#image-names').hide();
-		
+
 	vmImg.selectBox('value', {{ selected_image }})
 		.focus()
 		.change(function() {
@@ -43,7 +43,7 @@ $(function() {
 			}
 		});
 	$(':submit').blur();
-		
+
 	if ( vmImg.val() >= 0 ) {
 		if ( vmName.val() === '') {
 			vmName.val( vmImg.find(":selected").text() );
@@ -58,13 +58,13 @@ $(function() {
 <form method="post" action="">
     {% csrf_token %}
 	{% show_fieldsetform form %}
-	
+
 	<div id="image-names">
 		{% for image_desc in image_descriptions %}
 		<div id="image-{{ image_desc.0 }}">{{ image_desc.1 }}</div>
 		{% endfor %}
 	</div>
-	
+
 	<div class="clear"></div>
 	<div id="submit-div" class="fieldset align_center">
 		<input class="big_button" type="submit" name="create_show" value="{% trans "Create" %}" />

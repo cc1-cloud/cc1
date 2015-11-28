@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<fieldset class="noBorder">	
+<fieldset class="noBorder">
 	{% for field in form %}
 		{% if field.label == "Recaptcha" %}
 			<div>{{ field|safe }}</div>
@@ -17,16 +17,16 @@
 					{% else %}
 						&nbsp;&nbsp;&nbsp;
 					{% endif %}
-				{% endif %}			
+				{% endif %}
 				</span>
-			
+
 				<span class="inputs">
 					{{ field|safe }}
 					{% if field.help_text %}
 						<span class="tooltip" title="{{ field.help_text }}"></span>
 					{% endif %}
-				</span>		
-		
+				</span>
+
 				{% if field.errors %}
 					{{ field.errors }}
 				{% endif %}

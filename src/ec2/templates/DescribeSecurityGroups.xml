@@ -1,5 +1,5 @@
 <DescribeSecurityGroupsResponse xmlns="http://ec2.amazonaws.com/doc/2012-03-01/">
-   <requestId>Not Implemented</requestId> 
+   <requestId>Not Implemented</requestId>
    <securityGroupInfo>
       <item>
          <groupName>default</groupName>

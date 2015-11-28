@@ -26,13 +26,11 @@
 from django.conf.urls import patterns, url, include
 from django.utils.translation import ugettext_lazy as _
 
-from wi.forms.farm import CreateFarmForm1, CreateFarmForm2, CreateFarmForm3, \
-    CreateFarmForm4
-from wi.views.user.farm import CreateFarmWizard
+from wi.forms.farm import CreateFarmForm1, CreateFarmForm2, CreateFarmForm3, CreateFarmForm4
 from wi.forms.vm import EditVMForm
 from wi.utils.decorators import user_permission
-from wi.utils.views import direct_to_template, simple_generic_id, \
-    form_generic_id
+from wi.utils.views import direct_to_template, simple_generic_id, form_generic_id
+from wi.views.user.farm import CreateFarmWizard
 
 
 farm_patterns = patterns('wi.views.user.farm',

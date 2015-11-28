@@ -26,6 +26,7 @@
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from wi.utils.forms import attrs_dict
 
 

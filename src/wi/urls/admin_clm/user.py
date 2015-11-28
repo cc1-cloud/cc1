@@ -26,10 +26,10 @@
 from django.conf import settings
 from django.conf.urls import url, patterns, include
 from django.utils.translation import ugettext_lazy as _
+
 from wi.forms.user import AccountDataEditAdminCLM
 from wi.utils.decorators import admin_clm_permission
-from wi.utils.views import direct_to_template, simple_generic_id, \
-    form_generic_id, get_list_generic_id
+from wi.utils.views import direct_to_template, simple_generic_id, form_generic_id, get_list_generic_id
 
 
 user_patterns = patterns('wi.views.admin_clm.user',

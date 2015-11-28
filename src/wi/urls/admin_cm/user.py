@@ -29,8 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 from wi.forms.user import ChangeQuotaForm
 from wi.utils.decorators import admin_cm_permission
 from wi.utils.forms import PasswordForm
-from wi.utils.views import form_generic_id, direct_to_template, \
-    simple_generic_id
+from wi.utils.views import form_generic_id, direct_to_template, simple_generic_id
 
 
 user_patterns = patterns('wi.views.admin_cm.user',
@@ -44,7 +43,7 @@ user_patterns = patterns('wi.views.admin_cm.user',
          'confirmation':        _('Save'),
          'form_class':          ChangeQuotaForm,
          'request_url_post':    'admin_cm/user/change_quota/',
-         'request_url_get':     'admin_cm/user/check_quota/',
+         'request_url_get':     'admin_cm/user/get_quota/',
          'id_key':              'user_id'},
         name='cma_ajax_edit_quota'),
     url(r'^ajax/set_admin/(?P<id1>\d+)/$', admin_cm_permission(form_generic_id),

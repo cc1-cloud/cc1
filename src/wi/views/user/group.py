@@ -98,8 +98,8 @@ def grp_details(request, group_id, template_name='groups/group_details.html'):
     Group details page view.
     """
     rest_data = prep_data({'groups': 'user/group/list_groups/',
-                           'group_data': ('user/group/get_by_id/', {'group_id': group_id}),
-                          }, request.session)
+                           'group_data': ('user/group/get_by_id/', {'group_id': group_id})},
+                          request.session)
 
     group = rest_data['group_data']
     my_groups = parsing.parse_groups_ids(rest_data)
@@ -121,8 +121,8 @@ def grp_ajax_grp_details_table(request, group_id):
         user = request.session['user']
         rest_data = prep_data({'group_data': ('user/group/get_by_id/', {'group_id': group_id}),
                                'members': ('user/group/list_members/', {'group_id': group_id}),
-                               'requests': ('user/group/list_requests/', {'group_id': group_id})
-                              }, request.session)
+                               'requests': ('user/group/list_requests/', {'group_id': group_id})},
+                              request.session)
 
         leader_id = rest_data['group_data'].get('leader_id')
         leader = True

@@ -31,9 +31,10 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from common.utils import ServerProxy
-from wi.utils.messages_codes import get_error, auth_error_text
 from wi.utils.exceptions import RestErrorException
 from wi.utils.messages_ajax import error, success
+from wi.utils.messages_codes import get_error, auth_error_text
+
 
 REDIRECT_FIELD_NAME = 'next'
 CLM = ServerProxy(settings.CLOUD_MANAGER_ADDRESS)

@@ -28,7 +28,7 @@ $(function() {
 		urlGetData : '{% url 'mai_ajax_get_news_table' %}',
 		idKey: 'news_id',
 	});
-	
+
 	// dodawanie newsa
 	cc1.sthTable.addNews = cc1.utils.createAction({
 		url: '{% url 'mai_ajax_add_news' %}',
