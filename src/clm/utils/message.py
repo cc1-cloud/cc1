@@ -45,7 +45,7 @@ def add(user_id, data):
         log.exception('Add message')
 
 
-def error(user_id, code, params={}):
+def error(user_id, code, params=None):
     """
     Creates error level message from given @{params}.
 
@@ -62,7 +62,7 @@ def error(user_id, code, params={}):
     add(user_id, d)
 
 
-def info(user_id, code, params={}):
+def info(user_id, code, params=None):
     """
     Creates info level message from given \c params.
 

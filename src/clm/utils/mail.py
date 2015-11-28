@@ -124,7 +124,7 @@ def send_admin_registration_notification(user, wi_data):
     ctx_dict = {'site_name': wi_data['site_name']}
     subject = render_from_template_to_string('registration/admin_notify_email_subject.txt', ctx_dict)
     subject = ''.join(subject.splitlines())
-    message = render_from_template_to_string('registration/admin_notify_email.txt', user)
+    message = render_from_template_to_string('registration/admin_notify_email.txt', user.dict)
 
     for admin in User.objects.filter(is_superuser=True):
         send(admin.email, message, subject)
