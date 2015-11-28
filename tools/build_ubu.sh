@@ -23,6 +23,9 @@ cp -r $REPO/pkg/$PKG/* /tmp/pkg/$PKG/
 cp -r $REPO/src/$PKG/* /tmp/pkg/$PKG/usr/lib/cc1/$PKG
 rm /tmp/pkg/$PKG/usr/lib/cc1/$PKG/config.py
 
+# copy Ubuntu specific files
+cp -r $REPO/pkg_ubuntu/$PKG/* /tmp/pkg/$PKG/
+
 echo "Changing permissions..."
 chown -R root:root /tmp/pkg/$PKG/
 chown -R 331:331 /tmp/pkg/$PKG/etc/cc1/$PKG
@@ -35,7 +38,6 @@ chmod a+x /tmp/pkg/$PKG/DEBIAN/postinst || true
 chmod a+x /tmp/pkg/$PKG/DEBIAN/prerm || true
 chmod a+x /tmp/pkg/$PKG/DEBIAN/postrm || true
 
-#BUILD_NUMBER=`cd $REPO ; git log --pretty=format:'' | wc -l`
 BUILD_NUMBER=$TAG
 
 sed -i "s/BUILD_NUMBER/$BUILD_NUMBER/" /tmp/pkg/$PKG/DEBIAN/control
@@ -48,5 +50,3 @@ dpkg-deb --build /tmp/pkg/$PKG/
 VERSION=`cat /tmp/pkg/$PKG/DEBIAN/control | grep Version | cut -d ' ' -f 2`
 mv /tmp/pkg/$PKG.deb $PKG-$VERSION.deb
 lintian $PKG.deb >> $PKG-$VERSION.log
-
-#rm -rf /tmp/pkg/$PKG/

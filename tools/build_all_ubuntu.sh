@@ -10,13 +10,5 @@ packages=`ls -1 $1/pkg/`
 for pkg in $packages ; do
     echo "################################################"
     echo "Building $pkg"
-    bash $1/tools/build_deb.sh $1 $pkg $2
+    bash $1/tools/build_ubu.sh $1 $pkg $2
 done
-
-
-# Build packages index
-# Example /etc/apt/sources.list entry:
-dpkg-scanpackages . | gzip > Packages.gz
-
-echo Add following line to /etc/apt/sources.list:
-echo deb file://`pwd`/ ./
