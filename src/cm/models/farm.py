@@ -126,6 +126,9 @@ class Farm(models.Model):
                     log.debug(vm.user.id, "vm state %s" % vm.state)
                 r = VM.destroy([farm.head])
             else:
+                for vm in farm.vms.all():
+                    if vm.state == vm_states['init']:
+                        raise CMException('farm_wrong_state')
                 log.debug(farm.user_id, "killing wn: %s" % farm.vms)
                 r = VM.destroy(farm.vms.all())
 
@@ -161,15 +164,7 @@ class Farm(models.Model):
 
         head_vm = farm.head
         try:
-            head_vm.name = name
-            head_vm.description = description
-            head_vm.save_vm = 2
-            head_vm.save()
-            head_vm.save_image()
-            head_vm.release_resources()
-            head_vm.remove()
-            head_vm.state = vm_states['closed']
-            head_vm.save()
+            VM.save_and_shutdown(head_vm.user_id, head_vm, name, description)
         except Exception:
             CMException('farm_save')
 
@@ -182,7 +177,8 @@ class Farm(models.Model):
                 vm.state = vm_states['closed']
         else:
             for vm in farm.vms.all():
-                node_vms.append(vm)
+                if not vm.is_head():
+                    node_vms.append(vm)
             VM.destroy(node_vms)
 
         try:
@@ -199,6 +195,6 @@ class Farm(models.Model):
                 # TODO: Change leases[0]
                 hosts_list.append({"ip": vm.lease_set.all()[0].vm_address, "host_name": "farm-head"})
             else:
-                hosts_list.append({"ip": vm.lease_set.all()[0].vm_address, "host_name": "farm-wn%d" % host_id})
+                hosts_list.append({"ip": vm.lease_set.all()[0].vm_address, "host_name": vm.name.replace(vm.farm.name, 'farm')})
                 host_id += 1
         return hosts_list

@@ -160,14 +160,9 @@ def check_resources(caller_id, count, head_template_id, template_id):
     @response{Boolean}
     """
 
-    head_template = Template.get(head_template_id)
     wn_template = Template.get(template_id)
     available = 0
     for node in list(Node.objects.filter(state=node_states['ok'])):
         available += node.cpu_free / wn_template.cpu
 
-    resp = False
-    if available >= count + 1:
-        resp = True
-
-    return resp
+    return available >= count

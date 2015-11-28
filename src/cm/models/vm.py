@@ -200,13 +200,15 @@ class VM(models.Model):
             d['iso_images'] = [{'id': self.iso_image.id, 'name': self.iso_image.name}]
         else:
             d['iso_images'] = []
-        d['storage_images'] = [{'storage_image_id': img.id, 'name': img.name, 'disk_controller': img.disk_controller} for img in self.storage_images]
+        d['storage_images'] = [{'storage_image_id': img.id, 'name': img.name, 'disk_controller': img.disk_controller}
+                               for img in self.storage_images]
         d['cpu_load'] = self.cpu_load
         return d
 
     @staticmethod
-    def create(user, name, description, image_id, template_id, public_ip_id, iso_list, disk_list, vnc, groups, ssh_key=None,
-               ssh_username=None, count=1, farm=None, head_template_id=None, node_id=False, lease_id=None, user_data=None):
+    def create(user, name, description, image_id, template_id, public_ip_id, iso_list, disk_list, vnc, groups,
+               ssh_key=None, ssh_username=None, count=1,
+               farm=None, head_template_id=None, node_id=False, lease_id=None, user_data=None):
         from cm.models.storage_image import StorageImage
         from cm.utils.threads.vm import VMThread
 
@@ -229,10 +231,10 @@ class VM(models.Model):
         reservation_id = None
 
         for i in range(count):
-            log.debug(user.id, "Looking for node")
-            node = Node.get_free_node(template, image, node_id)
-            log.info(user.id, 'Selected node: %d' % node.id)
             # create VM instance
+            log.debug(user.id, "Looking for node")
+            node = Node.get_free_node(head_template, image, node_id) if farm and i == 0 else Node.get_free_node(template, image, node_id)
+            log.info(user.id, 'Selected node: %d' % node.id)
             vm = VM()
             vm.libvirt_id = -1
             if farm:
@@ -479,7 +481,6 @@ class VM(models.Model):
             img.copy_to_storage(self, img)
         except Exception, e:
             self.set_state('saving failed')
-            self.save()
             self.node.lock()
             message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
             try:
@@ -498,7 +499,7 @@ class VM(models.Model):
             message.error(self.user.id, 'vm_save', {'id': self.id, 'name': self.name})
 
         if self.is_head():
-            message.info(self.user_id, 'farm_saved', {'farm_name': self.vm.farm.name})
+            message.info(self.user_id, 'farm_saved', {'farm_name': self.farm.name})
         else:
             message.info(self.user_id, 'vm_saved', {'vm_name': self.name})
 
@@ -507,11 +508,11 @@ class VM(models.Model):
         """
         if not self.state in (vm_states['closing'], vm_states['saving']):
             self.set_state('closing')
-        try:
-            self.save()
-        except Exception, e:
-            log.exception(self.user.id, 'closing img')
-            return
+            try:
+                self.save(update_fields=['state'])
+            except Exception, e:
+                log.exception(self.user.id, 'closing img')
+                return
 
         # Remove image
         try:
@@ -565,7 +566,7 @@ class VM(models.Model):
         self.iso_image = None
 
         try:
-            self.save()
+            self.save(update_fields=['vnc_enabled'])
         except Exception, e:
             log.exception(self.user_id, "Cannot update resurce information: %s", str(e))
             self.node.lock()
@@ -604,7 +605,7 @@ class VM(models.Model):
         """
         self.stop_time = datetime.now()
         try:
-            self.save()
+            self.save(update_fields=['state', 'stop_time'])
         except Exception, e:
             log.exception(self.user.id, "Cannot commit changes: %s" % e)
 
@@ -707,13 +708,11 @@ class VM(models.Model):
             raise CMException('vm_wrong_state', '%s -> %s for %d' % (my_state, state, self.id))
 
         self.state = vm_states[state]
+        self.save(update_fields=['state'])
 
         # Lock node on fail
         if state in ('failed', 'saving failed') and my_state != 'erasing':
             self.node.lock()
-            # self.node.state = node_states['locked']
-
-
 
     @staticmethod
     def erase(vm):
