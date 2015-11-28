@@ -25,6 +25,7 @@
 
 from django.conf.urls import url, patterns, include
 from django.utils.translation import ugettext_lazy as _
+
 from wi.forms.cm import EditCMForm, CreateCMForm
 from wi.utils.decorators import admin_clm_permission
 from wi.utils.views import direct_to_template, simple_generic_id, \

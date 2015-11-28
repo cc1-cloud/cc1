@@ -33,8 +33,9 @@ from clm.utils.exception import CLMException
 def create(cm_response, **data):
     """
     Creates nev VM
+
     @clmview_admin_cm
-    @clm_view_transparent{vm.create()}
+    @cm_request_transparent{vm.create()}
     """
     return cm_response
 
@@ -44,7 +45,7 @@ def create(cm_response, **data):
 def destroy(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{vm.destroy()}
+    @cm_request_transparent{vm.destroy()}
     """
     return cm_response
 
@@ -53,7 +54,8 @@ def destroy(cm_response, **data):
 def get_list(cm_id, caller_id, cm_password, user_id):
     """
     @clmview_admin_cm
-    @clm_view_transparent{vm.get_list()}
+    @cm_request{storage_image.get_list()}
+    @param_post{user_id,int}
     """
 
     names = {}
@@ -76,7 +78,7 @@ def get_list(cm_id, caller_id, cm_password, user_id):
 def get_by_id(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{vm.get_by_id()}
+    @cm_request_transparent{vm.get_by_id()}
     """
     return cm_response
 
@@ -86,7 +88,7 @@ def get_by_id(cm_response, **data):
 def save_and_shutdown(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{vm.save_and_shutdown()}
+    @cm_request_transparent{vm.save_and_shutdown()}
     """
     return cm_response
 
@@ -96,7 +98,7 @@ def save_and_shutdown(cm_response, **data):
 def restart(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{vm.restart()}
+    @cm_request_transparent{vm.restart()}
     """
     return cm_response
 
@@ -106,7 +108,7 @@ def restart(cm_response, **data):
 def erase(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{vm.erase()}
+    @cm_request_transparent{vm.erase()}
     """
     return cm_response
 
@@ -114,10 +116,18 @@ def erase(cm_response, **data):
 @admin_cm_log(log=True, pack=False)
 @cm_request
 def attach_vnc(cm_response, **data):
+    """
+    @clmview_admin_cm
+    @cm_request_transparent{vm.attach_vnc()}
+    """
     return cm_response
 
 
 @admin_cm_log(log=True, pack=False)
 @cm_request
 def detach_vnc(cm_response, **data):
+    """
+    @clmview_admin_cm
+    @cm_request_transparent{vm.detach_vnc()}
+    """
     return cm_response

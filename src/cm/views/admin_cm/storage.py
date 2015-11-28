@@ -41,15 +41,13 @@ from django.conf import settings
 @admin_cm_log(log=True)
 def create(caller_id, name, address, directory, capacity):
     """
-    Registers new storage.
-    @cmview_admin_cm
+    Registers new Storage.
 
-    @parameter{caller_id,int} caller id
-    @parameter{name,string} libvirt's pool name
-    @parameter{address,string} storage ip address or hostname
-    @parameter{directory,string} directory on storage
-    @parameter{mountpoint,string} mountpoint on node
-    @parameter{capacity,int} maximum capacity
+    @cmview_admin_cm
+    @param_post{name,string} libvirt's pool name
+    @param_post{address,string} storage ip address or hostname
+    @param_post{directory,string} directory on storage
+    @param_post{capacity,int} maximum storage capacity [MB]
 
     @raises{storage_already_exist,CMException}
     @raises{storage_create,CMException}
@@ -81,12 +79,10 @@ def create(caller_id, name, address, directory, capacity):
 @admin_cm_log(log=True)
 def get_list(caller_id):
     """
-    Returns list of storages.
+    Returns list of Storages.
+
     @cmview_admin_cm
-
-    @parameter{caller_id}
-
-    @response{list(dict)} dicts describing storages
+    @response{list(dict)} Storage.dict property for each Storage
     """
     return [st.dict for st in Storage.objects.all()]
 
@@ -94,13 +90,10 @@ def get_list(caller_id):
 @admin_cm_log(log=True)
 def lock(caller_id, storage_id):
     """
-    Locks storage with id \c storage_id.
+    Locks specified Storage.
+
     @cmview_admin_cm
-
-    @parameter{caller_id,int}
-    @parameter{storage_id,int}
-
-    @response{None}
+    @param_post{storage_id,int}
     """
     try:
         st = Storage.objects.get(pk=storage_id)
@@ -114,13 +107,10 @@ def lock(caller_id, storage_id):
 @admin_cm_log(log=True)
 def unlock(caller_id, storage_id):
     """
-    Unlocks storage with id \c storage_id.
+    Unlocks specified Storage.
+
     @cmview_admin_cm
-
-    @parameter{caller_id,int}
-    @parameter{storage_id,int}
-
-    @response{None}
+    @param_post{storage_id,int}
     """
     try:
         st = Storage.objects.get(pk=storage_id)
@@ -134,14 +124,13 @@ def unlock(caller_id, storage_id):
 @admin_cm_log(log=True)
 def mount(caller_id, storage_id=None, node_id=None):
     """
-    Mount selected (or all) storages on selected (or all) node.
+    Mounts specified Storages on specified Node.
+
     @cmview_admin_cm
+    @param_post{storage_id} id of Storage to mount (None for all)
+    @param_post{node_id} id of Node where to mount Storage (None for all)
 
-    @parameter{caller_id}
-    @dictkey{storage_id} id of storage which should be mounted (or none if all defined)
-    @dictkey{node_id} id of node where storage should be mounted (or none if all defined)
-
-    @response node response
+    @response{dict} Node's responses
     """
     #if node_id is sent, get that node, otherwise every node
     if node_id:
@@ -201,15 +190,14 @@ def mount(caller_id, storage_id=None, node_id=None):
 @admin_cm_log(log=True)
 def check(caller_id, node_list):
     """
-    For each node checks for mounted and unmounted storages.
-    @cmview_admin_cm
+    Check each Node for mounted and unmounted Storages.
 
-    @parameter{caller_id,int}
-    @dictkey{node_list,list} list of node ids
+    @cmview_admin_cm
+    @param_post{node_list,list(int)} list of Node ids
 
     @response{list(dict)} for each node dict with fields:
-    @dictkey{mounted,list} list of storages mounted to current node
-    @dictkey{unmounted,list} list of storages not mounted to current node
+    @dictkey{mounted,list} list of Storages mounted to each Node
+    @dictkey{unmounted,list} list of Storages not mounted to each Node
     """
 
     storage_names = Storage.objects.values_list('name', flat=True)

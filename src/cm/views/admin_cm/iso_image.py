@@ -45,15 +45,15 @@ from cm.utils.threads.image import CopyImage
 @admin_cm_log(log=True)
 def download(caller_id, description, name, path, disk_dev, disk_controller):
     """
-    Downloads image depending on the \c data parameter.
+    Downloads Image with given path and saves it with specified name and
+    description.
+
     @cmview_admin_cm
-
-    @parameter{description,string}
-    @parameter{name,string}
-    @parameter{path,string} HTTP or FTP path to image to download
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
-
-    @response{None}
+    @param_post{description,string}
+    @param_post{name,string}
+    @param_post{path,string} HTTP or FTP path to IsoImage
+    @param_post{disk_dev}
+    @param_post{disk_controller}
     """
 
     # size value is taken
@@ -83,13 +83,8 @@ def download(caller_id, description, name, path, disk_dev, disk_controller):
 @admin_cm_log(log=False)
 def get_list(caller_id):
     """
-    Returns images.
     @cmview_admin_cm
-
-    @parameter{access} ( image_access['group'] | image_access['private'] | image_access['public'] , necessary for system and cd images)
-    @parameter{group_id,list(int)} list of Group ids necessary when access is group, for system and cd images
-
-    @response{list(dict)} list of the images from CM
+    @response{list(dict)} IsoImage.dict property for each IsoImage
     """
     # retrieve list of the type requested
     images = IsoImage.objects.exclude(state=image_states['locked'])
@@ -101,11 +96,9 @@ def get_list(caller_id):
 def get_by_id(caller_id, iso_image_id):
     """
     @cmview_admin_cm
+    @param_post{iso_image_id,int} id of the IsoImage to get
 
-    @parameter{image_id,int} id of the Image to get
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
-
-    @response{dict} extended information about specified Image
+    @response{dict} IsoImage.dict property for requested IsoImage
     """
     return IsoImage.admin_get(iso_image_id).dict
 
@@ -113,11 +106,12 @@ def get_by_id(caller_id, iso_image_id):
 @admin_cm_log(log=True)
 def delete(caller_id, iso_image_id):
     """
-    Deletes given Image
-    @cmview_admin_cm
+    Sets IsoImage state to 'locked'.
 
-    @parameter{system_image_id} id of the Image to delete
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
+    @cmview_admin_cm
+    @param_post{iso_image_id} id of the IsoImage to delete
+
+    @todo Should delete IsoImage and set its state to 'deleted'.
     """
     image = IsoImage.admin_get(iso_image_id)
 
@@ -129,16 +123,13 @@ def delete(caller_id, iso_image_id):
 @admin_cm_log(log=True)
 def edit(caller_id, iso_image_id, name, description, disk_controller):
     """
-    Sets Image's new attributes. Those should be get by src.cm.manager.image.get_by_id().
-    @cmview_admin_cm
+    Updates specified IsoImage's attributes.
 
-    @parameter{system_image_id,string} new Image name
-    @parameter{name,string} new Image name
-    @parameter{description,string} new Image description
-    @parameter{disk_controller} new Image controller optional
-    @parameter{video_device} new video device optional
-    @parameter{network_device} new network device optional
-    @parameter{platform} optional
+    @cmview_admin_cm
+    @param_post{iso_image_id,string} new IsoImage name
+    @param_post{name,string} new IsoImage name
+    @param_post{description,string} new IsoImage description
+    @param_post{disk_controller} new IsoImage controller optional
     """
 
     image = IsoImage.admin_get(iso_image_id)
@@ -159,12 +150,11 @@ def edit(caller_id, iso_image_id, name, description, disk_controller):
 @admin_cm_log(log=True)
 def copy(caller_id, src_image_id, dest_user_id):
     """
-    Copy selected image to user's images
-    @cmview_admin_cm
+    Copies selected IsoImage to User's IsoImages pool.
 
-    @parameter{src_id,int}
-    @parameter{dest_id,int}
-    @parameter{img_type}
+    @cmview_admin_cm
+    @param_post{src_image_id,int}
+    @param_post{dest_user_id,int}
     """
     src_image = IsoImage.admin_get(src_image_id)
     dest_user = User.get(dest_user_id)

@@ -27,7 +27,7 @@ from common import response
 
 class CLMException(Exception):
     """
-    Class for exceptions thrown by CLM functions
+    Class for exceptions thrown by CLM views
     """
     @property
     def response(self):

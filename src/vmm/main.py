@@ -51,6 +51,7 @@ except Exception:
 print dev
 logger.info('Setting keyboard to %s bus=0x%x, vendor=0x%x, product=0x%x, version=0x%x' % (dev.name, dev.idbus, dev.idvendor, dev.idproduct, dev.idversion))
 
+
 verify = os.path.isdir(settings.CA_DIR)
 
 VERSION = 0

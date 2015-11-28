@@ -30,17 +30,15 @@ from cm.utils.decorators import admin_cm_log, user_log
 @user_log(log=True)
 def add(caller_id, user_id):
     """
-    Function adds new user to DB and creates its home directory.
-    @cmview_user
+    Adds specified CC1 User to current CM.
 
+    @cmview_user
     @note This method is decorated by user_log decorator, not by admin_cm_log.
     This is caused by the fact that CLMAdmin doesn't need to be CMAdmin and
     despite not having rights to call CMAdmin functions he needs to call it on
-    CMAdmin priviledges.
+    CMAdmin privileges.
 
-    @parameter{user_id}
-
-    @response{None}
+    @param_post{user_id}
     """
 
     User.create(user_id)
@@ -49,15 +47,15 @@ def add(caller_id, user_id):
 @admin_cm_log(log=True)
 def change_quota(caller_id, user_id, memory, cpu, storage, public_ip, points):
     """
-    Function changes quota for user @prm{user_id}.
-    @cmview_admin_cm
+    Changes specified User's quota.
 
-    @parameter{user_id}
-    @parameter{memory}
-    @parameter{cpu,int}
-    @parameter{storage,int}
-    @parameter{public_ip,int}
-    @parameter{points,int}
+    @cmview_admin_cm
+    @param_post{user_id}
+    @param_post{memory}
+    @param_post{cpu,int}
+    @param_post{storage,int}
+    @param_post{public_ip,int}
+    @param_post{points,int}
     """
 
     user = User.get(user_id)
@@ -78,16 +76,15 @@ def change_quota(caller_id, user_id, memory, cpu, storage, public_ip, points):
 @admin_cm_log(log=True)
 def multiple_change_quota(caller_id, user_ids, memory=None, cpu=None, storage=None, public_ip=None, points=None):
     """
-    Method changes quota of multiple users.
+    Changes quota of multiple users.
+
     @cmview_admin_cm
-
-    @dictkey{users,list(int)} ids of the users to change quota
-    @dictkey{cpu,int} cpu to set
-    @dictkey{storage,int} storage to set
-    @dictkey{public_ip,int} number of public_ips to set
-    @dictkey{points,int} points to set
-
-    @response{None}
+    @param_post{user_ids,list(int)}
+    @param_post{memory,int} new RAM memory limit [MB]
+    @param_post{cpu,int} new CPU's limit
+    @param_post{storage,int} new storage space's limit [MB]
+    @param_post{public_ip,int} new limit of public_ips
+    @param_post{points,int} new monthly points limit
     """
 
     for user_id in user_ids:
@@ -106,12 +103,12 @@ def multiple_change_quota(caller_id, user_ids, memory=None, cpu=None, storage=No
 @admin_cm_log(log=True)
 def check_quota(caller_id, user_id):
     """
-    Check quota of the user @prm{user_id}.
+    Get specified User's qouta.
+
     @cmview_admin_cm
+    @param_post{user_id,int}
 
-    @parameter{user_id,int}
-
-    @response{dict} extended user's data
+    @response{dict} Full User's quota
     """
     return User.get(user_id).long_dict
 
@@ -119,12 +116,11 @@ def check_quota(caller_id, user_id):
 @admin_cm_log(log=False)
 def get_list(caller_id):
     """
-    Returns all users.
+    Returns all Users.
+
     @cmview_admin_cm
-
-    @parameter{caller_id,int}
-
-    @response{list(dict)} dicts describing all users
+    @param_post{short,bool} caller's CM admin password
+    @response{list(dict)} User.long_dict property for each User
     """
 
     return [user.long_dict for user in User.objects.all()]

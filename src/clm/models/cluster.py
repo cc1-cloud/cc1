@@ -38,7 +38,7 @@ class Cluster(models.Model):
     port = models.IntegerField()
     ## human-readable name of the Cluster (one that is displayed in web interface) @field
     name = models.CharField(max_length=40, unique=True)
-    ## whether cluster is available or locked @seealso{src.common.states.cluster_states} @field
+    ## whether cluster is available or locked, @seealso{src.common.states.cluster_states} @field
     state = models.IntegerField()
 
     class Meta:

@@ -24,9 +24,9 @@
 
 from django.conf.urls import patterns, url, include
 from django.utils.translation import ugettext_lazy as _
+
 from wi.utils.decorators import user_permission
-from wi.utils.views import direct_to_template, get_list_generic, simple_generic, \
-    simple_generic_id
+from wi.utils.views import direct_to_template, get_list_generic, simple_generic, simple_generic_id
 
 
 resources_patterns = patterns('wi.views.user.public_ip',

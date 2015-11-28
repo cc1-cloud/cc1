@@ -24,13 +24,14 @@
 """
 
 from django.conf.urls import patterns, url, include
+
 from wi.utils.decorators import admin_clm_permission
 from wi.utils.views import direct_to_template
+
 
 urlpatterns = patterns('',
                        (r'', include('wi.urls.admin_clm.news')),
                        (r'', include('wi.urls.admin_clm.user')),
                        (r'', include('wi.urls.admin_clm.cm')),
                        url(r'^admin_clm/$', admin_clm_permission(direct_to_template), {'template_name': 'admin_clm/base.html'}, name='admin_clm'),
-
                       )

@@ -27,6 +27,7 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
+
 from wi.commontags.templatetags.templatetags import filesizeformatmb
 from wi.forms.storage_image import AddDiskForm, UploadDiskForm
 from wi.utils import messages_ajax, get_dict_from_list

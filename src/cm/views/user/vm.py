@@ -39,19 +39,21 @@ def create(caller_id, name, description, image_id, template_id, public_ip_id, is
            ssh_key=None, ssh_username=None):
     """
     Creates virtual machines.
-    @cmview_user
 
-    @parameter{name,string}
-    @parameter{description,string}
-    @parameter{image_id,int}
-    @parameter{template_id,int}
-    @parameter{ip_id,int}
-    @parameter{iso_list,list(int)} ISOs' ids
-    @parameter{vnc}
-    @parameter{groups}
-    @parameter{user_data} data accessible via ec2ctx
-    @parameter{ssh_key}
-    @parameter{ssh_username}
+    @cmview_user
+    @param_post{name,string}
+    @param_post{description,string}
+    @param_post{image_id,int}
+    @param_post{template_id,int}
+    @param_post{public_ip_id,int}
+    @param_post{iso_list,list(int)} ISOs' ids
+    @param_post{disk_list,list(int)}
+    @param_post{vnc}
+    @param_post{count}
+    @param_post{groups}
+    @param_post{user_data} data accessible via ec2ctx
+    @param_post{ssh_key}
+    @param_post{ssh_username}
 
     @returns @asreturned{src.cm.views.utils.vm.create()}
     """
@@ -74,14 +76,13 @@ def create(caller_id, name, description, image_id, template_id, public_ip_id, is
 @user_log(log=True)
 def destroy(caller_id, vm_ids):
     """
-    This function only destroys virtual machine. All cleanup (removing disk,
-    saving, rescuing resources, ...) is done by hook through
+    This function only destroys VM. All the cleanup (removing disk, saving,
+    rescuing resources, ...) is done by hook through
     \c contextualization.update_vm method (yeah, intuitive).
 
     Simple sequence diagram:
 
     @code
-
             CLM        CM         CTX           Node (HOOK)
              .
             Destroy -->destroy
@@ -93,14 +94,12 @@ def destroy(caller_id, vm_ids):
              .          .           |------------->cp
              .          .           |------------->rm
              .          .          update_resources
-
     @endcode
 
     @cmview_user
+    @param_post{vm_ids,list} list of virtual machines' ids
 
-    @parameter{vm_ids,list} list of virtual machines' ids
-
-    @response{src.cm.views.utils.image.destroy()}
+    @response{list(dict)} VM.destroy() retval
     """
     vms = []
     for vm_id in vm_ids:
@@ -111,13 +110,13 @@ def destroy(caller_id, vm_ids):
 @user_log(log=True)
 def save_and_shutdown(caller_id, vm_id, name, description):
     """
-    Calls src.cm.views.utils.image.save_and_shutdown() for the VM selected.
+    Calls VM.save_and_shutdown() on specified VM
 
     @cmview_user
-
-    @parameter{vm_id,int} id of the VM to save and shutdown.
-    @parameter{name,string}
-    @parameter{description,string}
+    @param_post{vm_id,int} id of the VM to save and shutdown.
+    @param_post{name,string} name of the new SystemImage VM should be saved to
+    @param_post{description,string} description of the new SystemImage VM
+    should be saved to
     """
     user = User.get(caller_id)
     vm = VM.get(caller_id, vm_id)
@@ -132,9 +131,9 @@ def save_and_shutdown(caller_id, vm_id, name, description):
 def get_list(caller_id):
     """
     Returns caller's VMs.
-    @cmview_user
 
-    @response{list(dict)} infos about caller's VMs
+    @cmview_user
+    @response{list(dict)} VM.dict property of all caller's VMs
     """
 
     vms = VM.objects.exclude(state__in=[vm_states['closed'], vm_states['erased']]).filter(user__id__exact=caller_id)\
@@ -147,11 +146,11 @@ def get_list(caller_id):
 def get_by_id(caller_id, vm_id):
     """
     Returns requested caller's VM.
+
     @cmview_user
+    @param_post{vm_id,int} id of the requested VM
 
-    @parameter{vm_id,int} id of the requested VM
-
-    @response{dict} VM's extended info
+    @response{dict} VM.dict property of the requested VM
     """
     vm = VM.get(caller_id, vm_id)
     vm_mod = vm.long_dict
@@ -161,10 +160,10 @@ def get_by_id(caller_id, vm_id):
 @user_log(log=True)
 def reset(caller_id, vm_ids):
     """
-    Restarts safely selected callers VMs
-    @cmview_user
+    Safely restarts selected callers VMs
 
-    @parameter{ids,list(int)} ids of the VMs to restart
+    @cmview_user
+    @param_post{vm_ids,list(int)} ids of the VMs to restart
 
     @response{src.cm.views.utils.image.restart()}
     """
@@ -180,13 +179,12 @@ def reset(caller_id, vm_ids):
 @user_log(log=True)
 def edit(caller_id, vm_id, name, description):
     """
-    Changes selected VMs' parameters.
-    Current should be get by src.cm.views.user.vm.get_by_id().
-    @cmview_user
+    Updates VM's attributes.
 
-    @parameter{vm_id,int} id of the VM to edit
-    @parameter{name,string}
-    @parameter{description,string}
+    @cmview_user
+    @param_post{vm_id,int} id of the VM to edit
+    @param_post{name,string}
+    @param_post{description,string}
 
     @response{src.cm.views.utils.image.edit()}
     """
@@ -201,11 +199,9 @@ def edit(caller_id, vm_id, name, description):
 def attach_vnc(caller_id, vm_id):
     """
     Attaches VNC redirection to VM.
+
     @cmview_user
-
-    @parameter{vm_id,int} id of the VM to have attached VM redirection
-
-    @response{None}
+    @param_post{vm_id,int} id of the VM to have attached VM redirection
     """
     vm = VM.get(caller_id, vm_id)
     vm.attach_vnc()
@@ -220,10 +216,9 @@ def attach_vnc(caller_id, vm_id):
 def detach_vnc(caller_id, vm_id):
     """
     Detaches VNC redirection from VM.
-    @cmview_user
 
-    @parameter{vm_id,int} id of the VM to have detached VM redirection
-    @response{None}
+    @cmview_user
+    @param_post{vm_id,int} id of the VM to have detached VM redirection
     """
     vm = VM.get(caller_id, vm_id)
     vm.detach_vnc()

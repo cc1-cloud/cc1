@@ -32,7 +32,7 @@ class User(models.Model):
 
     CLM User may have access to one or many CMs.
     There's one default CM for each User. Quotas are set per CM, however
-    general User data is defined globally.
+    general User data is defined globally in CLM, within this model.
     """
     ## User's first name @field
     first = models.CharField(max_length=63)
@@ -133,9 +133,9 @@ class User(models.Model):
     @staticmethod
     def get(user_id):
         """
-        @parameter{id,int} primary index of the @type{User}
+        @parameter{user_id,int} primary index of the User
 
-        @returns{User} instance of requested @type{User}
+        @returns{User} instance of requested User
 
         @raises{user_get,CLMException}
         """
@@ -148,7 +148,7 @@ class User(models.Model):
     @staticmethod
     def is_leader(user_id, group_id):
         """
-        @parameter{id,int} User's id
+        @parameter{user_id,int} User's id
         @parameter{group_id,int} Group's id
 
         @returns{bool} True if User is the Group's leader

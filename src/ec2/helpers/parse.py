@@ -27,7 +27,7 @@ import re
 
 def parseSequenceArguments(parameters, prefix = '', suffix = ''):
     """
-    Przeszukuje parametry w poszukiwaniu kluczy <prefix><numer><suffix>
+    Przeszukuje parametry w poszukiwaniu kluczy @prm{prefix}@val{numer}@prm{suffix}
     i zwraca wartości pod tymi kluczami
     """
     arguments = []

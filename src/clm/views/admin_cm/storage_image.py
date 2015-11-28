@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.clm.views.admin_cm.image
+"""@package src.clm.views.admin_cm.storage_image
 @alldecoratedby{src.clm.utils.decorators.admin_cm_log}
 """
 from clm.utils.decorators import admin_cm_log, cm_request
@@ -29,17 +29,8 @@ from clm.models.user import User
 @admin_cm_log(log=False, pack=True)
 def get_list(cm_id, caller_id, cm_password):
     """
-    Admin function to list images.
-
-    @parameter{cm_passwd,string} caller's *CM admin password*
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{access,int} number representing image access:
-        - 0: private
-        - 1: public
-        - 2: group
-    @dictkey{group_id,int} required if \c access is 2
-    @dictkey{user_id,int}
+    @clmview_admin_cm
+    @cm_request_transparent{storage_image.get_list()}
     """
     names = {}
     resp = CM(cm_id).send_request("admin_cm/storage_image/get_list/", caller_id=caller_id, cm_password=cm_password)
@@ -61,7 +52,7 @@ def get_list(cm_id, caller_id, cm_password):
 def get_by_id(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage_image.get_by_id()}
+    @cm_request_transparent{storage_image.get_by_id()}
     """
     return cm_response
 
@@ -71,7 +62,7 @@ def get_by_id(cm_response, **data):
 def delete(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage_image.delete(}
+    @cm_request_transparent{storage_image.delete(}
     """
     return cm_response
 
@@ -81,7 +72,7 @@ def delete(cm_response, **data):
 def edit(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage_image.edit()}
+    @cm_request_transparent{storage_image.edit()}
     """
     return cm_response
 
@@ -91,7 +82,7 @@ def edit(cm_response, **data):
 def download(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage_image.download()}
+    @cm_request_transparent{storage_image.download()}
     """
     return cm_response
 
@@ -101,7 +92,7 @@ def download(cm_response, **data):
 def set_public(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage_image.set_public()}
+    @cm_request_transparent{storage_image.set_public()}
     """
     return cm_response
 
@@ -111,7 +102,7 @@ def set_public(cm_response, **data):
 def set_private(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage_image.set_private()}
+    @cm_request_transparent{storage_image.set_private()}
     """
     return cm_response
 
@@ -121,6 +112,7 @@ def set_private(cm_response, **data):
 def copy(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage_image.copy()}
+    @cm_request_transparent{storage_image.copy()}
+    """
     """
     return cm_response

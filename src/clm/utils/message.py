@@ -37,7 +37,6 @@ def add(user_id, data):
     @dictkey{user_id,int} id if the Message creator
     @dictkey{level,int} level of the Messages
     @dictkey{code} Message's code
-    @parameter{params,dict} @asrequired{Message.create(), optional}
     """
     try:
         m = Message.create(data)

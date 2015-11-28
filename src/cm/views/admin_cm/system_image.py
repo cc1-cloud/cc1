@@ -45,15 +45,16 @@ from cm.utils.threads.image import CopyImage
 @admin_cm_log(log=True)
 def download(caller_id, description, name, path, disk_controller, network_device, platform, video_device):
     """
-    Downloads image depending on the \c data parameter.
+    Downloads specified SystemImage.
+
     @cmview_admin_cm
-
-    @parameter{description,string}
-    @parameter{name,string}
-    @parameter{path,string} HTTP or FTP path to image to download
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
-
-    @response{None}
+    @param_post{description,string}
+    @param_post{name,string}
+    @param_post{path,string} HTTP or FTP path to image to download
+    @param_post{disk_controller}
+    @param_post{network_device}
+    @param_post{platform}
+    @param_post{video_device}
     """
 
     # size value is taken
@@ -86,12 +87,12 @@ def download(caller_id, description, name, path, disk_controller, network_device
 def get_list(caller_id, access, group_id=None):
     """
     Returns images.
+
     @cmview_admin_cm
+    @param_post{access} ( image_access['group'] | image_access['private'] | image_access['public'] , necessary for system and cd images)
+    @param_post{group_id,list(int)} list of Group ids necessary when access is group, for system and cd images
 
-    @parameter{access} ( image_access['group'] | image_access['private'] | image_access['public'] , necessary for system and cd images)
-    @parameter{group_id,list(int)} list of Group ids necessary when access is group, for system and cd images
-
-    @response{list(dict)} list of the images from CM
+    @response{list(dict)} SystemImage.dict property for each SystemImage.
     """
     # retrieve list of the type requested
     images = SystemImage.objects.exclude(state=image_states['locked']).filter(access=access)
@@ -108,9 +109,7 @@ def get_list(caller_id, access, group_id=None):
 def get_by_id(caller_id, system_image_id):
     """
     @cmview_admin_cm
-
-    @parameter{image_id,int} id of the Image to get
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
+    @param_post{system_image_id,int} id of the Image to get
 
     @response{dict} extended information about specified Image
     """
@@ -120,11 +119,12 @@ def get_by_id(caller_id, system_image_id):
 @admin_cm_log(log=True)
 def delete(caller_id, system_image_id_list):
     """
-    Deletes given Image
-    @cmview_admin_cm
+    Sets SystemImage state as 'locked'.
 
-    @parameter{system_image_id} id of the Image to delete
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
+    @cmview_admin_cm
+    @param_post{system_image_id_list,list(int)} list of the specified Images ids
+
+    @todo Should delete SystemImage and set its state to @val{deleted}.
     """
     for system_image_id in system_image_id_list:
         image = SystemImage.admin_get(system_image_id)
@@ -136,15 +136,15 @@ def delete(caller_id, system_image_id_list):
 def edit(caller_id, system_image_id, name, description, disk_controller, video_device, network_device, platform):
     """
     Sets Image's new attributes. Those should be get by src.cm.manager.image.get_by_id().
-    @cmview_admin_cm
 
-    @parameter{system_image_id,string} new Image name
-    @parameter{name,string} new Image name
-    @parameter{description,string} new Image description
-    @parameter{disk_controller} new Image controller optional
-    @parameter{video_device} new video device optional
-    @parameter{network_device} new network device optional
-    @parameter{platform} optional
+    @cmview_admin_cm
+    @param_post{system_image_id,string} new Image name
+    @param_post{name,string} new Image name
+    @param_post{description,string} new Image description
+    @param_post{disk_controller} new Image controller optional
+    @param_post{video_device} new video device optional
+    @param_post{network_device} new network device optional
+    @param_post{platform} optional
     """
 
     image = SystemImage.admin_get(system_image_id)
@@ -167,15 +167,10 @@ def edit(caller_id, system_image_id, name, description, disk_controller, video_d
 @admin_cm_log(log=True)
 def set_private(caller_id, system_image_id):
     """
-    Sets Image as private, only for system and cd image
-    To succeed it requires caller to be:
-    - either the owner of the image
-    - or the leader of the group to which Image belongs
+    Removes SystemImage from public pool.
 
     @cmview_admin_cm
-
-    @parameter{system_image_id,int}
-    @parameter{leader_groups,list(int)} ids of the group where the caller is leader, requierd if Image's access type is group
+    @param_post{system_image_id,int}
     """
 
     image = SystemImage.admin_get(system_image_id)
@@ -195,11 +190,10 @@ def set_private(caller_id, system_image_id):
 def set_group(caller_id, system_image_id, group_id):
     """
     Method sets specified Image access type as group (belonging to specified Group).
-    @cmview_admin_cm
 
-    @parameter{group_id,int} id of the Group Image should belong to
-    @parameter{image_id,int}
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
+    @cmview_admin_cm
+    @param_post{system_image_id,int}
+    @param_post{group_id,int} id of the Group Image should belong to
 
     @response{None}
 
@@ -222,15 +216,10 @@ def set_group(caller_id, system_image_id, group_id):
 @admin_cm_log(log=True)
 def set_public(caller_id, system_image_id):
     """
-    Sets Image as private, only for system and cd image
-    To succeed it requires caller to be:
-    - either the owner of the image
-    - or the leader of the group to which Image belongs
+    Makes SystemImage available in public pool.
 
     @cmview_admin_cm
-
-    @parameter{system_image_id,int}
-    @parameter{leader_groups,list(int)} ids of the group where the caller is leader, requierd if Image's access type is group
+    @param_post{system_image_id,int}
     """
 
     image = SystemImage.admin_get(system_image_id)
@@ -247,9 +236,9 @@ def set_public(caller_id, system_image_id):
 def convert_to_storage_image(caller_id, system_image_id):
     """
     Changes type of the given Image.
-    @cmview_admin_cm
 
-    @parameter{system_image_id,int} ID of an Image to change type of
+    @cmview_admin_cm
+    @param_post{system_image_id,int} ID of an Image to change type of
 
     @response{None}
     """
@@ -308,11 +297,10 @@ def get_disk_controllers(caller_id):
 def copy(caller_id, src_image_id, dest_user_id):
     """
     Copy selected image to user's images
-    @cmview_admin_cm
 
-    @parameter{src_id,int}
-    @parameter{dest_id,int}
-    @parameter{img_type}
+    @cmview_admin_cm
+    @param_post{src_image_id,int}
+    @param_post{dest_user_id,int}
     """
     src_image = SystemImage.admin_get(src_image_id)
     dest_user = User.get(dest_user_id)

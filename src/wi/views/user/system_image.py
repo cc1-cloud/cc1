@@ -29,11 +29,11 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
 
 from common.states import image_access, image_states
-from wi.utils.decorators import user_permission
 from wi.commontags.templatetags.templatetags import filesizeformatmb
 from wi.forms.system_image import AddImageHttp
 from wi.utils import messages_ajax, parsing
 from wi.utils.decorators import django_view
+from wi.utils.decorators import user_permission
 from wi.utils.messages_ajax import ajax_request
 from wi.utils.states import image_states_reversed
 from wi.utils.views import prep_data

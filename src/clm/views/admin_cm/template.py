@@ -32,7 +32,7 @@ def add(cm_response, **data):
     number of points utilized by VM created of it (per hour and overly).
 
     @clmview_admin_cm
-    @clm_view_transparent{user.add()}
+    @cm_request_transparent{user.add()}
     """
     return cm_response
 
@@ -42,8 +42,9 @@ def add(cm_response, **data):
 def delete(cm_response, **data):
     """
     Deletes template from available templates.
+
     @clmview_admin_cm
-    @clm_view_transparent{user.delete()}
+    @cm_request_transparent{user.delete()}
     """
     return cm_response
 
@@ -53,8 +54,9 @@ def delete(cm_response, **data):
 def edit(cm_response, **data):
     """
     Edits Template's components.
+
     @clmview_admin_cm
-    @clm_view_transparent{user.edit()}
+    @cm_request_transparent{user.edit()}
     """
     return cm_response
 
@@ -64,8 +66,9 @@ def edit(cm_response, **data):
 def get_list(cm_response, **data):
     """
     Returns list of available Templates.
+
     @clmview_admin_cm
-    @clm_view_transparent{user.get_list()}
+    @cm_request_transparent{user.get_list()}
     """
     return cm_response
 
@@ -75,7 +78,8 @@ def get_list(cm_response, **data):
 def get_by_id(cm_response, **data):
     """
     Returns requested Template.
+
     @clmview_admin_cm
-    @clm_view_transparent{user.get_by_id()}
+    @cm_request_transparent{user.get_by_id()}
     """
     return cm_response

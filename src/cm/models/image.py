@@ -98,9 +98,6 @@ class Image(TypedModel):
 
     def dictImg(self):
         """
-        Method is used by the subclasses, it puts into dict the fields common
-        to all Images
-
         @returns{dict} image's data
         \n fields:
         @dictkey{id}

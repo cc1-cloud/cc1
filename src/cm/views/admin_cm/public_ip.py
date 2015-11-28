@@ -17,9 +17,8 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.suer.network
+"""@package src.cm.views.admin_cm.network
 @author Maciej Nabożny <mn@mnabozny.pl>
-
 
 Functions to manage public leases in database for CM Administrator
 """
@@ -36,6 +35,10 @@ import netaddr
 
 @admin_cm_log(log=True)
 def get_list(caller_id):
+    """
+    @cmview_admin_cm
+    @response{list(dict)} PublicIP.dict property for each PublicIP lease
+    """
     leases = PublicIP.objects.all()
     return [lease.dict for lease in leases]
 
@@ -59,6 +62,14 @@ def add(caller_id, start_address, count):
 
 @admin_cm_log(log=True)
 def delete(caller_id, public_ip_id_list):
+    """
+    Removes specified addresses from available pool. Address may only be
+    removed if not in use.
+
+    @cmview_admin_cm
+    @param_post{public_ip_id_list,list(string)} addresses to remove from
+    available pool
+    """
     for ip_address in public_ip_id_list:
         lease = PublicIP.objects.get(id=ip_address)
         if lease.lease != None:
@@ -72,13 +83,11 @@ def delete(caller_id, public_ip_id_list):
 @admin_cm_log(log=True)
 def unassign(caller_id, lease_id):
     """
-    Method detaches public IP from caller's VM.
-    Unlinks PublicLease instance from given VM's Lease instance.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Detaches specified PublicIP from owners VM. Unlinks PublicLease instance
+    from its Lease instance.
 
-    @parameter{lease_id,int} id of the VM's lease from which IP should be detached.
-
-    @response{None}
+    @cmview_admin_cm
+    @param_post{lease_id,int} id of the VM's lease from which IP should be detached.
 
     @raises{lease_not_found,CMException}
     @raises{public_lease_unassign,CMException}
@@ -105,12 +114,11 @@ def unassign(caller_id, lease_id):
 @admin_cm_log(log=True)
 def release(caller_id, public_ip_id_list):
     """
-    Removes public IP from caller's IPs and makes it available in public pool.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Removes PublicIP addresses from their owners pool. Released addresses are
+    back available in public pool.
 
-    @parameter{publicip_id,int} id of the IP to release
-
-    @response{None}
+    @cmview_admin_cm
+    @param_post{public_ip_id_list,list(int)} list of the specified ids
     """
     for public_ip_id in public_ip_id_list:
         public_lease = PublicIP.objects.get(id=public_ip_id)

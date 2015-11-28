@@ -27,17 +27,16 @@
 from django.utils.translation import ugettext as _
 
 from wi.commontags.templatetags.templatetags import filesizeformatmb
-from wi.utils.states import image_states, image_platforms_reversed, \
-    ec2names_reversed
+from wi.utils.states import image_states, image_platforms_reversed, ec2names_reversed
 
 
 def parse_image_names(data):
     """
-    Returns list of the images' names grouped by type.
+    Returns list of the Images names grouped by type.
 
-    @parameter{data,dict} dictionary with keys: 'images_private', 'images_public', 'images_group'
+    @parameter{data,dict} dictionary with keys: @val{images_private}, @val{images_public}, @val{images_group}
 
-    @returns{list} images' names.
+    @returns{list} Images names.
     """
     emty_category_counter = 1
     categories = []
@@ -84,11 +83,11 @@ def parse_image_names(data):
 
 def parse_template_names(data):
     """
-    Returns list of the templates' names..
+    Returns list of the Templates names
 
     @parameter{data,dict}
 
-    @returns{list} templates' names.
+    @returns{list} Templates names.
     """
     templates_list = []
     for template in data['templates']:
@@ -107,7 +106,7 @@ def parse_ips(data, select_flag=True):
     Returns list of the IPs.
 
     @parameter{data,dict}
-    @parameter{select_flag,boolean}
+    @parameter{select_flag,bool}
 
     @returns{list} IPs.
     """

@@ -46,13 +46,14 @@ from common.states import user_active_states, registration_states, \
 @guest_log(log=False)
 def check_password(login, password):
     """
-    Checks user password's correctness.
+    Checks User password's correctness.
 
-    @parameter{login} user's login
-    @parameter{password} password to check
+    @clmview_guest
+    @param_post{login} user's login
+    @param_post{password} password to check
 
     @response{bool} False if password isn't correct
-    @response{dict} if password is correct
+    @response{dict} User.dict() property if password is correct
     """
     try:
         user = User.objects.get(login=login)
@@ -79,7 +80,8 @@ def check_signature(parameters):
     """
     Authenticate S3 request by checking parameters passed by EC2
 
-    @parameter{parameters} dict with all S3 request headers
+    @clmview_guest
+    @param_post{parameters} dict with all S3 request headers
     """
 
     try:
@@ -102,23 +104,23 @@ def check_signature(parameters):
         raise CLMException('user_get')
     return True
 
+
 @guest_log(log=True)
 def register(first, last, login, email, new_password, organization, wi_data):
     """
     Registers new user.
 
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{first,string} firstname to set
-    @dictkey{last,string} lastname to set
-    @dictkey{default_cluster_id,int} id of defalut cluster (defaults to first unlocked)
-    @dictkey{login,string} login to set
-    @dictkey{email,string} email to set
-    @dictkey{password,string} password to set
-    @dictkey{organization,string} organization to set
+    @clmview_guest
+    @param_post{first,string} firstname to set
+    @param_post{last,string} lastname to set
+    @param_post{login,string} login to set
+    @param_post{email,string} email to set
+    @param_post{new_password,string} password to set
+    @param_post{organization,string} organization to set
+    @param_post{wi_data,dict} data for sending mail
 
     @response{dict}
-    @dictkey{user,dict} user's data
+    @dictkey{user,dict} user's data (User.dict() property)
     @dictkey{registration_state,int} state of reqistration @seealso{common.states.registration_state}
     """
 
@@ -181,9 +183,10 @@ def register(first, last, login, email, new_password, organization, wi_data):
 @guest_log(log=False)
 def exists(login):
     """
-    Method check, whether specified @prm{login} is already exists.
+    Method check, whether specified @prm{login} already exists.
 
-    @parameter{login,string}
+    @clmview_guest
+    @param_post{login,string}
 
     @response{bool) True if @prm{login} is registered
     @response{bool) False if @prm{login} isn't registered
@@ -196,7 +199,8 @@ def email_exists(email):
     """
     Method checks, whether user with specified @prm{email} already exists.
 
-    @parameter{email,string}
+    @clmview_guest
+    @param_post{email,string}
 
     @response{bool) True if @prm{email} is registered
     @response{bool) False if @prm{email} isn't registered
@@ -207,10 +211,11 @@ def email_exists(email):
 @guest_log(log=True)
 def activate(act_key, wi_data):
     """
-    Method activates user with activation key @prm{act_key}.
+    Method activates User with activation key @prm{act_key}.
 
-    @parameter{act_key,string}
-    @parameter{wi_data,string}
+    @clmview_guest
+    @param_post{act_key,string}
+    @param_post{wi_data,string} data for email
 
     @response{dict} user's data, fields:
     @dictkey{user,dict}
@@ -253,8 +258,9 @@ def activate(act_key, wi_data):
 def is_mailer_active():
     """
     Info, whether mailer is active
+
     @clmview_guest
-    @returns{dict} fiedls:
+    @response{dict} fiedls:
     @dictkey{mailer_active}
     @dictkey{contact_email}
     """
@@ -265,10 +271,10 @@ def is_mailer_active():
 def reset_password_mail(email, wi_data):
     """
     Sends mail for reseting password
-    @clmview_guest
 
-    @parameter{email,string} whom send mail for resetting password to
-    @parameter{wi_data,dict} fields:
+    @clmview_guest
+    @param_post{email,string} whom send "reset password" mail to
+    @param_post{wi_data,dict} fields:
     @dictkey{site_domain}
     @dictkey{site_name}
     """
@@ -286,9 +292,11 @@ def reset_password_mail(email, wi_data):
 @guest_log(log=True)
 def check_token(user_id, token):
     """
+    Check password-reset token correctness for User.
+
     @clmview_guest
-    @parameter{user_id} user for whom token should be checked
-    @parameter{token} token to check
+    @param_post{user_id} User whose token should be checked
+    @param_post{token} token to check
 
     @response None
     """
@@ -305,10 +313,12 @@ def check_token(user_id, token):
 @guest_log(log=True)
 def set_password_token(user_id, token, new_password):
     """
+    Sets new password provided reset-password token is correct.
+
     @clmview_guest
-    @parameter{user_id} id of the User whose password should be set
-    @parameter{token} token to set password
-    @parameter{new_password,string} new password
+    @param_post{user_id} id of the User whose password should be set
+    @param_post{token} token to set password
+    @param_post{new_password,string} new password
 
     @response{dict} User's new data (if succeeded)
     """

@@ -23,9 +23,9 @@
 @date 03.02.2012
 """
 
-from wi.utils.decorators import admin_cm_permission
 from wi.commontags.templatetags.templatetags import filesizeformatmb
 from wi.utils import messages_ajax
+from wi.utils.decorators import admin_cm_permission
 from wi.utils.decorators import django_view
 from wi.utils.messages_ajax import ajax_request
 from wi.utils.states import ec2names_reversed

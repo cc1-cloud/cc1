@@ -55,13 +55,9 @@ class NumberChoice(object):
     Used in number selection inputs.
     """
     def __init__(self, maximum=10):
-        """
-        """
         self.max_choices = maximum + 1
 
     def __iter__(self):
-        """
-        """
         return iter((n, n) for n in range(1, self.max_choices))
 
 

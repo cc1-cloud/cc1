@@ -30,9 +30,7 @@ from common.states import cluster_states
 def list_names():
     """
     @clmview_guest
-
-    @response{list(dict)} list of clusters; fields:
-    @dictkey{id,int}
-    @dictkey{name,string}
+    @response{list(dict)} list of clusters data, Cluster.short_dict() property
+    for each unlocked Cluster
     """
     return [c.short_dict for c in Cluster.objects.filter(state=cluster_states['ok'])]

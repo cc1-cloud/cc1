@@ -17,9 +17,9 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.user.admin
+"""@package src.cm.views.ci.node
 @author Maciej Nabozny <mn@mnabozny.pl>
-@alldecoratedby{src.cm.utils.decorators.ni_log}
+@alldecoratedby{src.cm.utils.decorators.ci_log}
 """
 
 from cm.utils.decorators import ci_log
@@ -28,8 +28,16 @@ from cm.utils.exception import CMException
 from common.states import node_states
 import datetime
 
+
 @ci_log(log=True)
 def update_state(remote_ip, state, comment="", error=""):
+    """
+    @cmview_ci
+    @param_post{remote_ip,string}
+    @param_post{state}
+    @param_post{comment,string}
+    @param_post{error,string}
+    """
     try:
         node = Node.objects.get(address=remote_ip)
     except:

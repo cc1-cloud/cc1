@@ -35,8 +35,9 @@ from django.views.decorators.csrf import csrf_protect
 
 from wi.utils import CLM, check_response_errors, messages_ajax
 from wi.utils.decorators import django_view
-from wi.utils.messages_codes import get_error
 from wi.utils.messages_ajax import ajax_request
+from wi.utils.messages_codes import get_error
+
 
 not_to_be_logged_urls = ['admin_cm/farm/get_list/',
                          'admin_cm/vm/get_list/',

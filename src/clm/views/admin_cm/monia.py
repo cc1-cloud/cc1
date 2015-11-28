@@ -30,6 +30,6 @@ from clm.utils.decorators import admin_cm_log, cm_request
 def vm_stats(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{monia.vm_stats()}
+    @cm_request_transparent{monia.vm_stats()}
     """
     return cm_response

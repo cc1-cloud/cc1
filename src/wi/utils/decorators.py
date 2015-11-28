@@ -30,8 +30,8 @@ from django.http import HttpResponseRedirect
 from django.utils.http import urlquote
 
 from wi.utils import REDIRECT_FIELD_NAME
-from wi.utils.messages_codes import auth_error_text
 from wi.utils.messages_ajax import success
+from wi.utils.messages_codes import auth_error_text
 
 
 def django_view(fun):

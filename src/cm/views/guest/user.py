@@ -32,10 +32,9 @@ from cm.utils.exception import CMException
 @guest_log(log=True)
 def add(new_user_id):
     """
-    Function adds new user to DB and creates its home directory.
+    Adds existing CLM User to CM Users.
     @cmview_guest
-
-    @dictkey{new_user_id,int}
+    @param_post{new_user_id,int} id of the existing CLM User
 
     @response{None}
     """

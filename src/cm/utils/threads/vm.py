@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.utils.vm_threads
+"""@package src.cm.utils.vm_threads
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 @author Maciej Nabożny <mn@mnabozny.pl>
 """

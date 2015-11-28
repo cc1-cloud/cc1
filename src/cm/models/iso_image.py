@@ -78,8 +78,7 @@ class IsoImage(Image):
         (and optionally to listed \c groups, if any given)
 
         @parameter{user_id,int}
-        @parameter{id,int}
-        @parameter{groups,list} - optional
+        @parameter{iso_image_id,int}
 
         @returns{Image} image with id given
 
@@ -103,7 +102,7 @@ class IsoImage(Image):
         """
         Getter, which should be called by admin. It doesn't check Image's ownership.
 
-        @parameter{id,int} primary index of the @type{cdImage}
+        @parameter{iso_image_id,int} primary index of the @type{cdImage}
 
         @returns{StorageImage} instance of @type{StorageImage} based on primary index provided
 
@@ -125,7 +124,7 @@ class IsoImage(Image):
         True, if user \c user_id (and optionally listed \c groups)
         has access to this image. Otherwise exception is thrown.
 
-        @raises{image_permission,CMException}
+        @raises{iso_image_permission,CMException}
         """
         if self.user.id != user_id:
             if self.access == image_access['private']:

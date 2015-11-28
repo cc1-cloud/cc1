@@ -30,7 +30,7 @@ from clm.utils.decorators import cm_request
 def get_list(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.get_list()}
+    @cm_request_transparent{node.get_list()}
     """
     return cm_response
 
@@ -40,7 +40,7 @@ def get_list(cm_response, **data):
 def get_by_id(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.get_by_id()}
+    @cm_request_transparent{node.get_by_id()}
     """
     return cm_response
 
@@ -50,7 +50,7 @@ def get_by_id(cm_response, **data):
 def lock(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.lock()}
+    @cm_request_transparent{node.lock()}
     """
     return cm_response
 
@@ -60,7 +60,7 @@ def lock(cm_response, **data):
 def unlock(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.unlock()}
+    @cm_request_transparent{node.unlock()}
     """
     return cm_response
 
@@ -70,7 +70,7 @@ def unlock(cm_response, **data):
 def delete(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.delete()}
+    @cm_request_transparent{node.delete()}
     """
     return cm_response
 
@@ -80,7 +80,7 @@ def delete(cm_response, **data):
 def add(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.add()}
+    @cm_request_transparent{node.add()}
     """
     return cm_response
 
@@ -90,7 +90,7 @@ def add(cm_response, **data):
 def edit(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.edit()}
+    @cm_request_transparent{node.edit()}
     """
     return cm_response
 
@@ -100,7 +100,7 @@ def edit(cm_response, **data):
 def get_by_id_details(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.get_by_id_details()}
+    @cm_request_transparent{node.get_by_id_details()}
     """
     return cm_response
 
@@ -110,6 +110,6 @@ def get_by_id_details(cm_response, **data):
 def check(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{node.check()}
+    @cm_request_transparent{node.check()}
     """
     return cm_response

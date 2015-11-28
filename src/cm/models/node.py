@@ -37,8 +37,8 @@ class Node(models.Model):
 
     Node is physical machine providing its CPU for virtual machines ran
     within cluster. It hosts VMs with help of underlying Libvirt software.
-    CM automatically selects node fitting best for newly created VM.
-    User doesn't know which node it is exacly. He doesn't even need to be
+    CM automatically selects Node fitting best for newly created VM.
+    User doesn't know which Node it is exactly. He doesn't even need to be
     aware of nodes existence.
 
     VMs may start only on node with 'ok' state. CM automatically disables
@@ -362,8 +362,9 @@ class Node(models.Model):
     @staticmethod
     def get_free_node(template, image, node_id=None):
         """
-        Method finds first (or with given id) Node that is sufficient enough
-        for specified \c Image and \c Template and returns that Node.
+        Method picks either requestd or, if none, first available Node that is
+        sufficient enough for specified \c Image and \c Template and returns
+        that Node.
 
         @parameter{template,Template} instance of the VM's Template to run on
         searched Node

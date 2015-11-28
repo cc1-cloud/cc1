@@ -34,11 +34,11 @@ import subprocess
 @admin_cm_log(log=True)
 def add(caller_id, user_id, new_password):
     """
-    Function creates new admin of the cluster.
-    @cmview_admin_cm
+    Creates new admin of the cluster.
 
-    @parameter{admin_id,int} new CM admin's id
-    @parameter{password,string} new *CM admin password* to set
+    @cmview_admin_cm
+    @param_post{user_id,int} id of the User to gain CM Admin privileges
+    @param_post{new_password,string} CM Admin password for User
     """
     # verify if exists an user with the id given (which will become admin)
     try:
@@ -59,10 +59,10 @@ def add(caller_id, user_id, new_password):
 @admin_cm_log(log=True)
 def delete(caller_id, user_id):
     """
-    Removes specified User with id @prm{cmadmin_id} from CM admins.
-    @cmview_admin_cm
+    Removes specified User with id @prm{cmadmin_id} from CM Admins.
 
-    @parameter{admin_id,int} id of the CM admin to delete
+    @cmview_admin_cm
+    @param_post{user_id,int} id of the User to revoke CM admin privileges
     """
 
     try:
@@ -75,11 +75,10 @@ def delete(caller_id, user_id):
 @admin_cm_log(log=True)
 def change_password(admin_id, new_password):
     """
-    Method changes caller's *CM admin password* into \c password.
-    @cmview_admin_cm
+    Method to change CM Admin password.
 
-    @parameter{admin_id,int}
-    @parameter{password,string} new password to set
+    @cmview_admin_cm
+    @param_post{new_password,string} new password to set
     """
 
     try:
@@ -93,10 +92,10 @@ def change_password(admin_id, new_password):
 @admin_cm_log(log=True)
 def list_admins(caller_id):
     """
-    Method returns list of the admins.
-    @cmview_admin_cm
+    Method returns list of the CM Admins.
 
-    @response{list(dict)} admins
+    @cmview_admin_cm
+    @response{list(int)} ids of the CM Admins
     """
     admins = []
     for admin in Admin.objects.all():
@@ -106,6 +105,8 @@ def list_admins(caller_id):
 @admin_cm_log(log=True)
 def restart(caller_id):
     """
+    Method returns list of the CM Admins.
+
     @cmview_admin_cm
     """
     if subprocess.call(['/usr/sbin/cc1_cm_storage', 'mount']) != 0:
@@ -123,4 +124,8 @@ def restart(caller_id):
 
 @guest_log(log=True)
 def am_i_admin(caller_id):
+    """
+    @cmview_guest
+    @response{bool} True if caller is admin and False if not
+    """
     return caller_id in [admin.user.id for admin in Admin.objects.all()]

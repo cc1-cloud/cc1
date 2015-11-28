@@ -28,7 +28,7 @@ from clm.utils.cm import CM
 def shutdown(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{user.ctx.shutdown()}
+    @cm_request_transparent{user.ctx.shutdown()}
     """
     return cm_response
 
@@ -38,7 +38,7 @@ def shutdown(cm_response, **data):
 def reboot(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{user.ctx.reboot()}
+    @cm_request_transparent{user.ctx.reboot()}
     """
     return cm_response
 
@@ -48,7 +48,7 @@ def reboot(cm_response, **data):
 def reset_password(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{user.ctx.reset_password()}
+    @cm_request{user.ctx.reset_password()}
     """
     return cm_response
 
@@ -57,7 +57,9 @@ def reset_password(cm_response, **data):
 def add_ssh_key(cm_id, caller_id, vm_key, vm_username, vm_ids):
     """
     @clmview_user
-    @clm_view_transparent{user.ctx.add_ssh_key()}
+    @param_post{vm_key,string}
+    @param_post{vm_username,string}
+    @param_post{vm_ids,list(int)}
     """
     try:
         k = Key.objects.filter(user_id__exact=caller_id).filter(id__exact=vm_key)[0]

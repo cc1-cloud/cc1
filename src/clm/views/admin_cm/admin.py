@@ -31,8 +31,8 @@ from clm.utils.exception import CLMException
 @cm_request
 def add(cm_response, **data):
     """
-    @cmview_admin_cm
-    @clm_view_transparent{admin.add()}
+    @clmview_admin_clm
+    @cm_request_transparent{admin.add()}
     """
     if cm_response['status'] == 'ok':
         try:
@@ -49,8 +49,8 @@ def add(cm_response, **data):
 @cm_request
 def delete(cm_response, **data):
     """
-    @cmview_admin_cm
-    @clm_view_transparent{admin.delete()}
+    @clmview_admin_clm
+    @cm_request_transparent{admin.delete()}
     """
     is_admin = False
     for cm_id in [cluster.id for cluster in Cluster.objects.all()]:
@@ -73,10 +73,8 @@ def delete(cm_response, **data):
 @cm_request
 def change_password(cm_response, **data):
     """
-    Changes caller's password to @prm{password}.
-
-    @cmview_admin_cm
-    @clm_view_transparent{admin.change_password()}
+    @clmview_admin_clm
+    @cm_request_transparent{admin.change_password()}
     """
     return cm_response
 
@@ -85,7 +83,7 @@ def change_password(cm_response, **data):
 @cm_request
 def list_admins(cm_response, **data):
     """
-    @cmview_admin_cm
-    @clm_view_transparent{admin.list_admins()}
+    @clmview_admin_clm
+    @cm_request_transparent{admin.list_admins()}
     """
     return cm_response

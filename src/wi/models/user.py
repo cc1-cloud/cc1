@@ -16,6 +16,7 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
+
 """@package src.wi.models.user
 
 @author Piotr Wójcik

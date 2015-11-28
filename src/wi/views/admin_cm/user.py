@@ -28,10 +28,10 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
 
-from wi.forms.user import MultipleChangeQuotaForm
-from wi.utils.decorators import admin_cm_permission
 from wi.commontags.templatetags.templatetags import filesizeformatmb
+from wi.forms.user import MultipleChangeQuotaForm
 from wi.utils import messages_ajax
+from wi.utils.decorators import admin_cm_permission
 from wi.utils.decorators import django_view
 from wi.utils.forms import PasswordForm
 from wi.utils.messages_ajax import ajax_request

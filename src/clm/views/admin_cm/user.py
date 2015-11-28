@@ -32,7 +32,7 @@ from clm.utils.exception import CLMException
 def add(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{user.add()}
+    @cm_request_transparent{user.add()}
     """
     return cm_response
 
@@ -41,7 +41,8 @@ def add(cm_response, **data):
 def get_by_id(cm_id, caller_id, cm_password, user_id):
     """
     @clmview_admin_cm
-    @clm_view_transparent{user.get_by_id()}
+    @param_post{user_id,int}
+    @response{dict} dict property of the requested User
     """
     user = User.get(user_id)
     return user.dict
@@ -50,11 +51,13 @@ def get_by_id(cm_id, caller_id, cm_password, user_id):
 @admin_cm_log(log=True, pack=True)
 def get_list(cm_id, caller_id, cm_password):
     """
-    Method returns list of users of the managed cluster
+    Method returns list of Users of the managed cluster
 
-    @parameter{cm_passwd,string} caller's *CM admin password*
+    @cm_request{storage_image.get_list()}
+    @clmview_admin_cm
+    @param_post{short,bool} caller's CM admin password
 
-    @response{list(dict)} dicts describing users of the managed cluster
+    @response{list(dict)} dicts property for each requested cluster's User
     """
     r = CM(cm_id).send_request("admin_cm/user/get_list/", cm_password=cm_password, caller_id=caller_id)
     if r['status'] != 'ok':
@@ -78,7 +81,7 @@ def check_quota(cm_response, **data):
     Method returns state of user's quota.
 
     @clmview_admin_cm
-    @clm_view_transparent{user.check_quota()}
+    @cm_request_transparent{user.get_quota()}
     """
     return cm_response
 
@@ -91,7 +94,7 @@ def change_quota(cm_response, **data):
     as described by \c data.
 
     @clmview_admin_cm
-    @clm_view_transparent{user.change_quota()}
+    @cm_request{user.change_quota()}
     """
     return cm_response
 
@@ -103,6 +106,6 @@ def multiple_change_quota(cm_response, **data):
     Method changes quota as described by \c data.
 
     @clmview_admin_cm
-    @clm_view_transparent{user.multiple_change_quota()}
+    @cm_request_transparent{user.multiple_change_quota()}
     """
     return cm_response

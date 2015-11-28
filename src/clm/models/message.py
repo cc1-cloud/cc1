@@ -21,6 +21,7 @@
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 """
 
+
 from django.db import models
 from clm.models.user import User
 import json

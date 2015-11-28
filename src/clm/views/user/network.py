@@ -28,28 +28,48 @@ from clm.utils.decorators import user_log, cm_request
 @user_log(log=True, pack=False)
 @cm_request
 def request(cm_response, **data):
+    """
+    @clmview_user
+    @cm_request_transparent{user.network.requests()}
+    """
     return cm_response
 
 
 @user_log(log=True, pack=False)
 @cm_request
 def release(cm_response, **data):
+    """
+    @clmview_user
+    @cm_request_transparent{user.network.release()}
+    """
     return cm_response
 
 
 @user_log(log=False, pack=False)
 @cm_request
 def list_available_networks(cm_response, **data):
+    """
+    @clmview_user
+    @cm_request_transparent{user.network.list_available_networks()}
+    """
     return cm_response
 
 
 @user_log(log=False, pack=False)
 @cm_request
 def list_user_networks(cm_response, **data):
+    """
+    @clmview_user
+    @cm_request_transparent{user.network.list_user_networks()}
+    """
     return cm_response
 
 
 @user_log(log=False, pack=False)
 @cm_request
 def list_leases(cm_response, **data):
+    """
+    @clmview_user
+    @cm_request_transparent{user.network.list_leases()}
+    """
     return cm_response

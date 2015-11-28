@@ -35,9 +35,9 @@ from wi.forms.user import CMAuthenticationForm, HelpForm, PasswordChangeForm, \
     AccountDataEdit
 from wi.utils import get_dict_from_list, messages_ajax
 from wi.utils.decorators import django_view, user_permission
-from wi.utils.messages_codes import get_message
 from wi.utils.exceptions import RestErrorException
 from wi.utils.messages_ajax import ajax_request
+from wi.utils.messages_codes import get_message
 from wi.utils.states import message_levels_reversed
 from wi.utils.views import prep_data
 

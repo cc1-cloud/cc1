@@ -26,8 +26,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template.loader import render_to_string
 
-from wi.utils.decorators import admin_cm_permission
 from wi.utils import messages_ajax
+from wi.utils.decorators import admin_cm_permission
 from wi.utils.decorators import django_view
 from wi.utils.messages_ajax import ajax_request
 from wi.utils.states import pool_states_reversed

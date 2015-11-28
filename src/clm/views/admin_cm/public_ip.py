@@ -30,8 +30,21 @@ from clm.utils.decorators import admin_cm_log, cm_request
 def get_list(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{public_ip.get_list()}
+    @cm_request_transparent{public_ip.get_list()}
     """
+    names = {}
+
+    for ip in cm_response['data']:
+        if ip['user_id'] == '':
+            ip['owner'] = ''
+        elif str(ip['user_id']) not in names:
+            try:
+                user = User.objects.get(pk=ip['user_id'])
+                names[str(ip['user_id'])] = user.first + " " + user.last
+            except:
+                raise CLMException('user_get')
+            ip['owner'] = names[str(ip['user_id'])]
+
     return cm_response
 
 
@@ -40,7 +53,7 @@ def get_list(cm_response, **data):
 def add(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{public_ip.add()}
+    @cm_request_transparent{public_ip.add()}
     """
     return cm_response
 
@@ -50,7 +63,7 @@ def add(cm_response, **data):
 def delete(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{public_ip.delete()}
+    @cm_request_transparent{public_ip.delete()}
     """
     return cm_response
 
@@ -60,7 +73,7 @@ def delete(cm_response, **data):
 def unassign(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{public_ip.unassign()}
+    @cm_request_transparent{public_ip.unassign()}
     """
     return cm_response
 
@@ -68,4 +81,12 @@ def unassign(cm_response, **data):
 @admin_cm_log(log=True, pack=False)
 @cm_request
 def release(cm_response, **data):
+    """
+    @clmview_admin_cm
+    @cm_request_transparent{public_ip.release()}
+    """
     return cm_response
+    """
+    @clmview_admin_cm
+    @cm_request_transparent{public_ip.revoke()}
+    """

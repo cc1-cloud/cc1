@@ -29,9 +29,9 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
 
-from wi.utils.decorators import user_permission
 from wi.utils import messages_ajax, parsing
 from wi.utils.decorators import django_view
+from wi.utils.decorators import user_permission
 from wi.utils.messages_ajax import ajax_request
 from wi.utils.states import user_groups_states_reversed
 from wi.utils.views import prep_data

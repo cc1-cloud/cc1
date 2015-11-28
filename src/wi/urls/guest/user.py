@@ -50,7 +50,6 @@ account_patterns = patterns('wi.views.guest.user',
 
     url(r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'acc_password_reset_confirm', name='acc_password_reset_confirm'),
     url(r'^password_reset/done/$', direct_to_template,
-
         {'template_name': 'account/password_reset_done.html'}, name='acc_password_reset_done'),
     url(r'^reset/done/$', direct_to_template,
         {'template_name': 'account/password_reset_complete.html'}, name='acc_password_reset_complete'),

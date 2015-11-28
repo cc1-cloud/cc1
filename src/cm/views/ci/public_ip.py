@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.user.admin
+"""@package src.cm.views.ci.public_ip
 @author Maciej Nabozny <mn@mnabozny.pl>
 @alldecoratedby{src.cm.utils.decorators.ni_log}
 """
@@ -31,6 +31,10 @@ from common.states import vm_states
 
 @ci_log(log=True)
 def get_list(remote_ip):
+    """
+    @cmview_ci
+    @param_post{remote_ip,string}
+    """
     try:
         node = Node.objects.get(address=remote_ip)
     except:

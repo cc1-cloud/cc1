@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.user.image
+"""@package src.cm.views.user.system_image
 @alldecoratedby{src.cm.utils.decorators.user_log}
 
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
@@ -93,11 +93,12 @@ def download(caller_id, description, name, path, disk_controller, network_device
 @user_log(log=True)  # XXX
 def get_list(caller_id, access, group_id=None):
     """
-    Returns images.
-    @cmview_user
+    Returns SystemImages with specified access (and from specific Group if
+    @prm{group_id} is specified).
 
-    @parameter{access} ( image_access['group'] | image_access['private'] | image_access['public'] , necessary for system and cd images)
-    @parameter{group_id,list(int)} list of Group ids necessary when access is group, for system and cd images
+    @cmview_user
+    @param_post{access} one of common.hardware.image_access
+    @param_post{group_id,list(int)} list of Groups ids, required for @val{group} access
 
     @response{list(dict)} list of the images from CM
     """
@@ -120,11 +121,10 @@ def get_list(caller_id, access, group_id=None):
 def get_by_id(caller_id, system_image_id, groups):
     """
     @cmview_user
+    @param_post{groups,list(int)} list of Groups ids, required for @val{group} access
+    @param_post{system_image_id,int} id of the requested Image
 
-    @parameter{groups,list(int)} list of Group ids necessary when access is group, for system and cd images
-    @parameter{system_image_id,int} id of the Image to get
-
-    @response{dict} extended information about specified Image
+    @response{dict} SystemImage.dict property of the requested SystemImage
     """
     return SystemImage.get(caller_id, system_image_id, groups).dict
 
@@ -132,11 +132,10 @@ def get_by_id(caller_id, system_image_id, groups):
 @user_log(log=True)
 def delete(caller_id, system_image_id):
     """
-    Deletes given Image
+    Deletes specified SystemImage
 
     @cmview_user
-
-    @parameter{system_image_id} id of the Image to delete
+    @param_post{system_image_ids,list(int)} id of the SystemImage to delete
     """
     image = SystemImage.get(caller_id, system_image_id)
 
@@ -155,16 +154,16 @@ def delete(caller_id, system_image_id):
 @user_log(log=True)
 def edit(caller_id, system_image_id, name, description, disk_controller, video_device, network_device, platform):
     """
-    Sets Image's new attributes. Those should be get by src.cm.manager.image.get_by_id().
-    @cmview_user
+    Updates attributes of the specified SystemImage.
 
-    @parameter{system_image_id,int} id of the Image to edit
-    @parameter{name,string} new Image name
-    @parameter{description,string} new Image description
-    @parameter{disk_controller} new Image controller optional
-    @parameter{video_device} new video device optional
-    @parameter{network_device} new network device optional
-    @parameter{platform} optional
+    @cmview_user
+    @param_post{system_image_id,int} id of the SystemImage to edit
+    @param_post{name,string} SystemImage new name (optional)
+    @param_post{description,string} SystemImage new description (optional)
+    @param_post{disk_controller} SystemImage new controller (optional)
+    @param_post{video_device} SystemImage new video device (optional)
+    @param_post{network_device} SystemImage new network device (optional)
+    @param_post{platform} (optional)
     """
 
     image = SystemImage.get(caller_id, system_image_id)
@@ -187,15 +186,13 @@ def edit(caller_id, system_image_id, name, description, disk_controller, video_d
 @user_log(log=True)
 def set_private(caller_id, system_image_id, leader_groups):
     """
-    Sets Image as private, only for system and cd image
-    To succeed it requires caller to be:
-    - either the <b>owner of the image</b>
-    - or the <b>leader of the group</b> to which Image belongs
+    Marks SystemImage as @val{private}. The caller needs to be:
+    - either the <b>owner of the SystemImage</b>
+    - or the <b>leader of the group</b> to which SystemImage belongs
 
     @cmview_user
-
-    @parameter{system_image_id,int} id of the Image to set private
-    @parameter{leader_groups,list(int)} ids of the group where the caller is
+    @param_post{system_image_id,int} id of the Image to set private
+    @param_post{leader_groups,list(int)} ids of the group where the caller is
     leader, requierd if Image's access type is group
     """
 
@@ -215,10 +212,10 @@ def set_group(caller_id, system_image_id, group_id):
     """
     Method sets specified Image access type as group (belonging to specified Group)
     (only for sys and cd images - from private or public to group)
-    @cmview_user
 
-    @parameter{group_id,int} id of the Group Image should belong to
-    @parameter{system_image_id,int}
+    @cmview_user
+    @param_post{group_id,int} id of the Group Image should belong to
+    @param_post{system_image_id,int}
 
     @response{None}
     """
@@ -241,11 +238,9 @@ def set_group(caller_id, system_image_id, group_id):
 def convert_to_storage_image(caller_id, system_image_id):
     """
     Changes type of the given Image.
+
     @cmview_user
-
-    @parameter{system_image_id,int} ID of an Image to change type of
-
-    @response{None}
+    @param_post{system_image_id,int} ID of an Image to change type of
     """
     image = SystemImage.get(caller_id, system_image_id)
     try:
@@ -260,8 +255,7 @@ def convert_to_storage_image(caller_id, system_image_id):
 def get_filesystems(caller_id):
     """
     @cmview_user
-
-    @response{list(dict)} supported filesystems
+    @response{list(dict)} common.hardware.disk_filesystems
     """
     return disk_filesystems
 
@@ -270,8 +264,7 @@ def get_filesystems(caller_id):
 def get_video_devices(caller_id):
     """
     @cmview_user
-
-    @response{list(dict)} video devices
+    @response{list(dict)} common.hardware.video_devices
     """
     return video_devices
 
@@ -280,8 +273,7 @@ def get_video_devices(caller_id):
 def get_network_devices(caller_id):
     """
     @cmview_user
-
-    @response{list(dict)} network devices
+    @response{list(dict)} common.hardware.network_devices
     """
     return network_devices
 
@@ -290,7 +282,6 @@ def get_network_devices(caller_id):
 def get_disk_controllers(caller_id):
     """
     @cmview_user
-
-    @response{list(dict)} disk controllers
+    @response{list(dict)} \c id and \c name for each disk controller
     """
     return [{'id': id, 'name': name} for name, id in disk_controllers.iteritems()]

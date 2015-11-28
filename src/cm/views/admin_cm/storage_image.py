@@ -45,15 +45,14 @@ from cm.utils.threads.image import CopyImage
 @admin_cm_log(log=True)
 def download(caller_id, description, name, path, disk_dev, disk_controller):
     """
-    Downloads image depending on the \c data parameter.
+    Downloads specified StorateImage from remote path.
+
     @cmview_admin_cm
-
-    @parameter{description,string}
-    @parameter{name,string}
-    @parameter{path,string} HTTP or FTP path to image to download
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
-
-    @response{None}
+    @param_post{description,string}
+    @param_post{name,string} how to name newly downloaded storage image
+    @param_post{path,string} HTTP or FTP path to download StorageImage.
+    @param_post{disk_dev}
+    @param_post{disk_controller}
     """
 
     # size value is taken
@@ -83,13 +82,10 @@ def download(caller_id, description, name, path, disk_dev, disk_controller):
 @admin_cm_log(log=False)
 def get_list(caller_id):
     """
-    Returns images.
+    Fetch all StorageImages except those that are @val{locked}.
+
     @cmview_admin_cm
-
-    @parameter{access} ( image_access['group'] | image_access['private'] | image_access['public'] , necessary for system and cd images)
-    @parameter{group_id,list(int)} list of Group ids necessary when access is group, for system and cd images
-
-    @response{list(dict)} list of the images from CM
+    @response{list(dict)} StorageImages.dict property for each StorageImages.
     """
     # retrieve list of the type requested
     images = StorageImage.objects.exclude(state=image_states['locked'])
@@ -100,12 +96,12 @@ def get_list(caller_id):
 @admin_cm_log(log=True)
 def get_by_id(caller_id, storage_image_id):
     """
+    Fetch requested StorageImage.
+
     @cmview_admin_cm
+    @param_post{storage_image_id,int} id of the requested StorageImage
 
-    @parameter{image_id,int} id of the Image to get
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
-
-    @response{dict} extended information about specified Image
+    @response{dict} StorageImages.dict property for requested StorageImage
     """
     return StorageImage.admin_get(storage_image_id).dict
 
@@ -113,11 +109,12 @@ def get_by_id(caller_id, storage_image_id):
 @admin_cm_log(log=True)
 def delete(caller_id, storage_image_id):
     """
-    Deletes given Image
-    @cmview_admin_cm
+    Sets StorageImage state as @val{locked}.
 
-    @parameter{system_image_id} id of the Image to delete
-    @parameter{type,image_types} type of image, automatically set, type is in the URL requested
+    @cmview_admin_cm
+    @param_post{storage_image_id} id of the Image to delete
+
+    @todo Should rather delete StorageImage and set its state to 'deleted'.
     """
     image = StorageImage.admin_get(storage_image_id)
 
@@ -129,16 +126,13 @@ def delete(caller_id, storage_image_id):
 @admin_cm_log(log=True)
 def edit(caller_id, storage_image_id, name, description, disk_controller):
     """
-    Sets Image's new attributes. Those should be get by src.cm.manager.image.get_by_id().
-    @cmview_admin_cm
+    Updates Image's attributes.
 
-    @parameter{system_image_id,string} new Image name
-    @parameter{name,string} new Image name
-    @parameter{description,string} new Image description
-    @parameter{disk_controller} new Image controller optional
-    @parameter{video_device} new video device optional
-    @parameter{network_device} new network device optional
-    @parameter{platform} optional
+    @cmview_admin_cm
+    @param_post{storage_image_id,string}
+    @param_post{name,string} new Image name
+    @param_post{description,string} new Image description
+    @param_post{disk_controller} new Image controller optional
     """
 
     image = StorageImage.admin_get(storage_image_id)
@@ -159,12 +153,12 @@ def edit(caller_id, storage_image_id, name, description, disk_controller):
 @admin_cm_log(log=True)
 def convert_to_system_image(caller_id, storage_image_id):
     """
-    Changes type of the given Image.
+    Converts specified StorageImage to SystemImage. After convertion it's not
+    available as StorageImage anymore. File is moved and StorageImage entry is
+    removed from database.
+
     @cmview_admin_cm
-
-    @parameter{system_image_id,int} ID of an Image to change type of
-
-    @response{None}
+    @param_post{storage_image_id,int} ID of an StorageImage to convert
     """
     image = StorageImage.admin_get(storage_image_id)
 
@@ -183,12 +177,11 @@ def convert_to_system_image(caller_id, storage_image_id):
 @admin_cm_log(log=True)
 def copy(caller_id, src_image_id, dest_user_id):
     """
-    Copy selected image to user's images
-    @cmview_admin_cm
+    Copy selected StorageImage to user's StorageImages
 
-    @parameter{src_id,int}
-    @parameter{dest_id,int}
-    @parameter{img_type}
+    @cmview_admin_cm
+    @param_post{src_image_id,int}
+    @param_post{dest_user_id,int}
     """
     src_image = StorageImage.admin_get(src_image_id)
     dest_user = User.get(dest_user_id)

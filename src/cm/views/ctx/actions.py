@@ -26,7 +26,8 @@ import grp
 
 VERSION = 3
 
-"""
+"""@package src.cm.views.ctx.actions
+
 @defgroup CTX VM Exceptions
 @{
 """
@@ -34,33 +35,33 @@ VERSION = 3
 
 def missing_parameter(param):
     """
-    Method to raise MissingParameter Exception
-    @parameter{param} missing parameter
+    Method to raise Exception for missing parameter.
+    @param_post{param} missing parameter
     """
     raise Exception("The request must contain the parameter %s" % param)
 
 
 def execution_error(error):
     """
-    Method to raise ExecutionError Exception
-    @parameter{error} execution's error
+    Method to raise Exception for execution error.
+    @param_post{error} execution's error
     """
     raise Exception("There was problem during function execution: %s" % error)
 
 
 def build_in_command_failed(cmd, code):
     """
-    Method to raise BuildInCommandFailed Exception
-    @parameter{cmd}
-    @parameter{code}
+    Method to raise Exception for build in command's failure.
+    @param_post{cmd}
+    @param_post{code}
     """
     raise Exception("Build in command %s failed with exit code: %s" % (cmd, code))
 
 
 def update_hosts(hosts_list=None, user='root'):
     """
-    @parameter{hosts_list}
-    @parameter{user}
+    @param_post{hosts_list}
+    @param_post{user} (optional, default: @val{root})
     """
     if user is None:
         missing_parameter('user')
@@ -98,7 +99,7 @@ def update_hosts(hosts_list=None, user='root'):
 
 def set_hostname(hostname=None):
     """
-    @parameter{hostname}
+    @param_post{hostname}
     """
     if hostname == None:
         missing_parameter('hostname')
@@ -109,7 +110,7 @@ def set_hostname(hostname=None):
 
 def cmd_exists(cmd):
     """
-    @parameter{cmd}
+    @param_post{cmd}
     """
     return subprocess.call(["which", cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
 
@@ -143,7 +144,7 @@ def reboot():
 def reset_password(user=None):
     """
     Tries to reset password of ther user
-    @parameter{user}
+    @param_post{user}
     """
     if user == None:
         build_in_command_failed('user')
@@ -168,8 +169,8 @@ def reset_password(user=None):
 
 def add_ssh_key(user=None, ssh_key=None):
     """
-    @parameter{user}
-    @parameter{ssh_key}
+    @param_post{user}
+    @param_post{ssh_key}
     """
     if user is None:
         missing_parameter('user')
@@ -210,7 +211,7 @@ def generate_key(key_name="id_rsa"):
     """
     Creates pair of ssh keys on the machine (public - private)
     and then returns public.
-    @parameter{key_name} @optional{"id_rsa"}
+    @param_post{key_name} @optional{"id_rsa"}
     """
     user = 'root'
 

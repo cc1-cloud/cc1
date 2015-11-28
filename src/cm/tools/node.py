@@ -18,7 +18,7 @@
 #
 # @endcond LICENSE
 
-"""
+"""@package src.cm.tools.node
 @author Maciej Nabozny <mn@mnabozny.pl>
 """
 
@@ -76,6 +76,16 @@ def add(address, username, transport, driver, suffix, cpu, memory, disk):
 
 
 def install(node_id, distribution):
+    """
+    Function installs node packages on node identified by node_id
+
+    @parameter{node_id,int} id of the node on which packages should be installed
+    @parameter{distribution,string} distribution of the node (what kind of packaging system should be used. Eg. 'debian' / 'redhat'
+
+    @returns{int} 0, if successful
+
+    @raises{CLICMException}
+    """
     try:
         node = Node.objects.get(id=node_id)
     except:

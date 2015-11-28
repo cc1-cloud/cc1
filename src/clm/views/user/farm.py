@@ -39,7 +39,7 @@ def create(cm_id, caller_id, **data):
 def destroy(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{user.farm.destroy()}
+    @cm_request_transparent{user.farm.destroy()}
     """
     return cm_response
 
@@ -49,6 +49,7 @@ def destroy(cm_response, **data):
 def get_list(cm_response, **data):
     """
     @clmview_user
+    @cm_request_transparent{user.farm.get_list()}
     """
     d = {}
     r = cm_response['data']
@@ -68,7 +69,7 @@ def get_list(cm_response, **data):
 def get_by_id(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{user.farm.get_by_id()}
+    @cm_request_transparent{user.farm.get_by_id()}
     """
     return cm_response
 
@@ -78,7 +79,7 @@ def get_by_id(cm_response, **data):
 def save_and_shutdown(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{user.farm.save_and_shutdown()}
+    @cm_request_transparent{user.farm.save_and_shutdown()}
     """
     return cm_response
 
@@ -88,6 +89,6 @@ def save_and_shutdown(cm_response, **data):
 def check_resources(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{user.farm.check_resources()}
+    @cm_request_transparent{user.farm.check_resources()}
     """
     return cm_response

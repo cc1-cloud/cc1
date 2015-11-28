@@ -126,7 +126,7 @@ class SystemImage(Image):
         - or as member of a Group VMImage belongs to.
 
         @parameter{user_id,int} User for whom VMImage should be obtained
-        @parameter{sys_img_id,int} id of the requested VMImage
+        @parameter{sys_image_id,int} id of the requested VMImage
         @parameter{groups,list(int)} ids of the Groups that User belongs to @optional{None}
 
         @returns{Image} requested VMImage instance, provided specified User
@@ -172,7 +172,7 @@ class SystemImage(Image):
         True, if specified User or listed Groups have right to access this
         Image. Otherwise exception is thrown.
 
-        @raises{image_permission,CMException} neither User nor listed Groups
+        @raises{system_image_permission,CMException} neither User nor listed Groups
         have right to access this Image.
         """
         if self.user.id != user_id:
@@ -186,7 +186,7 @@ class SystemImage(Image):
     def video_device_name(self):
         """
         Method filters VIDEO_DEVICES list to find video device name by
-        the video_device id with is assigned to this Image.
+        the video_device id that is assigned to this Image.
         @returns{string} name of this Image's the video device, if such a
         video device exists. otherwise 'vga'
         """

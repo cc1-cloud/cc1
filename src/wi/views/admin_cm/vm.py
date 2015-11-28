@@ -27,9 +27,9 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 
 from common.states import vm_states
-from wi.utils.decorators import admin_cm_permission
 from wi.models.user import parse_user
 from wi.utils import messages_ajax
+from wi.utils.decorators import admin_cm_permission
 from wi.utils.decorators import django_view
 from wi.utils.formatters import time_from_sec
 from wi.utils.messages_ajax import ajax_request

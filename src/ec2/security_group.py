@@ -30,11 +30,9 @@ from ec2.error import CannotDelete, InvalidGroup, MissingParameter
 
 # We don't support security groups, but some scripts and applications
 # use them, so when required we return default security group
-
-
 class DescribeSecurityGroups(Action):
     def _execute(self):
-        return None # default values are returned by xml template
+        return None  # default values are returned by xml template
 
 
 class DeleteSecurityGroup(Action):

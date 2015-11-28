@@ -24,10 +24,11 @@
 
 from django.conf.urls import patterns, url, include
 from django.utils.translation import ugettext_lazy as _
+
 from wi.forms.network import CreateNetworkForm
 from wi.utils.decorators import user_permission
-from wi.utils.views import direct_to_template, get_list_generic, \
-    simple_generic_id, form_generic
+from wi.utils.views import direct_to_template, get_list_generic, simple_generic_id, form_generic
+
 
 resources_patterns = patterns('wi.views.user.network',
 

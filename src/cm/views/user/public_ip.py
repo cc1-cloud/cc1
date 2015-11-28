@@ -36,9 +36,8 @@ from datetime import datetime
 @user_log(log=True)
 def get_list(caller_id):
     """
-    @decoratedby{src.cm.utils.decorators.user_log}
-    @response{list(dict)} caller's elastic IPs \n
-    fields @asreturned{src.cm.database.entities.public_lease.PublicLease.dict}
+    @cmview_user
+    @response{list(dict)} PublicIP.dict property for each caller's PublicIP
     """
     user = User.get(caller_id)
 
@@ -49,15 +48,14 @@ def get_list(caller_id):
 @user_log(log=True)
 def request(caller_id):
     """
-    Method requests one public IP address for caller.
-    If caller's quota allowes no more public IP, method raises exception.
-    Otherwise it assigns him one.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Method requests single PublicIP address for caller. If caller's quota
+    is exceeded, exception is raised. Otherwise caller obtains a new PublicIP
+    address.
 
-    @response{dict} fields:
-    @dictkey{ip} assigned IP
+    @cmview_user
+    @response{string} newly obtained PublicIP's address
 
-    @raises{public_lease_limit,CMException}
+    @raises{public_lease_not_found,CMException}
     @raises{public_lease_request,CMException}
     """
     user = User.get(caller_id)
@@ -83,17 +81,13 @@ def request(caller_id):
 @user_log(log=True)
 def assign(caller_id, lease_id, public_ip_id):
     """
-    Method attaches IP from caller's resources to his VM.
-    Links PublicLease instance to VM's Lease instance's.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Method attaches caller's PublicIP to his VM. VM's Lease instance's is
+    assigned to PublicIP.
 
-    @parameter{lease_id} id of the lease describing IP assignment to VM
-    @parameter{publicip_id} id of the public lease that has to be assigned to VM
+    @cmview_user
+    @param_post{lease_id} id of the Lease in caller's UserNetwork
+    @param_post{public_ip_id} id of the Public_IP to be attached to VM
 
-    @response{dict} fields:
-    @dictkey{ip} assigned IP
-
-    @raises{incomplete_information,CMException}
     @raises{lease_not_found,CMException}
     @raises{lease_not_assigned,CMException}
     @raises{public_lease_assign,CMException}
@@ -120,13 +114,11 @@ def assign(caller_id, lease_id, public_ip_id):
 @user_log(log=True)
 def unassign(caller_id, lease_id):
     """
-    Method detaches public IP from caller's VM.
-    Unlinks PublicLease instance from given VM's Lease instance.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Method detaches PublicIP from caller's VM.
 
-    @parameter{lease_id,int} id of the VM's lease from which IP should be detached.
-
-    @response{None}
+    @cmview_user
+    @param_post{lease_id,int} id of the VM's Lease from which PublicIP should
+    be detached.
 
     @raises{lease_not_found,CMException}
     @raises{public_lease_unassign,CMException}
@@ -157,12 +149,14 @@ def unassign(caller_id, lease_id):
 @user_log(log=True)
 def release(caller_id, public_ip_id):
     """
-    Removes public IP from caller's IPs and makes it available in public pool.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Removes PublicIP from caller's pool and returns it to publicly available
+    pool, provided PublicIP isn't in use.
 
-    @parameter{publicip_id,int} id of the IP to release
+    @note There's very low probability of obtaining the same PublicIP address
+    once again.
 
-    @response{None}
+    @cmview_user
+    @param_post{public_ip_id,int} id of the PublicIP to release
     """
     user = User.get(caller_id)
     public_lease = PublicIP.objects.filter(user=user).get(id=public_ip_id)

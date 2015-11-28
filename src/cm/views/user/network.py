@@ -17,9 +17,8 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.suer.network
+"""@package src.cm.views.user.network
 @author Maciej Nabożny <mn@mnabozny.pl>
-
 
 Functions for creating and deleting networks
 """
@@ -36,6 +35,15 @@ from common.states import available_network_states
 
 @user_log(log=True)
 def request(caller_id, mask, name):
+    """
+    Tries to allocate network with specified mask for caller.
+
+    @cmview_user
+    @param_post{mask}
+    @param_post{name}
+
+    @response{dict} UserNetwork.dict property of the newly created UserNetwork
+    """
     new_net = None
     user = User.get(caller_id)
     for available_network in AvailableNetwork.objects.all():
@@ -63,6 +71,14 @@ def request(caller_id, mask, name):
 
 @user_log(log=True)
 def release(caller_id, network_id):
+    """
+    When UserNetwork isn't needed anymore, it should be explicitly released
+    by User. If UserNetwork is in use, exception is thrown. Released
+    UserNetwork is deleted.
+
+    @cmview_user
+    @param_post{network_id}
+    """
     user = User.get(caller_id)
     try:
         user_network = UserNetwork.objects.filter(user=user).get(id=network_id)
@@ -77,6 +93,10 @@ def release(caller_id, network_id):
 
 @user_log(log=True)
 def list_available_networks(caller_id):
+    """
+    @cmview_user
+    @response{list(dict)} AvailableNetwork.dict property for each AvailableNetwork
+    """
     available_networks = AvailableNetwork.objects.filter(state=available_network_states['ok'])
     response = []
     for network in available_networks:
@@ -86,6 +106,11 @@ def list_available_networks(caller_id):
 
 @user_log(log=True)
 def list_user_networks(caller_id):
+    """
+    @cmview_user
+    @response{list(dict)} UserNetwork.dict property for each caller's
+    UserNetwork
+    """
     user = User.get(caller_id)
     try:
         user_networks = UserNetwork.objects.filter(user=user)
@@ -100,6 +125,14 @@ def list_user_networks(caller_id):
 
 @user_log(log=True)
 def list_leases(caller_id, network_id):
+    """
+    Returns all Leases in specified UserNetwork
+
+    @cmview_user
+    @param_post{network_id} id of the UserNetwork which Leases should be listed
+    from
+    @response{list(dict)} Lease.dict property for each Lease in specified UserNetwork
+    """
     user = User.get(caller_id)
     try:
         user_network = UserNetwork.objects.filter(user=user).get(id=network_id)

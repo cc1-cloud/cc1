@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.clm.views.admin_cm.image
+"""@package src.clm.views.admin_cm.system_image
 @alldecoratedby{src.clm.utils.decorators.admin_cm_log}
 """
 
@@ -32,17 +32,10 @@ from common.states import image_access, group_states
 @admin_cm_log(log=False, pack=True)
 def get_list(cm_id, caller_id, **data):
     """
-    Admin function to list images.
-
-    @parameter{cm_passwd,string} caller's *CM admin password*
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{access,int} number representing image access:
-        - 0: private
-        - 1: public
-        - 2: group
-    @dictkey{group_id,int} required if \c access is 2
-    @dictkey{user_id,int}
+    @clmview_admin_cm
+    @param_post{access,int} number representing image access, @seealso{src.common.states.image_access}
+    @param_post{group_id,int} required for group access
+    @param_post{user_id,int}
     """
     if data['access'] == image_access['group']:
         groups = Group.objects.all()
@@ -93,7 +86,7 @@ def get_list(cm_id, caller_id, **data):
 def get_by_id(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{system_image.get_by_id()}
+    @cm_request_transparent{system_image.get_by_id()}
     """
     return cm_response
 
@@ -103,7 +96,7 @@ def get_by_id(cm_response, **data):
 def delete(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{system_image.delete()}
+    @cm_request_transparent{system_image.delete()}
     """
     return cm_response
 
@@ -113,7 +106,7 @@ def delete(cm_response, **data):
 def edit(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{system_image.edit()}
+    @cm_request_transparent{system_image.edit()}
     """
     return cm_response
 
@@ -123,7 +116,7 @@ def edit(cm_response, **data):
 def download(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{system_image.download()}
+    @cm_request_transparent{system_image.download()}
     """
     return cm_response
 
@@ -133,7 +126,7 @@ def download(cm_response, **data):
 def copy(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{system_image.copy()}
+    @cm_request_transparent{system_image.copy()}
     """
     return cm_response
 
@@ -143,7 +136,7 @@ def copy(cm_response, **data):
 def set_public(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{system_image.set_public()}
+    @cm_request_transparent{system_image.set_public()}
     """
     return cm_response
 
@@ -153,6 +146,6 @@ def set_public(cm_response, **data):
 def set_private(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{system_image.set_private()}
+    @cm_request_transparent{system_image.set_private()}
     """
     return cm_response

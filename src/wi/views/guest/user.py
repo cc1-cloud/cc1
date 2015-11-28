@@ -37,8 +37,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 
 from common.states import registration_states
-from wi.forms.user import AuthenticationForm, SetPasswordForm, \
-    PasswordResetForm, RegistrationForm
+from wi.forms.user import AuthenticationForm, SetPasswordForm, PasswordResetForm, RegistrationForm
 from wi.utils import REDIRECT_FIELD_NAME
 from wi.utils.decorators import django_view
 from wi.utils.registration import register, activate

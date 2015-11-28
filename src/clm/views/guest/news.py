@@ -29,9 +29,11 @@ from clm.utils.decorators import guest_log
 @guest_log(log=False)
 def get_list():
     """
-    Returns list of the news.
+    Returns list of the News.
 
-    @response{list(dict)} dicts describing news
+    @clmview_guest
+
+    @response{list(dict)} News.dicts() property for each news
     """
     news = [n.dict for n in News.objects.order_by('-date')]
     return news

@@ -17,8 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.manager.farm.admin_cm
-
+"""@package src.cm.views.admin_cm.farm
 @alldecoratedby{src.cm.utils.decorators.admin_cm_log}
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
 """
@@ -38,8 +37,9 @@ from common.states import vm_states, vnc_states, farm_states, node_states
 @admin_cm_log(log=True)
 def get_by_id(caller_id, farm_id):
     """
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
-    @parameter{farm_id,int} id of the requested farm
+    @cmview_admin_cm
+    @param_post{farm_id,int} id of the requested farm
+    @response{dict} Farm.dict property of the requested Farm
     """
     return Farm.admin_get(farm_id).dict
 
@@ -47,12 +47,13 @@ def get_by_id(caller_id, farm_id):
 @admin_cm_log(log=True)
 def destroy(caller_id, farm_ids):
     """
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
-    Admin method to destroy farms with ids listed in \c data.
+    Destroyes specified Farms. Neither Farm's head nor worker nodes are saved.
+    Destroyed Farm cannot be recovered.
 
-    @parameter{data,list} list of destroyed farm's \c id's
+    @cmview_admin_cm
+    @param_post{farm_ids,list(int)} ids of the Farms to destroy
 
-    @response @asreturned{src.cm.manager.farm.utils.destroy()}
+    @response{list{HTTPResponse}} list of responses for each VM destruction
     """
     farms = []
     for farm_id in farm_ids:
@@ -63,17 +64,14 @@ def destroy(caller_id, farm_ids):
 @admin_cm_log(log=False)
 def get_list(caller_id, user_id):
     """
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
-    Returns farms that belong:
-        - either to user specified by \c user_id
-        - or to all users (depending on \c all field).
+    Returns list of Farms. Returned Farms belong:
+    - either to the User specified by @prm{user_id}
+    - or to all Users if no @prm{user_id} is provided.
 
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{all,bool} if True, all farms are returned
-    @dictkey{user_id,list} id of the user farm belongs to
+    @cmview_admin_cm
+    @param_post{user_id,list} id of the requested Farm's owner
 
-    @response{list(dict)} dicts describing farms
+    @response{list(dict)} Farm.dict property for each Farm
     """
     farms = Farm.objects.exclude(state=farm_states['closed']).order_by('-id')
     if user_id:
@@ -84,12 +82,12 @@ def get_list(caller_id, user_id):
 @admin_cm_log(log=True)
 def save_and_shutdown(caller_id, farm_id, name, description):
     """
-    Saves and shutdowns VM described by \c data.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
+    Saves and shutdowns specified Farm's head. Worker nodes are destroyed.
 
-    @parameter{farm_id,int} id of the requested farm
-    @parameter{data,dict}
-    \n fields @asrequired{manager.cm.farm.utils.save_and_shutdown()}
+    @cmview_admin_cm
+    @param_post{farm_id,int} id of the Farm to save
+    @param_post{name,string} name which Farm's head should saved to
+    @param_post{description,string} description for newly saved Farm
     """
     farm = Farm.admin_get(farm_id)
     return Farm.save_and_shutdown(farm, name, description)
@@ -98,11 +96,11 @@ def save_and_shutdown(caller_id, farm_id, name, description):
 @admin_cm_log(log=True)
 def erase(caller_id, farm_ids):
     """
-    Method erases (removes from database) details
-    about VMs that haven't ran properly.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
+    Cleanes up after failed Farm. Only admin may erase Farm so that he
+    previously may perform some analytics.
 
-    @parameter{farm_ids,list(int)} ids of the farms to erase
+    @cmview_admin_cm
+    @param_post{farm_ids,list(int)} ids of the Farms to erase
     """
     for fid in farm_ids:
         farm = Farm.admin_get(fid)

@@ -34,18 +34,23 @@ from cm.tools import node as node_tools
 @admin_cm_log(log=True)
 def add(caller_id, address, username, transport, driver, suffix, cpu, memory, disk):
     """
-    Method adds new Node to the Cluster.
-    Node must be machine configured as CC1 node.
-    @cmview_admin_cm
+    Adds new Node to this Cluster. Node must be a machine preconfigured to be
+    CC1 node.
 
-    @parameter{username,string} cc1 user account on node. Should be cc1
-    @parameter{address,string} node ip adress or domain name
-    @parameter{transport,string} unix, ssh, tls or other available transport name for kvm
-    @parameter{driver,string} XEN, KVM or other hypervisior name
-    @parameter{cpu,int}
-    @parameter{memory,int}
-    @parameter{disk,int}
-    @parameter{suffix,string} optional suffix for transport (i.e. /system for KVM)
+    @cmview_admin_cm
+    @param_post{username,string} Node's operating system username for
+    transport. Should be @val{cc1}.
+    @param_post{address,string} added Node IP adress or domain name
+    @param_post{transport,string} @val{unix}, @val{ssh}, @val{tls} or other
+    available transport name for hypervisor
+    @param_post{suffix,string} optional suffix for transport (i.e. /system for KVM)
+    @param_post{driver,string} hypervisior name (XEN, KVM or other, KVM is
+    recommended)
+    @param_post{cpu,int}
+    @param_post{memory,int}
+    @param_post{disk,int}
+
+    @note Not used (but might be used one day)
     """
     try:
         node_tools.add(address, username, transport, driver, suffix, cpu, memory, disk)
@@ -57,8 +62,11 @@ def add(caller_id, address, username, transport, driver, suffix, cpu, memory, di
 @admin_cm_log(log=True)
 def install(caller_id, node_id, distribution):
     """
-    @parameter{node_id,int} node id
-    @parameter{distribution,string} distribution name, e.g. debian
+    @cmview_admin_cm
+    @param_post{node_id,int} id of the Node where cc1-node should be deployed
+    @param_post{distribution,string} OS distribution name, e.g. Debian
+
+    @note Not used (but might be used one day)
     """
     try:
         node_tools.install(node_id, distribution)
@@ -70,9 +78,12 @@ def install(caller_id, node_id, distribution):
 @admin_cm_log(log=True)
 def configure(caller_id, node_id, interfaces):
     """
-    @parameter{node_id,int} node id
-    @parameter{interfaces,string list} list of interfaces, which node should use to
-    communicate with other nodes and cm.
+    @cmview_admin_cm
+    @param_post{node_id,int} node id
+    @param_post{interfaces,string list} list of interfaces, which node should
+    use to communicate with other nodes and cm.
+
+    @note Not used (but might be used one day)
     """
     try:
         node_tools.configure(node_id, interfaces)
@@ -84,9 +95,12 @@ def configure(caller_id, node_id, interfaces):
 @admin_cm_log(log=True)
 def check(caller_id, node_id_list):
     """
-    @parameter{node_id,int} node id
-    @parameter{interfaces,string list} list of interfaces, which node should use to
-    communicate with other nodes and cm.
+    Tries to restart cc1-node service on each specified Node
+
+    @cmview_admin_cm
+    @param_post{node_id_list,list(int)}
+
+    @note Not used (but might be used one day)
     """
     try:
         for node_id in node_id_list:
@@ -100,10 +114,7 @@ def check(caller_id, node_id_list):
 def get_list(caller_id):
     """
     @cmview_admin_cm
-    Method returns list of added nodes.
-    @cmview_admin_cm
-
-    @response{list(dict)} dicts describing nodes
+    @response{list(dict)} Node.dict property for each Node added to current CM
     """
     return [node.dict for node in Node.objects.exclude(state__exact=node_states['deleted'])]
 
@@ -111,13 +122,11 @@ def get_list(caller_id):
 @admin_cm_log(log=True)
 def get_by_id(caller_id, node_id):
     """
-    Method returns requested Node.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
+    Returns details of the requested Node.
 
-    @parameter{caller_id,int}
-    @parameter{node_id,int} id of the requested Node
-
-    @response{dict} extended information about Node
+    @cmview_admin_cm
+    @param_post{node_id,int} id of the requested Node
+    @response{dict} Node.long_dict property of the requested Node
     """
     node = Node.get(caller_id, node_id)
     return node.long_dict
@@ -126,12 +135,11 @@ def get_by_id(caller_id, node_id):
 @admin_cm_log(log=True)
 def get_by_id_details(caller_id, node_id):
     """
-    Method returns detailed of requested Node.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
+    Returns more details of the requested Node.
 
-    @parameter{node_id,int} id of the requested Node
-
-    @response{dict} further extended information about Node
+    @cmview_admin_cm
+    @param_post{node_id,int} id of the requested Node
+    @response{dict} Node.long_long_dict property of the requested Node
     """
     node = Node.get(caller_id, node_id)
     return node.long_long_dict
@@ -140,11 +148,10 @@ def get_by_id_details(caller_id, node_id):
 @admin_cm_log(log=True)
 def lock(caller_id, node_id_list):
     """
-    Method locks specified Node. No VMs can be run on locked node.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
+    Sets specified Node's state as @val{locked}. No VMs can be run on locked Node.
 
-    @parameter{caller_id,int}
-    @parameter{node_id,int} id of the Node to lock
+    @cmview_admin_cm
+    @param_post{node_id_list,int} list of the specified Nodes ids
 
     @response{None}
 
@@ -163,12 +170,11 @@ def lock(caller_id, node_id_list):
 @admin_cm_log(log=True)
 def unlock(caller_id, node_id_list):
     """
-    Method unlocks specified Node. After unlock Node's state is @val{ok} and
-    one is be able to run VMs on that Node.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
+    Unlocks specified Node. After unlock Node's state is @val{ok} and Users
+    are able to run VMs on that Node.
 
-    @parameter{caller_id,int}
-    @parameter{node_id,int} id of the Node to unlock
+    @cmview_admin_cm
+    @param_post{node_id_list,int} list of the specified Nodes ids
 
     @response{None}
 
@@ -188,15 +194,13 @@ def unlock(caller_id, node_id_list):
 @admin_cm_log(log=True)
 def delete(caller_id, node_id):
     """
-    Method deletes specified Node (provided it's state isn't  @val{closed}).
-    To bring deleted Node back available for CC1 system, one has to add it once
-    again.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}
+    Deletes specified Node from database provided the Node does not host any
+    VM's. Node's operating system setup isn't affected. To bring deleted Node
+    back available for CC1 Cluster, one has to add it once again via Web
+    Interface.
 
-    @parameter{caller_id,int}
-    @parameter{node_id,int} id of the node to delete
-
-    @response{None}
+    @cmview_admin_cm
+    @param_post{node_id,int} id of the Node to delete
 
     @raises{node_has_vms,CMException}
     @raises{node_delete,CMException}
@@ -217,24 +221,12 @@ def delete(caller_id, node_id):
 @admin_cm_log(log=True)
 def edit(caller_id, node_id, **node_info):
     """
-    Method edits node, according to data provided in request,data.
-    @decoratedby{src.cm.utils.decorators.admin_cm_log}. All Node's attributes
-    need to be present in data dictionary (even if only some of
-    them are changed, e.g. driver). Former Node's attributes may be accessed via
-    clm.views.admin_cm.node.get_by_id() method.
+    Updates Node attributes according to data provided in node_info.
 
-    @parameter{caller_id,int}
-    @parameter{driver,string} xen, kvm or other hypervisior name
-    @parameter{transport,string} unix, ssh, tls or other available transport name for kvm
-    @parameter{address,string} node ip adress or domain name
-    @parameter{username,string} optional username for transport
-    @parameter{suffix,string} optional suffix for transport (i.e. /system for KVM)
-    @parameter{cpu_total,int}
-    @parameter{memory_total,int}
-    @parameter{hdd_total,int}
-    @parameter{node_id} id of the Node to edit
-
-    @response{None}
+    @cmview_admin_cm
+    @param_post{node_id,int} id of the Node to edit
+    @param_post{node_info,string} dictionary where cm.models.Node model's
+    fields are the keys and values are values to set
 
     @raises{node_edit,CMException}
     """

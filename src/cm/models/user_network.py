@@ -17,8 +17,9 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.suer.network
+"""@package src.cm.views.user.network
 @author Maciej Nabożny <mn@mnabozny.pl>
+
 
 Database model describing user network
 """

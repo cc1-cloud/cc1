@@ -17,7 +17,8 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.manager.utils
+"""@package src.cm.utils.monia
+
 @author Tomek Wojtoń
 """
 

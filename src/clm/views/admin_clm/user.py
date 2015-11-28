@@ -37,22 +37,14 @@ from clm.utils import log
 @admin_clm_log(log=True)
 def edit(cm_id, caller_id, user_id, first, last, organization, email):
     """
-    Function for editing user's data.
     @clmview_admin_clm
-    @parameter{id,int}
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{user_id,int} id of the user to edit
-    @dictkey{first,string} new firstname
-    @dictkey{last,string} new lastname
-    @dictkey{organization,string} new organization user belong to
-    @dictkey{email,string} new user's email
+    @param_post{user_id,int} id of the user to edit
+    @param_post{first,string} new firstname
+    @param_post{last,string} new lastname
+    @param_post{organization,string} new organization user belong to
+    @param_post{email,string} new user's email
 
-    @response{dict} user new data, fields:
-    @dictkey{first} new firstname
-    @dictkey{last} new lastname
-    @dictkey{organization} new organization user belong to
-    @dictkey{email} new user's email
+    @response{dict} edited User data after update, (User.dict() property)
     """
 
     user = User.get(user_id)
@@ -71,10 +63,9 @@ def edit(cm_id, caller_id, user_id, first, last, organization, email):
 def get_by_id(cm_id, caller_id, user_id):
     """
     @clmview_admin_clm
-    @parameter{cm_id,int}
-    @parameter{user_id,int}
+    @param_post{user_id,int}
 
-    @response{dict} info about user with given id
+    @response{dict} requested User data (User.dict() property)
     """
     user = User.get(user_id)
     return user.dict
@@ -84,7 +75,7 @@ def get_by_id(cm_id, caller_id, user_id):
 def get_list(cm_id, caller_id):
     """
     @clmview_admin_clm
-    @response{list(dict)} dict's describing users
+    @response{list(dict)} dict property for each User
     """
     return [u.dict for u in User.objects.all()]
 
@@ -92,12 +83,14 @@ def get_list(cm_id, caller_id):
 @admin_clm_log(log=True)
 def activate(cm_id, caller_id, user_id, wi_data):
     """
-    Activates User in manner specified in settings
-    @clmview_admin_clm
-    @parameter{user_id,int}
-    @parameter{wi_data,dict}
+    Activates specified User. Activation may require several actions,
+    depending on instructions provided in CLM's config.py file.
 
-    @response{list(dict)} unlocked CMs
+    @clmview_admin_clm
+    @param_post{user_id,int} id of the User to activate
+    @param_post{wi_data,dict} data for confirmation email
+
+    @response{list(dict)} unlocked CMs available for user
     """
     user = User.get(user_id)
 
@@ -127,9 +120,17 @@ def activate(cm_id, caller_id, user_id, wi_data):
 @admin_clm_log(log=True)
 def block(cm_id, caller_id, user_id, wi_data, block):
     """
+    Block/unblocks User account. User should not and cannot be deleted. For
+    technical and legal reasons in order to restrict its access to CC1 Cloud
+    it should only be blocked. That way blocked User's data and activities
+    stay stored in database. In case of detection of any suspicious / illegal
+    activity performed on blocked User's Virtual Machine or using its
+    Public IP, that activity may be associated with User account.
+
     @clmview_admin_clm
-    @parameter{wi_data,dict} fields: 'site_name'
-    @parameter{block,bool} whether to block or unblock.
+    @param_post{user_id,int}
+    @param_post{wi_data,dict} fields: 'site_name'
+    @param_post{block,bool} whether to block or unblock.
     """
     user = User.get(user_id)
 
@@ -161,10 +162,12 @@ def block(cm_id, caller_id, user_id, wi_data, block):
 @admin_clm_log(log=True)
 def set_admin(cm_id, caller_id, user_id, admin):
     """
-    Sets/unsets User as superuser.
+    Sets/unsets User as CLM admin. CLM admin has an ability to manage Cloud
+    Users.
+
     @clmview_admin_clm
-    @parameter{user_id,int} id of the User to set superuser
-    @parameter{admin,bool} if true - User becomes admin, if false - User
+    @param_post{user_id,int} id of the User to set superuser
+    @param_post{admin,bool} if True - User becomes admin, if False - User
     loses admin priviledges
     """
     user = User.get(user_id)
@@ -183,8 +186,9 @@ def delete(cm_id, caller_id, user_id):
     """
     Deletes User. For technical and legal reasons only inactive User may
     be deleted. Other users may only be blocked.
+
     @clmview_admin_clm
-    @parameter{user_id,int} id of the user to delete
+    @param_post{user_id,int} id of the User to delete
     """
     user = User.get(user_id)
 
@@ -202,10 +206,9 @@ def delete(cm_id, caller_id, user_id):
 @admin_clm_log(log=True)
 def set_password(cm_id, caller_id, user_id, new_password):
     """
-    Changes User's password.
     @clmview_admin_clm
-    @parameter{user_id,int} User id
-    @parameter{new_password,string} new password
+    @param_post{user_id,int} User id
+    @param_post{new_password,string} new password
     """
 
     user = User.get(user_id)

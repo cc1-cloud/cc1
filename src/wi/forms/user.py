@@ -53,13 +53,13 @@ class AuthenticationForm(forms.Form):
 
     def __init__(self, request=None, *args, **kwargs):
         """
-            If request is passed in, the form will validate that cookies are
-            enabled.
+        If request is passed in, the form will validate that cookies are
+        enabled.
 
-            @note
-            Note that the \c request (a HttpRequest object) must have set
-            a cookie with the key \c TEST_COOKIE_NAME and value \c TEST_COOKIE_VALUE
-            before running this validation.
+        @note
+        Note that the \c request (a HttpRequest object) must have set
+        a cookie with the key \c TEST_COOKIE_NAME and value \c TEST_COOKIE_VALUE
+        before running this validation.
         """
         self.request = request
         self.user_cache = None
@@ -208,8 +208,6 @@ class AccountDataEdit(forms.Form):
                              label=_('Email address'))
 
     def __init__(self, *args, **kwargs):
-        """
-        """
         rest_data = kwargs.pop('rest_data')
         try:
             self.old_email = args[0]['email']
@@ -312,8 +310,6 @@ class AccountDataEditAdminCLM(forms.Form):
                                    label=_("Organization"))
 
     def __init__(self, *args, **kwargs):
-        """
-        """
         try:
             self.old_email = args[0]['email']
         except Exception:

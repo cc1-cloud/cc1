@@ -35,6 +35,7 @@ from common.states import cluster_states
 def get_my_data(cm_id, caller_id):
     """
     Returns user's data.
+
     @clmview_user
     """
     user = User.get(caller_id)
@@ -50,7 +51,9 @@ def get_my_data(cm_id, caller_id):
 def set_password(cm_id, caller_id, new_password):
     """
     Sets user's password.
+
     @clmview_user
+    @param_post{new_password,string}
     """
     user = User.get(caller_id)
     user.password = new_password
@@ -66,9 +69,10 @@ def set_password(cm_id, caller_id, new_password):
 def edit(cm_id, caller_id, email, default_cluster_id):
     """
     Function for editing user's data.
+
     @clmview_user
-    @dictkey{email,string}
-    @dictkey{default_cluster_id}
+    @param_post{email,string}
+    @param_post{default_cluster_id}
 
     @response{dict} new user's info
     """
@@ -89,6 +93,7 @@ def edit(cm_id, caller_id, email, default_cluster_id):
 def check_quota(cm_response, **data):
     """
     @clmview_user
+    @cm_request_transparent{user.user.get_quota()}
     """
     return cm_response
 
@@ -98,6 +103,7 @@ def check_quota(cm_response, **data):
 def points_history(cm_response, **data):
     """
     @clmview_user
+    @cm_request_transparent{user.user.point_history()}
     """
     return cm_response
 
@@ -106,9 +112,10 @@ def points_history(cm_response, **data):
 def send_issue(cm_id, caller_id, topic, issue):
     """
     Send issue email
+
     @clmview_user
-    @parameter{topic,string} topic of the issue email
-    @parameter{issue,string} content of the issue email
+    @param_post{topic,string} topic of the issue email
+    @param_post{issue,string} content of the issue email
     """
     try:
         mail.send(settings.ISSUE_EMAIL, issue, topic)

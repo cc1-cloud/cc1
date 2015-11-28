@@ -28,11 +28,15 @@ from clm.utils.decorators import admin_cm_log, cm_request, user_log
 def check_password(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{admin.check_password()}
+    @cm_request_transparent{admin.check_password()}
     """
     return cm_response
 
 
 @user_log(log=True, pack=False)
 def am_i_admin(cm_response, **data):
+    """
+    @clmview_admin_cm
+    @cm_request{admin.am_i_admin()}
+    """
     return cm_response

@@ -16,7 +16,7 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
-"""@package src.cm.manager.ec2ctx.helpers.request
+"""@package src.cm.views.ec2ctx.helpers.request
 
 @copyright Copyright (c) 2013 Institute of Nuclear Physics PAS <http://www.ifj.edu.pl/>
 @author Łukasz Chrząszcz <l.chrzaszcz@gmail.com>

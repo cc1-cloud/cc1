@@ -35,6 +35,20 @@ from cm.utils.threads.vm import VMThread
 
 @admin_cm_log(log=True)
 def create(caller_id, name, description, image_id, template_id, public_ip_id, iso_list, disk_list, vnc, node_id):
+    """
+    Creates new VM with specified attributes.
+
+    @cmview_admin_cm
+    @param_post{name,string}
+    @param_post{description,string}
+    @param_post{image_id,int}
+    @param_post{template_id,int}
+    @param_post{public_ip_id,int}
+    @param_post{iso_list,list(int)}
+    @param_post{disk_list,list(int)}
+    @param_post{vnc}
+    @param_post{node_id}
+    """
     user = User.get(caller_id)
     vms = VM.create(user, name=name, description=description, image_id=image_id,
                     template_id=template_id, public_ip_id=public_ip_id, iso_list=iso_list, disk_list=disk_list,
@@ -49,10 +63,10 @@ def create(caller_id, name, description, image_id, template_id, public_ip_id, is
 @admin_cm_log(log=True)
 def destroy(caller_id, vm_id_list):
     """
-    Method destroyes VMs with ids listed in \c vm_ids.
-    @cmview_admin_cm
+    Destroyes specified VMs. Destroyed VM can in no way be recovered.
 
-    @parameter{vm_ids,list} list of vm id's
+    @cmview_admin_cm
+    @param_post{vm_id_list,list} ids to destroy
 
     @response{src.cm.views.utils.image.destroy()}
     """
@@ -66,13 +80,11 @@ def destroy(caller_id, vm_id_list):
 @admin_cm_log(log=True)
 def erase(caller_id, vm_id_list):
     """
-    Method cleans up after each of VM, which id is in \c vm_ids. Should be
-    called for failed machines.
+    Cleans up after each of the specified VMs. Erase should be called for
+    failed machines after the inspection of the failure.
+
     @cmview_admin_cm
-
-    @parameter{vm_id_list,list} list of vm id's
-
-    @noresponse
+    @param_post{vm_id_list,list} list of VM id's
     """
 
     for vm_id in vm_id_list:
@@ -83,13 +95,12 @@ def erase(caller_id, vm_id_list):
 @admin_cm_log(log=True)
 def save_and_shutdown(caller_id, vm_id, name, description):
     """
-    Method calls save_and_shutdown for each VM with id is in @prm{vm_id} (for
-    administrator only).
-    @cmview_admin_cm
+    Saves and shutdowns specified VM, without checking User quota.
 
-    @parameter{vm_id,string}
-    @parameter{name,string}
-    @parameter{description,string}
+    @cmview_admin_cm
+    @param_post{vm_id,string} id of the VM to save
+    @param_post{name,string}
+    @param_post{description,string}
     """
 
     vm = VM.admin_get(vm_id)
@@ -104,10 +115,13 @@ def save_and_shutdown(caller_id, vm_id, name, description):
 @admin_cm_log(log=False)
 def get_list(caller_id, user_id):
     """
-    Method returns list of VMs described by \c data param.
-    @cmview_admin_cm
+    Returns list of VMs that are neither closed nor erased. If user_id is
+    provided, only VMs belonging to that user are returned.
 
-    @response{dict} list of the VMs extended infos
+    @cmview_admin_cm
+    @param_post{user_id,int}
+
+    @response{dict} VM.long_dict property of each VM
     """
 
     vms = VM.objects.exclude(state__in=[vm_states['closed'], vm_states['erased']]).order_by('-id')
@@ -123,8 +137,7 @@ def get_list(caller_id, user_id):
 def get_by_id(caller_id, vm_id):
     """
     @cmview_admin_cm
-
-    @parameter{vm_id} id of the requested VM
+    @param_post{vm_id} id of the requested VM
 
     @response{dict} VM with id @prm{id}
     """
@@ -136,9 +149,11 @@ def get_by_id(caller_id, vm_id):
 @admin_cm_log(log=True)
 def restart(caller_id, vm_id_list):
     """
-    @cmview_admin_cm
+    Sends signal to reboot specified VMs. VM is not saved to SystemImage
+    during reboot.
 
-    @parameter{vm_id_list,list} list of vm id's
+    @cmview_admin_cm
+    @param_post{vm_id_list,(list(int))} ids of the VMs to restart
     """
 
     return VM.restart(vm_id_list)
@@ -148,12 +163,12 @@ def restart(caller_id, vm_id_list):
 @admin_cm_log(log=True)
 def edit(caller_id, vm_id, name, description):
     """
-    Change vm parameters. You should get them by vm.get_by_id.
-    @cmview_admin_cm
+    Updates VM attributes.
 
-    @parameter{vm_id}
-    @parameter{name} new VM name
-    @parameter{description} new VM description
+    @cmview_admin_cm
+    @param_post{vm_id}
+    @param_post{name} (optional) new VM name
+    @param_post{description} (optional) new VM description
 
     @response{src.cm.views.utils.vm.edit()}
     """
@@ -169,11 +184,9 @@ def edit(caller_id, vm_id, name, description):
 def attach_vnc(caller_id, vm_id):
     """
     Attaches VNC redirection to VM.
-    @cmview_user
 
-    @parameter{vm_id,int} id of the VM to have attached VM redirection
-
-    @response{None}
+    @cmview_admin_cm
+    @param_post{vm_id,int} id of the VM to have attached VM redirection
     """
     vm = VM.admin_get(vm_id)
     vm.attach_vnc()
@@ -188,10 +201,9 @@ def attach_vnc(caller_id, vm_id):
 def detach_vnc(caller_id, vm_id):
     """
     Detaches VNC redirection from VM.
-    @cmview_user
 
-    @parameter{vm_id,int} id of the VM to have detached VM redirection
-    @response{None}
+    @cmview_admin_cm
+    @param_post{vm_id,int} id of the VM to have detached VM redirection
     """
     vm = VM.admin_get(vm_id)
     vm.detach_vnc()

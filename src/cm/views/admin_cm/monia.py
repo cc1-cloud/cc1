@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.manager.user
+"""@package src.cm.views.admin_cm.monia
 @alldecoratedby{src.cm.utils.decorators.user_log}
 
 @author Tomek Wojtoń
@@ -32,16 +32,17 @@ from cm.models.vm import VM
 @admin_cm_log(log=False)
 def vm_stats(caller_id, vm_id, stat_name, time, stat_range, resolution):
     """
-    Function returns statistics for specific \c vmid.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Function returns requested statistics for specific VM. Stats are returned
+    in format required by CC1 Web Interface's monitoring javascript.
 
-    @parameter{vmid}
-    @parameter{stat_name,string} type of required statistics
-    @parameter{time,string} time of last row
-    @parameter{range,string} period of time from time to past
-    @parameter{resolution,string} statistics resolution
+    @cmview_admin_cm
+    @param_post{vm_id}
+    @param_post{stat_name,string|list(string)} type of required statistics
+    @param_post{time,int} time of last row
+    @param_post{stat_range,string} time interval between first and last stats
+    @param_post{resolution,string} statistics resolution
 
-    @response{dict} list of the total usage of VM resources from start VM
+    @response{list} usage of VM resources (format required by CC1 Web Interface)
     """
 
     vm_u = VM.admin_get(vm_id).long_dict['user_id']

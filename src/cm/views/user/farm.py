@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.user.vm
+"""@package src.cm.views.user.farm
 @alldecoratedby{src.cm.utils.decorators.user_log}
 
 @author Tomek Sośnicki <tom.sosnicki@gmail.com>
@@ -43,11 +43,10 @@ def get_by_id(caller_id, farm_id):
     """
     Returns requested Farm.
 
-    @decoratedby{src.cm.utils.decorators.user_log}
-    @parameter{farm_id,int} id of the requested Farm
+    @cmview_user
+    @param_post{farm_id,int} id of the requested Farm
 
-    @response{dict} requested Farm's data
-    \n fields @asreturned{src.cm.database.entities.farm.Farm.get()}
+    @response{dict} Farm.dict property of the requested Farm
     """
     return Farm.get(caller_id, farm_id).dict
 
@@ -55,25 +54,20 @@ def get_by_id(caller_id, farm_id):
 @user_log(log=True)
 def create(caller_id, name, description, image_id, head_template_id, worker_template_id, public_ip_id, iso_list, disk_list, vnc, groups, count):
     """
-    Method creates new Farm for caller:
+    Method creates new caller's Farm.
 
-    -#. Creates VMs described by \c machine dict.
-    -#. Creates farm named by \c machine[name] consisting of those VMs.
-    -#. Creates thread for this farm.
-
-    @decoratedby{src.cm.utils.decorators.user_log}
-    @parameter{machine,dict}
-    \n fields:
-    @dictkey{name,string} farm's name
-    @dictkey{count,int} number of Worker Nodes
-    @dictkey{template_id,int} Worker Node's template
-    @dictkey{head_template_id,int} Head's template
-    @dictkey{image_id,int} image for WNs and Head
-    @dictkey{groups,list} optional
-    @dictkey{node_id} optional on which node farm is to be created
-    @dictkey{description,string} description of the farm
-
-    @response{None}
+    @cmview_user
+    @param_post{name,string} Farm's name
+    @param_post{description,string}
+    @param_post{image_id,int} image for WNs and Head
+    @param_post{head_template_id,int} Head's template
+    @param_post{worker_template_id,int} Worker Node's template
+    @param_post{public_ip_id,int} Worker Node's template
+    @param_post{iso_list,list}
+    @param_post{disk_list,list}
+    @param_post{vnc,list}
+    @param_post{groups,list}
+    @param_post{count,int} number of Worker Nodes
 
     @raises{farm_create,CMException}
     """
@@ -110,10 +104,10 @@ def create(caller_id, name, description, image_id, head_template_id, worker_temp
 @user_log(log=True)
 def destroy(caller_id, farm_id):
     """
-    Destroys caller's farms with ids listed in data.
+    Destroys specified caller's farm.
 
-    @decoratedby{src.cm.utils.decorators.user_log}
-    @parameter{data,list} list of destroyed farm's \c id's
+    @cmview_user
+    @param_post{farm_id,int} destroyed farm's id
 
     @response @asreturned{src.cm.manager.farm.utils.destroy()}
     """
@@ -125,8 +119,8 @@ def destroy(caller_id, farm_id):
 def get_list(caller_id):
     """
     Returns list of the caller's farms.
-    @decoratedby{src.cm.utils.decorators.user_log}
 
+    @cmview_user
     @response{list(dict)} data of the requested Farms
     """
     farms = [farm.dict for farm in Farm.objects.exclude(state=farm_states['closed']).filter(user__id__exact=caller_id).order_by('-id')]
@@ -137,13 +131,12 @@ def get_list(caller_id):
 @user_log(log=True)
 def save_and_shutdown(caller_id, farm_id, name, description):
     """
-    Saves and shutdowns safely farm's Head.
-    It saves Head to image described in \c data.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Safely saves and shutdowns Farm's Head.
 
-    @parameter{farm_id,int}
-    @parameter{data,dict}
-    \n fields @asrequired{src.cm.farm.utils.save_and_shutdown()}
+    @cmview_user
+    @param_post{farm_id,int}
+    @param_post{name,string}
+    @param_post{description,string}
 
     @response{src.cm.manager.farm.utils.save_and_shutdown()}
     """
@@ -158,10 +151,11 @@ def save_and_shutdown(caller_id, farm_id, name, description):
 def check_resources(caller_id, count, head_template_id, template_id):
     """
     Checks if there is enough resources to start a farm
-    @decoratedby{src.cm.utils.decorators.user_log}
 
-    @parameter{id,int}
-    @parameter{data,dict}
+    @cmview_user
+    @param_post{count,int}
+    @param_post{head_template_id,int}
+    @param_post{template_id,int}
 
     @response{Boolean}
     """

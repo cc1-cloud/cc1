@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.manager.contextualization.user
+"""@package src.cm.views.user.ctx
 
 @alldecoratedby{src.cm.utils.decorators.user_log}
 """
@@ -28,12 +28,12 @@ from cm.utils.decorators import user_log
 @user_log(log=True)
 def shutdown(caller_id, vm_id, timeout='now'):
     """
-    Method executes \c shutdown on virtual machines listed in \c vm_list
-    at given \c timeout (*now* by default) provided they belong to caller.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Executes \c shutdown on virtual machines listed in \c vm_list at a given
+    \c timeout (@val{now} by default) provided they belong to caller.
 
-    @parameter{vm_id,int}
-    @parameter{timeout,string} optional, "now" by default
+    @cmview_user
+    @param_post{vm_id,int}
+    @param_post{timeout,string} optional, "now" by default
     """
     return Command.execute('shutdown', caller_id, vm_id, timeout=timeout)
 
@@ -41,13 +41,15 @@ def shutdown(caller_id, vm_id, timeout='now'):
 @user_log(log=True)
 def reboot(caller_id, vm_id, timeout='now'):
     """
-    Function executes \c reboot on given VM at given \c timeout (*now* by default).
+    Executes reboot on given VM at given timeout. Be default it's executed
+    with no delay.
+
     @warning Deprecated since execution's success/failure depends on inner
     VM's state.
-    @decoratedby{src.cm.utils.decorators.user_log}
 
-    @parameter{vm_id,int} id of the VM to reboot
-    @parameter{timeout,string} @optional{"now"}
+    @cmview_user
+    @param_post{vm_id,int} id of the VM to reboot
+    @param_post{timeout,string} @optional{"now"}
     """
     return Command.execute('reboot', caller_id, vm_id, timeout=timeout)
 
@@ -55,16 +57,14 @@ def reboot(caller_id, vm_id, timeout='now'):
 @user_log(log=True)
 def reset_password(caller_id, vm_id, vm_username):
     """
-    Method resets password of the existing OS user \c user_name on given VM.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Resets password of the existing OS user \c user_name on given VM. User
+    obtains new randomly created password. Such a password is sent in CM
+    response. It is recommended to change password manually afterwards.
 
-    @parameter{vm_id,int}
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{user_name,string} whose password is to be reseted
-    @dictkey{password,string} new password to set
-
-    @noresponse
+    @cmview_user
+    @param_post{vm_id,int}
+    @param_post{vm_username,string} username of the user whose password should
+    be reseted
     """
     return {'password': Command.execute('reset_password', caller_id, vm_id, user=vm_username)}
 
@@ -72,15 +72,12 @@ def reset_password(caller_id, vm_id, vm_username):
 @user_log(log=True)
 def add_ssh_key(caller_id, vm_ids, vm_username, vm_key):
     """
-    Method sets key \c vm_key on each machine listed in \c vm_ids
-    (provided they belong to caller).
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Injects given SSH public key to authorized keys on specified VMs.
 
-    @parameter{vm_ids,int} id's of the VMs to add SSH key on which
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{vm_username,string}
-    @dictkey{vm_key,string}
+    @cmview_user
+    @param_post{vm_ids,list(int)} id's of the VMs where SSH public key should be injected
+    @param_post{vm_username,string}
+    @param_post{vm_key,string}
     """
     results = ''
     for vm_id in vm_ids:

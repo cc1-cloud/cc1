@@ -31,10 +31,9 @@ from clm.utils.decorators import admin_clm_log
 @admin_clm_log(log=True)
 def get_by_id(cm_id, caller_id, news_id):
     """
-    Returns requested News @prm{news_id}.
-    @clm_view_transparent{cluster.get_by_id()}
-
-    @response{dict} requested News
+    @clmview_admin_clm
+    @param_post{news_id}
+    @response{dict} dict property of the requested News
     """
     return News.get(news_id).dict
 
@@ -42,12 +41,13 @@ def get_by_id(cm_id, caller_id, news_id):
 @admin_clm_log(log=True)
 def add(cm_id, caller_id, topic='', content='', sticky=False):
     """
-    @clmview_admin_clm
-    @parameter{topic,string}
-    @parameter{content,string}
-    @parameter{sticky,bool} Whether should be kept displayed long-term
+    Creates and saves new News. Such a News appears on the Web Interface's
+    home screen.
 
-    Creates News described by params. Next it adds it to database.
+    @clmview_admin_clm
+    @param_post{topic,string}
+    @param_post{content,string}
+    @param_post{sticky,bool} whether the News should stay displayed long-term
     """
 
     news = News()
@@ -65,9 +65,11 @@ def add(cm_id, caller_id, topic='', content='', sticky=False):
 @admin_clm_log(log=True)
 def delete(cm_id, caller_id, news_id):
     """
-    Deletes specified News.
+    Deletes permanently specified News. Deleted News can i no way be
+    recovered.
+
     @clmview_admin_clm
-    @parameter{news_id,int} id of the News to delete
+    @param_post{news_id,int} id of the News to delete
     """
     news = News.get(news_id)
     try:
@@ -81,12 +83,11 @@ def delete(cm_id, caller_id, news_id):
 @admin_clm_log(log=True)
 def edit(cm_id, caller_id, news_id, topic='', content='', sticky=False):
     """
-    Edits specified News.
     @clmview_admin_clm
-    @parameter{news_id,int} id of the News to edit
-    @parameter{topic,string} new topic of the News
-    @parameter{content,string} new content of the News
-    @parameter{sticky,bool} Whether should be kept displayed long-term
+    @param_post{news_id,int} id of the News to edit
+    @param_post{topic,string} new topic of the News
+    @param_post{content,string} new content of the News
+    @param_post{sticky,bool} whether the News should stay displayed long-term
     """
 
     news = News.get(news_id)

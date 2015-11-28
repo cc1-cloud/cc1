@@ -29,7 +29,7 @@ from clm.utils.decorators import admin_cm_log, cm_request
 def create(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage.create()}
+    @cm_request_transparent{storage.create()}
     """
     return cm_response
 
@@ -39,7 +39,7 @@ def create(cm_response, **data):
 def get_list(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage.get_list()}
+    @cm_request_transparent{storage.get_list()}
     """
     return cm_response
 
@@ -49,7 +49,7 @@ def get_list(cm_response, **data):
 def lock(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage.lock()}
+    @cm_request_transparent{storage.lock()}
     """
     return cm_response
 
@@ -59,7 +59,7 @@ def lock(cm_response, **data):
 def unlock(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage.unlock()}
+    @cm_request_transparent{storage.unlock()}
     """
     return cm_response
 
@@ -69,7 +69,7 @@ def unlock(cm_response, **data):
 def mount(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage.mount()}
+    @cm_request_transparent{storage.mount()}
     """
     return cm_response
 
@@ -79,6 +79,6 @@ def mount(cm_response, **data):
 def check(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{storage.check()}
+    @cm_request_transparent{storage.check()}
     """
     return cm_response

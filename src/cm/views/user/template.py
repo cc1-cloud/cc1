@@ -31,10 +31,10 @@ from cm.utils.decorators import user_log
 @user_log(log=True)
 def get_list(caller_id):
     """
-    Method returns list of templates.
-    @cmview_user
+    Returns list of Templates.
 
-    @response{list(dict)} dicts describing templates
+    @cmview_user
+    @response{list(dict)} Template.dict property of each Template
     """
     try:
         templates = [t.dict for t in Template.objects.filter(state__exact=template_states['active']).order_by('cpu', 'memory')]
@@ -48,10 +48,9 @@ def get_list(caller_id):
 def get_by_id(caller_id, template_id):
     """
     @cmview_user
+    @param_post{template_id,int}
 
-    @parameter{template_id,int}
-
-    @response{dict} template data
+    @response{dict} Template.dict property of the requested Template
     """
     try:
         t = Template.objects.get(id=template_id)
@@ -59,4 +58,3 @@ def get_by_id(caller_id, template_id):
         raise CMException("template_get")
 
     return t.dict
-

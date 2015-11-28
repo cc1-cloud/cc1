@@ -26,6 +26,7 @@
 from wi.models.user import parse_user
 from wi.utils.views import make_request
 
+
 session_key = '_auth_user_id'
 
 

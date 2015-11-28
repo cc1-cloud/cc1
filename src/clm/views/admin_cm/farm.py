@@ -31,10 +31,7 @@ from clm.utils.exception import CLMException
 def get_list(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{farm.destroy()}
-
-    @parameter{cm_password}
-    @parameter{**data, kwargs}
+    @cm_request_transparent{farm.get_list()}
     """
     if cm_response['status'] != 'ok':
         raise CLMException('cm_error')
@@ -57,7 +54,7 @@ def get_list(cm_response, **data):
 def destroy(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{farm.destroy()}
+    @cm_request_transparent{farm.destroy()}
     """
     return cm_response
 
@@ -67,7 +64,7 @@ def destroy(cm_response, **data):
 def get_by_id(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{farm.get_by_id()}
+    @cm_request_transparent{farm.get_by_id()}
     """
     return cm_response
 
@@ -77,7 +74,7 @@ def get_by_id(cm_response, **data):
 def erase(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{farm.erase()}
+    @cm_request_transparent{farm.erase()}
     """
     return cm_response
 
@@ -87,6 +84,6 @@ def erase(cm_response, **data):
 def save_and_shutdown(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{farm.save_and_shutdown()}
+    @cm_request_transparent{farm.save_and_shutdown()}
     """
     return cm_response

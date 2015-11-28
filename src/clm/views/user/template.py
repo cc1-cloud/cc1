@@ -29,7 +29,8 @@ from clm.utils.decorators import user_log, cm_request
 @cm_request
 def get_list(cm_response, **data):
     """
-    @returns @asreturned{src.cm.views.user.template.list()}
+    @clmview_user
+    @cm_request_transparent{user.template.get_list()}
     """
     return cm_response
 
@@ -38,7 +39,7 @@ def get_list(cm_response, **data):
 @cm_request
 def get_by_id(cm_response, **data):
     """
-    @parameter{id} od of template to get
-    @returns @asreturned{src.cm.views.user.template.get_by_id()}
+    @clmview_user
+    @cm_request_transparent{user.template.get_by_id()}
     """
     return cm_request

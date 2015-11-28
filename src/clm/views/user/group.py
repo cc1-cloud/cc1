@@ -36,11 +36,12 @@ import json
 @user_log(log=True)
 def create(cm_id, caller_id, name, description):
     """
-    Method creates new users Group. Sets caller as leader of that group.
-    Sets membership's state to 'ok'.
+    Creates new Group of Users. Caller becomes its leader. He also becomes a
+    member of that Group with @val{ok} state.
+
     @clmview_user
-    @parameter{name,string}
-    @parameter{description,string}
+    @param_post{name,string}
+    @param_post{description,string}
     """
     user = User.get(caller_id)
 
@@ -65,10 +66,11 @@ def create(cm_id, caller_id, name, description):
 @user_log(log=True)
 def join_request(cm_id, caller_id, group_id):
     """
-    Method sends request for acceptation in group @prm{group_id} for caller.
-    Adds caller to members  with 'waiting' state.
+    Sends request for acceptation in specified Groupfor caller. Adds caller
+    to members  with 'waiting' state.
+
     @clmview_user
-    @parameter{group_id,int} id of the Group, which caller wants to become member of
+    @param_post{group_id,int} id of the Group, which caller wants to become member of
     """
     group = Group.get(group_id)
     user = User.get(caller_id)
@@ -88,11 +90,13 @@ def join_request(cm_id, caller_id, group_id):
 @user_log(log=False)
 def get_list(cm_id, caller_id):
     """
-    Method returns list of all the existing groups. To dictionary about each
-    Group there is info about membership status appended - 'ok', 'waiting'
-    or 'not member'.
+    Returns Group.dict property of each existing Groups, supplemented by
+    callers membership status: @val{ok}, @val{waiting} or @val{not member}
+    under @val{user_status} key.
+
     @clmview_user
-    @response{list(dict)} all Groups
+    @response{list(dict)}  Group.dict property for each group, supplemented by
+    @val{user_status} key.
     """
     user = User.get(caller_id)
     waiting = []
@@ -120,9 +124,10 @@ def get_list(cm_id, caller_id):
 @user_log(log=False)
 def list_groups(cm_id, caller_id):
     """
-    Method returns list of the groups caller belongs to with 'ok' state.
+    Returns list of caller's Groups (only those where caller is accepted).
+
     @clmview_user
-    @response{list(dict)} caller's Groups
+    @response{list(dict)} Group.dict property for each caller's Group
     """
     user = User.get(caller_id)
     groups = []
@@ -138,8 +143,9 @@ def list_groups(cm_id, caller_id):
 def list_members(cm_id, caller_id, group_id):
     """
     Method returns members of the group with id @prm{group_id}.
+
     @clmview_user
-    @parameter{group_id,int} id of the Group that we get list of
+    @param_post{group_id,int} id of the Group that we get list of
 
     @response{list(dict)} dicts describing users belonging to specifie group.
     """
@@ -154,6 +160,7 @@ def list_members(cm_id, caller_id, group_id):
 def list_own_groups(cm_id, caller_id):
     """
     Method returns list of the groups caller is leader of.
+
     @clmview_user
     @response{list(dict)} dicts describing groups led by caller
     """
@@ -168,8 +175,9 @@ def list_requests(cm_id, caller_id, group_id):
     """
     Function returns list of the users requesting acceptation
     in group with id @prm{group_id}.
+
     @clmview_user
-    @parameter{group_id,int} id of the group which we check membership
+    @param_post{group_id,int} id of the group which we check membership
     requests for
 
     @response{list(dict)} dicts describing requesting users
@@ -185,8 +193,9 @@ def list_requests(cm_id, caller_id, group_id):
 def delete(cm_id, caller_id, group_id):
     """
     Method deletes specified Group.
+
     @clmview_user
-    @parameter{group_id,int} id of the Group to delete
+    @param_post{group_id,int} id of the Group to delete
     """
 
     group = Group.get(group_id)
@@ -217,9 +226,10 @@ def edit(cm_id, caller_id, group_id, name, description):
     """
     Method edits specified Group.
 
-    @dictkey{group_id,string} id of the group to edit
-    @dictkey{name,string} group's name
-    @dictkey{description,string} group's description
+    @clmview_user
+    @param_post{group_id,string} id of the group to edit
+    @param_post{name,string} group's name
+    @param_post{description,string} group's description
     """
     group = Group.get(group_id)
     group.name = name
@@ -237,8 +247,9 @@ def activate_user(cm_id, caller_id, user_id, group_id):
     Method activates @prm{user_id} user in group @prm{group_id}. Activated
     user gains access to IsoImage-s shared by that group.
 
-    @parameter{id,int} id of the group in which user must be activated
-    @parameter{user_id,int} id of the user to activate
+    @clmview_user
+    @param_post{user_id,int} id of the user to activate
+    @param_post{group_id,int} id of the group in which user must be activated
     """
     # check that the caller is leader
     User.is_leader(caller_id, group_id)
@@ -261,10 +272,12 @@ def activate_user(cm_id, caller_id, user_id, group_id):
 @user_log(log=True)
 def delete_user(cm_id, caller_id, user_id, group_id):
     """
-    Method deletes membership of the specified user in specific group,
+    Method deletes membership of a user from a specified group. Only group
+    leader and user-to-delete may call this.
 
-    @parameter{user_id,int} id of the user to delete from group
-    @parameter{group_id,int} id of the managed group
+    @clmview_user
+    @param_post{user_id,int} id of the user to delete from group
+    @param_post{group_id,int} id of the managed group
     """
     if caller_id != user_id:
         User.is_leader(caller_id, group_id)
@@ -292,8 +305,9 @@ def change_owner(cm_id, caller_id, user_id, group_id):
     Function changes owner of the specified group. Only owner may be the caller,
     otherwise exception is thrown. @prm{user_id} becomes new Group's leader.
 
-    @parameter{user_id,int} id of the new owner
-    @parameter{group_id,int} id of the managed Group
+    @clmview_user
+    @param_post{user_id,int} id of the new owner
+    @param_post{group_id,int} id of the managed Group
     """
     # check that the caller is leader
     User.is_leader(caller_id, group_id)
@@ -312,9 +326,8 @@ def change_owner(cm_id, caller_id, user_id, group_id):
 @user_log(log=False)
 def get_by_id(cm_id, caller_id, group_id):
     """
-    Method returns requested group.
-
-    @parameter{group_id,int} id of the requested Group
+    @clmview_user
+    @param_post{group_id,int} id of the requested Group
 
     @response{dict} requested Group's details
     """

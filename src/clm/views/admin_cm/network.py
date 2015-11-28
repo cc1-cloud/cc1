@@ -28,7 +28,7 @@ from clm.utils.decorators import admin_cm_log, cm_request
 def add(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.add()}
+    @cm_request_transparent{network.add()}
     """
     return cm_response
 
@@ -38,7 +38,7 @@ def add(cm_response, **data):
 def delete_available_network(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.delete_available_network()}
+    @cm_request_transparent{network.delete_available_network()}
     """
     return cm_response
 
@@ -48,7 +48,7 @@ def delete_available_network(cm_response, **data):
 def delete_user_network(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.delete_user_network()}
+    @cm_request_transparent{network.delete_user_network()}
     """
     return cm_response
 
@@ -58,7 +58,7 @@ def delete_user_network(cm_response, **data):
 def list_available_networks(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.list_available_networks()}
+    @cm_request_transparent{network.list_available_networks()}
     """
     return cm_response
 
@@ -68,7 +68,7 @@ def list_available_networks(cm_response, **data):
 def list_user_networks(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.list_user_networks()}
+    @cm_request{iso_image.get_list()}
     """
     return cm_response
 
@@ -78,7 +78,7 @@ def list_user_networks(cm_response, **data):
 def list_leases(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.list_leases()}
+    @cm_request_transparent{network.list_leases()}
     """
     return cm_response
 
@@ -88,7 +88,7 @@ def list_leases(cm_response, **data):
 def lock(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.lock()}
+    @cm_request_transparent{network.lock()}
     """
     return cm_response
 
@@ -98,6 +98,6 @@ def lock(cm_response, **data):
 def unlock(cm_response, **data):
     """
     @clmview_admin_cm
-    @clm_view_transparent{network.unlock()}
+    @cm_request_transparent{network.unlock()}
     """
     return cm_response

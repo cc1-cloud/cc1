@@ -23,8 +23,8 @@
 @date 24.03.2011
 """
 
-from django.utils.translation import ngettext, ugettext_lazy as _
 from django.utils.encoding import force_unicode
+from django.utils.translation import ngettext, ugettext_lazy as _
 
 
 def time_from_sec(seconds, separator=', '):

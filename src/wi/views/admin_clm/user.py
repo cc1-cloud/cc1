@@ -29,6 +29,7 @@ from django.template.defaultfilters import force_escape
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
+
 from wi.utils import messages_ajax
 from wi.utils.decorators import admin_clm_permission, django_view
 from wi.utils.forms import PasswordForm

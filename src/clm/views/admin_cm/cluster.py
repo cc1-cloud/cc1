@@ -26,8 +26,9 @@ from clm.utils.decorators import admin_cm_log
 @admin_cm_log(log=False)
 def get_data(cm_id, caller_id, cm_password):
     """
-    Returns dictionary describing current cluster.
+    Gets Cluster's details
+
     @clmview_admin_cm
-    @clm_view_transparent{cluster.get_data()}
+    @response{dict} Cluster.dict property of the requested Cluster
     """
     return Cluster.objects.get(pk=cm_id).dict

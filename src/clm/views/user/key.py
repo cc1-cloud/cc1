@@ -35,17 +35,12 @@ from clm.utils.exception import CLMException
 @user_log(log=False)
 def get(cm_id, caller_id, name):
     """
-    Returns content of the requested Key's. Key must belong to caller.
-    @clmview_user
-    @parameter{name,string} Key's name
+    Returns the requested Key's. Key must belong to the caller.
 
-    @response{dict} key's data
-    \n fields:
-    @dictkey{key_id}
-    @dictkey{name}
-    @dictkey{data}
-    @dictkey{fingerprint}
-    @dictkey{creation_date}
+    @clmview_user
+    @param_post{name,string} Requested Key's name
+
+    @response{dict} Key.dict property of the requested key
     """
     try:
         k = Key.objects.filter(user_id__exact=caller_id).filter(name__exact=name)[0]
@@ -58,9 +53,10 @@ def get(cm_id, caller_id, name):
 @user_log(log=False)
 def get_list(cm_id, caller_id):
     """
-    Returns caller's keys.
+    Returns caller's Keys.
+
     @clmview_user
-    @response{list(dict)} caller's Keys
+    @response{list(dict)} Key.dict property of each Key
     """
     return [k.dict for k in Key.objects.filter(user_id__exact=caller_id)]
 
@@ -68,9 +64,13 @@ def get_list(cm_id, caller_id):
 @user_log(log=True)
 def generate(cm_id, caller_id, name):
     """
-    Generates Key pair named @prm{name} for caller.
+    Generates Key pair named @prm{name} for caller. Public part of that Key is
+    stored in database with specified name, whereas content of the private Key
+    part is returned. Neither public, nor private part of the key is saved to
+    file. Private part of the key is never stored - it's only returned once.
+
     @clmview_user
-    @parameter{name,string} Key's name
+    @param_post{name,string} Key's name
 
     @response{string} content of private Key's file
     """
@@ -103,10 +103,11 @@ def generate(cm_id, caller_id, name):
 @user_log(log=True)
 def add(cm_id, caller_id, key, name):
     """
-    Adds given key named @prm{name} with content @prm{key} to caller's keys list.
+    Adds given Key named @prm{name} with content @prm{key} to caller's keys list.
+
     @clmview_user
-    @parameter{key,string} key's content
-    @parameter{name,string} key's name
+    @param_post{key,string} key's content
+    @param_post{name,string} key's name
 
     @response{None}
     """
@@ -131,8 +132,9 @@ def add(cm_id, caller_id, key, name):
 def delete(cm_id, caller_id, name):
     """
     Method deletes specified key named @prm{name}.
+
     @clmview_user
-    @parameter{name,string} name of the Key to delete
+    @param_post{name,string} name of the Key to delete
     @response{None}
     """
     try:
@@ -145,9 +147,13 @@ def delete(cm_id, caller_id, name):
 def delete_by_id(cm_id, caller_id, key_id):
     """
     Method removes key with id \c id.
+
     @clmview_user
-    @parameter{id,int} id of the key to delete
-    @response{None}
+    @param_post{key_ids,list(int)} list of Key ids to delete
+
+    @response{dict} \n fields:
+    @dictkey{status,string}
+    @dictkey{data,dict}
     """
     try:
         Key.objects.filter(user_id__exact=caller_id).filter(id__exact=key_id).delete()

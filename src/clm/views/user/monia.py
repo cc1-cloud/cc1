@@ -29,6 +29,7 @@ from clm.utils.decorators import user_log, cm_request
 @cm_request
 def vm_stats(cm_response, **data):
     """
-    @decoratedby{src.clm.utils.decorators.user_log}
+    @clmview_user
+    @cm_request_transparent{user.monia.vm_stats()}
     """
     return cm_response

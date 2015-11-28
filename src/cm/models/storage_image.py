@@ -112,7 +112,7 @@ class StorageImage(Image):
         True, if user \c user_id is the owner of the image.
         Otherwise exception is thrown.
 
-        @raises{image_permission,CMException}
+        @raises{storage_image_permission,CMException}
         """
         if self.user.id != user_id:
             raise CMException('image_permission')

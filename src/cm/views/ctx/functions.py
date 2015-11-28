@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.manager.contextualization.rest_service
+"""@package src.cm.views.ctx.functions
 """
 from cm.utils.decorators import ctx_log
 from cm.utils import log
@@ -35,7 +35,8 @@ def hello(remote_ip, **kw):
     """
     REST stub for hello function
 
-    @parameter{kw}
+    @param_post{remote_ip,string}
+    @param_post{kw}
     @returns HTTP response
     """
     vm = VM.get_by_ip(remote_ip)
@@ -53,7 +54,8 @@ def hello(remote_ip, **kw):
 @ctx_log(log=True)
 def get_command(remote_ip, **kw):
     """
-    @parameter{kw}
+    @param_post{remote_ip,string}
+    @param_post{kw,dict} keyword params
     @returns{Command} next command from the que to the asking VM
     """
     vm = VM.get_by_ip(remote_ip)
@@ -84,9 +86,11 @@ def finish_command(remote_ip, command_id, status, returns=None, **kw):
     """
     REST stub for finish_command
 
-    @parameter{command_id,string} hash string identyfing command
-    @parameter{status,string}
-    @parameter{returns,dict} dictionary containing VM returned values
+    @param_post{remote_ip,string}
+    @param_post{command_id,string} hash string identyfing command
+    @param_post{status,string}
+    @param_post{returns,dict} dictionary containing VM returned values
+    @param_post{kw,dict} keyword params
     """
     vm = VM.get_by_ip(remote_ip)
 

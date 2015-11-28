@@ -64,7 +64,7 @@ class Admin(models.Model):
         """
         Checks for *CM admin's password* correctness.
 
-        @parameter{id,int} id of the admin whose password is checked
+        @parameter{admin_id,int} id of the admin whose password is checked
         @parameter{password_par,string} password to check
 
         @raises{user_permission,CMException}

@@ -35,13 +35,14 @@ import re
 @admin_clm_log(log=True)
 def add(cm_id, caller_id, name, address, port, new_password):
     """
-    Adds new Cluster and makes caller its admin.
-    There should dedicated and configured CM server exist.
+    Adds new Cluster and makes the caller its admin. There should dedicated
+    and configured CM server exist.
+
     @clmview_admin_clm
-    @parameter{name} human-friendly name of the new CM (shown in Web Interface)
-    @parameter{address} address of the new CM
-    @parameter{port} port on which CM is configured to be running
-    @parameter{new_password} password protecting the new CM
+    @param_post{name} human-friendly name of the new CM (shown in Web Interface)
+    @param_post{address} address of the new CM
+    @param_post{port,string} port on which CM is configured to be running
+    @param_post{new_password} password protecting the new CM
     """
 
     if not re.search('^[a-z0-9-]+$', name):
@@ -104,11 +105,13 @@ def add(cm_id, caller_id, name, address, port, new_password):
 @admin_clm_log(log=True)
 def delete(cm_id, caller_id, cluster_id):
     """
-    Method deletes specified Cluster from database. Now no VMs can be
-    run on that Cluster. It's not available from CLM anymore. To bring it back
+    Deletes specified Cluster from CLM database. Now no VMs can be
+    run on that Cluster. It's not available for CLM anymore. To bring it back
     to Cloud resources one needs to add this Cluster once again ground up.
+    Machine hosting CM deleted with this function keeps its configuration.
+
     @clmview_admin_clm
-    @parameter{cluster_id,int} id of the CM to delete
+    @param_post{cluster_id,int} id of the CM to delete
     """
     try:
         cluster = Cluster.objects.get(pk=cluster_id)
@@ -120,13 +123,13 @@ def delete(cm_id, caller_id, cluster_id):
 @admin_clm_log(log=True)
 def edit(cm_id, caller_id, cluster_id, name, address, port,):
     """
-    Modifies data of the Cluster with id @prm{cluster_id} as described by
-    dictionary @prm{data}.
+    Updates Cluster's attributes.
+
     @clmview_admin_clm
-    @parameter{cluster_id,int} id of the CM to edit
-    @parameter{name,string} new name for edited CM
-    @parameter{address,string} new adress of the edited CM
-    @parameter{port,int} new port on which edited CM is to be running
+    @param_post{cluster_id,int} id of the CM to edit
+    @param_post{name,string} new name for edited CM
+    @param_post{address,string} new adress of the edited CM
+    @param_post{port,int} new port on which edited CM is to be running
     """
     try:
         cluster = Cluster.objects.get(pk=cluster_id)
@@ -143,8 +146,9 @@ def lock(cm_id, caller_id, cluster_id):
     """
     Locks specified Cluster. Since called, no VMs can be run on that Cluster,
     until unlock() is called.
+
     @clmview_admin_clm
-    @parameter{cluster_id,int} id of the CM to lock
+    @param_post{cluster_id,int} id of the CM to lock
     """
     cluster = Cluster.objects.get(pk=cluster_id)
     cluster.state = cluster_states['locked']
@@ -157,9 +161,11 @@ def lock(cm_id, caller_id, cluster_id):
 @admin_clm_log(log=True)
 def unlock(cm_id, caller_id, cluster_id):
     """
-    Unlocks specified Cluster. Now VMs can be run on that Cluster.
+    Unlocks specified Cluster. Now VMs can be run on
+    that Cluster.
+
     @clmview_admin_clm
-    @parameter{cluster_id,int} id of the CM to unlock
+    @param_post{cluster_id,int} id of the CM to unlock
     """
     try:
         cluster = Cluster.objects.get(pk=cluster_id)
@@ -193,12 +199,11 @@ def unlock(cm_id, caller_id, cluster_id):
 @admin_clm_log(log=False)
 def get_by_id(cm_id, caller_id, cluster_id):
     """
+    Requests specified Cluster's details.
     @clmview_admin_clm
-    @clm_view_transparent{cluster.get()}
+    @param_post{cluster_id,int} id of the requested Cluster
 
-    @parameter{cluster_id,int} id of the CM to get
-
-    @response{dict} Cluster data @asreturned{src.cm.models.cluster.dict}
+    @response{dict} Cluster.dict property of requested Cluster
     """
     cluster = Cluster.objects.get(pk=cluster_id)
     return cluster.dict
@@ -207,9 +212,8 @@ def get_by_id(cm_id, caller_id, cluster_id):
 @admin_clm_log(log=False)
 def get_list(cm_id, caller_id):
     """
+    Requests list of Clusters.
     @clmview_admin_clm
-    @clm_view_transparent{cluster.get_list()}
-
-    @response{list(dict)} list of dictionaries about each cluster @asreturned{src.cm.database.entities.cluster.dict}
+    @response{list(dict)} Cluster.dict property of each registered Cluster
     """
     return [c.dict for c in Cluster.objects.all()]

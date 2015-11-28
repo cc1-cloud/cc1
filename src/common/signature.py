@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.common.Signature
+"""@package src.common.signature
 Signatures handling for EC2 API for CC1
 
 @author Rafal Grzymkowski
@@ -46,7 +46,8 @@ class Signature:
     @staticmethod
     def generateSignatureVer2(password, parameters):
         """
-        Method generating signature deoending on parameters and password (one that checks whether it works)
+        Method generating signature depending on parameters and password (one
+        that checks whether it works)
 
         Version 2
         """
@@ -69,7 +70,8 @@ class Signature:
     @staticmethod
     def generateSignatureVer1(password, parameters):
         """
-        Method generating signature deoending on parameters and password (once again).
+        Method generating signature depending on parameters and password
+        (once again).
 
         Version 1
         """
@@ -120,7 +122,7 @@ class Signature:
                  '\n' + parameters.get('date') + \
                  '\n' + CanonicalizedAmdHeaders + CanonicalizedResource
 
-        print 'StringToSign',toSign
+        print 'StringToSign', toSign
 
         h = hmac.new(password, toSign, hashlib.sha1)
         signature = h.digest()
@@ -131,7 +133,8 @@ class Signature:
     @staticmethod
     def checkSignature(password, signatureToCheck, parameters):
         """
-        Check, whether signature is correct (depending on the signature's version).
+        Check, whether signature is correct (depending on the signature's
+        version).
         """
         # first check for S3 request
         if parameters.get('authorization'):

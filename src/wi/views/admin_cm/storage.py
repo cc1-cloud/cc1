@@ -27,10 +27,10 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_protect
 
-from wi.forms.node import MountNodeForm
-from wi.utils.decorators import admin_cm_permission
 from wi.commontags.templatetags.templatetags import filesizeformatmb
+from wi.forms.node import MountNodeForm
 from wi.utils import messages_ajax
+from wi.utils.decorators import admin_cm_permission
 from wi.utils.decorators import django_view
 from wi.utils.messages_ajax import ajax_request
 from wi.utils.states import storage_states_reversed as storage_states

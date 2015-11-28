@@ -16,13 +16,11 @@
 #    limitations under the License.
 #
 # @COPYRIGHT_end
-
-"""@package src.cm.views.suer.network
+"""@package src.cm.views.admin_cm.network
 @author Maciej Nabożny <mn@mnabozny.pl>
 
-Functions for creating and deleting networks
+Functions for creating and deleting networks.
 """
-
 from cm.models.user_network import UserNetwork
 from cm.models.available_network import AvailableNetwork
 from cm.models.user import User
@@ -63,6 +61,12 @@ def add(caller_id, address, mask):
 
 @admin_cm_log(log=True)
 def delete_available_network(caller_id, pool_id):
+    """
+    Releases and deletes AvailableNetwork (if not used).
+
+    @cmview_admin_cm
+    @param_post{pool_id,int} id of the AvailableNetwork to delete
+    """
     try:
         net = AvailableNetwork.objects.get(id=pool_id)
     except:
@@ -73,6 +77,12 @@ def delete_available_network(caller_id, pool_id):
 
 @admin_cm_log(log=True)
 def delete_user_network(caller_id, network_id):
+    """
+    Releases and deletes UserNetwork (if not used).
+
+    @cmview_admin_cm
+    @param_post{network_id,int} id of the UserNetwork to delete
+    """
     try:
         net = UserNetwork.objects.get(id=network_id)
     except:
@@ -83,6 +93,10 @@ def delete_user_network(caller_id, network_id):
 
 @admin_cm_log(log=True)
 def list_available_networks(caller_id):
+    """
+    @cmview_admin_cm
+    @response{list(dict)} AvailableNetwork.dict property for each requested AvailableNetwork
+    """
     response = []
     for network in AvailableNetwork.objects.all():
         response.append(network.dict)
@@ -91,6 +105,16 @@ def list_available_networks(caller_id):
 
 @admin_cm_log(log=True)
 def list_user_networks(caller_id, user_id=None):
+    """
+    @cmview_admin_cm
+    @param_post{user_id,int} (optional) if specified, only networks belonging
+    to specigied User are fetched.
+    @param_post{only_unused,bool} (optional) if @val{True}, only unused
+    networks are returned
+
+    @response{list(dict)} UserNetwork.dict property for each requested
+    UserNetwork
+    """
     try:
         user_networks = []
         if user_id:
@@ -109,6 +133,13 @@ def list_user_networks(caller_id, user_id=None):
 
 @admin_cm_log(log=True)
 def list_leases(caller_id, network_id):
+    """
+    @cmview_admin_cm
+    @param_post{network_id} id of the requested UserNetwork
+
+    @response{list{dict}} Lease.dict property for each Lease in specified
+    UserNetwork
+    """
     try:
         user_network = UserNetwork.objects.get(id=network_id)
     except:
@@ -122,6 +153,12 @@ def list_leases(caller_id, network_id):
 
 @admin_cm_log(log=True)
 def lock(caller_id, pool_id):
+    """
+    Sets AvailableNetwork's state as @val{locked}.
+
+    @cmview_admin_cm
+    @param_post{pool_id,int} id of the AvailableNetwork to lock
+    """
     try:
         network = AvailableNetwork.objects.get(id=pool_id)
     except:
@@ -132,6 +169,12 @@ def lock(caller_id, pool_id):
 
 @admin_cm_log(log=True)
 def unlock(caller_id, pool_id):
+    """
+    Sets AvailableNetwork's state as @val{ok}.
+
+    @cmview_admin_cm
+    @param_post{pool_id,int} id of the AvailableNetwork to unlock
+    """
     try:
         network = AvailableNetwork.objects.get(id=pool_id)
     except:

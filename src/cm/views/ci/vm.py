@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.user.admin
+"""@package src.cm.views.ci.vm
 
 @author Maciej Nabozny <mn@mnabozny.pl>
 @alldecoratedby{src.cm.utils.decorators.user_log}
@@ -37,6 +37,13 @@ from cm.models.node import Node
 
 @ci_log(log=True)
 def update_state(remote_ip, vm_name, action, state):
+    """
+    @cmview_ci
+    @param_post{remote_ip,string}
+    @param_post{vm_name}
+    @param_post{action}
+    @param_post{state}
+    """
     try:
         node = Node.objects.get(address=remote_ip)
     except:

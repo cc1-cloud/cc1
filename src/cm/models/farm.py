@@ -98,7 +98,7 @@ class Farm(models.Model):
         """
         Destroyes farms' VMs (Head and Worker Nodes of each farm) without saving them.
 
-        @parameter{data,list} list of farms to destroy
+        @parameter{farms,list} list of farms to destroy
 
         @response{list(dict)} list of statuses returned by destroyed VMs
 

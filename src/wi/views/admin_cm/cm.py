@@ -27,8 +27,7 @@ from wi.commontags.templatetags.templatetags import filesizeformatmb
 from wi.utils import messages_ajax
 from wi.utils.decorators import admin_cm_permission, django_view
 from wi.utils.messages_ajax import ajax_request
-from wi.utils.states import cm_active_reversed as cm_states, \
-    node_states_reversed as node_states
+from wi.utils.states import cm_active_reversed as cm_states, node_states_reversed as node_states
 from wi.utils.views import prep_data
 
 

@@ -30,8 +30,9 @@ from clm.utils.exception import CLMException
 def delete(cm_id, caller_id, message_id):
     """
     Deletes specified Message.
+
     @clmview_user
-    @parameter{message_id,int} id of the message to delete
+    @param_post{message_id,int} id of the message to delete
     """
     m = Message.get(message_id)
     try:
@@ -44,6 +45,7 @@ def delete(cm_id, caller_id, message_id):
 def get_list(cm_id, caller_id):
     """
     Returns list of caller's messages.
+
     @clmview_user
     @response{list(dict)} dicts describing caller's messages
     """

@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.clm.views.user.image
+"""@package src.clm.views.user.iso_image
 @alldecoratedby{src.clm.utils.decorators.user_log}
 """
 
@@ -31,7 +31,7 @@ def get_list(cm_response, **data):
     Method returns list of images.
 
     @clmview_user
-    @clm_view_transparent{iso_image.get_list()}
+    @cm_request_transparent{iso_image.get_list()}
     """
     return cm_response
 
@@ -41,7 +41,7 @@ def get_list(cm_response, **data):
 def get_by_id(cm_response, **data):  # @todo rename for fun name consistency
     """
     @clmview_user
-    @clm_view_transparent{iso_image.get_by_id()}
+    @cm_request_transparent{iso_image.get_by_id()}
     """
     return cm_response
 
@@ -51,7 +51,7 @@ def get_by_id(cm_response, **data):  # @todo rename for fun name consistency
 def delete(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{iso_image.delete()}
+    @cm_request_transparent{iso_image.delete()}
     """
     return cm_response
 
@@ -61,7 +61,7 @@ def delete(cm_response, **data):
 def edit(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{iso_image.edit()}
+    @cm_request_transparent{iso_image.edit()}
     """
     return cm_response
 
@@ -71,7 +71,7 @@ def edit(cm_response, **data):
 def download(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{iso_image.download()}
+    @cm_request_transparent{iso_image.download()}
     """
     return cm_response
 
@@ -81,7 +81,7 @@ def download(cm_response, **data):
 def attach(cm_response, **data):  # @todo rename for fun name consistency
     """
     @clmview_user
-    @clm_view_transparent{iso_image.attach()}
+    @cm_request_transparent{iso_image.attach()}
     """
     return cm_response
 
@@ -91,7 +91,7 @@ def attach(cm_response, **data):  # @todo rename for fun name consistency
 def detach(cm_response, **data):  # @todo rename for fun name consistency
     """
     @clmview_user
-    @clm_view_transparent{iso_image.detach()}
+    @cm_request_transparent{iso_image.detach()}
     """
     return cm_response
 
@@ -101,6 +101,6 @@ def detach(cm_response, **data):  # @todo rename for fun name consistency
 def get_disk_controllers(cm_response, **data):
     """
     @clmview_user
-    @clm_view_transparent{iso_image.get_disk_controllers()}
+    @cm_request_transparent{iso_image.get_disk_controllers()}
     """
     return cm_response

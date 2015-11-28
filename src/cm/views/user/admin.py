@@ -33,14 +33,15 @@ from cm.utils import log
 @user_log(log=True)
 def first_admin_add(caller_id, new_password, clm_address):
     """
-    Method creates first admin of the cluster.
-    It should be called after confirmation of the CLM admin form for
-    adding new CM. System cannot work with no CM admin existing.
+    Creates first admin of the cluster. It should be called right after
+    submiting the form for adding new CM. System will not operate properly
+    with no CM admin existing.
+
+    @note It can be run only if no CM admin exists in the CM database.
+
     @cmview_user
-
-    @note Method can be run only if no CM admin exists in the CM database.
-
-    @parameter{password,string} first *CM admin password* to set
+    @param_post{new_password,string} first *CM admin password* to set
+    @param_post{clm_address,string}
     """
     user = User.create(1)
     user.save()

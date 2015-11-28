@@ -32,12 +32,10 @@ from cm.utils.decorators import admin_cm_log
 @admin_cm_log(log=False)
 def get_list(caller_id):
     """
-    Method returns list of templates.
+    Returns list of Templates.
+
     @cmview_admin_cm
-
-    @parameter{caller_id,int}
-
-    @response{list(dict)} dicts describing templates
+    @response{list(dict)} Template.dict property of each Template
     """
 
     try:
@@ -52,11 +50,9 @@ def get_list(caller_id):
 def get_by_id(caller_id, template_id):
     """
     @cmview_admin_cm
+    @param_post{template_id,int}
 
-    @parameter{caller_id,int}
-    @parameter{template_id,int}
-
-    @response{dict} information about template
+    @response{dict} Template.dict property of the requested Template
     """
 
     try:
@@ -71,17 +67,15 @@ def get_by_id(caller_id, template_id):
 @admin_cm_log(log=True)
 def add(caller_id, name, memory, cpu, description, points, ec2name):
     """
-    Create new template instance and add it to db.
+    Creates and saves new VM Template.
+
     @cmview_admin_cm
-
-    @dictkey{name,string}
-    @dictkey{memory,int}
-    @dictkey{cpu,int}
-    @dictkey{description,string}
-    @dictkey{points,int}
-    @dictkey{ec2name,string}
-
-    @response{None}
+    @param_post{name,string}
+    @param_post{memory,int}
+    @param_post{cpu,int}
+    @param_post{description,string}
+    @param_post{points,int}
+    @param_post{ec2name,string} name for EC2 interface
     """
 
     try:
@@ -102,13 +96,10 @@ def add(caller_id, name, memory, cpu, description, points, ec2name):
 @admin_cm_log(log=True)
 def delete(caller_id, template_id):
     """
-    Method deletes templates with given \c template_id.
+    Sets specified Template's state as @val{deleted}.
+
     @cmview_admin_cm
-
-    @parameter{caller_id,int}
-    @parameter{template_id,int} managed template's id
-
-    @response{None}
+    @param_post{template_id,int} id of the Template to remove.
     """
 
     try:
@@ -122,19 +113,16 @@ def delete(caller_id, template_id):
 @admin_cm_log(log=True)
 def edit(caller_id, template_id, name, memory, cpu, description, points, ec2name):
     """
-    Function edits template id as described by params in \c request and inserts it to database.
+    Updates specified Template's attributes.
+
     @cmview_admin_cm
-
-    @parameter{caller_id,int}
-    @parameter{template_id,int} managed template's id
-    @parameter{name,string}
-    @parameter{memory,int}
-    @parameter{cpu,int}
-    @parameter{description,string}
-    @parameter{points,int}
-    @parameter{ec2name,int}
-
-    @response{None}
+    @param_post{template_id,int} id of the Template to edit
+    @param_post{name,string}
+    @param_post{memory,int}
+    @param_post{cpu,int}
+    @param_post{description,string}
+    @param_post{points,int}
+    @param_post{ec2name,int}
     """
 
     try:

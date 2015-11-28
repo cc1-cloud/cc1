@@ -31,8 +31,8 @@ from common.states import group_states
 @user_log(log=True, pack=False)
 def create(cm_id, caller_id, **data):
     """
-    @parameter{machine,dict}
-    \n fields @asrequired{src.cm.element.role.action} except for \c groups.
+    @clmview_user
+    @asrequired{src.cm.element.role.action} except for @prm{groups}.
     """
     user = User.get(caller_id)
     groups = list(user.group_set.filter(usergroup__status__exact=group_states['ok']).values_list('id', flat=True))
@@ -43,7 +43,8 @@ def create(cm_id, caller_id, **data):
 @cm_request
 def destroy(cm_response, **data):
     """
-    @parameter{id} list of id's of the machines to destroy
+    @clmview_user
+    @cm_request_transparent{user.vm.destroy()}
     """
     return cm_response
 
@@ -52,6 +53,8 @@ def destroy(cm_response, **data):
 @cm_request
 def get_list(cm_response, **data):
     """
+    @clmview_user
+    @cm_request_transparent{user.vm.get_list()}
     """
     return cm_response
 
@@ -60,7 +63,8 @@ def get_list(cm_response, **data):
 @cm_request
 def get_by_id(cm_response, **data):  # @todo rename for fun name consistency
     """
-    @parameter{id,int} id of the vm to get
+    @clmview_user
+    @cm_request_transparent{user.vm.get_by_id()}
     """
     return cm_response
 
@@ -69,9 +73,8 @@ def get_by_id(cm_response, **data):  # @todo rename for fun name consistency
 @cm_request
 def save_and_shutdown(cm_response, **data):
     """
-    @parameter{vmid,int} id of the VM to save
-    @parameter{data,dict}
-    \n fields @asrequired{src.cm.views.utils.image.save_and_shutdown()}
+    @clmview_user
+    @cm_request_transparent{user.vm.save_and_shutdown()}
     """
     return cm_response
 
@@ -80,7 +83,8 @@ def save_and_shutdown(cm_response, **data):
 @cm_request
 def reset(cm_response, **data):
     """
-    @parameter{vmid,int} list of the ids of the VMs to reset
+    @clmview_user
+    @cm_request_transparent{user.vm.reset()}
     """
     return cm_response
 
@@ -89,11 +93,8 @@ def reset(cm_response, **data):
 @cm_request
 def edit(cm_response, **data):
     """
-    @parameter{vm_id,int}
-    @parameter{data,dict}
-    \n fields:
-    @dictkey{name,string}
-    @dictkey{description,string}
+    @clmview_user
+    @cm_request_transparent{user.vm.edit()}
     """
     return cm_response
 
@@ -101,10 +102,18 @@ def edit(cm_response, **data):
 @user_log(log=True, pack=False)
 @cm_request
 def attach_vnc(cm_response, **data):
+    """
+    @clmview_user
+    @cm_request_transparent{user.vm.attach_vnc()}
+    """
     return cm_response
 
 
 @user_log(log=True, pack=False)
 @cm_request
 def detach_vnc(cm_response, **data):
+    """
+    @clmview_user
+    @cm_request_transparent{user.vm.detach_vnc()}
+    """
     return cm_response

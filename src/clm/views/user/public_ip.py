@@ -30,8 +30,9 @@ from clm.utils.decorators import user_log, cm_request
 def get_list(cm_response, **data):
     """
     Returns list of caller's public IPs.
+
     @clmview_user
-    @cm_request{get_list()}
+    @cm_request_transparent{user.public_ip.get_list()}
     """
     return cm_response
 
@@ -42,8 +43,9 @@ def request(cm_response, **data):
     """
     Sends request to grant new public IP for caller. If caller's quota allowes,
     user will obtain new public IP.
+
     @clmview_user
-    @cm_request{request()}
+    @cm_request_transparent{user.public_ip.request()}
     """
     return cm_response
 
@@ -53,8 +55,9 @@ def request(cm_response, **data):
 def assign(cm_response, **data):
     """
     Assigns public IP to caller's VM with id \c vm_id
+
     @clmview_user
-    @cm_request{assign()}
+    @cm_request_transparent{user.public_ip.assign()}
     """
     return cm_response
 
@@ -65,8 +68,9 @@ def unassign(cm_response, **data):
     """
     Unassigns public IP from VM with given id. Unassigned public IP may be assigned
     to any of his VMs.
+
     @clmview_user
-    @cm_request{unassign()}
+    @cm_request_transparent{user.public_ip.unassign()}
     """
     return cm_response
 
@@ -78,7 +82,8 @@ def release(cm_response, **data):
     Removes IP from callers public IP's pool and makes it available
     for other users to be further requested. Caller doesn't dispose this IP
     any more. He'll have to send another request if he needs more IPs.
+
     @clmview_user
-    @cm_request{release()}
+    @cm_request_transparent{user.public_ip.release()}
     """
     return cm_response

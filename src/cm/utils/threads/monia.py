@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.manager.monia.threads
+"""@package src.cm.utils.threads.monia
 
 @author Tomek Wojtoń
 """
@@ -95,7 +95,7 @@ def start_monia():
 def stop_monia():
     """
     Stop the monitoring system
-    @response (list)
+    @returns{list}
     """
 
     t = threading.activeCount()

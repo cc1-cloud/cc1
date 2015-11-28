@@ -55,13 +55,11 @@ def points_history(caller_id):
 @user_log(log=True)
 def add_missing(caller_id, remote):
     """
-    Function adds missing users listed in remote that don't belong to local.
+    Adds Users whose ids are listed in @prm{remote} and who are locally
+    missing.
 
     @cmview_user
-
-    @parameter{remote,list of int}
-
-    @response{None}
+    @param_post{remote,list(int)} ids of the remote Users
     """
 
     # remote must be passed through POST as a list

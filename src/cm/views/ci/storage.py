@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.views.user.admin
+"""@package src.cm.views.ci.storage
 @author Maciej Nabozny <mn@mnabozny.pl>
 @alldecoratedby{src.cm.utils.decorators.ni_log}
 """
@@ -32,18 +32,31 @@ from cm.utils.exception import CMException
 
 @ci_log(log=True)
 def get_list(remote_ip):
+    """
+    @cmview_ci
+    @param_post{remote_ip,string}
+    """
     storages = Storage.objects.filter(state=storage_states['ok'])
     return [storage.name for storage in storages]
 
 
 @ci_log(log=True)
 def get_template(remote_ip, name):
+    """
+    @cmview_ci
+    @param_post{remote_ip,string}
+    @param_post{name}
+    """
     storage = Storage.objects.get(name=name)
     return storage.libvirt_template()
 
 
 @ci_log(log=True)
 def get_images_template(remote_ip):
+    """
+    @cmview_ci
+    @param_post{remote_ip,string}
+    """
     try:
         node = Node.objects.get(address=remote_ip)
     except:

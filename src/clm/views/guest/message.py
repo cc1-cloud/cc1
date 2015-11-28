@@ -31,10 +31,11 @@ from clm.utils import mail
 @guest_log(log=True)
 def add(request):
     """
-    Adds new message as described by \c data.
+    Creates and saves new message.
 
-    @parameter{data,dict}
-    \n fields @asrequired{src.clm.database.entities.message.create()}
+    @clmview_guest
+
+    @param_post{request}
     """
 
     data = request.data

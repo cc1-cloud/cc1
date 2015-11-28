@@ -17,7 +17,7 @@
 #
 # @COPYRIGHT_end
 
-"""@package src.cm.manager.user
+"""@package src.cm.views.user.monia
 @alldecoratedby{src.cm.utils.decorators.user_log}
 
 @author Tomek Wojtoń
@@ -31,14 +31,14 @@ from common.states import stat_resolutions, stat_names, stat_ranges
 @user_log(log=False)
 def vm_stats(caller_id, vm_id, stat_name, time, stat_range, resolution):
     """
-    Function returns statistics for specific \c vmid.
-    @decoratedby{src.cm.utils.decorators.user_log}
+    Returns statistics for specified VM.
 
-    @parameter{vmid}
-    @parameter{stat_name,string} type of required statistics
-    @parameter{time,string} time of last row
-    @parameter{range,string} period of time from time to past
-    @parameter{resolution,string} statistics resolution
+    @cmview_user
+    @param_post{vm_id,int}
+    @param_post{stat_name,string} type of required statistics
+    @param_post{time,string} time of last row
+    @param_post{stat_range,string} period of time from @prm{time} to past
+    @param_post{resolution,string} statistics resolution
 
     @response{dict} list of the total usage of VM resources from start VM
     """
