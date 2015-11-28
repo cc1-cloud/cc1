@@ -554,6 +554,10 @@ class VM(models.Model):
         for lease in self.lease_set.all():
             log.debug(self.user.id, "\t...detaching lease %s" % lease.address)
             lease.detach_node()
+            if not lease.user_network.is_in_use():
+                net = lease.user_network
+                net.release()
+                net.delete()
 
         # detach volume disks
         # TODO:test
