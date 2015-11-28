@@ -53,11 +53,12 @@ def error(user_id, code, params={}):
     @parameter{code,int} Message code (required while rendering from template)
     @parameter{params,dict} @asrequired{add(), optional}
     """
-    d = {}
-    d['user_id'] = user_id
-    d['level'] = message_levels['error']
-    d['params'] = params
-    d['code'] = code
+    d = {
+        'user_id': user_id,
+        'level': message_levels['error'],
+        'params': params or {},
+        'code': code
+    }
     add(user_id, d)
 
 
@@ -69,9 +70,10 @@ def info(user_id, code, params={}):
     @parameter{code,int} Message code (required while rendering from template)
     @parameter{params,dict} @asrequired{add(), optional}
     """
-    d = {}
-    d['user_id'] = user_id
-    d['level'] = message_levels['info']
-    d['params'] = params
-    d['code'] = code
+    d = {
+        'user_id': user_id,
+        'level': message_levels['info'],
+        'params': params or {},
+        'code': code
+    }
     add(user_id, d)

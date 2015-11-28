@@ -81,7 +81,7 @@ def delete(cm_id, caller_id, news_id):
 
 
 @admin_clm_log(log=True)
-def edit(cm_id, caller_id, news_id, topic='', content='', sticky=False):
+def edit(cm_id, caller_id, news_id, topic=None, content=None, sticky=None):
     """
     @clmview_admin_clm
     @param_post{news_id,int} id of the News to edit
@@ -89,11 +89,13 @@ def edit(cm_id, caller_id, news_id, topic='', content='', sticky=False):
     @param_post{content,string} new content of the News
     @param_post{sticky,bool} whether the News should stay displayed long-term
     """
-
     news = News.get(news_id)
-    news.topic = topic
-    news.content = content
-    news.sticky = sticky
+    if topic:
+        news.topic = topic
+    if content:
+        news.content = content
+    if sticky is not None:
+        news.sticky = sticky
     try:
         news.save()
     except:

@@ -35,7 +35,7 @@ from clm.utils import log
 
 
 @admin_clm_log(log=True)
-def edit(cm_id, caller_id, user_id, first, last, organization, email):
+def edit(cm_id, caller_id, user_id, first=None, last=None, organization=None, email=None):
     """
     @clmview_admin_clm
     @param_post{user_id,int} id of the user to edit
@@ -48,10 +48,14 @@ def edit(cm_id, caller_id, user_id, first, last, organization, email):
     """
 
     user = User.get(user_id)
-    user.first = first
-    user.last = last
-    user.organization = organization
-    user.email = email
+    if first:
+        user.first = first
+    if last:
+        user.last = last
+    if organization:
+        user.organization = organization
+    if email:
+        user.email = email
     try:
         user.save()
     except:

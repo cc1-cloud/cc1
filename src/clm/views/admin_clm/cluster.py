@@ -121,7 +121,7 @@ def delete(cm_id, caller_id, cluster_id):
 
 
 @admin_clm_log(log=True)
-def edit(cm_id, caller_id, cluster_id, name, address, port,):
+def edit(cm_id, caller_id, cluster_id, name=None, address=None, port=None,):
     """
     Updates Cluster's attributes.
 
@@ -133,9 +133,12 @@ def edit(cm_id, caller_id, cluster_id, name, address, port,):
     """
     try:
         cluster = Cluster.objects.get(pk=cluster_id)
-        cluster.name = name
-        cluster.address = address
-        cluster.port = port
+        if name:
+            cluster.name = name
+        if address:
+            cluster.address = address
+        if port:
+            cluster.port = port
         cluster.save()
     except:
         raise CLMException('cluster_edit')
